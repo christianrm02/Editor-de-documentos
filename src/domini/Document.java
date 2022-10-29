@@ -1,23 +1,23 @@
-
+import domini.Contingut;
 public class Document {
     private Format format;
-    private Frase títol;
-    private Frase autor;
+    private String titol;
+    private String autor;
     private Contingut contingut;
 
     /*CONTRUCTORA*/
-    public Document(Format format, Frase autor, Frase títol) {
+    public Document(Format format, String autor, String titol) {
         this.format = format;
         this.autor = autor;
-        this.títol = títol;
+        this.titol = titol;
     }
 
     /*GETTERS*/
-    public Frase getTítol() {
-        return títol;
+    public String getTitol() {
+        return titol;
     }
 
-    public Frase getAutor() {
+    public String getAutor() {
         return autor;
     }
 
@@ -26,11 +26,11 @@ public class Document {
     }
 
     /*SETTERS*/
-    public void setTítol(Frase newTítol) {
-        títol = newTítol;
+    public void setTitol(String newTitol) {
+        titol = newTitol;
     }
 
-    public void setAutor(Frase newAutor) {
+    public void setAutor(String newAutor) {
         autor = newAutor;
     }
 

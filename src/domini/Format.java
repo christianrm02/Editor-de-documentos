@@ -1,3 +1,3 @@
-class enum Format {
+public enum Format {
     xml, txt
 }

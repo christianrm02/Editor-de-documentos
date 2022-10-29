@@ -4,6 +4,7 @@ public class CtrlDocument {
     private Document docAct;
     private vector<Document> documents;
 
+
     /*CONTRUCTORA*/
     public CtrlDocument() {
 

@@ -7,11 +7,11 @@ public class Contingut {
 
     }
 
-    public contingut() {
+    public Contingut() {
 
     }
 
-    public contingut(String fr) {
+    public Contingut(String fr) {
         converteix_a_frases(fr);
     }
 }

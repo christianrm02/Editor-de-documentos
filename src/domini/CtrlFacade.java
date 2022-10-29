@@ -9,7 +9,7 @@ public class CtrlFacade {
     private CtrlIndex ci;
     private CtrlExpressioBooleana ce;
 
-    public ctrlFacade() {
+    public CtrlFacade() {
         cd = new CtrlDocument();
         ci = new CtrlIndex();
         ce = new CtrlExpressioBooleana();

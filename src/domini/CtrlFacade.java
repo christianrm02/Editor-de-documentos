@@ -61,7 +61,7 @@ public class CtrlFacade {
 
     public void modificarContingut(String titol, String autor, String cont) {
         cd.modificarContingut(titol, autor, cont);
-        ci.modificarContingut(titol, autor, cont);
+        ci.actualitzarContingut(titol, autor, cont);
     }
 
     public Vector<String> llistarTitolsdAutors(String autor) {

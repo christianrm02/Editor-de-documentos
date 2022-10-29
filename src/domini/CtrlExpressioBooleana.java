@@ -5,11 +5,11 @@ public class CtrlExpressioBooleana {
 
     }
 
-    public ExpressioBooleana getExpressioBooleana(String expressio) {
+    public ExpressioBooleana getExpressioBooleana(String nom) {
 
     }
 
-    public Boolean existsExpressioBooleana(String expressio) {
+    public Boolean existsExpressioBooleana(String nom) {
 
     }
 

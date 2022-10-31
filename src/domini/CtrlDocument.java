@@ -1,16 +1,20 @@
 import java.util.List;
-import java.util.HashSet; //para los sets?
+//import java.util.HashSet; //para los sets?
+//import java.util.HashMap;
+import java.util.*;
+import java.util.concurrent.*;
 
-import domini.PairAutorTitol;
+import datatypes.PairAutorTitol;
+import datatypes.Format;
 
 public class CtrlDocument {
     private Document docAct; //NO ENTIENDO CUANDO MODIFICAR
-    private Map<String, Map<String, Document>> documents;
+    private TreeMap<String, TreeMap<String, Document>> documents;
 
 
     /*CONTRUCTORA*/
     public CtrlDocument() {
-        documents = new TreeMap<String, Map<String, Document>>();
+        documents = new TreeMap<String, TreeMap<String, Document>>();
     }
 
     /*GETTERS*/
@@ -20,45 +24,52 @@ public class CtrlDocument {
     }
 
     public boolean existsDocument(String autor, String titol) {
-        return (documents.containsKey(autor) || documents.get(autor).containsKey(titol));
+        return (documents.containsKey(autor) && documents.get(autor).containsKey(titol));
     }
 
     public List<Document> getAll() {
         List<Document> docs = new ArrayList<Document>();
-        for(Entry<String, Map<String, Document>> titols : documents.entrySet()) {
-            for(Entry<String, Document> document : titols.entrySet()) {
+        for(Map<String, Document> titols : documents.values()) {
+            for(Document document : titols.values()) {
                 docs.add(document);
             }
         }
         return docs;
     }
 
-    public Vector<String> getAutors() {
-        List<String> autors = new ArrayList<String>();
-        for(Entry<String, Map<String, Document>> titols : documents.entrySet()) {
+    public Set<String> getAutors() {
+        /*List<String> autors = new ArrayList<String>();
+        for(Map<String, Document> titols : documents.values()) {
             autors.add(titols.getKey());
-        }
-        return autors;
+        }*/
+        return documents.keySet();
     }
 
     public Set<String> getTitols() {
-        Set<String> titols = new TreeSet<String>();
-        for(Entry<String, Map<String, Document>> titols : documents.entrySet()) {
-            for (Entry<String, Document> document : titols.entrySet()) {
-                titols.add(document.getKey());
+        Set<String> ttls = new TreeSet<String>();
+        for(String autor : documents.keySet()) {
+            Map<String,Document> titols = documents.get(autor);
+            for(String titol : titols.keySet()) {
+                ttls.add(titol);
             }
         }
-        return titols;
+        return ttls;
     }
 
     public List<PairAutorTitol> getClaus() {
         List<PairAutorTitol> claus = new ArrayList<PairAutorTitol>();
-        String autor, titol;
-        clau = new PairAutorTitol();
-        for(Entry<String, Map<String, Document>> titols : documents.entrySet()) {
+        PairAutorTitol clau = new PairAutorTitol();
+        /*for(Map<String, Document> titols : documents.values()) {
             autor = titols.getKey();
-            for (Entry<String, Document> document : titols.entrySet()) {
+            for (Document document : titols.values()) {
                 titol = document.getKey();
+                clau.setAutor(autor); clau.setTitol(titol);
+                claus.add(clau);
+            }
+        }*/
+        for(String autor : documents.keySet()) {
+            Map<String,Document> titols = documents.get(autor);
+            for(String titol : titols.keySet()) {
                 clau.setAutor(autor); clau.setTitol(titol);
                 claus.add(clau);
             }
@@ -66,14 +77,14 @@ public class CtrlDocument {
         return claus;
     }
 
-    public String getContingut(String autor, String titol) { //EXCEPCIÓ NO EXISTEIX EL DOCUMENT (autor, titol)
+    public Contingut getContingut(String autor, String titol) { //EXCEPCIÓ NO EXISTEIX EL DOCUMENT (autor, titol)
         return documents.get(autor).get(titol).getContingut();
     }
 
     /*SETTERS*/
-    public crearDocument(String autor, String titol) { //EXCEPCIÓ JA EXISTEIX EL DOCUMENT (autor, titol)
-        Map<String, Document> titols = new TreeMap<String, Document>();
-        Document d = new Document(autor, titol); ////////////////FALTA EL FORMATO
+    public void crearDocument(String autor, String titol) { //EXCEPCIÓ JA EXISTEIX EL DOCUMENT (autor, titol)
+        TreeMap<String, Document> titols = new TreeMap<String, Document>();
+        Document d = new Document(autor, titol, Format.txt); ////////////////FALTA EL FORMATO
         if (documents.containsKey(autor)){ //existe el autor
             titols = documents.get(autor);
         }
@@ -87,16 +98,16 @@ public class CtrlDocument {
                 documents.remove(doc.getAutor());
             }
             else {
-                Map<String, Document> titols = new TreeMap<String, Document>();
+                TreeMap<String, Document> titols = new TreeMap<String, Document>();
                 titols = documents.get(doc.getAutor()); //estas 3 lineas podrian ser documents.get(doc.getAutor()).erase(doc.getTitol()) ???
-                titols.erase(doc.getTitol());
+                titols.remove(doc.getTitol());
                 documents.put(doc.getAutor(), titols);
             }
         }
     }
 
     public void modificarAutor(String autor, String titol, String newA) { //EXCEPCIÓ YA EXISTEIX EL DOCUMENT (newA, titol)
-        Map<String, Document> titols = new TreeMap<String, Document>();
+        TreeMap<String, Document> titols = new TreeMap<String, Document>();
         titols = documents.get(autor);
         Document d = titols.get(titol);
         d.setAutor(newA);
@@ -104,31 +115,34 @@ public class CtrlDocument {
             documents.remove(autor);
         }
         else { //si en té més, s'esborra aquell titol
-            titols.erase(titol);
+            titols.remove(titol);
             documents.put(autor, titols);
         }
         if (documents.containsKey(newA)) { //si ja existeix newA, s'afegeix a la seva llista
             titols = documents.get(newA);
-        }
-        else { //si no existia newA es crea amb un titol
-            titols.clear();
             titols.put(titol, d);
             documents.put(newA, titols);
+        }
+        else { //si no existia newA es crea amb un titol
+            TreeMap<String, Document> newtitols = new TreeMap<String, Document>();
+            //titols.clear(); NO FUNCIONA BIEN EL CLEAR NO SÉ PORQ
+            newtitols.put(titol, d);
+            documents.put(newA, newtitols);
         }
     }
 
     public void modificarTitol(String autor, String titol, String newT) { //EXCEPCIÓ YA EXISTEIX EL DOCUMENT (autor, newT)
-        Map<String, Document> titols = new TreeMap<String, Document>();
+        TreeMap<String, Document> titols = new TreeMap<String, Document>();
         titols = documents.get(autor);
         Document d = titols.get(titol);
         d.setTitol(newT);
-        titols.erase(titol);
+        titols.remove(titol);
         titols.put(newT, d);
         documents.put(autor, titols);
     }
 
-    public void modificarContingut(String autor, String titol, String newC) {
-        Map<String, Document> titols = new TreeMap<String, Document>();
+    public void modificarContingut(String autor, String titol, Contingut newC) {
+        TreeMap<String, Document> titols = new TreeMap<String, Document>();
         titols = documents.get(autor);
         Document d = titols.get(titol);
         d.setContingut(newC);

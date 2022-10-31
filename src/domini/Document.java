@@ -1,5 +1,5 @@
 import datatypes.Format;
-import domini.Contingut;
+
 public class Document {
     private Format format;
     private String titol;
@@ -8,7 +8,7 @@ public class Document {
 
 
     /*CONTRUCTORA*/
-    public Document(Format format, String autor, String titol) {
+    public Document(String autor, String titol, Format format) {
         this.format = format;
         this.autor = autor;
         this.titol = titol;

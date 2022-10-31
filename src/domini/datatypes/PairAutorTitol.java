@@ -9,11 +9,21 @@ public class PairAutorTitol {
         this.titol = titol;
     }
 
-    public getAutor() {
+    public PairAutorTitol() {}
+
+    public String getAutor() {
         return autor;
     }
 
-    public getTitol() {
+    public String getTitol() {
         return titol;
+    }
+
+    public void setAutor(String autor) {
+        this.autor = autor;
+    }
+
+    public void setTitol(String titol) {
+        this.titol = titol;
     }
 }

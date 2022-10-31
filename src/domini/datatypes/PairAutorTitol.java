@@ -1,3 +1,5 @@
+package datatypes;
+
 public class PairAutorTitol {
     private String autor;
     private String titol;

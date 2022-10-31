@@ -69,7 +69,7 @@ public class CtrlFacade {
     }
 
     public Vector<String> llistarAutorsPrefix(String prefix) {
-        return ci.getAutorsPrefix(prefix);
+        return ci.GetAutorsPrefix(prefix);
     }
 
     public Vector<Pair<String,String>> llistarKDocumentsS(String titol, String autor, int K) {

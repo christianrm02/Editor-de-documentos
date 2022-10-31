@@ -1,3 +1,4 @@
+import datatypes.Format;
 import domini.Contingut;
 public class Document {
     private Format format;

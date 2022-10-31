@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Trie {
     
-    public TrieNode root;
+    private TrieNode root;
     private int maxLength = 0;
 
     //Insertar paraula al trie
@@ -53,18 +53,18 @@ public class Trie {
         }
 
         StringBuilder builder = new StringBuilder(prefix);
-        GetWords(current, maxLength, builder, words);
+        getWords(current, maxLength, builder, words);
 
         return words;
     }
 
     //Esborra una paraula del trie
-    public void delete(String word) {
-        Delete(root, word, 0);
+    public void Delete(String word) {
+        delete(root, word, 0);
     }
     
     //Recursivament esborra caracters del trie
-    private boolean Delete(TrieNode current, String word, int index) {
+    private boolean delete(TrieNode current, String word, int index) {
         if (index == word.length()) {
             if (!current.isEndWord) {
                 return false;
@@ -77,7 +77,7 @@ public class Trie {
         if (node == null) {
             return false;
         }
-        boolean shouldDeleteCurrentNode = Delete(node, word, index + 1) && !node.isEndWord;
+        boolean shouldDeleteCurrentNode = delete(node, word, index + 1) && !node.isEndWord;
     
         if (shouldDeleteCurrentNode) {
             current.children.remove(ch);
@@ -87,7 +87,7 @@ public class Trie {
     }
 
     //Retorna a la llista words recursivament les paraules que troba des del node rootNode amb el prefix
-    private void GetWords(TrieNode node, int level, StringBuilder prefix, List<String> words) {
+    private void getWords(TrieNode node, int level, StringBuilder prefix, List<String> words) {
 
         if(node.isEndWord){
             prefix = prefix.insert(level, node.data);
@@ -99,9 +99,21 @@ public class Trie {
         while (iterator.hasNext()) {
             char character = iterator.next();
             prefix = prefix.insert(level, character); 
-            GetWords(children.get(character), level+1, prefix, words);
+            getWords(children.get(character), level+1, prefix, words);
             prefix.deleteCharAt(level);
         }
+    }
+
+}
+
+class TrieNode {
+
+    HashMap<Character, TrieNode> children;
+    char data;
+    boolean isEndWord;
+
+    TrieNode(char data) {
+        this.data = data;
     }
 
 }

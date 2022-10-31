@@ -10,16 +10,16 @@ public class IndexAutorPrefix {
         index = new Trie();
     }
 
-    public void insertAutor(String autor) {
+    public void InsertAutor(String autor) {
         index.Insert(autor);
     }
 
-    public List<String> getAutorsPrefix(String prefix) {
+    public List<String> GetAutorsPrefix(String prefix) {
         return index.SearchWordsPrefix(prefix);
     }
 
-    public void deleteAutor(String autor) {
-        index.delete(autor);
+    public void DeleteAutor(String autor) {
+        index.Delete(autor);
     }
     
 }

@@ -6,7 +6,6 @@ import java.util.concurrent.*;
 
 import datatypes.PairAutorTitol;
 import datatypes.Format;
-
 public class CtrlDocument {
     private Document docAct; //NO ENTIENDO CUANDO MODIFICAR
     private TreeMap<String, TreeMap<String, Document>> documents;

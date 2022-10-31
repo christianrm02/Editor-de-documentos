@@ -2,7 +2,6 @@ import datatypes.PairAutorTitol;
 import datatypes.Format;
 import java.util.*;
 import java.util.concurrent.*;
-
 public class ProbantClasses {
     public static void main(String[] args) {
         CtrlDocument cD = new CtrlDocument();

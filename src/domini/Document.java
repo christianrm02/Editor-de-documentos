@@ -6,7 +6,6 @@ public class Document {
     private String autor;
     private Contingut contingut;
 
-
     /*CONTRUCTORA*/
     public Document(String autor, String titol, Format format) {
         this.format = format;

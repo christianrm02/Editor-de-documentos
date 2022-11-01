@@ -43,29 +43,29 @@ public class CtrlFacade {
     // Creacio de document
     public void crearDocument(String autor, String titol) throws Exception {
         cd.crearDocument(autor, titol);
-        ci.afegirDoc(autor, titol);
+        ci.AfegirDoc(autor, titol);
     }
 
     // Destruccio de documents
     public void esborrarDocuments(List<PairAutorTitol> docs) {
         cd.esborrarDocuments(docs);
-        ci.esborrarDocs(docs);
+        ci.EsborrarDocs(docs);
     }
 
     // Modificadores de document
     public void modificarTitol(String autor, String titol, String newT) throws Exception {
         cd.modificarTitol(autor, titol, newT);
-        ci.actualitzarTitol(autor, titol, newT);
+        ci.ActualitzarTitol(autor, titol, newT);
     }
 
     public void modificarAutor(String autor, String titol, String newA) throws Exception {
         cd.modificarAutor(autor, titol, newA);
-        ci.actualitzarAutor(autor, titol, newA);
+        ci.ActualitzarAutor(autor, titol, newA);
     }
 
     public void modificarContingut(String autor, String titol, String cont) {
         cd.modificarContingut(autor, titol, cont);
-        ci.actualitzarContingut(autor, titol, cont);
+        ci.ActualitzarContingut(autor, titol, cont);
     }
 
     // Cerques a indexos
@@ -74,7 +74,7 @@ public class CtrlFacade {
     }
 
     public List<String> llistarAutorsPrefix(String prefix) {
-        return ci.getAutorsPrefix(prefix);
+        return ci.GetAutorsPrefix(prefix);
     }
 
     public List<PairAutorTitol> llistarKDocumentsS(String autor, String titol, int K) {

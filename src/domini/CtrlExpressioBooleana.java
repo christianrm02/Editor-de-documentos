@@ -21,9 +21,15 @@ public class CtrlExpressioBooleana {
         return exps;
     }
 
-    //Setters
-    public setExpressióBooleana(String nom, String exp) {
-        ExpressioBooleana expB = new ExpressioBoolean
+    //Setter
+    public void setExpressioBooleana(String nom, String exp) {
+        ExpressioBooleana expB = new ExpressioBooleana(exp);
+        expressions.put(nom, expB);
+    }
+
+    //Destructora
+    public void deleteExpressioBooleana(String nom) {
+        expressions.remove(nom);
     }
 
 }

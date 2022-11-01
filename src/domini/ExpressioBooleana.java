@@ -10,7 +10,7 @@ public class ExpressioBooleana {
     public ExpressioBooleana (String nom, String exp) {
         this.nom = nom;
         this.exp = exp;
-        crearArbre();
+        //crearArbre();
     }
 
     private crearArbre() {
@@ -30,6 +30,6 @@ public class ExpressioBooleana {
 
     public void setExp(String exp) {
         this.exp = exp;
-        crearArbre();
+        //crearArbre();
     }
 }

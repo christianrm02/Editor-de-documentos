@@ -1,7 +1,7 @@
-import java.util.Vector
+import java.util.List
 
 public class Contingut {
-    private Vector<String> frases;
+    private List<String> frases;
 
     private void converteix_a_frases(String fr) {
 

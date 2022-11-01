@@ -1,97 +1,107 @@
-import domini.CtrlDocument;
-import domini.CtrlIndex;
-import domini.CtrlExpressioBooleana;
+import java.util.List;
 
-import java.util.Vector;
+import datatypes.PairAutorTitol
 
 public class CtrlFacade {
     private CtrlDocument cd;
     private CtrlIndex ci;
     private CtrlExpressioBooleana ce;
 
+    // Constructora
     public CtrlFacade() {
         cd = new CtrlDocument();
         ci = new CtrlIndex();
         ce = new CtrlExpressioBooleana();
     }
 
+    // Interaccio amb capa de persistencia
     public void carregaFitxers(Vector<String> locs) {
 
     }
 
-    public Vector<String> getTitols() {
+    public void exportarFitxer(String autor, String titol, String loc, int format) {
+
+    }
+
+    // Getters de de document
+    public List<String> getTitols() {
         return cd.getTitols();
     }
 
-    public Vector<String> getAutors() {
+    public List<String> getAutors() {
         return cd.getAutors();
     }
 
-    public Vector<Pair<String, String>> getTitolsAutors() {
+    public List<PairAutorTitol> getTitolsAutors() {
         return cd.getClaus();
     }
 
-    public String getContingut(String titol, String autor) {
-        return cd.getContingut(titol, autor);
+    public String getContingut(String autor, String titol) {
+        return cd.getContingut(autor, titol);
     }
 
-    public void crearDocument(String titol, String autor) throws Exception {
-        cd.crearDocument(titol, autor);
-        ci.afegirDoc(titol, autor);
+    // Creacio de document
+    public void crearDocument(String autor, String titol) throws Exception {
+        cd.crearDocument(autor, titol);
+        ci.afegirDoc(autor, titol);
     }
 
-    public void exportarFitxer(String titol, String autor, String loc, int format) {
-
-    }
-
-    public void esborrarDocuments(Vector<Pair<String, String>> docs) {
+    // Destruccio de documents
+    public void esborrarDocuments(List<PairAutorTitol> docs) {
         cd.esborrarDocuments(docs);
         ci.esborrarDocs(docs);
     }
 
-    public void modificarTitol(String titol, String autor, String newT) throws Exception {
-        cd.modificarTitol(titol, autor, newT);
-        ci.actualitzarTitol(titol, autor, newT);
+    // Modificadores de document
+    public void modificarTitol(String autor, String titol, String newT) throws Exception {
+        cd.modificarTitol(autor, titol, newT);
+        ci.actualitzarTitol(autor, titol, newT);
     }
 
-    public void modificarAutor(String titol, String autor, String newA) throws Exception {
-        cd.modificarAutor(titol, autor, newA);
-        ci.actualitzarAutor(titol, autor, newA);
+    public void modificarAutor(String autor, String titol, String newA) throws Exception {
+        cd.modificarAutor(autor, titol, newA);
+        ci.actualitzarAutor(autor, titol, newA);
     }
 
-    public void modificarContingut(String titol, String autor, String cont) {
-        cd.modificarContingut(titol, autor, cont);
-        ci.actualitzarContingut(titol, autor, cont);
+    public void modificarContingut(String autor, String titol, String cont) {
+        cd.modificarContingut(autor, titol, cont);
+        ci.actualitzarContingut(autor, titol, cont);
     }
 
-    public Vector<String> llistarTitolsdAutors(String autor) {
-        return ci.getTitols(autor);
+    // Cerques a indexos
+    public List<String> llistarTitolsdAutors(String autor) {
+        return ci.GetTitolsAutor(autor);
     }
 
-    public Vector<String> llistarAutorsPrefix(String prefix) {
-        return ci.GetAutorsPrefix(prefix);
+    public List<String> llistarAutorsPrefix(String prefix) {
+        return ci.getAutorsPrefix(prefix);
     }
 
-    public Vector<Pair<String,String>> llistarKDocumentsS(String titol, String autor, int K) {
-        return ci.KDocsS(titol, autor, K);
+    public List<PairAutorTitol> llistarKDocumentsS(String autor, String titol, int K) {
+        return ci.GetKDocsSimilarS(autor, titol, K);
     }
 
-    public Vector<Pair<String,String>> cercarExpressioBooleana(String exp) {
-        return ci.cercarExpressioBooleana(exp); // com fem per passar aqui de string a arbre?
+    public List<PairAutorTitol> cercarExpressioBooleana(String exp) {
+        Tree expA = creaArbre(exp); // s'hauria de posar la classe d'arbre corresponent be
+        return ci.cercarExpressioBooleana(expA);
     }
 
-    public Vector<Pair<String,String>> cercarPerRellevancia(Vector<String> paraules, int K) {
-
+    // OPCIONAL
+    public List<PairAutorTitol> cercarPerRellevancia(Vector<String> paraules, int K) {
+        return null;
     }
 
+    // Getter d'expressio booleana
     public String getExpressioBooleana(String nom) {
         return ce.getExpressioBooleana(nom).exp(); // aqui dependra de l'implementacio del ctrl
     }
 
+    // Creadora d'expressio booleana
     public void setExpressioBooleana(String nom, String exp) throws Exception {
         ce.setExpressioBooleana(nom, exp);
     }
 
+    // Destructora d'expressio booleana
     public void deleteExpressioBooleana(String nom) {
         ce.deleteExpressioBooleana(nom);
     }

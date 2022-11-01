@@ -33,6 +33,7 @@ public class Contingut {
         converteix_a_frases(fr);
     }
 
+    // Getter
     public List<String> getFrases() {
         return frases;
     }

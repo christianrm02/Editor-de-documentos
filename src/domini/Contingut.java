@@ -7,19 +7,20 @@ public class Contingut {
     private void converteix_a_frases(String fr) {
         frases = new List<String>();
         String s;
-        int lon;
-        for (int i = 0; i < fr.lenght(); i += lon) {
+        for (int i = 0; i < fr.lenght(); ++i) {
             String s = new String();
-            lon = 0;
-            while (fr.charAt(i+lon) != null && fr.charAt(i+lon) != '.' && fr.charAt(i+lon) != '!' &&
-                    fr.charAt(i+lon) != '?' && (i+lon == 0 || fr.charAt(i+lon) != 'n' || fr.charAt(i+lon-1) != '/')) {
+            while (fr.charAt(i) != null && fr.charAt(i) != '.' && fr.charAt(i) != '!' &&
+                    fr.charAt(i) != '?' && (i == 0 || fr.charAt(i) != 'n' || fr.charAt(i-1) != '/')) {
                 s += fr.charAt(i);
-                ++lon;
+                ++i;
             }
-            if (fr.charAt(i+lon) != null) {
-                s += fr.charAt(i+lon);
+            if (fr.charAt(i) != null) {
+                s += fr.charAt(i);
                 frases.afegir(s);
-                ++lon;
+                ++i;
+            }
+            else { //cas que acabi el string sense ., ! o ?
+                frases.afegir(s);
             }
         }
     }

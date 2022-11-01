@@ -9,12 +9,12 @@ public class Contingut {
         String s;
         for (int i = 0; i < fr.lenght(); ++i) {
             String s = new String();
-            while (fr.charAt(i) != null && fr.charAt(i) != '.' && fr.charAt(i) != '!' &&
+            while (i < fr.lenght() && fr.charAt(i) != '.' && fr.charAt(i) != '!' &&
                     fr.charAt(i) != '?' && (i == 0 || fr.charAt(i) != 'n' || fr.charAt(i-1) != '/')) {
                 s += fr.charAt(i);
                 ++i;
             }
-            if (fr.charAt(i) != null) {
+            if (i < fr.lenght()) {
                 s += fr.charAt(i);
                 frases.afegir(s);
                 ++i;

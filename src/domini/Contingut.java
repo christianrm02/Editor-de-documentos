@@ -38,4 +38,9 @@ public class Contingut {
     public List<String> getFrases() {
         return frases;
     }
+
+    // Setter
+    public void actualitzaContingut(String cont) {
+        converteix_a_frases(cont);
+    }
 }

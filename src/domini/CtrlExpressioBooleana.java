@@ -1,6 +1,8 @@
 import java.util.Vector;
 
 public class CtrlExpressioBooleana {
+
+
     public CtrlExpressioBooleana() {
 
     }
@@ -13,8 +15,10 @@ public class CtrlExpressioBooleana {
 
     }
 
-    public Vector<ExpressioBooleana> getAll() {
+    public List<ExpressioBooleana> getAll() {
+        List<ExpressioBooleana> exps = new ArrayList<ExpressioBooleana>();
 
+        return exps;
     }
 
 }

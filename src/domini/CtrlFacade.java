@@ -1,11 +1,20 @@
 import java.util.List;
+import java.util.*;
 
-import datatypes.PairAutorTitol
+import datatypes.PairAutorTitol;
 
 public class CtrlFacade {
     private CtrlDocument cd;
     private CtrlIndex ci;
     private CtrlExpressioBooleana ce;
+
+    static private List<String> SetAList(Set<String> s) {
+        List<String> l = new List<String>();
+        for (String st : s) {
+            l.add(st);
+        }
+        return l;
+    }
 
     // Constructora
     public CtrlFacade() {
@@ -25,18 +34,20 @@ public class CtrlFacade {
 
     // Getters de de document
     public List<String> getTitols() {
-        return cd.getTitols();
+        Set<String> s = cd.getTitols();
+        return SetAList(s);
     }
 
     public List<String> getAutors() {
-        return cd.getAutors();
+        Set<String> s = cd.getAutors();
+        return SetAList(s);
     }
 
     public List<PairAutorTitol> getTitolsAutors() {
         return cd.getClaus();
     }
 
-    public String getContingut(String autor, String titol) {
+    public List<String> getContingut(String autor, String titol) {
         return cd.getContingut(autor, titol);
     }
 
@@ -65,7 +76,8 @@ public class CtrlFacade {
 
     public void modificarContingut(String autor, String titol, String cont) {
         cd.modificarContingut(autor, titol, cont);
-        ci.ActualitzarContingut(autor, titol, cont);
+        List<String> c = cd.getContingut(autor, titol);
+        ci.ActualitzarContingut(autor, titol, c);
     }
 
     // Cerques a indexos
@@ -82,7 +94,7 @@ public class CtrlFacade {
     }
 
     public List<PairAutorTitol> cercarExpressioBooleana(String exp) {
-        Tree expA = creaArbre(exp); // s'hauria de posar la classe d'arbre corresponent be
+        Tree expA = ce.creaArbre(exp); // s'hauria de posar la classe d'arbre corresponent be
         return ci.cercarExpressioBooleana(expA);
     }
 
@@ -93,7 +105,7 @@ public class CtrlFacade {
 
     // Getter d'expressio booleana
     public String getExpressioBooleana(String nom) {
-        return ce.getExpressioBooleana(nom).exp(); // aqui dependra de l'implementacio del ctrl
+        return ce.getExpressioBooleana(nom).getExpressio(); // aqui dependra de l'implementacio del ctrl
     }
 
     // Creadora d'expressio booleana

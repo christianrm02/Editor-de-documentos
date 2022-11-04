@@ -5,16 +5,16 @@ public class Contingut {
 
     // Metode per convertir un string en una llista de frases
     private void converteix_a_frases(String fr) {
-        frases = new List<String>();
+        frases = List<String>();
         String s;
-        for (int i = 0; i < fr.lenght(); ++i) {
-            String s = new String();
-            while (i < fr.lenght() && fr.charAt(i) != '.' && fr.charAt(i) != '!' &&
+        for (int i = 0; i < fr.lenght; ++i) {
+            s = new String();
+            while (i < fr.lenght && fr.charAt(i) != '.' && fr.charAt(i) != '!' &&
                     fr.charAt(i) != '?' && (i == 0 || fr.charAt(i) != 'n' || fr.charAt(i-1) != '/')) {
                 s += fr.charAt(i);
                 ++i;
             }
-            if (i < fr.lenght()) {
+            if (i < fr.lenght) {
                 s += fr.charAt(i);
                 frases.afegir(s);
                 ++i;

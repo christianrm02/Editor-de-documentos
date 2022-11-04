@@ -7,8 +7,8 @@ public class CtrlExpressioBooleana {
         expressions = new HashMap<String, ExpressioBooleana>();
     }
 
-    public ExpressioBooleana getExpressioBooleana(String nom) {
-
+    public String getExpressioBooleana(String nom) {
+            return expressions.get(nom).getExp();
     }
 
     public Boolean existsExpressioBooleana(String nom) {
@@ -23,7 +23,7 @@ public class CtrlExpressioBooleana {
 
     //Setter
     public void setExpressioBooleana(String nom, String exp) {
-        ExpressioBooleana expB = new ExpressioBooleana(exp);
+        ExpressioBooleana expB = new ExpressioBooleana(nom, exp);
         expressions.put(nom, expB);
     }
 

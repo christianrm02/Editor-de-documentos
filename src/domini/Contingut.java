@@ -5,7 +5,7 @@ public class Contingut {
 
     // Metode per convertir un string en una llista de frases
     private void converteix_a_frases(String fr) {
-        frases = List<String>();
+        frases = new ArrayList<String>();
         String s;
         for (int i = 0; i < fr.lenght; ++i) {
             s = new String();
@@ -27,7 +27,7 @@ public class Contingut {
 
     // Constructores
     public Contingut() {
-        frases = List<String>();
+        frases = new ArrayList<String>();
     }
 
     public Contingut(String fr) {

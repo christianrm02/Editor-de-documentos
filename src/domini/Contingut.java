@@ -27,7 +27,7 @@ public class Contingut {
 
     // Constructores
     public Contingut() {
-        frases = new List<String>();
+        frases = List<String>();
     }
 
     public Contingut(String fr) {

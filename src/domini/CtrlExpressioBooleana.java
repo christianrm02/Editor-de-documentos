@@ -12,14 +12,14 @@ public class CtrlExpressioBooleana {
     }
 
     public Boolean existsExpressioBooleana(String nom) {
-
+            return expressions.containsKey(nom);
     }
-
+/*
     public List<ExpressioBooleana> getAll() {
         List<ExpressioBooleana> exps = new ArrayList<ExpressioBooleana>();
-
+        for ()
         return exps;
-    }
+    }*/
 
     //Setter
     public void setExpressioBooleana(String nom, String exp) {

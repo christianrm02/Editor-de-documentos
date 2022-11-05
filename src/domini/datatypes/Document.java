@@ -1,5 +1,6 @@
 package datatypes;
 import datatypes.Format;
+import datatypes.Contingut;
 
 public class Document {
     private Format format;

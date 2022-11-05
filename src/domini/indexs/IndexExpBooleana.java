@@ -5,27 +5,25 @@ import java.util.HashMap;
 import java.util.List;
 
 import datatypes.Contingut;
-import datatypes.PairAutorTitol;
+import datatypes.Pair;
 
 
 //Aquest index desa per cada paraula les frases a la que apareix i per cada frase el document on apareix
 public class IndexExpBooleana {
     
     private HashMap<String, List<Boolean>> indexParaulaFrase;   //Per cada paraula indica a quines frases apareix
-    private List<PairAutorTitol> indexFraseDocument;            //Per cada frase(index) indica a quin document pertany 
+    private List<Pair<String, String>> indexFraseDocument;      //Per cada frase(index) indica a quin document pertany 
     private int N;                                              //Nombre de frases  
 
     public IndexExpBooleana() {
         indexParaulaFrase = new HashMap<String, List<Boolean>>();
-        indexFraseDocument = new ArrayList<PairAutorTitol>();
+        indexFraseDocument = new ArrayList<Pair<String, String>>();
         N = 0;
     }
 
     public void AfegirDoc(String autor, String titol, Contingut contingut) {
         List<String> frases = contingut.getFrases();
-        PairAutorTitol autorTitol = new PairAutorTitol();
-        autorTitol.setAutor(autor);
-        autorTitol.setTitol(titol);
+        Pair<String, String> autorTitol = new Pair<String, String>(autor, titol);
 
         for (String frase : frases) {
             indexFraseDocument.add(autorTitol);
@@ -57,8 +55,8 @@ public class IndexExpBooleana {
         //OPTIMITZACIO: Es pot fer un break quan ha trobat tots els autorTitol iguals seguits
         boolean found = false;
         for (int i = 0; i < indexFraseDocument.size(); i++) {
-            PairAutorTitol autorTitol = indexFraseDocument.get(i);
-            if(autor == autorTitol.getAutor() && titol == autorTitol.getTitol()) {
+            Pair<String, String> autorTitol = indexFraseDocument.get(i);
+            if(autor == autorTitol.x && titol == autorTitol.y) {
                 frasesAEliminar.add(i);
                 found = true;
             } else if (found) break;
@@ -78,13 +76,13 @@ public class IndexExpBooleana {
     }
 
     public void ActualitzarTitol(String autor, String titol, String newTitol) {
-        PairAutorTitol oldAutorTitol = new PairAutorTitol(autor, titol);
-        PairAutorTitol newAutorTitol = new PairAutorTitol(autor, newTitol);
+        Pair<String, String> oldAutorTitol = new Pair<String, String>(autor, titol);
+        Pair<String, String> newAutorTitol = new Pair<String, String>(autor, newTitol);
         
         boolean found = false;
-        for (PairAutorTitol pairAutorTitol : indexFraseDocument) {
-            if(pairAutorTitol == oldAutorTitol) {
-                pairAutorTitol = newAutorTitol;
+        for (Pair<String, String> Pair : indexFraseDocument) {
+            if(Pair == oldAutorTitol) {
+                Pair = newAutorTitol;
                 found = true;
             }
             else if (found) break;
@@ -92,13 +90,13 @@ public class IndexExpBooleana {
     }
 
     public void ActualitzarAutor(String autor, String titol, String newAutor) {
-        PairAutorTitol oldAutorTitol = new PairAutorTitol(autor, titol);
-        PairAutorTitol newAutorTitol = new PairAutorTitol(newAutor, titol);
+        Pair<String, String> oldAutorTitol = new Pair<String, String>(autor, titol);
+        Pair<String, String> newAutorTitol = new Pair<String, String>(newAutor, titol);
         
         boolean found = false;
-        for (PairAutorTitol pairAutorTitol : indexFraseDocument) {
-            if(pairAutorTitol == oldAutorTitol) {
-                pairAutorTitol = newAutorTitol;
+        for (Pair<String, String> Pair : indexFraseDocument) {
+            if(Pair == oldAutorTitol) {
+                Pair = newAutorTitol;
                 found = true;
             }
             else if (found) break;
@@ -123,8 +121,8 @@ public class IndexExpBooleana {
     }
 
     //Retorna els documents que contenen les frases indexs
-    public List<PairAutorTitol> GetDocuments(List<Integer> indexs) {
-        List<PairAutorTitol> docs = new ArrayList<PairAutorTitol>();
+    public List<Pair<String, String>> GetDocuments(List<Integer> indexs) {
+        List<Pair<String, String>> docs = new ArrayList<Pair<String, String>>();
 
         for (int index : indexs) {
             docs.add(indexFraseDocument.get(index));

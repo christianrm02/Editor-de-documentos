@@ -1,7 +1,10 @@
 import java.util.List;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Set;
+import java.lang.Exception;
+import java.lang.String;
 
-import datatypes.PairAutorTitol;
+import datatypes.Pair;
 
 public class CtrlFacade {
     private CtrlDocument cd;
@@ -9,7 +12,7 @@ public class CtrlFacade {
     private CtrlExpressioBooleana ce;
 
     static private List<String> SetAList(Set<String> s) {
-        List<String> l = new List<String>();
+        List<String> l = new ArrayList<String>();
         for (String st : s) {
             l.add(st);
         }
@@ -24,7 +27,7 @@ public class CtrlFacade {
     }
 
     // Interaccio amb capa de persistencia
-    public void carregaFitxers(Vector<String> locs) {
+    public void carregaFitxers(List<String> locs) {
 
     }
 
@@ -43,7 +46,7 @@ public class CtrlFacade {
         return SetAList(s);
     }
 
-    public List<PairAutorTitol> getTitolsAutors() {
+    public List<Pair> getTitolsAutors() {
         return cd.getClaus();
     }
 
@@ -52,32 +55,45 @@ public class CtrlFacade {
     }
 
     // Creacio de document
-    public void crearDocument(String autor, String titol) throws Exception {
-        cd.crearDocument(autor, titol);
-        ci.AfegirDoc(autor, titol);
+    public void crearDocument(String autor, String titol, string format) throws Exception {
+        boolean ed = cd.existsDocument(autor, titol);
+        if (!ed) {
+            cd.crearDocument(autor, titol, format); // PRE: no existeix Document
+            ci.AfegirDoc(autor, titol);
+        }
+        else throw new Exception();
     }
 
     // Destruccio de documents
-    public void esborrarDocuments(List<PairAutorTitol> docs) {
+    public void esborrarDocuments(List<Pair> docs) {
         cd.esborrarDocuments(docs);
         ci.EsborrarDocs(docs);
     }
 
     // Modificadores de document
     public void modificarTitol(String autor, String titol, String newT) throws Exception {
-        cd.modificarTitol(autor, titol, newT);
-        ci.ActualitzarTitol(autor, titol, newT);
+        boolean ed = cd.existsDocument(autor, newT);
+        if (!ed) {
+            cd.modificarTitol(autor, titol, newT);
+            ci.ActualitzarTitol(autor, titol, newT);
+        }
+        else throw new Exception();
     }
 
     public void modificarAutor(String autor, String titol, String newA) throws Exception {
-        cd.modificarAutor(autor, titol, newA);
-        ci.ActualitzarAutor(autor, titol, newA);
+        boolean ed = cd.existsDocument(newA, titol);
+        if (!ed) {
+            cd.modificarAutor(autor, titol, newA);
+            ci.ActualitzarAutor(autor, titol, newA);
+        }
+        else throw new Exception();
     }
 
     public void modificarContingut(String autor, String titol, String cont) {
-        cd.modificarContingut(autor, titol, cont);
-        List<String> c = cd.getContingut(autor, titol);
-        ci.ActualitzarContingut(autor, titol, c);
+        List<String> oldC = cd.getContingut();
+        cd.modificarContingut(cont);
+        List<String> c = cd.getContingut();
+        ci.ActualitzarContingut(autor, titol, oldC, c);
     }
 
     // Cerques a indexos
@@ -89,28 +105,29 @@ public class CtrlFacade {
         return ci.GetAutorsPrefix(prefix);
     }
 
-    public List<PairAutorTitol> llistarKDocumentsS(String autor, String titol, int K) {
+    public List<Pair> llistarKDocumentsS(String autor, String titol, int K) {
         return ci.GetKDocsSimilarS(autor, titol, K);
     }
 
-    public List<PairAutorTitol> cercarExpressioBooleana(String exp) {
-        Tree expA = ce.creaArbre(exp); // s'hauria de posar la classe d'arbre corresponent be
-        return ci.cercarExpressioBooleana(expA);
+    public List<Pair> cercarExpressioBooleana(String exp) {
+        return ce.cercarExpressioBooleana(exp);
     }
 
     // OPCIONAL
-    public List<PairAutorTitol> cercarPerRellevancia(Vector<String> paraules, int K) {
+    public List<Pair> cercarPerRellevancia(List<String> paraules, int K) {
         return null;
     }
 
     // Getter d'expressio booleana
     public String getExpressioBooleana(String nom) {
-        return ce.getExpressioBooleana(nom).getExpressio(); // aqui dependra de l'implementacio del ctrl
+        return ce.getExpressioBooleana(nom); // aqui dependra de l'implementacio del ctrl
     }
 
     // Creadora d'expressio booleana
     public void setExpressioBooleana(String nom, String exp) throws Exception {
-        ce.setExpressioBooleana(nom, exp);
+        boolean ee = cd.existsDocument(autor, titol);
+        if (!ee) ce.setExpressioBooleana(nom, exp); // PRE: no existeix ExpressioBooleana
+        else throw new Exception();
     }
 
     // Destructora d'expressio booleana

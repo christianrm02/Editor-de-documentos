@@ -1,4 +1,5 @@
 package datatypes;
+import java.util.*;
 
 public class Tree<String> {
     private Node<String> arrel;

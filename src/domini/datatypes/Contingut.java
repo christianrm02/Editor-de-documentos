@@ -1,33 +1,37 @@
+package datatypes;
+
 import java.util.List;
+import java.util.ArrayList;
+import java.lang.String;
 
 public class Contingut {
     private List<String> frases;
 
     // Metode per convertir un string en una llista de frases
     private void converteix_a_frases(String fr) {
-        frases = new List<String>();
+        frases = new ArrayList<String>();
         String s;
-        for (int i = 0; i < fr.lenght; ++i) {
+        for (int i = 0; i < fr.length(); ++i) {
             s = new String();
-            while (i < fr.lenght && fr.charAt(i) != '.' && fr.charAt(i) != '!' &&
+            while (i < fr.length() && fr.charAt(i) != '.' && fr.charAt(i) != '!' &&
                     fr.charAt(i) != '?' && (i == 0 || fr.charAt(i) != 'n' || fr.charAt(i-1) != '/')) {
                 s += fr.charAt(i);
                 ++i;
             }
-            if (i < fr.lenght) {
+            if (i < fr.length()) {
                 s += fr.charAt(i);
-                frases.afegir(s);
+                frases.add(s);
                 ++i;
             }
             else { //cas que acabi el string sense ., ! o ?
-                frases.afegir(s);
+                frases.add(s);
             }
         }
     }
 
     // Constructores
     public Contingut() {
-        frases = new List<String>();
+        frases = new ArrayList<String>();
     }
 
     public Contingut(String fr) {

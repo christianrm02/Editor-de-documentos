@@ -1,8 +1,9 @@
 import java.util.*;
+import datatypes.Pair;
 
 public class CtrlExpressioBooleana {
 
-    private HashMap<String, ExpressioBooleana> expressions;
+    private Map<String, ExpressioBooleana> expressions;
     public CtrlExpressioBooleana() {
         expressions = new HashMap<String, ExpressioBooleana>();
     }
@@ -14,12 +15,17 @@ public class CtrlExpressioBooleana {
     public Boolean existsExpressioBooleana(String nom) {
             return expressions.containsKey(nom);
     }
-/*
-    public List<ExpressioBooleana> getAll() {
-        List<ExpressioBooleana> exps = new ArrayList<ExpressioBooleana>();
-        for ()
+
+    public List<Pair> getAll() {
+        List<Pair> exps = new ArrayList<Pair>();
+        for (String clau:expressions.keySet()) {
+            Pair p = new Pair();
+            p.x = expressions.get(clau).getNom();
+            p.y = expressions.get(clau).getExp();
+            exps.add(p);
+        }
         return exps;
-    }*/
+    }
 
     //Setter
     public void setExpressioBooleana(String nom, String exp) {

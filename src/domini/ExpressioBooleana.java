@@ -1,4 +1,5 @@
 import datatypes.Tree;
+import java.util.*;
 
 public class ExpressioBooleana {
 
@@ -26,7 +27,7 @@ public class ExpressioBooleana {
 
 
     //Setters
-    public void setNom(String nom) { this.nom = nom }
+    public void setNom(String nom) { this.nom = nom; }
 
     public void setExp(String exp) {
         this.exp = exp;

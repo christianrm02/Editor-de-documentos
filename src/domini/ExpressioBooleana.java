@@ -14,6 +14,11 @@ public class ExpressioBooleana {
         //crearArbre();
     }
 
+    public ExpressioBooleana (String exp) {
+        this.exp = exp;
+        //crearArbre();
+    }
+
     private void crearArbre() {
 
     }

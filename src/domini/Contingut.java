@@ -1,4 +1,5 @@
 import java.util.List;
+import java.lang.String;
 
 public class Contingut {
     private List<String> frases;

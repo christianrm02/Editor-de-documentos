@@ -1,5 +1,7 @@
 import java.util.List;
-import java.util.*;
+import java.util.Set;
+import java.lang.Exception;
+import java.lang.String;
 
 import datatypes.PairAutorTitol;
 
@@ -52,9 +54,13 @@ public class CtrlFacade {
     }
 
     // Creacio de document
-    public void crearDocument(String autor, String titol) throws Exception {
-        cd.crearDocument(autor, titol);
-        ci.AfegirDoc(autor, titol);
+    public void crearDocument(String autor, String titol, F) throws Exception {
+        boolean ed = cd.existsDocument(autor, titol);
+        if (!ed) {
+            cd.crearDocument(autor, titol); // PRE: no existeix Document
+            ci.AfegirDoc(autor, titol);
+        }
+        else
     }
 
     // Destruccio de documents
@@ -105,12 +111,16 @@ public class CtrlFacade {
 
     // Getter d'expressio booleana
     public String getExpressioBooleana(String nom) {
-        return ce.getExpressioBooleana(nom).getExpressio(); // aqui dependra de l'implementacio del ctrl
+        return ce.getExpressioBooleana(nom); // aqui dependra de l'implementacio del ctrl
     }
 
     // Creadora d'expressio booleana
     public void setExpressioBooleana(String nom, String exp) throws Exception {
-        ce.setExpressioBooleana(nom, exp);
+        boolean ee = cd.existsDocument(autor, titol);
+        if (!ee) ce.setExpressioBooleana(nom, exp); // PRE: no existeix ExpressioBooleana
+        else {
+
+        }
     }
 
     // Destructora d'expressio booleana

@@ -1,8 +1,8 @@
 package datatypes;
 
 public class Pair {
-    private String x; //autor, nomEB
-    private String y; //titol, expEB
+    public String x; //autor, nomEB
+    public String y; //titol, expEB
 
     public Pair(String x, String y) {
         this.x = x;
@@ -11,7 +11,7 @@ public class Pair {
 
     public Pair() {}
 
-    public String getX() {
+    /*public String getX() {
         return x;
     }
 
@@ -25,5 +25,5 @@ public class Pair {
 
     public void setY(String y) {
         this.y = y;
-    }
+    }*/
 }

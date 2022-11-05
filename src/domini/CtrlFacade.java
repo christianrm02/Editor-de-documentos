@@ -11,7 +11,7 @@ public class CtrlFacade {
     private CtrlExpressioBooleana ce;
 
     static private List<String> SetAList(Set<String> s) {
-        List<String> l = new List<String>();
+        List<String> l = new ArrayList<String>();
         for (String st : s) {
             l.add(st);
         }
@@ -81,9 +81,10 @@ public class CtrlFacade {
     }
 
     public void modificarContingut(String autor, String titol, String cont) {
-        cd.modificarContingut(autor, titol, cont);
-        List<String> c = cd.getContingut(autor, titol);
-        ci.ActualitzarContingut(autor, titol, c);
+        List<String> oldC = cd.getContingut();
+        cd.modificarContingut(cont);
+        List<String> c = cd.getContingut();
+        ci.ActualitzarContingut(autor, titol, oldC, c);
     }
 
     // Cerques a indexos
@@ -100,8 +101,7 @@ public class CtrlFacade {
     }
 
     public List<PairAutorTitol> cercarExpressioBooleana(String exp) {
-        Tree expA = ce.creaArbre(exp); // s'hauria de posar la classe d'arbre corresponent be
-        return ci.cercarExpressioBooleana(expA);
+        return ce.cercarExpressioBooleana(exp);
     }
 
     // OPCIONAL

@@ -6,17 +6,18 @@ import indexs.*;
 
 class CtrlIndex {
 
-    //IndexAutorTitols indexAutorTitols;
-    IndexAutorPrefix indexAutorPrefix;
-    IndexParaulaTFIDF indexParaulaTFIDF;
+    private IndexAutorPrefix indexAutorPrefix;
+    private IndexExpBooleana indexExpBooleana;
+    private IndexParaulaTFIDF indexParaulaTFIDF;
     
 
     public CtrlIndex() {
         indexAutorPrefix = new IndexAutorPrefix();
+        indexExpBooleana = new IndexExpBooleana();
         indexParaulaTFIDF = new IndexParaulaTFIDF();
     }
 
-    public void AfegirDoc(String autor, String titol) {
+    public void AfegirDoc(Document doc) {
 
     }
 
@@ -32,7 +33,7 @@ class CtrlIndex {
         
     }
 
-    public void ActualitzarContingut(String autor, String titol, Contingut contingut) {
+    public void ActualitzarContingut(String autor, String titol, Contingut oldContingut, Contingut contingut) {
 
     }
 
@@ -45,6 +46,16 @@ class CtrlIndex {
     }
 
     public List<PairAutorTitol> GetKDocsSimilarS (String autor, String titol, int K) {
+        return null;
+    }
+
+    //Retorna els indexs de les frases que contenen paraula
+    public List<Integer> GetFrases(String paraula) {
+        return null;
+    }
+
+    //Retorna els documents que contenen les frases indexs
+    public List<PairAutorTitol> GetDocuments(List<Integer> indexs) {
         return null;
     }
 

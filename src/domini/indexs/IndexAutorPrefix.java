@@ -2,6 +2,8 @@ package indexs;
 
 import java.util.List;
 
+import datatypes.Trie;
+
 public class IndexAutorPrefix {
 
     Trie index;

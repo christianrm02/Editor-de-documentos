@@ -1,4 +1,4 @@
-package indexs;
+package datatypes;
 
 import java.util.ArrayList;
 import java.util.HashMap;

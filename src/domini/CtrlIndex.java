@@ -1,5 +1,7 @@
 import java.util.List;
 
+import datatypes.Contingut;
+import datatypes.Document;
 import datatypes.PairAutorTitol;
 import indexs.*;
 
@@ -18,7 +20,7 @@ class CtrlIndex {
     }
 
     public void AfegirDoc(Document doc) {
-
+        
     }
 
     public void EsborrarDoc(String autor, String titol) {

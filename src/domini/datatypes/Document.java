@@ -1,3 +1,4 @@
+package datatypes;
 import datatypes.Format;
 
 public class Document {
@@ -7,6 +8,7 @@ public class Document {
     private Contingut contingut;
 
     /*CONTRUCTORA*/
+    public Document() {}
     public Document(String autor, String titol, Format format) {
         this.format = format;
         this.autor = autor;

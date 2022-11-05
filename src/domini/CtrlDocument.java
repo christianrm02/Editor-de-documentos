@@ -64,8 +64,8 @@ public class CtrlDocument {
         return ttls;
     }
 
-    public List<Pair> getClaus() {
-        List<Pair> claus = new ArrayList<Pair>();
+    public List<Pair<String, String>> getClaus() {
+        List<Pair<String, String>> claus = new ArrayList<Pair<String, String>>();
         /*for(Map<String, Document> titols : documents.values()) {
             autor = titols.getKey();
             for (Document document : titols.values()) {
@@ -77,7 +77,7 @@ public class CtrlDocument {
         for(String autor : documents.keySet()) {
             Map<String,Document> titols = documents.get(autor);
             for(String titol : titols.keySet()) {
-                Pair clau = new Pair();
+                Pair<String, String> clau = new Pair<String, String>();
                 clau.x = autor;
                 clau.y = titol;
                 claus.add(clau);
@@ -108,8 +108,8 @@ public class CtrlDocument {
         documents.put(autor, titols);
     }
 
-    public void esborrarDocuments(List<Pair> docs) { //EXCEPCIÓ NO EXISTEIX EL DOCUMENT (autor, titol)
-        for(Pair doc : docs) {
+    public void esborrarDocuments(List<Pair<String, String>> docs) { //EXCEPCIÓ NO EXISTEIX EL DOCUMENT (autor, titol)
+        for(Pair<String, String> doc : docs) {
             if (documents.get(doc.x).size() == 1) { //si l'autor només té un titol, s'esborra l'autor
                 documents.remove(doc.x);
             }

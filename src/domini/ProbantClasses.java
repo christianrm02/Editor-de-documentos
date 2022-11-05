@@ -41,10 +41,10 @@ public class ProbantClasses {
         //System.out.println("Existe Pep Noche: " + cD.existsDocument("Pep", "Noche"));
 
         //getClaus
-        List<Pair> claus = new ArrayList<Pair>();
+        List<Pair<String, String>> claus = new ArrayList<Pair<String, String>>();
         claus = cD.getClaus();
         System.out.println("Claus:");
-        for(Pair c : claus) {
+        for(Pair<String, String> c : claus) {
             System.out.println("[Autors: " + c.x + " Titol: " + c.y + "] ");
         }
 
@@ -80,19 +80,19 @@ public class ProbantClasses {
 
         //esborrarDocuments
         System.out.println("BORRANDO TODO");
-        List<Pair> docsBorrar = new ArrayList<Pair>();
-        Pair p1 = new Pair("Pep", "War"); docsBorrar.add(p1);
-        Pair p2 = new Pair("Pep", "Camino"); docsBorrar.add(p2);
-        Pair p3 = new Pair("Pep", "Atardecer"); docsBorrar.add(p3);
-        Pair p4 = new Pair("Joan", "Dawn"); docsBorrar.add(p4);
-        Pair p5 = new Pair("Joan", "Vida"); docsBorrar.add(p5);
+        List<Pair<String, String>> docsBorrar = new ArrayList<Pair<String, String>>();
+        Pair<String, String> p1 = new Pair<String, String>("Pep", "War"); docsBorrar.add(p1);
+        Pair<String, String> p2 = new Pair<String, String>("Pep", "Camino"); docsBorrar.add(p2);
+        Pair<String, String> p3 = new Pair<String, String>("Pep", "Atardecer"); docsBorrar.add(p3);
+        Pair<String, String> p4 = new Pair<String, String>("Joan", "Dawn"); docsBorrar.add(p4);
+        Pair<String, String> p5 = new Pair<String, String>("Joan", "Vida"); docsBorrar.add(p5);
         cD.esborrarDocuments(docsBorrar);
         System.out.println("Autors: " + cD.getAutors());
         System.out.println("Titols: " + cD.getTitols());
-        List<Pair> claus2 = new ArrayList<Pair>();
+        List<Pair<String, String>> claus2 = new ArrayList<Pair<String, String>>();
         claus2 = cD.getClaus();
         System.out.println("Claus:");
-        for(Pair c2 : claus2) {
+        for(Pair<String, String> c2 : claus2) {
             System.out.println("[Autors: " + c2.x + " Titol: " + c2.y + "] ");
         }
 

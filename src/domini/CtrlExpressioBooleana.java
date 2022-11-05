@@ -19,7 +19,7 @@ public class CtrlExpressioBooleana {
     public List<Pair> getAll() {
         List<Pair> exps = new ArrayList<Pair>();
         for (String clau:expressions.keySet()) {
-            Pair p;
+            Pair p = new Pair();
             p.x = expressions.get(clau).getNom();
             p.y = expressions.get(clau).getExp();
             exps.add(p);

@@ -1,10 +1,10 @@
 package datatypes;
 
-public class Pair {
-    public String x; //autor, nomEB
-    public String y; //titol, expEB
+public class Pair<T1, T2> {
+    public T1 x;
+    public T2 y;
 
-    public Pair(String x, String y) {
+    public Pair(T1 x, T2 y) {
         this.x = x;
         this.y = y;
     }

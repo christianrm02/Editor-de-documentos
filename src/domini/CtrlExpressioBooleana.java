@@ -2,7 +2,7 @@ import java.util.*;
 
 public class CtrlExpressioBooleana {
 
-    private HashMap<String, ExpressioBooleana> expressions;
+    private Map<String, ExpressioBooleana> expressions;
     public CtrlExpressioBooleana() {
         expressions = new HashMap<String, ExpressioBooleana>();
     }

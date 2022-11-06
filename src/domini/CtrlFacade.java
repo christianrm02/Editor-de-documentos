@@ -60,7 +60,7 @@ public class CtrlFacade {
         boolean ed = cd.existsDocument(autor, titol);
         if (!ed) {
             cd.crearDocument(autor, titol/*, format*/); // PRE: no existeix Document
-            ci.AfegirDoc(autor, titol, ArrayList<String>());
+            ci.AfegirDoc(autor, titol, new ArrayList<String>());
         }
         else throw new Exception();
     }

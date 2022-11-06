@@ -4,11 +4,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import datatypes.Contingut;
 import datatypes.Pair;
 
 
 //Aquest index desa per cada paraula les frases a la que apareix i per cada frase el document on apareix
+//Insercions tenen cost linear amb el nombre de paraules
+//Cerques tenen cost linear amb el nombre de frases
 public class IndexExpBooleana {
     
     private HashMap<String, List<Boolean>> indexParaulaFrase;   //Per cada paraula indica a quines frases apareix
@@ -21,11 +22,10 @@ public class IndexExpBooleana {
         N = 0;
     }
 
-    public void AfegirDoc(String autor, String titol, Contingut contingut) {
-        List<String> frases = contingut.getFrases();
+    public void AfegirDoc(String autor, String titol, List<String> contingut) {
         Pair<String, String> autorTitol = new Pair<String, String>(autor, titol);
 
-        for (String frase : frases) {
+        for (String frase : contingut) {
             indexFraseDocument.add(autorTitol);
             addPosition();
             String[] paraules = parseFrase(frase);
@@ -103,7 +103,7 @@ public class IndexExpBooleana {
         }
     }
 
-    public void ActualitzarContingut(String autor, String titol, Contingut contingut) {
+    public void ActualitzarContingut(String autor, String titol, List<String> contingut) {
         EsborrarDoc(autor, titol);
         AfegirDoc(autor, titol, contingut);
     }

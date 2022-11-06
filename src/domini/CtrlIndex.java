@@ -1,7 +1,5 @@
 import java.util.List;
 
-import datatypes.Contingut;
-import datatypes.Document;
 import datatypes.Pair;
 import indexs.*;
 
@@ -19,30 +17,32 @@ class CtrlIndex {
         indexParaulaTFIDF = new IndexParaulaTFIDF();
     }
 
-    public void AfegirDoc(Document doc) {
-        String autor = doc.getAutor();
-        String titol = doc.getTitol();
-        Contingut cont = doc.getContingut();
-
+    public void AfegirDoc(String autor, String titol, List<String> contingut) {
         indexAutorPrefix.InsertAutor(autor);
-        indexExpBooleana.AfegirDoc(autor, titol, cont);
+        indexExpBooleana.AfegirDoc(autor, titol, contingut);
+        indexParaulaTFIDF.AfegirDoc(autor, titol, contingut);
     }
 
     public void EsborrarDoc(String autor, String titol) {
         //if(autor.count == 0) indexAutorPrefix.DeleteAutor(autor);
         indexExpBooleana.EsborrarDoc(autor, titol);
+        indexParaulaTFIDF.EsborrarDoc(autor, titol);
     }
 
     public void ActualitzarTitol(String autor, String titol, String newTitol) {
         indexExpBooleana.ActualitzarTitol(autor, titol, newTitol);
+        indexParaulaTFIDF.ActualitzarTitol(autor, titol, newTitol);
     }
 
     public void ActualitzarAutor(String autor, String titol, String newAutor) {
         //Comprovar si el newAutor ja exsitia i si l'antic s'ha quedat sense copies
+        indexExpBooleana.ActualitzarAutor(autor, titol, newAutor);
+        indexParaulaTFIDF.ActualitzarAutor(autor, titol, newAutor);
     }
 
-    public void ActualitzarContingut(String autor, String titol, Contingut oldContingut, Contingut contingut) {
+    public void ActualitzarContingut(String autor, String titol, List<String> contingut) {
         indexExpBooleana.ActualitzarContingut(autor, titol, contingut);
+        indexParaulaTFIDF.ActualitzarContingut(autor, titol, contingut);
     }
 
     public List<String> GetAutorsPrefix(String prefix) {

@@ -4,7 +4,7 @@ import java.util.Set;
 import java.lang.Exception;
 import java.lang.String;
 
-import datatypes.Pair;
+import datatypes.*;
 
 public class CtrlFacade {
     private CtrlDocument cd;
@@ -46,26 +46,27 @@ public class CtrlFacade {
         return SetAList(s);
     }
 
-    public List<Pair> getTitolsAutors() {
+    public List<Pair<String, String>> getTitolsAutors() {
         return cd.getClaus();
     }
 
-    public List<String> getContingut(String autor, String titol) {
-        return cd.getContingut(autor, titol);
+    public List<String> obreDocument(String autor, String titol) {
+        cd.obreDocument(autor, titol);
+        return cd.getContingut();
     }
 
     // Creacio de document
-    public void crearDocument(String autor, String titol, string format) throws Exception {
+    public void crearDocument(String autor, String titol/*, string format*/) throws Exception {
         boolean ed = cd.existsDocument(autor, titol);
         if (!ed) {
-            cd.crearDocument(autor, titol, format); // PRE: no existeix Document
-            ci.AfegirDoc(autor, titol);
+            cd.crearDocument(autor, titol/*, format*/); // PRE: no existeix Document
+            ci.AfegirDoc(autor, titol, ArrayList<String>());
         }
         else throw new Exception();
     }
 
     // Destruccio de documents
-    public void esborrarDocuments(List<Pair> docs) {
+    public void esborrarDocuments(List<Pair<String, String>> docs) {
         cd.esborrarDocuments(docs);
         ci.EsborrarDocs(docs);
     }
@@ -98,23 +99,23 @@ public class CtrlFacade {
 
     // Cerques a indexos
     public List<String> llistarTitolsdAutors(String autor) {
-        return ci.GetTitolsAutor(autor);
+        return cd.getTitolsAutor(autor);
     }
 
     public List<String> llistarAutorsPrefix(String prefix) {
         return ci.GetAutorsPrefix(prefix);
     }
 
-    public List<Pair> llistarKDocumentsS(String autor, String titol, int K) {
+    public List<Pair<String, String>> llistarKDocumentsS(String autor, String titol, int K) {
         return ci.GetKDocsSimilarS(autor, titol, K);
     }
 
-    public List<Pair> cercarExpressioBooleana(String exp) {
+    public List<Pair<String, String>> cercarExpressioBooleana(String exp) {
         return ce.cercarExpressioBooleana(exp);
     }
 
     // OPCIONAL
-    public List<Pair> cercarPerRellevancia(List<String> paraules, int K) {
+    public List<Pair<String, String>> cercarPerRellevancia(List<String> paraules, int K) {
         return null;
     }
 
@@ -125,7 +126,7 @@ public class CtrlFacade {
 
     // Creadora d'expressio booleana
     public void setExpressioBooleana(String nom, String exp) throws Exception {
-        boolean ee = cd.existsDocument(autor, titol);
+        boolean ee = cd.existsExpressioBooleana(nom);
         if (!ee) ce.setExpressioBooleana(nom, exp); // PRE: no existeix ExpressioBooleana
         else throw new Exception();
     }

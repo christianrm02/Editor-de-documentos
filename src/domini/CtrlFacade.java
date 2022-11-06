@@ -68,13 +68,11 @@ public class CtrlFacade {
 
     // Destruccio de documents
     public void esborrarDocuments(List<Pair<String, String>> docs) {
-        cd.esborrarDocuments(docs);
-        ci.EsborrarDocs(docs);
         Set<String> a = new TreeSet<String>();
         for (Pair<String, String> p : docs) {
-            if (!cd.existsAutor(p.x)) {
-                a.add(p.x);
-            }
+            boolean asegueix = cd.esborrarDocument(p.x, p.y);
+            ci.EsborrarDoc(p.x, p.y);
+            if (!asegueix) a.add(p.x);
         }
         List<String> autors = SetAList(a);
         ci.EsborrarAutors(autors);

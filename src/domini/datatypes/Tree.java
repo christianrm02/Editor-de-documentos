@@ -20,9 +20,9 @@ public class Tree {
         Map<String, Integer> prio = new HashMap<>();
 
         prio.put("(", 1);
-        prio.put("!", 2);
+        prio.put("|", 2);
         prio.put("&", 3);
-        prio.put("|", 4);
+        prio.put("!", 4);
 
         Deque<String> ops = new ArrayDeque<>();
         Deque<TreeNode> stack = new ArrayDeque<>();

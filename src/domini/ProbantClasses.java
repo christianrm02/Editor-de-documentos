@@ -41,12 +41,17 @@ public class ProbantClasses {
         //System.out.println("Existe Pep Noche: " + cD.existsDocument("Pep", "Noche"));
 
         //getClaus
-        List<Pair> claus = new ArrayList<Pair>();
+        List<Pair<String, String>> claus = new ArrayList<Pair<String, String>>();
         claus = cD.getClaus();
         System.out.println("Claus:");
-        for(Pair c : claus) {
+        for(Pair<String, String> c : claus) {
             System.out.println("[Autors: " + c.x + " Titol: " + c.y + "] ");
         }
+
+        //getTitolsAutor
+        Set<String> ttls = new TreeSet<String>();
+        ttls = cD.getTitolsAutor("Pep");
+        System.out.println(ttls);
 
         System.out.println("Autors: " + cD.getAutors());
         System.out.println("Titols: " + cD.getTitols());
@@ -58,43 +63,56 @@ public class ProbantClasses {
         d = cD.getDocument("Pep", "Camino");
         System.out.println("Autor d: " + d.getAutor() + " Titol d: " + d.getTitol());
 
-        //getAll
-        String txt = """
-                La vida. Que es la vida? Mi vida eres tu...
-                Aunque
-                Tambien...
-                Soy yo.
-                """;
+        //getAll, Joan Vida
+        /*String txt = "La vida es buena. Solo a veces.";
         Contingut c = new Contingut(txt);
         cD.modificarContingut("Joan", "Vida", c);
         d = cD.getDocument("Joan", "Vida");
-        //System.out.println("Autor d: " + d.getAutor() + " Titol d: " + d.getTitol() + " Contingut: " + d.getContingut().getFrases());
+        //System.out.println("Autor d: " + d.getAutor() + " Titol d: " + d.getTitol() + " Contingut: " + d.getContingut());
 
         List<Document> docs = new ArrayList<Document>();
         docs = cD.getAll();
         for (Document doc : docs) {
             if(doc.getAutor() == "Joan" && doc.getTitol() == "Vida") {
-                System.out.println("Autor d: " + d.getAutor() + " Titol d: " + d.getTitol() + " Contingut: " + d.getContingut().getFrases());
+                System.out.println("Autor d: " + d.getAutor() + " Titol d: " + d.getTitol() + " Contingut: " + d.getContingut());
+            }
+        }*/
+
+        //nuevas
+        cD.obreDocument("Joan", "Vida");
+        cD.modificarContingut("La vida es buena. A veces.");
+        List<String> oldc = cD.getContingut();
+        System.out.println(oldc);
+        cD.modificarContingut("VIVA ONE PIECE. Pero no a ratos! Siempre");
+        List<String> newc = cD.getContingut();
+        System.out.println(newc);
+        //System.out.println(cD.getContingut("Joan", "Vida"));
+        List<Document> docs = new ArrayList<Document>();
+        docs = cD.getAll();
+        for (Document doc : docs) {
+            if(doc.getAutor() == "Joan" && doc.getTitol() == "Vida") {
+                System.out.println("Autor d: " + doc.getAutor() + " Titol d: " + doc.getTitol() + " Contingut: " + doc.getContingut());
             }
         }
 
         //esborrarDocuments
         System.out.println("BORRANDO TODO");
-        List<Pair> docsBorrar = new ArrayList<Pair>();
-        Pair p1 = new Pair("Pep", "War"); docsBorrar.add(p1);
-        Pair p2 = new Pair("Pep", "Camino"); docsBorrar.add(p2);
-        Pair p3 = new Pair("Pep", "Atardecer"); docsBorrar.add(p3);
-        Pair p4 = new Pair("Joan", "Dawn"); docsBorrar.add(p4);
-        Pair p5 = new Pair("Joan", "Vida"); docsBorrar.add(p5);
+        List<Pair<String, String>> docsBorrar = new ArrayList<Pair<String, String>>();
+        Pair<String, String> p1 = new Pair<String, String>("Pep", "War"); docsBorrar.add(p1);
+        Pair<String, String> p2 = new Pair<String, String>("Pep", "Camino"); docsBorrar.add(p2);
+        Pair<String, String> p3 = new Pair<String, String>("Pep", "Atardecer"); docsBorrar.add(p3);
+        Pair<String, String> p4 = new Pair<String, String>("Joan", "Dawn"); docsBorrar.add(p4);
+        Pair<String, String> p5 = new Pair<String, String>("Joan", "Vida"); docsBorrar.add(p5);
         cD.esborrarDocuments(docsBorrar);
         System.out.println("Autors: " + cD.getAutors());
         System.out.println("Titols: " + cD.getTitols());
-        List<Pair> claus2 = new ArrayList<Pair>();
+        List<Pair<String, String>> claus2 = new ArrayList<Pair<String, String>>();
         claus2 = cD.getClaus();
         System.out.println("Claus:");
-        for(Pair c2 : claus2) {
+        for(Pair<String, String> c2 : claus2) {
             System.out.println("[Autors: " + c2.x + " Titol: " + c2.y + "] ");
         }
+
 
     }
 }

@@ -1,6 +1,7 @@
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Set;
+import java.util.TreeSet;
 import java.lang.Exception;
 import java.lang.String;
 
@@ -69,6 +70,14 @@ public class CtrlFacade {
     public void esborrarDocuments(List<Pair<String, String>> docs) {
         cd.esborrarDocuments(docs);
         ci.EsborrarDocs(docs);
+        Set<String> a = new TreeSet<String>();
+        for (Pair<String, String> p : docs) {
+            if (!cd.existsAutor(p.x)) {
+                a.add(p.x);
+            }
+        }
+        List<String> autors = SetAList(a);
+        ci.EsborrarAutors(autors);
     }
 
     // Modificadores de document
@@ -106,7 +115,8 @@ public class CtrlFacade {
         return ci.GetAutorsPrefix(prefix);
     }
 
-    public List<Pair<String, String>> llistarKDocumentsS(String autor, String titol, int K) {
+    public List<Pair<String, String>> llistarKDocumentsS(String autor, String titol, int K) throws Exception {
+        if (K < 1) throw new Exception();
         return ci.GetKDocsSimilarS(autor, titol, K);
     }
 

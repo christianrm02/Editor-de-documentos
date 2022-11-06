@@ -31,8 +31,8 @@ public class ProbantClasses {
         */
 
         cD.modificarTitol("Pep", "Noche", "War");
-        cD.modificarAutor("Alex", "Camino", "Pep");
-        cD.modificarAutor("Pep", "Dia", "Sara");
+        System.out.println(cD.modificarAutor("Alex", "Camino", "Pep")); //true
+        System.out.println(cD.modificarAutor("Pep", "Dia", "Sara")); //false
         cD.modificarTitol("Sara", "Dia", "Dawn");
         cD.modificarAutor("Sara", "Dawn", "Joan");
         cD.modificarTitol("Pep", "War", "Camino");
@@ -97,13 +97,11 @@ public class ProbantClasses {
 
         //esborrarDocuments
         System.out.println("BORRANDO TODO");
-        List<Pair<String, String>> docsBorrar = new ArrayList<Pair<String, String>>();
-        Pair<String, String> p1 = new Pair<String, String>("Pep", "War"); docsBorrar.add(p1);
-        Pair<String, String> p2 = new Pair<String, String>("Pep", "Camino"); docsBorrar.add(p2);
-        Pair<String, String> p3 = new Pair<String, String>("Pep", "Atardecer"); docsBorrar.add(p3);
-        Pair<String, String> p4 = new Pair<String, String>("Joan", "Dawn"); docsBorrar.add(p4);
-        Pair<String, String> p5 = new Pair<String, String>("Joan", "Vida"); docsBorrar.add(p5);
-        cD.esborrarDocuments(docsBorrar);
+        cD.esborrarDocuments("Pep", "War");
+        System.out.println(cD.esborrarDocuments("Pep", "Camino")); //devuelve false
+        System.out.println(cD.esborrarDocuments("Pep", "Atardecer")); //devuelve true
+        cD.esborrarDocuments("Joan", "Dawn");
+        cD.esborrarDocuments("Joan", "Vida");
         System.out.println("Autors: " + cD.getAutors());
         System.out.println("Titols: " + cD.getTitols());
         List<Pair<String, String>> claus2 = new ArrayList<Pair<String, String>>();

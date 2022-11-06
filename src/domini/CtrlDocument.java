@@ -105,33 +105,36 @@ public class CtrlDocument {
         docAct = documents.get(autor).get(titol);
     }
 
-    public void esborrarDocuments(List<Pair<String, String>> docs) { //EXCEPCIÓ NO EXISTEIX EL DOCUMENT (autor, titol)
-        for(Pair<String, String> doc : docs) {
-            if (documents.get(doc.x).size() == 1) { //si l'autor només té un titol, s'esborra l'autor
-                documents.remove(doc.x);
-            }
-            else {
-                TreeMap<String, Document> titols = new TreeMap<String, Document>();
-                titols = documents.get(doc.x); //estas 3 lineas podrian ser documents.get(doc.getAutor()).erase(doc.getTitol()) ???
-                titols.remove(doc.y);
-                documents.put(doc.x, titols);
-            }
+    public boolean esborrarDocuments(String autor, String titol) { //EXCEPCIÓ NO EXISTEIX EL DOCUMENT (autor, titol)
+        boolean seliminaAutor = false;
+        if (documents.get(autor).size() == 1) { //si l'autor només té un titol, s'esborra l'autor
+            documents.remove(autor);
+            seliminaAutor = true;
         }
+        else {
+            TreeMap<String, Document> titols = new TreeMap<String, Document>();
+            titols = documents.get(autor); //estas 3 lineas podrian ser documents.get(doc.getAutor()).erase(doc.getTitol()) ???
+            titols.remove(titol);
+            documents.put(autor, titols);
+        }
+        return seliminaAutor;
     }
 
-    public void modificarAutor(String autor, String titol, String newA) { //EXCEPCIÓ YA EXISTEIX EL DOCUMENT (newA, titol)
-        try {
+    public boolean modificarAutor(String autor, String titol, String newA) { //EXCEPCIÓ YA EXISTEIX EL DOCUMENT (newA, titol)
+        /*try {
             if(existsDocument(newA, titol)) throw new Exception();
         }
         catch (Exception e){
             System.out.println("Ja existeix un document identificat amb (newA, titol)");
-        }
+        }*/
         TreeMap<String, Document> titols = new TreeMap<String, Document>();
         titols = documents.get(autor);
         Document d = titols.get(titol);
         d.setAutor(newA);
+        boolean seliminaAutor = false;
         if (titols.size() == 1) { //si l'autor només té un document, s'esborra l'autor
             documents.remove(autor);
+            seliminaAutor = true;
         }
         else { //si en té més, s'esborra aquell titol
             titols.remove(titol);
@@ -147,15 +150,10 @@ public class CtrlDocument {
             titols.put(titol, d);
             documents.put(newA, titols);
         }
+        return seliminaAutor;
     }
 
     public void modificarTitol(String autor, String titol, String newT) { //EXCEPCIÓ YA EXISTEIX EL DOCUMENT (autor, newT)
-        try {
-            if(existsDocument(autor, newT)) throw new Exception();
-        }
-        catch (Exception e){
-            System.out.println("Ja existeix un document identificat amb (autor, newT)");
-        }
         TreeMap<String, Document> titols = new TreeMap<String, Document>();
         titols = documents.get(autor);
         Document d = titols.get(titol);
@@ -178,7 +176,6 @@ public class CtrlDocument {
         documents.put(autor, titols);
     }*/
 
-    ////////////////////nuevas
 
 
 

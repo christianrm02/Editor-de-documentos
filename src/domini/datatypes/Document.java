@@ -2,6 +2,8 @@ package datatypes;
 import datatypes.Format;
 import datatypes.Contingut;
 
+import java.util.*;
+
 public class Document {
     private Format format;
     private String titol;
@@ -25,8 +27,8 @@ public class Document {
         return autor;
     }
 
-    public Contingut getContingut() {
-        return contingut;
+    public List<String> getContingut() {
+        return contingut.getFrases();
     }
 
     /*SETTERS*/
@@ -38,7 +40,8 @@ public class Document {
         autor = newAutor;
     }
 
-    public void setContingut(Contingut newContingut) {
-        contingut = newContingut;
+    public void setContingut(String newContingut) {
+        Contingut c = new Contingut(newContingut);
+        contingut = c;
     }
 }

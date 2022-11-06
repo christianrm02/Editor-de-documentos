@@ -1,4 +1,4 @@
-import java.util.List;
+//import java.util.List;
 //import java.util.HashSet; //para los sets?
 //import java.util.HashMap;
 import java.util.*;
@@ -20,15 +20,7 @@ public class CtrlDocument {
 
     /*GETTERS*/
     public Document getDocument(String autor, String titol) { //EXCEPCIÓ NO EXISTEIX EL DOCUMENT (autor, titol), tiene q comprobar la facade q exista, porq sinó existe devuelve null
-        Document d = new Document();
-        d = documents.get(autor).get(titol);
-        /*try {
-            d = documents.get(autor).get(titol);
-        }
-        catch (Exception e){
-            System.out.println("No existeix el document");
-        }*/
-        return d;
+        return documents.get(autor).get(titol);
     }
 
     public boolean existsDocument(String autor, String titol) {
@@ -86,6 +78,10 @@ public class CtrlDocument {
         return claus;
     }
 
+    public List<String> getContingut() { //EXCEPCIÓ NO EXISTEIX EL DOCUMENT (autor, titol)
+        return docAct.getContingut();
+    }
+
     /*public List<String> getContingut(String autor, String titol) { //EXCEPCIÓ NO EXISTEIX EL DOCUMENT (autor, titol)
         return documents.get(autor).get(titol).getContingut();
     }*/
@@ -103,6 +99,10 @@ public class CtrlDocument {
         }
         titols.put(titol, d);
         documents.put(autor, titols);
+    }
+
+    public void obreDocument(String autor, String titol) {
+        docAct = documents.get(autor).get(titol);
     }
 
     public void esborrarDocuments(List<Pair<String, String>> docs) { //EXCEPCIÓ NO EXISTEIX EL DOCUMENT (autor, titol)
@@ -165,6 +165,10 @@ public class CtrlDocument {
         documents.put(autor, titols);
     }
 
+    public void modificarContingut(String newC) {
+        docAct.setContingut(newC);
+    }
+
     /*public void modificarContingut(String autor, String titol, String newC) {
         TreeMap<String, Document> titols = new TreeMap<String, Document>();
         titols = documents.get(autor);
@@ -175,15 +179,9 @@ public class CtrlDocument {
     }*/
 
     ////////////////////nuevas
-    public void obreDocument(String autor, String titol) {
-        docAct = documents.get(autor).get(titol);
-    }
 
-    public void modificarContingut(String newC) {
-        docAct.setContingut(newC);
-    }
 
-    public List<String> getContingut() { //EXCEPCIÓ NO EXISTEIX EL DOCUMENT (autor, titol)
-        return docAct.getContingut();
-    }
+
+
+
 }

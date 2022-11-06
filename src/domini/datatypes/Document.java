@@ -5,10 +5,10 @@ import datatypes.Contingut;
 import java.util.*;
 
 public class Document {
-    private Format format;
-    private String titol;
     private String autor;
+    private String titol;
     private Contingut contingut;
+    private Format format;
 
     /*CONTRUCTORA*/
     public Document() {}
@@ -19,12 +19,12 @@ public class Document {
     }
 
     /*GETTERS*/
-    public String getTitol() {
-        return titol;
-    }
-
     public String getAutor() {
         return autor;
+    }
+
+    public String getTitol() {
+        return titol;
     }
 
     public List<String> getContingut() {
@@ -32,12 +32,12 @@ public class Document {
     }
 
     /*SETTERS*/
-    public void setTitol(String newTitol) {
-        titol = newTitol;
-    }
-
     public void setAutor(String newAutor) {
         autor = newAutor;
+    }
+
+    public void setTitol(String newTitol) {
+        titol = newTitol;
     }
 
     public void setContingut(String newContingut) {

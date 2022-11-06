@@ -17,12 +17,14 @@ public class CtrlExpressioBooleana {
             return expressions.containsKey(nom);
     }
 
+    //Per fer or
     public List<Integer> union(List<Integer> llista1, HashSet<Integer> llista2) {
         Set<Integer> set = new HashSet<Integer>();
         set.addAll(llista1);
         set.addAll(llista2);
         return new ArrayList<Integer>(set);
     }
+    //Per fer and
     public List<Integer> intersection(List<Integer> llista1, HashSet<Integer> llista2) {
         List<Integer> llista = new ArrayList<Integer>();
         llista.addAll(llista1);

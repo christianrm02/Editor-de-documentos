@@ -17,6 +17,19 @@ public class CtrlExpressioBooleana {
             return expressions.containsKey(nom);
     }
 
+    public List<Integer> union(List<Integer> llista1, HashSet<Integer> llista2) {
+        Set<Integer> set = new HashSet<Integer>();
+        set.addAll(llista1);
+        set.addAll(llista2);
+        return new ArrayList<Integer>(set);
+    }
+    public List<Integer> intersection(List<Integer> llista1, HashSet<Integer> llista2) {
+        List<Integer> llista = new ArrayList<Integer>();
+        llista.addAll(llista1);
+        llista.retainAll(llista2);
+        return llista;
+    }
+
     public List<Pair> cercarExpressioBooleana(String exp) {
         ExpressioBooleana expB = new ExpressioBooleana(exp);
         List<Integer> frases = new ArrayList<Integer>();

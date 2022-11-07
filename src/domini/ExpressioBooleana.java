@@ -42,6 +42,7 @@ public class ExpressioBooleana {
         boolean clau_oberta = false;
         boolean espai_disponible = false;
         boolean cometes_obertes = false;
+        boolean negacio = false;
         int parent_obert = 0;
         String s1 = "";
         for (int i = 0; i < exp.length(); i++) {
@@ -60,23 +61,49 @@ public class ExpressioBooleana {
                 s1+=exp.charAt(i);
             }
             if (clau_oberta) {
-                if (exp.charAt(i) != ' ' && exp.charAt(i) != '}') {
-                    espai_disponible = true;
-                    s1+=exp.charAt(i);
-                }
-                else if (exp.charAt(i) == '}') {
-                    llista.add(s1);
-                    clau_oberta = false;
-                }
-                else {
+                if (exp.charAt(i) == ' ') {
                     espai_disponible = false;
-                    llista.add(s1);
+                    llista.add(s1); //no es mira de moment si es un sol operador (!,&,|);
                     llista.add("&");
                     s1 = "";
                 }
+                else if (exp.charAt(i) == '}') {
+                    if (!espai_disponible) throw new Exception();
+                    llista.add(s1); //no es mira de moment si es un sol operador (!,&,|);
+                    s1 = "";
+                    clau_oberta = false;
+                }
+                else {
+                    espai_disponible = true;
+                    s1 += exp.charAt(i);
+                }
             }
-            else if (exp.charAt(i) == '{') clau_oberta = true;
+            else if (espai_disponible) {
+                if (exp.charAt(i) == '&' || exp.charAt(i) == '|') {
+                    llista.add(String.valueOf(exp.charAt(i)));
+                }
+                else if (exp.charAt(i) == '!') {
+                    llista.add(String.valueOf(exp.charAt(i)));
+                    negacio = true;
+                    espai_disponible = false;
+                }
+                else s1 += exp.charAt(i);
+            }
+            else if (exp.charAt(i) == ' ') {
+                llista.add(s1); //no es mira de moment si es un sol operador (!,&,|);
+                s1 = "";
+                espai_disponible = false;
+            }
+            else if (negacio) {
+                s1 += exp.charAt(i);
+            }
+/*
+            else if (exp.charAt(i) == '{') {
+                if (!espai_disponible)
+                clau_oberta = true;
+            }*/
         }
+        if (parent_obert != 0 || clau_oberta || cometes_obertes) throw new Exception();
     }
 
     //Getters

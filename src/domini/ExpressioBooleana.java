@@ -1,4 +1,6 @@
 import datatypes.Tree;
+
+import java.text.Normalizer;
 import java.util.*;
 
 public class ExpressioBooleana {
@@ -24,6 +26,11 @@ public class ExpressioBooleana {
     private void crearArbre() {
 
     }
+
+    private String UTF8toASCII(String frase) {
+        String res = Normalizer.normalize(frase, Normalizer.Form.NFKD).replaceAll("\\p{M}", "");
+        return res.replaceAll("·", "");
+    }
 /*
     private boolean operador(char c) {
         if (c <= 32 || c >= 35 && )
@@ -31,29 +38,44 @@ public class ExpressioBooleana {
 
     private void crearLlista(String s) throws Exception {
         List<String> paraules = new ArrayList<String>();
+        String exp = UTF8toASCII(s);
         boolean clau_oberta = false;
-        boolean espai = true;
+        boolean espai_disponible = false;
+        boolean cometes_obertes = false;
         int parent_obert = 0;
         String s1 = "";
-        for (int i = 0; i < s.length(); i++) {
-            if (espai && s.charAt(i) == ' ') throw new Exception();
-            if (clau_oberta) {
-                if (s.charAt(i) != ' ' && s.charAt(i) != '}') {
-                    espai = false;
-                    s1+=s.charAt(i);
+        for (int i = 0; i < exp.length(); i++) {
+            if (!espai_disponible && exp.charAt(i) == ' ') throw new Exception();
+            if (exp.charAt(i) == '"') { //espai disponible = false
+                if (cometes_obertes) {
+                    cometes_obertes = false;
+                    if (s1.isEmpty()) throw new Exception(); //no es mira de moment si es un sol operador (!,&,|);
+                    llista.add(s1);
+                    s1 = "";
                 }
-                else if (s.charAt(i) == '}') {
+                else cometes_obertes = true;
+            }
+            else if (cometes_obertes) {
+                espai_disponible = true;
+                s1+=exp.charAt(i);
+            }
+            if (clau_oberta) {
+                if (exp.charAt(i) != ' ' && exp.charAt(i) != '}') {
+                    espai_disponible = true;
+                    s1+=exp.charAt(i);
+                }
+                else if (exp.charAt(i) == '}') {
                     llista.add(s1);
                     clau_oberta = false;
                 }
                 else {
-                    espai = true;
+                    espai_disponible = false;
                     llista.add(s1);
                     llista.add("&");
                     s1 = "";
                 }
             }
-            else if (s.charAt(i) == '{') clau_oberta = true;
+            else if (exp.charAt(i) == '{') clau_oberta = true;
         }
     }
 

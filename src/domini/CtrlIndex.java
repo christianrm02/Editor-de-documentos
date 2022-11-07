@@ -24,9 +24,14 @@ class CtrlIndex {
     }
 
     public void EsborrarDoc(String autor, String titol) {
-        //if(autor.count == 0) indexAutorPrefix.DeleteAutor(autor);
         indexExpBooleana.EsborrarDoc(autor, titol);
         indexParaulaTFIDF.EsborrarDoc(autor, titol);
+    }
+
+    public void EsborrarAutors(List<String> autors) {
+        for (String autor : autors) {
+            indexAutorPrefix.DeleteAutor(autor);
+        }
     }
 
     public void ActualitzarTitol(String autor, String titol, String newTitol) {
@@ -35,7 +40,6 @@ class CtrlIndex {
     }
 
     public void ActualitzarAutor(String autor, String titol, String newAutor) {
-        //Comprovar si el newAutor ja exsitia i si l'antic s'ha quedat sense copies
         indexExpBooleana.ActualitzarAutor(autor, titol, newAutor);
         indexParaulaTFIDF.ActualitzarAutor(autor, titol, newAutor);
     }

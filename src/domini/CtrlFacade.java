@@ -91,8 +91,10 @@ public class CtrlFacade {
     public void modificarAutor(String autor, String titol, String newA) throws Exception {
         boolean ed = cd.existsDocument(newA, titol);
         if (!ed) {
-            cd.modificarAutor(autor, titol, newA);
+            boolean asegueix = cd.modificarAutor(autor, titol, newA);
             ci.ActualitzarAutor(autor, titol, newA);
+            List<String> a = new ArrayList<String>(); a.add(autor);
+            if (!asegueix) ci.EsborrarAutors(a);
         }
         else throw new Exception();
     }
@@ -101,7 +103,7 @@ public class CtrlFacade {
         List<String> oldC = cd.getContingut();
         cd.modificarContingut(cont);
         List<String> c = cd.getContingut();
-        ci.ActualitzarContingut(autor, titol, oldC, c);
+        ci.ActualitzarContingut(autor, titol, c);
     }
 
     // Cerques a indexos
@@ -134,9 +136,13 @@ public class CtrlFacade {
 
     // Creadora d'expressio booleana
     public void setExpressioBooleana(String nom, String exp) throws Exception {
-        boolean ee = cd.existsExpressioBooleana(nom);
+        boolean ee = ce.existsExpressioBooleana(nom);
         if (!ee) ce.setExpressioBooleana(nom, exp); // PRE: no existeix ExpressioBooleana
         else throw new Exception();
+    }
+
+    public void modExpressioBooleana(String nom, String nExp) {
+        ce.setExpressioBooleana(nom, nExp);
     }
 
     // Destructora d'expressio booleana

@@ -14,7 +14,7 @@ public class Contingut {
         for (int i = 0; i < fr.length(); ++i) {
             s = new String();
             while (i < fr.length() && fr.charAt(i) != '.' && fr.charAt(i) != '!' &&
-                    fr.charAt(i) != '?' && (i == 0 || fr.charAt(i) != 'n' || fr.charAt(i-1) != '/')) {
+                    fr.charAt(i) != '?' && (i == 0 || fr.charAt(i) != '\n')) {
                 s += fr.charAt(i);
                 ++i;
             }

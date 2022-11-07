@@ -70,12 +70,10 @@ public class CtrlFacade {
     public void esborrarDocuments(List<Pair<String, String>> docs) {
         Set<String> a = new TreeSet<String>();
         for (Pair<String, String> p : docs) {
-            boolean asegueix = cd.esborrarDocument(p.x, p.y);
+            if (cd.esborrarDocument(p.x, p.y)) a.add(p.x);
             ci.EsborrarDoc(p.x, p.y);
-            if (!asegueix) a.add(p.x);
         }
-        List<String> autors = SetAList(a);
-        ci.EsborrarAutors(autors);
+        ci.EsborrarAutors(SetAList(a));
     }
 
     // Modificadores de document
@@ -100,7 +98,6 @@ public class CtrlFacade {
     }
 
     public void modificarContingut(String autor, String titol, String cont) {
-        List<String> oldC = cd.getContingut();
         cd.modificarContingut(cont);
         List<String> c = cd.getContingut();
         ci.ActualitzarContingut(autor, titol, c);
@@ -108,7 +105,8 @@ public class CtrlFacade {
 
     // Cerques a indexos
     public List<String> llistarTitolsdAutors(String autor) {
-        return cd.getTitolsAutor(autor);
+        Set<String> a = cd.getTitolsAutor(autor);
+        return SetAList(a);
     }
 
     public List<String> llistarAutorsPrefix(String prefix) {
@@ -131,7 +129,7 @@ public class CtrlFacade {
 
     // Getter d'expressio booleana
     public String getExpressioBooleana(String nom) {
-        return ce.getExpressioBooleana(nom); // aqui dependra de l'implementacio del ctrl
+        return ce.getExpressioBooleana(nom);
     }
 
     // Creadora d'expressio booleana

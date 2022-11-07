@@ -113,6 +113,8 @@ public class ExpressioBooleana {
 
     public Tree getExpA() { return expA; }
 
+    public List<String> getLlista() { return llista; }
+
 
     //Setters
     public void setNom(String nom) { this.nom = nom; }

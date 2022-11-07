@@ -14,12 +14,11 @@ public class IndexExpBooleana {
     
     private HashMap<String, List<Boolean>> indexParaulaFrase;   //Per cada paraula indica a quines frases apareix
     private List<Pair<String, String>> indexFraseDocument;      //Per cada frase(index) indica a quin document pertany 
-    private int N;                                              //Nombre de frases  
+    private List<String> indexFrases;                           //Ens guardem les frases en ordre per comprovar si existeixen sequencies
 
     public IndexExpBooleana() {
         indexParaulaFrase = new HashMap<String, List<Boolean>>();
         indexFraseDocument = new ArrayList<Pair<String, String>>();
-        N = 0;
     }
 
     public void AfegirDoc(String autor, String titol, List<String> contingut) {
@@ -27,6 +26,7 @@ public class IndexExpBooleana {
 
         for (String frase : contingut) {
             indexFraseDocument.add(autorTitol);
+            indexFrases.add(frase);
             addPosition();
             String[] paraules = parseFrase(frase);
 
@@ -35,13 +35,13 @@ public class IndexExpBooleana {
                 if(!indexParaulaFrase.containsKey(paraula)) {
                     List<Boolean> infoParaula = new ArrayList<Boolean>();
                     fillList(infoParaula);                  //Omplim la llista amb false
-                    infoParaula.set(N-1, true);    //Lultim element sera true perque es la paraula que acabem de insertar
+                    infoParaula.set(indexFrases.size()-1, true);    //Lultim element sera true perque es la paraula que acabem de insertar
                     indexParaulaFrase.put(paraula, infoParaula);
                 }
                 //Si la paraula ja existeix al index simplement posem a true la casella corresponent 
                 else {
                     List<Boolean> aux = indexParaulaFrase.get(paraula);
-                    aux.set(N-1, true);
+                    aux.set(indexFrases.size()-1, true);
                     indexParaulaFrase.put(paraula, aux);
                 }
             }
@@ -65,13 +65,13 @@ public class IndexExpBooleana {
         //Eliminem les frases
         for (int fraseIndex : frasesAEliminar) {
             indexFraseDocument.remove(fraseIndex);
+            indexFrases.remove(fraseIndex);
 
             //Del indexParaulaFrase eliminem les posicions de les frases eliminades
             for (List<Boolean> infoParaula : indexParaulaFrase.values()) {
                 infoParaula.remove(fraseIndex);
             }
         }
-        N -= frasesAEliminar.size();
 
         //Si alguna paraula no apareix a cap frase l'eliminem de l'index
         cleanIndex();
@@ -122,6 +122,21 @@ public class IndexExpBooleana {
         return frases;
     }
 
+    public int GetNumFrases(){
+        return indexFrases.size();
+    }
+
+    //Comprova si existeix una sequencia de paraules seguides a una frase
+    public List<Integer> GetSequencia(String sequencia, List<Integer> candidats){
+        List<Integer> res = new ArrayList<Integer>();
+
+        for (Integer i : candidats) {
+            if(indexFrases.get(i).contains(sequencia)) res.add(i);
+        }
+
+        return res;
+    }
+
     //Retorna els documents que contenen les frases indexs
     public List<Pair<String, String>> GetDocuments(List<Integer> indexs) {
         List<Pair<String, String>> docs = new ArrayList<Pair<String, String>>();
@@ -148,7 +163,6 @@ public class IndexExpBooleana {
         for (List<Boolean> infoParaula : indexParaulaFrase.values()) {
             infoParaula.add(false);
         }
-        N++;
     }
 
     //Netegem el index treient les paraules que no apareixen

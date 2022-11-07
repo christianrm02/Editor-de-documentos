@@ -71,6 +71,8 @@ public class IndexExpBooleana {
                 infoParaula.remove(fraseIndex);
             }
         }
+        N -= frasesAEliminar.size();
+
         //Si alguna paraula no apareix a cap frase l'eliminem de l'index
         cleanIndex();
     }

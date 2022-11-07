@@ -73,9 +73,9 @@ public class Tree {
     private void InOrder(TreeNode node, List<String> seq) {
         if (node == null) return;
         else {
-            InOrder(node.leftNode);
+            InOrder(node.leftNode,seq);
             seq.add(node.data);
-            InOrder(node.rightNode);
+            InOrder(node.rightNode,seq);
         }
     }
 

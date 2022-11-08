@@ -9,6 +9,18 @@ public class Tree {
         this.root = null;
     }
 
+    public TreeNode getRoot() {
+        return this.root;
+    }
+
+    public TreeNode getLeftNode() {
+        return root.leftNode;
+    }
+
+    public TreeNode getRightNode() {
+        return root.rightNode;
+    }
+
     public void insert(String data) {
         if (root == null) root = new TreeNode(data);
         else {
@@ -67,7 +79,6 @@ public class Tree {
 
     public List<String> getTreeInOrder() {
         List<String> seq = new ArrayList<String>();
-
     }
 
     private void InOrder(TreeNode node, List<String> seq) {
@@ -81,7 +92,7 @@ public class Tree {
 
 }
 
-class TreeNode {
+public class TreeNode {
     public String data;
     public TreeNode leftNode;
     public TreeNode rightNode;

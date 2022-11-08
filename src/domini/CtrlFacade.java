@@ -32,7 +32,7 @@ public class CtrlFacade {
 
     }
 
-    public void exportarFitxer(String autor, String titol, String loc, int format) {
+    public void exportarFitxer(String autor, String titol, String loc, Integer format) {
 
     }
 
@@ -113,7 +113,7 @@ public class CtrlFacade {
         return ci.GetAutorsPrefix(prefix);
     }
 
-    public List<Pair<String, String>> llistarKDocumentsS(String autor, String titol, int K) throws Exception {
+    public List<Pair<String, String>> llistarKDocumentsS(String autor, String titol, Integer K) throws Exception {
         if (K < 1) throw new Exception();
         return ci.GetKDocsSimilarS(autor, titol, K);
     }
@@ -123,7 +123,7 @@ public class CtrlFacade {
     }
 
     // OPCIONAL
-    public List<Pair<String, String>> cercarPerRellevancia(List<String> paraules, int K) {
+    public List<Pair<String, String>> cercarPerRellevancia(List<String> paraules, Integer K) {
         return null;
     }
 

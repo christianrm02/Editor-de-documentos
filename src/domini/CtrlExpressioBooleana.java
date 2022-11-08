@@ -46,9 +46,22 @@ public class CtrlExpressioBooleana {
     private Set<Integer> cercaExpBol(TreeNode node) {
         //List<Integer> frases = new ArrayList<Integer>();
         if (!isOperator(node.data)) {
+            String[] words = node.data.split("\\W+"); //per la sequencia
             Set<Integer> frases = new HashSet<>();
-            frases.addAll(ci.GetFrases(node.data));
-            return frases;
+            frases.addAll(ci.GetFrases(words[0]));
+            if (words.length == 1) return frases;
+            else { //es una sequencia
+                int i = 1;
+                while (i < words.length) {
+                    Set<Integer> frases2 = new HashSet<>();
+                    frases2.addAll((ci.GetFrases(words[i]));
+                    frases.retainAll(frases2);
+                    ++i;
+                }
+                Set<Integer> frases3 = new HashSet<>();
+                frases3.retainAll(ci.GetFrasesOnApareixSeq(frases,node.data));
+                return frases3;
+            }
         }
         else {
             if (node.data.equals("&")) return intersection(cercaExpBol(node.leftNode), cercaExpBol(node.rightNode));

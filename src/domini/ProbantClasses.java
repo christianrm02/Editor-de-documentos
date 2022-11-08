@@ -80,7 +80,10 @@ public class ProbantClasses {
 
         //nuevas
         cD.obreDocument("Joan", "Vida");
-        cD.modificarContingut("La vida es buena. A veces.");
+        cD.modificarContingut("""
+                La vida es buena
+                Solo que a veces, es.
+                Una cabrona!""");
         List<String> oldc = cD.getContingut();
         System.out.println(oldc);
         cD.modificarContingut("VIVA ONE PIECE. Pero no a ratos! Siempre");
@@ -97,11 +100,11 @@ public class ProbantClasses {
 
         //esborrarDocuments
         System.out.println("BORRANDO TODO");
-        cD.esborrarDocuments("Pep", "War");
-        System.out.println(cD.esborrarDocuments("Pep", "Camino")); //devuelve false
-        System.out.println(cD.esborrarDocuments("Pep", "Atardecer")); //devuelve true
-        cD.esborrarDocuments("Joan", "Dawn");
-        cD.esborrarDocuments("Joan", "Vida");
+        cD.esborrarDocument("Pep", "War");
+        System.out.println(cD.esborrarDocument("Pep", "Camino")); //devuelve false
+        System.out.println(cD.esborrarDocument("Pep", "Atardecer")); //devuelve true
+        cD.esborrarDocument("Joan", "Dawn");
+        cD.esborrarDocument("Joan", "Vida");
         System.out.println("Autors: " + cD.getAutors());
         System.out.println("Titols: " + cD.getTitols());
         List<Pair<String, String>> claus2 = new ArrayList<Pair<String, String>>();
@@ -111,6 +114,42 @@ public class ProbantClasses {
             System.out.println("[Autors: " + c2.x + " Titol: " + c2.y + "] ");
         }
 
+        //pairs
+        Set<Pair<String, String>> pairs = new TreeSet<Pair<String, String>>();
+        Pair<String, String> p1 = new Pair<String, String>("Joan", "A");
+        Pair<String, String> p2 = new Pair<String, String>("Joan", "alomejor");
+        Pair<String, String> p3 = new Pair<String, String>("Alvaro", "Zas");
+        Pair<String, String> p4 = new Pair<String, String>("Alvaro", "Al");
+        Pair<String, String> p5 = new Pair<String, String>("Zacarias", "Pinta");
+        Pair<String, String> p6 = new Pair<String, String>("Gernio", "S");
+        Pair<String, String> p7 = new Pair<String, String>("Gernia", "A");
+        Pair<String, String> p8 = new Pair<String, String>("Joan", "alomejor");
+        pairs.add(p1);
+        pairs.add(p2);
+        pairs.add(p3);
+        pairs.add(p4);
+        pairs.add(p5);
+        pairs.add(p6);
+        pairs.add(p7);
+        for(Pair<String, String> pair2 : pairs) {
+            System.out.println("[Autor: " + pair2.x + " Titol: " + pair2.y + "] ");
+        }
+        /*System.out.println(p1.equals(p2));
+        System.out.println(p2.equals(p8));
+        System.out.println(p1.equals(p1));*/
 
+        ///////////
+        HashMap<Pair<String, String>, Integer> test = new HashMap<>();
+        test.put(p1, 1);
+        test.put(p2, 2);
+        test.put(p3, 3);
+        test.put(p4, 4);
+        test.put(p5, 5);
+        test.put(p6, 6);
+        test.put(p7, 7);
+        test.put(p8, 8);
+        for(Pair<String, String> pt : test.keySet()) {
+            System.out.println("[Autor: " + pt.x + " Titol: " + pt.y + "] ");
+        }
     }
 }

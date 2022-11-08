@@ -16,6 +16,7 @@ public class Document {
         this.format = format;
         this.autor = autor;
         this.titol = titol;
+        this.contingut = new Contingut();
     }
 
     /*GETTERS*/
@@ -31,6 +32,10 @@ public class Document {
         return contingut.getFrases();
     }
 
+    public Format getFormat() {
+        return format;
+    }
+
     /*SETTERS*/
     public void setAutor(String newAutor) {
         autor = newAutor;
@@ -41,7 +46,6 @@ public class Document {
     }
 
     public void setContingut(String newContingut) {
-        Contingut c = new Contingut(newContingut);
-        contingut = c;
+        contingut.actualitzaContingut(newContingut);
     }
 }

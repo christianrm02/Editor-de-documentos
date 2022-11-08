@@ -10,9 +10,8 @@ public class Contingut {
     // Metode per convertir un string en una llista de frases
     private void converteix_a_frases(String fr) {
         frases = new ArrayList<String>();
-        String s;
         for (int i = 0; i < fr.length(); ++i) {
-            s = new String();
+            String s = null;
             while (i < fr.length() && fr.charAt(i) != '.' && fr.charAt(i) != '!' &&
                     fr.charAt(i) != '?' && fr.charAt(i) != '\n') {
                 s += fr.charAt(i);

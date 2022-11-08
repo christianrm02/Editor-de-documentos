@@ -58,7 +58,7 @@ public class CtrlFacade {
 
     // Creacio de document
     public void crearDocument(String autor, String titol/*, string format*/) throws Exception {
-        boolean ed = cd.existsDocument(autor, titol);
+        Boolean ed = cd.existsDocument(autor, titol);
         if (!ed) {
             cd.crearDocument(autor, titol/*, format*/); // PRE: no existeix Document
             ci.AfegirDoc(autor, titol, new ArrayList<String>());
@@ -78,7 +78,7 @@ public class CtrlFacade {
 
     // Modificadores de document
     public void modificarTitol(String autor, String titol, String newT) throws Exception {
-        boolean ed = cd.existsDocument(autor, newT);
+        Boolean ed = cd.existsDocument(autor, newT);
         if (!ed) {
             cd.modificarTitol(autor, titol, newT);
             ci.ActualitzarTitol(autor, titol, newT);
@@ -87,9 +87,9 @@ public class CtrlFacade {
     }
 
     public void modificarAutor(String autor, String titol, String newA) throws Exception {
-        boolean ed = cd.existsDocument(newA, titol);
+        Boolean ed = cd.existsDocument(newA, titol);
         if (!ed) {
-            boolean asegueix = cd.modificarAutor(autor, titol, newA);
+            Boolean asegueix = cd.modificarAutor(autor, titol, newA);
             ci.ActualitzarAutor(autor, titol, newA);
             List<String> a = new ArrayList<String>(); a.add(autor);
             if (!asegueix) ci.EsborrarAutors(a);
@@ -134,7 +134,7 @@ public class CtrlFacade {
 
     // Creadora d'expressio booleana
     public void setExpressioBooleana(String nom, String exp) throws Exception {
-        boolean ee = ce.existsExpressioBooleana(nom);
+        Boolean ee = ce.existsExpressioBooleana(nom);
         if (!ee) ce.setExpressioBooleana(nom, exp); // PRE: no existeix ExpressioBooleana
         else throw new Exception();
     }

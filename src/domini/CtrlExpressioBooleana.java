@@ -20,7 +20,7 @@ public class CtrlExpressioBooleana {
     public Boolean existsExpressioBooleana(String nom) {
             return expressions.containsKey(nom);
     }
-/*
+
     private Set<Integer> not(Set<Integer> set) {
         int n = ci.GetNumFrasesTotals();
         Set<Integer> complementary = new HashSet<>();
@@ -28,7 +28,7 @@ public class CtrlExpressioBooleana {
             if (!set.contains(i)) complementary.add(i);
         }
         return complementary;
-    }*/
+    }
 
     //Per fer or
     private Set<Integer> union(Set<Integer> set1, Set<Integer> set2) {
@@ -44,7 +44,7 @@ public class CtrlExpressioBooleana {
     private boolean isOperator(String s) {
         return s.length() == 1 && (s.equals("&") || s.equals("|") || s.equals("!"));
     }
-/*
+
     private Set<Integer> cercaExpBol(TreeNode node) {
         //List<Integer> frases = new ArrayList<Integer>();
         if (!isOperator(node.data)) {
@@ -74,12 +74,12 @@ public class CtrlExpressioBooleana {
 
     public List<Pair<String, String>> cercarExpressioBooleana(String exp) {
         ExpressioBooleana expB = new ExpressioBooleana(exp);
-        Tree expTree = expB.getExpA();
+        TreeNode expTree = expB.getExpA();
         List<Integer> frases = new ArrayList<>();
-        frases.addAll(cercaExpBol(expTree.getRoot()));
+        frases.addAll(cercaExpBol(expTree));
         //List<Pair> documents = new ArrayList<>();
         return ci.GetDocuments(frases);
-    }*/
+    }
 
     public List<Pair> getAll() {
         List<Pair> exps = new ArrayList<Pair>();

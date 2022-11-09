@@ -87,6 +87,55 @@ public class ExpressioBooleana {
         return res.replaceAll("·", "");
     }
 
+    private int preced(String s) {
+        if (s.equals("|")) {
+            return 1;              //Precedence of | 1
+        }
+        else if (s.equals("&")) {
+            return 2;            //Precedence of & is 2
+        }
+        else if (s.equals("!")) {
+            return 3;            //Precedence of ! is 3
+        }
+        else if (s.equals("(")) {
+            return 0;
+        }
+        return -1;
+    }
+
+    private boolean isOperator(String s) {
+        return s.length() == 1 && (s.equals("&") || s.equals("|") || s.equals("!"));
+    }
+
+    public List<String> inToPost(List<String> infix) {
+        Stack<String> stk = new Stack<>();
+        stk.push("#"); //add some extra character to avoid underflow
+
+        List<String> postfix = new ArrayList<>();
+
+        for (String s : infix) {
+            if (!isOperator(s)) {
+                postfix.add(s);
+            }
+            else if (s.equals("(")) {
+                stk.push(s);
+            }
+            else if (s.equals(")")) {
+                while (!stk.peek().equals("#") && !
+            }
+
+
+        }
+
+        while(!stk.peek().equals("#")) {
+            postfix += stk.top();        //store and pop until stack is not empty.
+            stk.pop();
+        }
+
+        return postfix;
+    }
+
+
     //Getters
     public String getNom() { return nom; }
 

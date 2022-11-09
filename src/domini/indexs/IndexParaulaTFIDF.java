@@ -4,7 +4,6 @@ import java.util.PriorityQueue;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -14,6 +13,7 @@ import java.util.Map;
 import java.util.Set;
 
 import datatypes.Pair;
+import datatypes.Utility;
 
 //Aquest index desa els documents en forma de vector de TF-IDFs
 //Insercions tenen cost linear amb el nombre de paraules
@@ -33,9 +33,9 @@ public class IndexParaulaTFIDF {
             String sp = Files.readString(spPath);
             String eng = Files.readString(engPath);
 
-            String caASCII = UTF8toASCII(ca);
-            String spASCII = UTF8toASCII(sp);
-            String engASCII = UTF8toASCII(eng);
+            String caASCII = Utility.UTF8toASCII(ca);
+            String spASCII = Utility.UTF8toASCII(sp);
+            String engASCII = Utility.UTF8toASCII(eng);
 
             String[] caStopWords = caASCII.split("\n");
             String[] spStopWords = spASCII.split("\n");
@@ -161,22 +161,11 @@ public class IndexParaulaTFIDF {
 
         return dot/(queryNorm*documentNorm);
     }
-    
-    static private String[] parseFrase(String frase) {
-        frase.replaceAll("[,;:.!?]", "");
-        String[] paraules = frase.split(" ");
-        return paraules;
-    }
-
-    static private String UTF8toASCII(String frase) {
-        String res = Normalizer.normalize(frase, Normalizer.Form.NFKD).replaceAll("\\p{M}", "");
-        return res.replaceAll("·", "");
-    }
 
     static private List<String> getAllWords(List<String> frases){
         List<String> paraules = new ArrayList<String>();
         for (String frase : frases) {
-            paraules.addAll(Arrays.asList(parseFrase(frase)));
+            paraules.addAll(Arrays.asList(Utility.parseFrase(frase)));
         }
         return paraules;
     }

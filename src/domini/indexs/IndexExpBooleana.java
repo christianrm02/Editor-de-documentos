@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import datatypes.Pair;
+import datatypes.Utility;
 
 
 //Aquest index desa per cada paraula les frases a la que apareix i per cada frase el document on apareix
@@ -26,11 +27,11 @@ public class IndexExpBooleana {
         Pair<String, String> autorTitol = new Pair<String, String>(autor, titol);
 
         for (String frase : contingut) {
-            frase = UTF8toASCII(frase);
+            frase = Utility.UTF8toASCII(frase);
             indexFraseDocument.add(autorTitol);
             indexFrases.add(frase);
             addPosition();
-            String[] paraules = parseFrase(frase);
+            String[] paraules = Utility.parseFrase(frase);
 
             for (String paraula : paraules) {
                 //Si la paraula no era al index afegim una altra entrada
@@ -148,17 +149,6 @@ public class IndexExpBooleana {
         }
 
         return docs;
-    }
-
-    static private String[] parseFrase(String frase) {
-        frase.replaceAll("[,;:.!?]", "");
-        String[] paraules = frase.split(" ");
-        return paraules;
-    }
-
-    static private String UTF8toASCII(String frase) {
-        String res = Normalizer.normalize(frase, Normalizer.Form.NFKD).replaceAll("\\p{M}", "");
-        return res.replaceAll("·", "");
     }
 
     //Omplira les N primeres posicions de la llista amb false

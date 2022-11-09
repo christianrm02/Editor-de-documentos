@@ -1,6 +1,10 @@
 package indexs;
 
 import java.util.PriorityQueue;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -20,6 +24,30 @@ public class IndexParaulaTFIDF {
 
     static {
         //Add stop words
+        Path caPath = Path.of("./empty-ca-utf8.txt");
+        Path spPath = Path.of("./empty-sp-utf8.txt");
+        Path engPath = Path.of("./empty-eng-utf8.txt");
+
+        try {
+            String ca = Files.readString(caPath);
+            String sp = Files.readString(spPath);
+            String eng = Files.readString(engPath);
+
+            String caASCII = UTF8toASCII(ca);
+            String spASCII = UTF8toASCII(sp);
+            String engASCII = UTF8toASCII(eng);
+
+            String[] caStopWords = caASCII.split("\n");
+            String[] spStopWords = spASCII.split("\n");
+            String[] engStopWords = engASCII.split("\n");
+
+            for (String caStopWord : caStopWords) stopWords.add(caStopWord);
+            for (String spStopWord : spStopWords) stopWords.add(spStopWord);
+            for (String engStopWord : engStopWords) stopWords.add(engStopWord);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
     
     //Index TFIDFs per document. x es TF i y es TFIDF
@@ -135,8 +163,14 @@ public class IndexParaulaTFIDF {
     }
     
     static private String[] parseFrase(String frase) {
+        frase.replaceAll("[,;:.!?]", "");
         String[] paraules = frase.split(" ");
         return paraules;
+    }
+
+    static private String UTF8toASCII(String frase) {
+        String res = Normalizer.normalize(frase, Normalizer.Form.NFKD).replaceAll("\\p{M}", "");
+        return res.replaceAll("·", "");
     }
 
     static private List<String> getAllWords(List<String> frases){

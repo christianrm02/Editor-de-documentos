@@ -3,6 +3,7 @@ package datatypes;
 import org.junit.Test;
 import datatypes.Format;
 
+import src.domini.datatypes.Document;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -7,13 +7,13 @@ import java.lang.String;
 
 import datatypes.*;
 
-public class CtrlFacade {
+public class CtrlDomini {
     private CtrlDocument cd;
     private CtrlIndex ci;
     private CtrlExpressioBooleana ce;
 
     // Constructora
-    public CtrlFacade() {
+    public CtrlDomini() {
         cd = new CtrlDocument();
         ci = new CtrlIndex();
         ce = new CtrlExpressioBooleana();

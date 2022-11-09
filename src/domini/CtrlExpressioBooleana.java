@@ -79,29 +79,6 @@ public class CtrlExpressioBooleana {
         return ci.GetDocuments(frases);
     }
 
-/*
-    public List<Pair> cercarExpressioBooleana(String exp) {
-        ExpressioBooleana expB = new ExpressioBooleana(exp);
-        List<String> llistaExp;
-        llistaExp = expB.getLlista();
-        List<Integer> frases = new ArrayList<Integer>();
-        boolean and = false; boolean or = false; boolean negacio = false; //un map?
-        for (int i = 0; i < llistaExp.size(); i++) {
-            String s = llistaExp.get(i);
-            if (s.length() == 1 && (s == "&" || s == "|" || s == "!")) {
-                if (s == "&") and = true;
-                else if (s == "|") or = true;
-                else negacio = true;
-            }
-            String paraules[] = s.split(" ");
-            if (paraules.length > 1) {
-                //sequencia de paraules
-            }
-            else frases = ci.GetFrases(s);
-        }
-
-    }*/
-
     public List<Pair> getAll() {
         List<Pair> exps = new ArrayList<Pair>();
         for (String clau:expressions.keySet()) {
@@ -124,8 +101,35 @@ public class CtrlExpressioBooleana {
         expressions.remove(nom);
     }
 
+    public static void main(String[] args) {
+
+    }
+
 }
 
+
+/*
+    public List<Pair> cercarExpressioBooleana(String exp) {
+        ExpressioBooleana expB = new ExpressioBooleana(exp);
+        List<String> llistaExp;
+        llistaExp = expB.getLlista();
+        List<Integer> frases = new ArrayList<Integer>();
+        boolean and = false; boolean or = false; boolean negacio = false; //un map?
+        for (int i = 0; i < llistaExp.size(); i++) {
+            String s = llistaExp.get(i);
+            if (s.length() == 1 && (s == "&" || s == "|" || s == "!")) {
+                if (s == "&") and = true;
+                else if (s == "|") or = true;
+                else negacio = true;
+            }
+            String paraules[] = s.split(" ");
+            if (paraules.length > 1) {
+                //sequencia de paraules
+            }
+            else frases = ci.GetFrases(s);
+        }
+
+    }*/
 
 /*    private List<Integer> intersection(List<Integer> llista1, List<Integer> llista2) {
         List<Integer> llista = new ArrayList<>();
@@ -151,10 +155,4 @@ public class CtrlExpressioBooleana {
         }
         return complementari;
     }
-
-
-
-
-
-
  */

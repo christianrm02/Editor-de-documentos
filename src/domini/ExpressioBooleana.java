@@ -9,7 +9,7 @@ public class ExpressioBooleana {
     private String exp;
     private Tree expA;
 
-    private ArrayList<String> llista;
+   // private ArrayList<String> llista;
 
     //Constructora
     public ExpressioBooleana (String nom, String exp) {
@@ -23,19 +23,66 @@ public class ExpressioBooleana {
         //crearArbre();
     }
 
-    private void crearArbre() {
-
+    private void crearLlistaiArbre() {
+        String s = UTF8toASCII(exp);
+        List<String> llista = new ArrayList<>();
+        int i = 0;
+        String s1 = "";
+        while (i < s.length()) {
+            if (s.charAt(i) == '{') {
+                llista.add("(");
+                ++i;
+                String s2 = "";
+                while (s.charAt(i) != '}') {
+                    if (s.charAt(i) == ' ') {
+                        llista.add(s2);
+                        llista.add("&");
+                        s2 = "";
+                    }
+                    else s2+=s.charAt(i);
+                    ++i;
+                }
+                llista.add(s2);
+                llista.add(")");
+                ++i;
+            }
+            else if (s.charAt(i) == '&') {
+                llista.add("&");
+                ++i;
+            }
+            else if (s.charAt(i) == '|') {
+                llista.add("|");
+                ++i;
+            }
+            else if (s.charAt(i) == '!') {
+                llista.add("!");
+                ++i;
+                String s2 = " ";
+                while (i < s.length() && s.charAt(i) != ' ') {
+                    s2 += s.charAt(i);
+                    ++i;
+                }
+                llista.add(s2);
+            }
+            else if (s.charAt(i) == '(') llista.add("(");
+            else if (s.charAt(i) == ')') {
+                llista.add(s1);
+                llista.add(")");
+                ++i;
+            }
+            else if (s.charAt(i) == ' ') {
+                llista.add(s1);
+                s1 = "";
+            }
+            else s1 += s.charAt(i);
+            ++i;
+        }
     }
 
     private String UTF8toASCII(String frase) {
         String res = Normalizer.normalize(frase, Normalizer.Form.NFKD).replaceAll("\\p{M}", "");
         return res.replaceAll("·", "");
     }
-/*
-    private boolean operador(char c) {
-        if (c <= 32 || c >= 35 && )
-    }*/
-
 
     //Getters
     public String getNom() { return nom; }
@@ -44,7 +91,7 @@ public class ExpressioBooleana {
 
     public Tree getExpA() { return expA; }
 
-    public List<String> getLlista() { return llista; }
+   // public List<String> getLlista() { return llista; }
 
 
     //Setters

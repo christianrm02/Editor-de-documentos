@@ -7,8 +7,8 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+//import static org.mockito.Mockito.mock;
+//import static org.mockito.Mockito.when;
 
 //@ExtendWith(MockitoExtension.class);
 public class DocumentTest {
@@ -53,8 +53,8 @@ public class DocumentTest {
 
     @Test
     public void getContingut() {
-        Contingut c = mock(Contingut.class);
-        when(c.getFrases()).thenReturn(Collections.singletonList("En un lugar de la Mancha, de cuyo nombre no quiero acordarme."));
+        //Contingut c = mock(Contingut.class);
+        //when(c.getFrases()).thenReturn(Collections.singletonList("En un lugar de la Mancha, de cuyo nombre no quiero acordarme."));
 
         Document doctest = new Document("Pep", "Dia", Format.txt);
         doctest.setContingut("En un lugar de la Mancha, de cuyo nombre no quiero acordarme.");
@@ -90,8 +90,8 @@ public class DocumentTest {
     //stub necesario
     @Test
     public void setContingut() {
-        Contingut c = mock(Contingut.class);
-        when(c.getFrases()).thenReturn(Collections.singletonList("En un lugar de la Mancha, de cuyo nombre no quiero acordarme."));
+        //Contingut c = mock(Contingut.class);
+        //when(c.getFrases()).thenReturn(Collections.singletonList("En un lugar de la Mancha, de cuyo nombre no quiero acordarme."));
 
         Document doctest = new Document();
         doctest.setContingut("En un lugar de la Mancha, de cuyo nombre no quiero acordarme.");

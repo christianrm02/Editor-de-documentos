@@ -9,8 +9,8 @@ import controladores.CtrlDocument;
 import java.util.*;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+//import static org.mockito.Mockito.mock;
+//import static org.mockito.Mockito.when;
 
 //main.domain.classes.Cela;
 public class CtrlDocumentTest {
@@ -98,8 +98,8 @@ public class CtrlDocumentTest {
     //mock
     @Test
     public void getContingut() {
-        Document d = mock(Document.class);
-        when(d.getContingut()).thenReturn(Collections.singletonList("Nou cont."));
+        //Document d = mock(Document.class);
+        //when(d.getContingut()).thenReturn(Collections.singletonList("Nou cont."));
 
         cd = new CtrlDocument();
         cd.crearDocument("Pep", "Noche");
@@ -187,8 +187,8 @@ public class CtrlDocumentTest {
     //mock
     @Test
     public void modificarContingut() {
-        Document d = mock(Document.class);
-        when(d.getContingut()).thenReturn(Collections.singletonList("Hola, este es el old contenido."));
+        //Document d = mock(Document.class);
+        //when(d.getContingut()).thenReturn(Collections.singletonList("Hola, este es el old contenido."));
 
         cd = new CtrlDocument();
         cd.crearDocument("Pep", "Noche");
@@ -204,5 +204,5 @@ public class CtrlDocumentTest {
         cdt.modificarAutor();
         cdt.modificarContingut();
 
-    }*7
+    }*/
 }

@@ -1,12 +1,11 @@
 package test.datatypes;
 
+import domini.datatypes.Contingut;
+
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.Assert.*;
-import static org.junit.Assert.assertEquals;
 
 public class ContingutTest {
 
@@ -32,7 +31,7 @@ public class ContingutTest {
     @Test
     public void getFrases() {
         Contingut conttest = new Contingut();
-        List<String> l = new ArrayList<Stri"Hola, em dic Marc. Com estàs?\n Jo bé! Bueno adéeeu"ng>();
+        List<String> l = new ArrayList<String>("Hola, em dic Marc. Com estàs?\n Jo bé! Bueno adéeeu");
         l.add("Hola, em dic Marc."); l.add(" Com estàs?"); l.add("\n"); l.add(" Jo bé!"); l.add(" Bueno adéeeu");
         assertEquals(l, conttest.getFrases());
     }

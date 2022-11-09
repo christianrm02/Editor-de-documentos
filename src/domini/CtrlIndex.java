@@ -62,6 +62,14 @@ class CtrlIndex {
         return indexExpBooleana.GetFrases(paraula);
     }
 
+    public int GetNumFrases() {
+        return indexExpBooleana.GetNumFrases();
+    }
+
+    public List<Integer> GetSequencia(String sequencia, List<Integer> candidats) {
+        return indexExpBooleana.GetSequencia(sequencia, candidats);
+    }
+
     //Retorna els documents que contenen les frases indexs
     public List<Pair<String, String>> GetDocuments(List<Integer> indexs) {
         return indexExpBooleana.GetDocuments(indexs);

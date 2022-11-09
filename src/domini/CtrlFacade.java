@@ -12,14 +12,6 @@ public class CtrlFacade {
     private CtrlIndex ci;
     private CtrlExpressioBooleana ce;
 
-    static private List<String> SetAList(Set<String> s) {
-        List<String> l = new ArrayList<String>();
-        for (String st : s) {
-            l.add(st);
-        }
-        return l;
-    }
-
     // Constructora
     public CtrlFacade() {
         cd = new CtrlDocument();
@@ -39,12 +31,14 @@ public class CtrlFacade {
     // Getters de de document
     public List<String> getTitols() {
         Set<String> s = cd.getTitols();
-        return SetAList(s);
+        List<String> tit = new ArrayList<String>(s);
+        return tit;
     }
 
     public List<String> getAutors() {
         Set<String> s = cd.getAutors();
-        return SetAList(s);
+        List<String> aut = new ArrayList<String>(s);
+        return aut;
     }
 
     public List<Pair<String, String>> getTitolsAutors() {
@@ -73,7 +67,8 @@ public class CtrlFacade {
             if (cd.esborrarDocument(p.x, p.y)) a.add(p.x);
             ci.EsborrarDoc(p.x, p.y);
         }
-        ci.EsborrarAutors(SetAList(a));
+        List<String> aut = new ArrayList<String>(a);
+        ci.EsborrarAutors(aut);
     }
 
     // Modificadores de document
@@ -106,7 +101,8 @@ public class CtrlFacade {
     // Cerques a indexos
     public List<String> llistarTitolsdAutors(String autor) {
         Set<String> a = cd.getTitolsAutor(autor);
-        return SetAList(a);
+        List<String> aut = new ArrayList<String>(a);
+        return aut;
     }
 
     public List<String> llistarAutorsPrefix(String prefix) {

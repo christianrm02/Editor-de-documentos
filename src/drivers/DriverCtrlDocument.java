@@ -3,16 +3,32 @@ import domini.CtrlDocument;
 import java.util.Scanner;
 
 public class DriverCtrlDocument {
-    private DriverCtrlDocument dcd = new DriverCtrlDocument.getInstance();
-    private Scanner sc = new Scanner(System.in);
+    private CtrlDocument cd = new CtrlDocument();
+    private static Scanner sc = new Scanner(System.in);
+
+    public Document testGetDocument() {
+        System.out.println("Escriu l'autor: ");
+        String autor = sc.next();
+        System.out.println("Escriu el titol: ");
+        String titol = sc.next();
+        Document d = new Document();
+        d = cd.getDocument(autor, titol);
+        if(d == null) {
+            System.out.println("El document no existeix");
+        }
+        else {
+            System.out.println("S'ha obtingut el document");
+        }
+    }
 
     public static void main(String[] args) {
         int opc = sc.nextInt();
         Boolean sortir = false;
         while(!sortir) {
             switch(opc) {
-                case 1: {
+                case "1": {
                     System.out.println("HAS TRIAT 1");
+                    testGetDocument();
                 }
                 case 2: {
                     System.out.println("HAS TRIAT 2");
@@ -25,7 +41,7 @@ public class DriverCtrlDocument {
                 }
             }
         }
-        System.out.println("ESPEREM QUE THAGUIM AJUDAT");
+        System.out.println("ESPEREM QUE THAGuIM AJUDAT");
     }
 
     private static void opcions_disponibles() {

@@ -1,13 +1,14 @@
 //import java.util.List;
 //import java.util.HashSet; //para los sets?
 //import java.util.HashMap;
-import java.util.*;
 
-import datatypes.Pair;
-import datatypes.Format;
 import datatypes.Document;
+import datatypes.Format;
+import datatypes.Pair;
+
+import java.util.*;
 public class CtrlDocument {
-    private Document docAct; //NO ENTIENDO CUANDO MODIFICAR
+    public Document docAct; //la pongo publica para el test, aunque igual vale la pena dejarla así
     private TreeMap<String, TreeMap<String, Document>> documents;
 
 
@@ -93,10 +94,11 @@ public class CtrlDocument {
         }
         titols.put(titol, d);
         documents.put(autor, titols);
+        obreDocument(autor, titol);
     }
 
     public void obreDocument(String autor, String titol) {
-        docAct = documents.get(autor).get(titol);
+        docAct = getDocument(autor, titol);
     }
 
     public Boolean esborrarDocument(String autor, String titol) { //EXCEPCIÓ NO EXISTEIX EL DOCUMENT (autor, titol)

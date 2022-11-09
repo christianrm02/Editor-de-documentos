@@ -7,21 +7,13 @@ import java.lang.String;
 
 import datatypes.*;
 
-public class CtrlFacade {
+public class CtrlDomini {
     private CtrlDocument cd;
     private CtrlIndex ci;
     private CtrlExpressioBooleana ce;
 
-    static private List<String> SetAList(Set<String> s) {
-        List<String> l = new ArrayList<String>();
-        for (String st : s) {
-            l.add(st);
-        }
-        return l;
-    }
-
     // Constructora
-    public CtrlFacade() {
+    public CtrlDomini() {
         cd = new CtrlDocument();
         ci = new CtrlIndex();
         ce = new CtrlExpressioBooleana();
@@ -32,33 +24,35 @@ public class CtrlFacade {
 
     }
 
-    public void exportarFitxer(String autor, String titol, String loc, int format) {
+    public void exportarFitxer(String autor, String titol, String loc, Integer format) {
 
     }
 
     // Getters de de document
     public List<String> getTitols() {
         Set<String> s = cd.getTitols();
-        return SetAList(s);
+        List<String> tit = new ArrayList<String>(s);
+        return tit;
     }
 
     public List<String> getAutors() {
         Set<String> s = cd.getAutors();
-        return SetAList(s);
+        List<String> aut = new ArrayList<String>(s);
+        return aut;
     }
 
     public List<Pair<String, String>> getTitolsAutors() {
         return cd.getClaus();
     }
 
-    public List<String> obreDocument(String autor, String titol) {
+    public List<String> obrirDocument(String autor, String titol) {
         cd.obreDocument(autor, titol);
         return cd.getContingut();
     }
 
     // Creacio de document
     public void crearDocument(String autor, String titol/*, string format*/) throws Exception {
-        boolean ed = cd.existsDocument(autor, titol);
+        Boolean ed = cd.existsDocument(autor, titol);
         if (!ed) {
             cd.crearDocument(autor, titol/*, format*/); // PRE: no existeix Document
             ci.AfegirDoc(autor, titol, new ArrayList<String>());
@@ -70,17 +64,16 @@ public class CtrlFacade {
     public void esborrarDocuments(List<Pair<String, String>> docs) {
         Set<String> a = new TreeSet<String>();
         for (Pair<String, String> p : docs) {
-            boolean asegueix = cd.esborrarDocument(p.x, p.y);
+            if (cd.esborrarDocument(p.x, p.y)) a.add(p.x);
             ci.EsborrarDoc(p.x, p.y);
-            if (!asegueix) a.add(p.x);
         }
-        List<String> autors = SetAList(a);
-        ci.EsborrarAutors(autors);
+        List<String> aut = new ArrayList<String>(a);
+        ci.EsborrarAutors(aut);
     }
 
     // Modificadores de document
     public void modificarTitol(String autor, String titol, String newT) throws Exception {
-        boolean ed = cd.existsDocument(autor, newT);
+        Boolean ed = cd.existsDocument(autor, newT);
         if (!ed) {
             cd.modificarTitol(autor, titol, newT);
             ci.ActualitzarTitol(autor, titol, newT);
@@ -89,31 +82,34 @@ public class CtrlFacade {
     }
 
     public void modificarAutor(String autor, String titol, String newA) throws Exception {
-        boolean ed = cd.existsDocument(newA, titol);
+        Boolean ed = cd.existsDocument(newA, titol);
         if (!ed) {
-            cd.modificarAutor(autor, titol, newA);
+            Boolean asegueix = cd.modificarAutor(autor, titol, newA);
             ci.ActualitzarAutor(autor, titol, newA);
+            List<String> a = new ArrayList<String>(); a.add(autor);
+            if (!asegueix) ci.EsborrarAutors(a);
         }
         else throw new Exception();
     }
 
     public void modificarContingut(String autor, String titol, String cont) {
-        List<String> oldC = cd.getContingut();
         cd.modificarContingut(cont);
         List<String> c = cd.getContingut();
-        ci.ActualitzarContingut(autor, titol, oldC, c);
+        ci.ActualitzarContingut(autor, titol, c);
     }
 
-    // Cerques a indexos
+    // Cerques
     public List<String> llistarTitolsdAutors(String autor) {
-        return cd.getTitolsAutor(autor);
+        Set<String> a = cd.getTitolsAutor(autor);
+        List<String> aut = new ArrayList<String>(a);
+        return aut;
     }
 
     public List<String> llistarAutorsPrefix(String prefix) {
         return ci.GetAutorsPrefix(prefix);
     }
 
-    public List<Pair<String, String>> llistarKDocumentsS(String autor, String titol, int K) throws Exception {
+    public List<Pair<String, String>> llistarKDocumentsS(String autor, String titol, Integer K) throws Exception {
         if (K < 1) throw new Exception();
         return ci.GetKDocsSimilarS(autor, titol, K);
     }
@@ -123,20 +119,24 @@ public class CtrlFacade {
     }
 
     // OPCIONAL
-    public List<Pair<String, String>> cercarPerRellevancia(List<String> paraules, int K) {
+    public List<Pair<String, String>> cercarPerRellevancia(List<String> paraules, Integer K) {
         return null;
     }
 
     // Getter d'expressio booleana
     public String getExpressioBooleana(String nom) {
-        return ce.getExpressioBooleana(nom); // aqui dependra de l'implementacio del ctrl
+        return ce.getExpressioBooleana(nom);
     }
 
     // Creadora d'expressio booleana
     public void setExpressioBooleana(String nom, String exp) throws Exception {
-        boolean ee = cd.existsExpressioBooleana(nom);
+        Boolean ee = ce.existsExpressioBooleana(nom);
         if (!ee) ce.setExpressioBooleana(nom, exp); // PRE: no existeix ExpressioBooleana
         else throw new Exception();
+    }
+
+    public void modExpressioBooleana(String nom, String nExp) {
+        ce.setExpressioBooleana(nom, nExp);
     }
 
     // Destructora d'expressio booleana

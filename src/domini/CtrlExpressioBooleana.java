@@ -22,7 +22,7 @@ public class CtrlExpressioBooleana {
     }
 
     private Set<Integer> not(Set<Integer> set) {
-        int n = ci.GetNumFrasesTotals();
+        int n = ci.GetNumFrases();
         Set<Integer> complementary = new HashSet<>();
         for (int i = 0; i < n-set.size(); ++i) {
             if (!set.contains(i)) complementary.add(i);
@@ -56,12 +56,12 @@ public class CtrlExpressioBooleana {
                 int i = 1;
                 while (i < words.length) {
                     Set<Integer> frases2 = new HashSet<>();
-                    frases2.addAll((ci.GetFrases(words[i]));
+                    frases2.addAll(ci.GetFrases(words[i]));
                     frases.retainAll(frases2);
                     ++i;
                 }
                 Set<Integer> frases3 = new HashSet<>();
-                frases3.retainAll(ci.GetFrasesOnApareixSeq(frases,node.data));
+                frases3.addAll(ci.GetSequencia(node.data, (List<Integer>) frases));
                 return frases3;
             }
         }

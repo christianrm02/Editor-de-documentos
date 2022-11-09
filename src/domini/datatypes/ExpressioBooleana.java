@@ -120,17 +120,28 @@ public class ExpressioBooleana {
                 stk.push(s);
             }
             else if (s.equals(")")) {
-                while (!stk.peek().equals("#") && !
+                while (!stk.peek().equals("#") && !stk.peek().equals("(")) {
+                    postfix.add(stk.peek());
+                    stk.pop();
+                }
+                stk.pop();
             }
-
-
+            else {
+                if (preced(s) > preced(stk.peek())) stk.push(s);
+                else {
+                    while (!stk.peek().equals("#") && preced(s) <= preced(stk.peek())) {
+                        postfix.add(stk.peek());
+                        stk.pop();
+                    }
+                    stk.push(s);
+                }
+            }
         }
 
         while(!stk.peek().equals("#")) {
-            postfix += stk.top();        //store and pop until stack is not empty.
+            postfix.add(stk.peek());        //store and pop until stack is not empty.
             stk.pop();
         }
-
         return postfix;
     }
 

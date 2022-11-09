@@ -36,6 +36,26 @@ public class ExpressioBooleana {
         if (c <= 32 || c >= 35 && )
     }*/
 
+
+    //Getters
+    public String getNom() { return nom; }
+
+    public String getExp() { return exp; }
+
+    public Tree getExpA() { return expA; }
+
+    public List<String> getLlista() { return llista; }
+
+
+    //Setters
+    public void setNom(String nom) { this.nom = nom; }
+
+    public void setExp(String exp) {
+        this.exp = exp;
+        //crearArbre();
+    }
+
+    /*
     private void crearLlista(String s) throws Exception {
         List<String> paraules = new ArrayList<String>();
         String exp = UTF8toASCII(s);
@@ -97,30 +117,12 @@ public class ExpressioBooleana {
             else if (negacio) {
                 s1 += exp.charAt(i);
             }
-/*
+
             else if (exp.charAt(i) == '{') {
                 if (!espai_disponible)
                 clau_oberta = true;
-            }*/
-        }
+            }
+
         if (parent_obert != 0 || clau_oberta || cometes_obertes) throw new Exception();
-    }
-
-    //Getters
-    public String getNom() { return nom; }
-
-    public String getExp() { return exp; }
-
-    public Tree getExpA() { return expA; }
-
-    public List<String> getLlista() { return llista; }
-
-
-    //Setters
-    public void setNom(String nom) { this.nom = nom; }
-
-    public void setExp(String exp) {
-        this.exp = exp;
-        //crearArbre();
-    }
+                }*/
 }

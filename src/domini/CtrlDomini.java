@@ -45,7 +45,7 @@ public class CtrlDomini {
         return cd.getClaus();
     }
 
-    public List<String> obreDocument(String autor, String titol) {
+    public List<String> obrirDocument(String autor, String titol) {
         cd.obreDocument(autor, titol);
         return cd.getContingut();
     }
@@ -98,7 +98,7 @@ public class CtrlDomini {
         ci.ActualitzarContingut(autor, titol, c);
     }
 
-    // Cerques a indexos
+    // Cerques
     public List<String> llistarTitolsdAutors(String autor) {
         Set<String> a = cd.getTitolsAutor(autor);
         List<String> aut = new ArrayList<String>(a);

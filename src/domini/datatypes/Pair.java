@@ -1,5 +1,39 @@
 package datatypes;
 
+import java.util.Objects;
+
+public class Pair<T1, T2> {
+    public final T1 x;
+    public final T2 y;
+    private int hashCode;
+
+    public Pair(T1 x, T2 y) {
+        this.x = x;
+        this.y = y;
+        this.hashCode = Objects.hash(x, y);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        //return super.equals(obj);
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        Pair<?, ?> pair = (Pair<?, ?>) obj;
+        // call `equals()` method of the underlying objects
+        return x.equals(pair.x) && y.equals(pair.y);
+    }
+
+    @Override
+    public int hashCode() {
+        return this.hashCode();
+    }
+
+/*package datatypes;
+
 public class Pair<T1 extends Comparable<T1>, T2 extends Comparable<T2>>
         implements Comparable<Pair<T1, T2>> {
     public T1 x;
@@ -42,7 +76,7 @@ public class Pair<T1 extends Comparable<T1>, T2 extends Comparable<T2>>
             return retVal;
         }
         return y.compareTo(o.y);
-    }
+    }*/
 
     /*public String getX() {
         return x;

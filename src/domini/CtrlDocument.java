@@ -64,9 +64,7 @@ public class CtrlDocument {
         for(String autor : documents.keySet()) {
             Map<String,Document> titols = documents.get(autor);
             for(String titol : titols.keySet()) {
-                Pair<String, String> clau = new Pair<>();
-                clau.x = autor;
-                clau.y = titol;
+                Pair<String, String> clau = new Pair<>(autor, titol);
                 claus.add(clau);
             }
         }
@@ -101,8 +99,8 @@ public class CtrlDocument {
         docAct = getDocument(autor, titol);
     }
 
-    public Boolean esborrarDocument(String autor, String titol) { //EXCEPCIÓ NO EXISTEIX EL DOCUMENT (autor, titol)
-        Boolean autorContinua = true;
+    public boolean esborrarDocument(String autor, String titol) { //EXCEPCIÓ NO EXISTEIX EL DOCUMENT (autor, titol)
+        boolean autorContinua = true;
         if (documents.get(autor).size() == 1) { //si l'autor només té un titol, s'esborra l'autor
             documents.remove(autor);
             autorContinua = false;
@@ -115,7 +113,7 @@ public class CtrlDocument {
         return autorContinua;
     }
 
-    public Boolean modificarAutor(String autor, String titol, String newA) { //EXCEPCIÓ YA EXISTEIX EL DOCUMENT (newA, titol)
+    public boolean modificarAutor(String autor, String titol, String newA) { //EXCEPCIÓ YA EXISTEIX EL DOCUMENT (newA, titol)
         /*try {
             if(existsDocument(newA, titol)) throw new Exception();
         }
@@ -125,7 +123,7 @@ public class CtrlDocument {
         TreeMap<String, Document> titols = documents.get(autor);
         Document d = titols.get(titol);
         d.setAutor(newA);
-        Boolean autorContinua = true;
+        boolean autorContinua = true;
         if (titols.size() == 1) { //si l'autor només té un document, s'esborra l'autor
             documents.remove(autor);
             autorContinua = false;

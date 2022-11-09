@@ -3,13 +3,13 @@ import datatypes.Format;
 import datatypes.Pair;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
+//main.domain.classes.Cela;
 public class CtrlDocumentTest {
     private CtrlDocument cd;
 
@@ -92,8 +92,12 @@ public class CtrlDocumentTest {
         assertEquals(claus, cd.getClaus());
     }
 
+    //mock
     @Test
     public void getContingut() {
+        Document d = mock(Document.class);
+        when(d.getContingut()).thenReturn(Collections.singletonList("Nou cont."));
+
         cd = new CtrlDocument();
         cd.crearDocument("Pep", "Noche");
         cd.modificarContingut("Nou cont.");
@@ -177,16 +181,25 @@ public class CtrlDocumentTest {
         assertTrue("El document amb claus (Pep, Day) existeix", cd.existsDocument("Pep", "Day"));
     }
 
+    //mock
     @Test
     public void modificarContingut() {
+        Document d = mock(Document.class);
+        when(d.getContingut()).thenReturn(Collections.singletonList("Hola, este es el old contenido."));
+
         cd = new CtrlDocument();
         cd.crearDocument("Pep", "Noche");
         cd.modificarContingut("Hola, este es el old contenido.");
         List<String> frases = new ArrayList<>();
         frases.add("Hola, este es el old contenido.");
         assertEquals(frases, cd.getContingut());
-        cd.modificarContingut("Hola, este es el old contenido. Y este es el nuevo.");
-        frases.add("Y este es el nuevo.");
-        assertEquals(frases, cd.getContingut());
     }
+
+    /*public static void main(String[] args) {
+        CtrlDocumentTest cdt = new CtrlDocumentTest();
+        cdt.modificarTitol();
+        cdt.modificarAutor();
+        cdt.modificarContingut();
+
+    }*7
 }

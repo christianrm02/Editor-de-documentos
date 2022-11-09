@@ -3,10 +3,14 @@ package datatypes;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
+//@ExtendWith(MockitoExtension.class);
 public class DocumentTest {
 
     /**
@@ -38,8 +42,20 @@ public class DocumentTest {
     }
 
     //stub necesario
+    /*@Test
+    public void getContingut() {
+        Document doctest = new Document("Pep", "Dia", Format.txt);
+        doctest.setContingut("En un lugar de la Mancha, de cuyo nombre no quiero acordarme.");
+        List<String> contingut = new ArrayList<>();
+        contingut.add("En un lugar de la Mancha, de cuyo nombre no quiero acordarme.");
+        assertEquals(contingut, doctest.getContingut());
+    }*/
+
     @Test
     public void getContingut() {
+        Contingut c = mock(Contingut.class);
+        when(c.getFrases()).thenReturn(Collections.singletonList("En un lugar de la Mancha, de cuyo nombre no quiero acordarme."));
+
         Document doctest = new Document("Pep", "Dia", Format.txt);
         doctest.setContingut("En un lugar de la Mancha, de cuyo nombre no quiero acordarme.");
         List<String> contingut = new ArrayList<>();
@@ -58,6 +74,8 @@ public class DocumentTest {
         Document doctest = new Document();
         doctest.setAutor("Pep");
         assertEquals("Pep", doctest.getAutor());
+        doctest.setAutor("Joan");
+        assertEquals("Joan  ", doctest.getAutor());
     }
 
     @Test
@@ -65,20 +83,20 @@ public class DocumentTest {
         Document doctest = new Document();
         doctest.setTitol("Vida");
         assertEquals("Vida", doctest.getTitol());
+        doctest.setTitol("Life");
+        assertEquals("Life", doctest.getTitol());
     }
 
     //stub necesario
     @Test
     public void setContingut() {
+        Contingut c = mock(Contingut.class);
+        when(c.getFrases()).thenReturn(Collections.singletonList("En un lugar de la Mancha, de cuyo nombre no quiero acordarme."));
+
         Document doctest = new Document();
         doctest.setContingut("En un lugar de la Mancha, de cuyo nombre no quiero acordarme.");
         List<String> contingut = new ArrayList<>();
         contingut.add("En un lugar de la Mancha, de cuyo nombre no quiero acordarme.");
-        assertEquals(contingut, doctest.getContingut());
-
-        doctest.setContingut("Nou llibre");
-        contingut.clear();
-        contingut.add("Nou llibre");
         assertEquals(contingut, doctest.getContingut());
     }
 }

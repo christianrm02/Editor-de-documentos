@@ -1,6 +1,7 @@
-package test.datatypes;
+package test;
 
-import domini.datatypes.Contingut;
+import datatypes.Contingut;
+import org.junit.Assert.*;
 
 import org.junit.Test;
 
@@ -30,8 +31,8 @@ public class ContingutTest {
 
     @Test
     public void getFrases() {
-        Contingut conttest = new Contingut();
-        List<String> l = new ArrayList<String>("Hola, em dic Marc. Com estàs?\n Jo bé! Bueno adéeeu");
+        Contingut conttest = new Contingut("Hola, em dic Marc. Com estàs?\n Jo bé! Bueno adéeeu");
+        List<String> l = new ArrayList<String>();
         l.add("Hola, em dic Marc."); l.add(" Com estàs?"); l.add("\n"); l.add(" Jo bé!"); l.add(" Bueno adéeeu");
         assertEquals(l, conttest.getFrases());
     }

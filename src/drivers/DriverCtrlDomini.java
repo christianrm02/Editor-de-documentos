@@ -37,8 +37,8 @@ public class DriverCtrlDomini {
         }
     }
 
-    public TreeMap<Integer, Pair<String, String>> escriuClaus(List<Pair<String, String>> titaut) {
-        List<Pair<String, String>> l = cd.getTitolsAutors();
+    public TreeMap<Integer, Pair<String, String>> escriuClaus() {
+        List<Pair<String, String>> titaut = cd.getTitolsAutors();
         TreeMap<Integer, Pair<String, String>> m = new TreeMap<Integer, Pair<String, String>>();
         Integer i = 0;
         for (Pair<String, String> ta : titaut) {

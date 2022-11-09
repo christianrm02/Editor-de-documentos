@@ -1,5 +1,6 @@
 package indexs;
 
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,6 +26,7 @@ public class IndexExpBooleana {
         Pair<String, String> autorTitol = new Pair<String, String>(autor, titol);
 
         for (String frase : contingut) {
+            frase = UTF8toASCII(frase);
             indexFraseDocument.add(autorTitol);
             indexFrases.add(frase);
             addPosition();
@@ -149,8 +151,14 @@ public class IndexExpBooleana {
     }
 
     static private String[] parseFrase(String frase) {
+        frase.replaceAll("[,;:.!?]", "");
         String[] paraules = frase.split(" ");
         return paraules;
+    }
+
+    static private String UTF8toASCII(String frase) {
+        String res = Normalizer.normalize(frase, Normalizer.Form.NFKD).replaceAll("\\p{M}", "");
+        return res.replaceAll("·", "");
     }
 
     //Omplira les N primeres posicions de la llista amb false

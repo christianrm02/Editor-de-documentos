@@ -2,6 +2,8 @@ import datatypes.Document;
 import datatypes.Pair;
 
 import java.util.*;
+
+import controladores.CtrlDocument;
 public class ProbantClasses {
     public static void main(String[] args) {
         CtrlDocument cD = new CtrlDocument();

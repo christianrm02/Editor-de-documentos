@@ -1,7 +1,10 @@
+package controladores;
 import datatypes.TreeNode;
 
 import java.text.Normalizer;
 import java.util.*;
+
+import datatypes.ExpressioBooleana;
 import datatypes.Pair;
 import datatypes.TreeNode;
 

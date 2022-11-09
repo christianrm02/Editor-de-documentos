@@ -1,5 +1,4 @@
-import datatypes.TreeNode;
-
+package datatypes;
 import java.text.Normalizer;
 import java.util.*;
 

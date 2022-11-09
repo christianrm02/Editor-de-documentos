@@ -1,10 +1,12 @@
+package controladores;
+
 import java.util.List;
 
 import datatypes.Pair;
 import indexs.*;
 
 
-class CtrlIndex {
+public class CtrlIndex {
 
     private IndexAutorPrefix indexAutorPrefix;
     private IndexExpBooleana indexExpBooleana;

@@ -1,5 +1,7 @@
-package drivers;
-import domini.CtrlDocument;
+/*package drivers;
+import controladores.CtrlDocument;
+import datatypes.Document;
+
 import java.util.Scanner;
 
 public class DriverCtrlDocument {
@@ -67,4 +69,4 @@ public class DriverCtrlDocument {
         System.out.println("0-  cancelar");
         System.out.println("Introdueix un numero: ");
     }
-}
+}*/

@@ -1,7 +1,10 @@
+package controladores;
 import datatypes.Document;
 import datatypes.Format;
 import datatypes.Pair;
 import org.junit.Test;
+
+import controladores.CtrlDocument;
 
 import java.util.*;
 

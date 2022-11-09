@@ -3,8 +3,8 @@ package datatypes;
 import java.util.Objects;
 
 public class Pair<T1, T2> {
-    public final T1 x;
-    public final T2 y;
+    public T1 x;
+    public T2 y;
     private int hashCode;
 
     public Pair(T1 x, T2 y) {

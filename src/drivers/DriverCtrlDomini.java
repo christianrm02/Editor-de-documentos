@@ -1,5 +1,6 @@
 package drivers;
 import controladores.*;
+import datatypes.*;
 import java.util.*;
 
 public class DriverCtrlDomini {
@@ -156,7 +157,7 @@ public class DriverCtrlDomini {
                     dcd.tModificarContingut();
                     break;
                 }
-                case "10": { // Llista els titols d'un autor existent escollit per l'usuari
+/*                case "10": { // Llista els titols d'un autor existent escollit per l'usuari
                     dcd.tLlistarTitolsdAutors();
                     break;
                 }
@@ -187,7 +188,7 @@ public class DriverCtrlDomini {
                 case "17"; { // Destructora d'expressio booleana
                     dcd.tDeleteExpressioBooleana();
                     break;
-                }
+                }*/
                 default:
                     break;
             }

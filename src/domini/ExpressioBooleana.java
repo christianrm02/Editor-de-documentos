@@ -1,4 +1,4 @@
-import datatypes.Tree;
+import datatypes.TreeNode;
 
 import java.text.Normalizer;
 import java.util.*;
@@ -7,7 +7,7 @@ public class ExpressioBooleana {
 
     private String nom;
     private String exp;
-    private Tree expA;
+    private TreeNode expA;
 
    // private ArrayList<String> llista;
 
@@ -54,20 +54,22 @@ public class ExpressioBooleana {
                 llista.add("|");
                 ++i;
             }
-            else if (s.charAt(i) == '!') {
-                llista.add("!");
-                ++i;
-                String s2 = " ";
-                while (i < s.length() && s.charAt(i) != ' ') {
-                    s2 += s.charAt(i);
-                    ++i;
-                }
-                llista.add(s2);
-            }
+            else if (s.charAt(i) == '!') llista.add("!");
             else if (s.charAt(i) == '(') llista.add("(");
             else if (s.charAt(i) == ')') {
                 llista.add(s1);
                 llista.add(")");
+                ++i;
+                s1 = "";
+            }
+            else if (s.charAt(i) == '\"') {
+                ++i;
+                String s2 = "";
+                while (s.charAt(i) != '\"') {
+                    s2 += s.charAt(i);
+                    ++i;
+                }
+                llista.add(s2);
                 ++i;
             }
             else if (s.charAt(i) == ' ') {
@@ -77,6 +79,7 @@ public class ExpressioBooleana {
             else s1 += s.charAt(i);
             ++i;
         }
+        if (s1.length() > 0) llista.add(s1);
     }
 
     private String UTF8toASCII(String frase) {
@@ -89,7 +92,7 @@ public class ExpressioBooleana {
 
     public String getExp() { return exp; }
 
-    public Tree getExpA() { return expA; }
+    public TreeNode getExpA() { return expA; }
 
    // public List<String> getLlista() { return llista; }
 

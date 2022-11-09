@@ -1,4 +1,6 @@
-import datatypes.Tree;
+import datatypes.TreeNode;
+
+import java.text.Normalizer;
 import java.util.*;
 import datatypes.Pair;
 import datatypes.TreeNode;
@@ -18,7 +20,7 @@ public class CtrlExpressioBooleana {
     public Boolean existsExpressioBooleana(String nom) {
             return expressions.containsKey(nom);
     }
-
+/*
     private Set<Integer> not(Set<Integer> set) {
         int n = ci.GetNumFrasesTotals();
         Set<Integer> complementary = new HashSet<>();
@@ -26,7 +28,7 @@ public class CtrlExpressioBooleana {
             if (!set.contains(i)) complementary.add(i);
         }
         return complementary;
-    }
+    }*/
 
     //Per fer or
     private Set<Integer> union(Set<Integer> set1, Set<Integer> set2) {
@@ -42,7 +44,7 @@ public class CtrlExpressioBooleana {
     private boolean isOperator(String s) {
         return s.length() == 1 && (s.equals("&") || s.equals("|") || s.equals("!"));
     }
-
+/*
     private Set<Integer> cercaExpBol(TreeNode node) {
         //List<Integer> frases = new ArrayList<Integer>();
         if (!isOperator(node.data)) {
@@ -77,7 +79,7 @@ public class CtrlExpressioBooleana {
         frases.addAll(cercaExpBol(expTree.getRoot()));
         //List<Pair> documents = new ArrayList<>();
         return ci.GetDocuments(frases);
-    }
+    }*/
 
     public List<Pair> getAll() {
         List<Pair> exps = new ArrayList<Pair>();
@@ -102,6 +104,68 @@ public class CtrlExpressioBooleana {
     }
 
     public static void main(String[] args) {
+        Scanner leer=new Scanner(System.in);
+        String p = leer.nextLine();
+        String s = Normalizer.normalize(p, Normalizer.Form.NFKD).replaceAll("\\p{M}", "");
+        s.replaceAll("·", "");
+        List<String> llista = new ArrayList<>();
+        int i = 0;
+        String s1 = "";
+        while (i < s.length()) {
+            if (s.charAt(i) == '{') {
+                llista.add("(");
+                ++i;
+                String s2 = "";
+                while (s.charAt(i) != '}') {
+                    if (s.charAt(i) == ' ') {
+                        llista.add(s2);
+                        llista.add("&");
+                        s2 = "";
+                    }
+                    else s2+=s.charAt(i);
+                    ++i;
+                }
+                llista.add(s2);
+                llista.add(")");
+                ++i;
+            }
+            else if (s.charAt(i) == '&') {
+                llista.add("&");
+                ++i;
+            }
+            else if (s.charAt(i) == '|') {
+                llista.add("|");
+                ++i;
+            }
+            else if (s.charAt(i) == '!') llista.add("!");
+            else if (s.charAt(i) == '(') llista.add("(");
+            else if (s.charAt(i) == ')') {
+                llista.add(s1);
+                llista.add(")");
+                ++i;
+                s1 = "";
+            }
+            else if (s.charAt(i) == '\"') {
+                ++i;
+                String s2 = "";
+                while (s.charAt(i) != '\"') {
+                    s2 += s.charAt(i);
+                    ++i;
+                }
+                llista.add(s2);
+                ++i;
+            }
+            else if (s.charAt(i) == ' ') {
+                llista.add(s1);
+                s1 = "";
+            }
+            else s1 += s.charAt(i);
+            ++i;
+        }
+        if (s1.length() > 0) llista.add(s1);
+        for (String h : llista) {
+            System.out.print(h +",");
+        }
 
     }
 

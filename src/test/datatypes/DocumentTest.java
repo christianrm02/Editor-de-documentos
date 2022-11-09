@@ -1,13 +1,10 @@
 package datatypes;
 
 import org.junit.Test;
-import datatypes.Format;
 
-import src.domini.datatypes.Document;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 
 public class DocumentTest {

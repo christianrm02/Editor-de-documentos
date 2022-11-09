@@ -102,12 +102,14 @@ public class CtrlExpressioBooleana {
     public void deleteExpressioBooleana(String nom) {
         expressions.remove(nom);
     }
-
+    private static String UTF8toASCII(String frase) {
+        String res = Normalizer.normalize(frase, Normalizer.Form.NFKD).replaceAll("\\p{M}", "");
+        return res.replaceAll("·", "");
+    }
     public static void main(String[] args) {
         Scanner leer=new Scanner(System.in);
-        String p = leer.nextLine();
-        String s = Normalizer.normalize(p, Normalizer.Form.NFKD).replaceAll("\\p{M}", "");
-        s.replaceAll("·", "");
+        String s = leer.nextLine();
+        s = UTF8toASCII(s);
         List<String> llista = new ArrayList<>();
         int i = 0;
         String s1 = "";

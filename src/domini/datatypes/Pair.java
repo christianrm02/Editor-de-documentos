@@ -13,6 +13,8 @@ public class Pair<T1, T2> {
         this.hashCode = Objects.hash(x, y);
     }
 
+    public Pair() {}
+
     @Override
     public boolean equals(Object obj) {
         //return super.equals(obj);
@@ -29,7 +31,7 @@ public class Pair<T1, T2> {
 
     @Override
     public int hashCode() {
-        return this.hashCode();
+        return this.hashCode;
     }
 
 /*package datatypes;

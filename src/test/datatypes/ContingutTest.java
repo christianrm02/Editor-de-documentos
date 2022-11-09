@@ -1,9 +1,8 @@
-package test;
-
-import datatypes.Contingut;
-import org.junit.Assert.*;
+package datatypes;
 
 import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,5 +49,13 @@ public class ContingutTest {
         List<String> l2 = new ArrayList<String>();
         l2.add("Bon dia, com vas?"); l2.add(" Ara ve el mundial, fins cap d'any no torna a jugar el Barça."); l2.add(" Vaja\n"); l2.add(" Què hi farem");
         assertEquals(l2, conttest.getFrases());
+    }
+
+    @Test
+    public void testGetFrases() {
+    }
+
+    @Test
+    public void testActualitzaContingut() {
     }
 }

@@ -7,12 +7,110 @@ public class DriverCtrlDomini {
     Scanner entrada;
     Boolean dObert;
 
+    Integer nDocuments;
+
     DriverCtrlDomini() {
         cd = null;
         entrada = new Scanner(System.in);
-        dObert = false;
+        dObert = null;
+        nDocuments = 0;
     }
 
+    public void tCrearCtrlDomini() {
+        cd = new CtrlDomini();
+    }
+
+    public void tCrearDocument() throws Exception {
+        System.out.println("Escriu el titol del document que vols crear: ");
+        String titol = entrada.nextLine();
+
+        System.out.println("Escriu l'autor del document que vols crear: ");
+        String autor = entrada.nextLine();
+        System.out.println("Has introduit el titol " + titol + "i l'autor " + autor + ".");
+        try {
+            cd.crearDocument(autor, titol);
+        }
+        ++nDocuments;
+        catch {
+            //Sha de fer
+        }
+    }
+
+    public TreeMap<Integer, Pair<String, String>> escriuClaus(List<Pair<String, String>> titaut) {
+        List<Pair<String, String>> l = cd.getTitolsAutors();
+        TreeMap<Integer, Pair<String, String>> m = new TreeMap<Integer, Pair<String, String>>();
+        Integer i = 0;
+        for (Pair<String, String> ta : titaut) {
+            m.put(i, ta);
+            System.out.println(Integer.toString(i) + ". Titol: " ta.y + " Autor: " + ta.x);
+            ++i;
+        }
+        return m;
+    }
+
+    public void tEsborrarDocuments() {
+        System.out.println("A continuacio sortiran els documents existents, com a molt pots seleccionar-ne 10:");
+        TreeMap<Integer, Pair<String, String>> m = escriuClaus();
+        //s'ha d'acabar
+    }
+
+    public void tGetTitols() {
+        System.out.println("A continuacio tenim els titols de tots els documents existents:");
+        List<String> titols = cd.getTitols();
+        for (String t : titols) {
+            System.out.println(t);
+        }
+    }
+
+    public void tGetAutors() {
+        System.out.println("A continuacio tenim els autors de tots els documents existents:");
+        List<String> autors = cd.getAutors();
+        for (String a : autors) {
+            System.out.println(a);
+        }
+    }
+
+    public void tGetTitolsAutors() {
+        System.out.println("A continuacio tenim tots els documents (titol i autor) existents:");
+        List<Pair<String, String>> titaut = cd.getTitolsAutors();
+        for (Pair<String, String> ta : titaut) {
+            System.out.println("Titol: " ta.y + " Autor: " + ta.x);
+        }
+    }
+
+    public void tObrirDocument() {
+        System.out.println("A continuacio sortiran els documents existents, selecciona'n un:");
+        TreeMap<Integer, Pair<String, String>> m = escriuClaus();
+        String docSel = entrada.nextLine();
+        Pair<String, String> p = m.get(Integer.valueOf(docSel));
+        cd.obrirDocument(p.x, p.y);
+    }
+
+    public void tModificarTitol() {
+        System.out.println("A continuacio sortiran els documents existents, selecciona'n un:");
+        TreeMap<Integer, Pair<String, String>> m = escriuClaus();
+        String docSel = entrada.nextLine();
+        System.out.println("Introdueix el nou titol:");
+        String newT = entrada.nextLine();
+        Pair<String, String> p = m.get(Integer.valueOf(docSel));
+        cd.modificarTitol(p.x, p.y, newT);
+    }
+
+    public void tModificarAutor() {
+        System.out.println("A continuacio sortiran els documents existents, selecciona'n un:");
+        TreeMap<Integer, Pair<String, String>> m = escriuClaus();
+        String docSel = entrada.nextLine();
+        System.out.println("Introdueix el nou autor:");
+        String newA = entrada.nextLine();
+        Pair<String, String> p = m.get(Integer.valueOf(docSel));
+        cd.modificarTitol(p.x, p.y, newA);
+    }
+
+    public void tModificarContingut() { // no tinc lar com fer-la
+        System.out.println("Introdueix el nou contingut:");
+        String cont = entrada.nextLine();
+        cd.modificarContingut(cont);
+    }
 
     public static void main (String [] args) throws Exception {
         DriverCtrlDomini dcd = new DriverCtrlDomini();
@@ -20,7 +118,8 @@ public class DriverCtrlDomini {
         String ent = dcd.entrada.nextLine();
         while (!ent.equals("0")) { // Si posem 0, surt
             switch (ent) {
-                case "1": { // Constructora de document, on tambe es crea el controlador de domini
+                case "1": { // Constructora de CtrlDomini la 1a vegada / Constructora de document i obre el document
+                    if (cd == null) dcd.tCrearCtrlDomini();
                     dcd.tCrearDocument();
                     break;
                 }

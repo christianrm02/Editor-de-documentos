@@ -7,7 +7,9 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.HashMap;
+import java.util.TreeMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -23,6 +25,8 @@ public class IndexParaulaTFIDF {
     static Set<String> stopWords;
 
     static {
+        stopWords = new HashSet<>();
+
         //Add stop words
         Path caPath = Path.of("./empty-ca-utf8.txt");
         Path spPath = Path.of("./empty-sp-utf8.txt");
@@ -45,19 +49,18 @@ public class IndexParaulaTFIDF {
             for (String spStopWord : spStopWords) stopWords.add(spStopWord);
             for (String engStopWord : engStopWords) stopWords.add(engStopWord);
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
     
     //Index TFIDFs per document. x es TF i y es TFIDF
-    private HashMap<Pair<String, String>, HashMap<String, Pair<Double, Double>>> indexTFIDF;
+    private TreeMap<Pair<String, String>, TreeMap<String, Pair<Double, Double>>> indexTFIDF;
     //Index IDF per paraula (ordenades de la mateixa manera que les columnes del indexTFIDF)
-    private HashMap<String, Integer> indexGlobalTF;
+    private TreeMap<String, Integer> indexGlobalTF;
 
     public IndexParaulaTFIDF() {
-        indexTFIDF = new HashMap<Pair<String, String>, HashMap<String, Pair<Double, Double>>>();
-        indexGlobalTF = new HashMap<String, Integer>();
+        indexTFIDF = new TreeMap<Pair<String, String>, TreeMap<String, Pair<Double, Double>>>();
+        indexGlobalTF = new TreeMap<String, Integer>();
     }
 
     public void AfegirDoc(String autor, String titol, List<String> contingut) {
@@ -65,11 +68,11 @@ public class IndexParaulaTFIDF {
         List<String> paraules = getAllWords(contingut);
         int numWordsDoc = paraules.size();
         Pair<String, String> autorTitol = new Pair<String, String>(autor, titol);
-        HashMap<String, Pair<Double, Double>> infoDoc = new HashMap<>();
         //Creem una nova fila pel nou document
-        addCurrentWords(infoDoc);
+        TreeMap<String, Pair<Double, Double>> infoDoc = new TreeMap<>();
+        calcularTFs(autorTitol, infoDoc, paraules, numWordsDoc);
+        indexTFIDF.put(autorTitol, infoDoc);
 
-        calcularTFs(autorTitol, paraules, numWordsDoc);
         calcularGlobalTFs(paraules);
         calcularTFIDFs();
     }
@@ -113,7 +116,7 @@ public class IndexParaulaTFIDF {
 
     public List<Pair<String, String>> GetKDocsSimilarS(Pair<String, String> autorTitol, int K) {
         //Obtenim la llista de TF-IDF's de S
-        List<Pair<Double, Double>> qTFIDF = new ArrayList<>(indexTFIDF.get(autorTitol).values());
+        TreeMap<String, Pair<Double, Double>> qTFIDF = indexTFIDF.get(autorTitol);
         
         //Creem un comparador que ordeni elements de gran a petit
         Comparator<Pair<Double, Pair<String, String>>> customComparator = new Comparator<Pair<Double, Pair<String, String>>>() {
@@ -125,36 +128,52 @@ public class IndexParaulaTFIDF {
         //Aqui colocarem els documents en ordre de similaritat
         PriorityQueue<Pair<Double, Pair<String, String>>> docsSemblants = new PriorityQueue<Pair<Double, Pair<String, String>>>(customComparator);
 
+        //Comparem tots els documents amb query
         for (Pair<String, String> doc : indexTFIDF.keySet()) {
             if(doc == autorTitol) continue;
 
-            List<Pair<Double, Double>> docTFIDF = new ArrayList<>(indexTFIDF.get(doc).values());
+            TreeMap<String, Pair<Double, Double>> docTFIDF = indexTFIDF.get(doc);
             double metric = cosinusMetric(qTFIDF, docTFIDF);
 
             docsSemblants.add(new Pair<Double, Pair<String, String>>(metric, doc));
         }
         
-        List<Pair<String, String>> result = new ArrayList<Pair<String, String>>();
-
         //Retornem els K primers resultats
+        List<Pair<String, String>> result = new ArrayList<Pair<String, String>>();
         for(int i = 0; i < K; i++) result.add(docsSemblants.poll().y);
         
         return result;
     }
 
-    static private Double cosinusMetric(List<Pair<Double, Double>> query, List<Pair<Double, Double>> document){
+    static private Double cosinusMetric(TreeMap<String, Pair<Double, Double>> query, TreeMap<String, Pair<Double, Double>> document){
         double dot = 0.0;
         double queryNorm = 0.0;
         double documentNorm = 0.0;
 
-        for(int i = 0; i < query.size(); i++) {
-            double q = query.get(i).y;
-            double d = document.get(i).y;
-
-            dot += q*d;
-            queryNorm += q*q;
-            documentNorm += d*d;
-        }
+        Iterator<String> itQuery = query.keySet().iterator();
+        Iterator<String> docQuery = document.keySet().iterator();
+        String wordQ = (String) itQuery.next();
+        String wordD = (String) docQuery.next();
+        
+        do {
+            double q = query.get(wordQ).y;
+            double d = document.get(wordD).y;
+            //Si son iguals calculem el producte escalar i avancem els 2 iteradors
+            if(wordQ.equals(wordD)) {
+                dot += q*d;
+                queryNorm += q*q;
+                documentNorm += d*d;
+                wordQ = (String) itQuery.next();
+                wordD = (String) docQuery.next();
+            //Si un dels dos es mes petit l'avancem fins que agafi a l'altre
+            } else if (wordQ.compareTo(wordD) < 0) {
+                queryNorm += q*q;
+                wordQ = (String) itQuery.next();
+            } else {
+                documentNorm += d*d;
+                wordD = (String) docQuery.next();
+            }
+        } while(itQuery.hasNext() || docQuery.hasNext());
 
         queryNorm = Math.sqrt(queryNorm);
         documentNorm = Math.sqrt(documentNorm);
@@ -165,12 +184,13 @@ public class IndexParaulaTFIDF {
     static private List<String> getAllWords(List<String> frases){
         List<String> paraules = new ArrayList<String>();
         for (String frase : frases) {
+            frase = Utility.UTF8toASCII(frase);
             paraules.addAll(Arrays.asList(Utility.parseFrase(frase)));
         }
         return paraules;
     }
 
-    private void addCurrentWords(HashMap<String, Pair<Double, Double>> infoDoc){
+    /*private void addCurrentWords(TreeMap<String, Pair<Double, Double>> infoDoc){
         for (String word : indexGlobalTF.keySet()) {
             Pair<Double, Double> infoWord = new Pair<Double,Double>(0.0, 0.0);
             infoDoc.put(word, infoWord);
@@ -179,29 +199,35 @@ public class IndexParaulaTFIDF {
 
     private void addColumn(String word) {
         indexGlobalTF.put(word, 0);
-        for (HashMap<String, Pair<Double, Double>> infoDoc : indexTFIDF.values()) {
+        for (TreeMap<String, Pair<Double, Double>> infoDoc : indexTFIDF.values()) {
             Pair<Double, Double> infoWord = new Pair<Double,Double>(0.0, 0.0);
             infoDoc.put(word, infoWord);
         }
-    }
+    }*/
 
     private double idf(String word) {
         return Math.log((1+indexTFIDF.size())/(1+indexGlobalTF.get(word))) + 1;
     }
 
-    private void calcularTFs(Pair<String, String> autorTitol, List<String> paraules, int numWordsDoc){
+    private void calcularTFs(Pair<String, String> autorTitol, TreeMap<String, Pair<Double, Double>> infoDoc, List<String> paraules, int numWordsDoc){
         //Sumem les paraules que apareixen al document
         for(String paraula : paraules) {
             if(stopWords.contains(paraula)) continue;
-            //Si la paraula no existia afegim una nova columna als 2 indexs
+            //Si la paraula no existia afegim una nova columna al index global de paraules
             if(!indexGlobalTF.containsKey(paraula)) {
-                addColumn(paraula);
+                indexGlobalTF.put(paraula, 0);
             }
             //Sumem 1 a TF
-            indexTFIDF.get(autorTitol).get(paraula).x++;
+            if(infoDoc.get(paraula) == null) infoDoc.put(paraula, new Pair<Double, Double>(1.0, 0.0));
+            else {
+                //Fem get i despres put perque no es pot fer get(paraula).x++
+                Pair<Double, Double> aux = infoDoc.get(paraula);
+                aux.x++;
+                infoDoc.put(paraula, aux);
+            }
         }
         //Dividim pel nombre de paraules del document per obtenir TF
-        for (Pair<Double, Double> infoWord : indexTFIDF.get(autorTitol).values()) {
+        for (Pair<Double, Double> infoWord : infoDoc.values()) {
             infoWord.x = infoWord.x/numWordsDoc;
         }
     }
@@ -210,7 +236,7 @@ public class IndexParaulaTFIDF {
         //Per cada paraula recorrem la seva columna del index i comptem els cops que el seu TF > 0
         for (String paraula : paraules) {
             int count = 0; 
-            for (HashMap<String, Pair<Double, Double>> infoDoc : indexTFIDF.values()) {
+            for (TreeMap<String, Pair<Double, Double>> infoDoc : indexTFIDF.values()) {
                 if(infoDoc.get(paraula).x > 0.0) count++;
             }
             indexGlobalTF.put(paraula, count);
@@ -218,7 +244,7 @@ public class IndexParaulaTFIDF {
     }
 
     private void calcularTFIDFs() {
-        for (HashMap<String, Pair<Double, Double>> infoDoc : indexTFIDF.values()) {
+        for (TreeMap<String, Pair<Double, Double>> infoDoc : indexTFIDF.values()) {
             for(Map.Entry<String,Pair<Double, Double>> infoWord : infoDoc.entrySet()) {
                 String paraula = infoWord.getKey();
                 infoWord.getValue().y = infoWord.getValue().x * idf(paraula);

@@ -10,7 +10,8 @@ public class Utility {
     }
 
     static public String[] parseFrase(String frase) {
-        frase.replaceAll("[,;:.!?\n]", "");
+        frase = frase.replaceAll("[(),;:.!?]", "");
+        frase = frase.replaceAll("\n", " ");
         String[] paraules = frase.split(" ");
         return paraules;
     }

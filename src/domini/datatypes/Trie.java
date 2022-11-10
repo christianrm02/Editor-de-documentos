@@ -8,7 +8,11 @@ import java.util.List;
 public class Trie {
     
     private TrieNode root;
-    private int maxLength = 0;
+    private int maxLength = 0;    
+
+    public Trie() {
+        root = new TrieNode('\0');
+    }
 
     //Insertar paraula al trie
     public void Insert(String word) {
@@ -53,7 +57,7 @@ public class Trie {
         }
 
         StringBuilder builder = new StringBuilder(prefix);
-        getWords(current, maxLength, builder, words);
+        getWords(current, prefix.length(), builder, words);
 
         return words;
     }
@@ -90,7 +94,6 @@ public class Trie {
     private void getWords(TrieNode node, int level, StringBuilder prefix, List<String> words) {
 
         if(node.isEndWord){
-            prefix = prefix.insert(level, node.data);
             words.add(prefix.toString());
         }
 
@@ -113,6 +116,7 @@ class TrieNode {
     boolean isEndWord;
 
     TrieNode(char data) {
+        children = new HashMap<>();
         this.data = data;
     }
 

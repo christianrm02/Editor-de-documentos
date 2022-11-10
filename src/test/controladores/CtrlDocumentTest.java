@@ -11,15 +11,14 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-//main.domain.classes.Cela;
 public class CtrlDocumentTest {
-    //private CtrlDocument cd;
 
     @Test
     public void getDocument() {
         CtrlDocument cd = new CtrlDocument();
         cd.crearDocument("Pep", "Dia");
-        //assertNull(cd.getDocument("Joan", "Dia"));
+        assertNull(cd.getDocument("Pep", "Day"));
+        assertNull(cd.getDocument("Joan", "Day"));
         Document d = new Document("Pep", "Dia", Format.txt);
         assertEquals(d, cd.getDocument("Pep", "Dia"));
     }
@@ -50,9 +49,37 @@ public class CtrlDocumentTest {
         Document d3 = new Document("Pep", "Dia", Format.txt);
         Document d4 = new Document("Pep", "Noche", Format.txt);
         List<Document> docs = new ArrayList<>();
-        docs.add(d1); docs.add(d2); docs.add(d3); docs.add(d4);
-        //assertEquals(docs, cd.getAll());
-        assertTrue(docs.equals(cd.getAll()));
+        //docs.add(d1); docs.add(d2); docs.add(d3); docs.add(d4);
+        docs = cd.getAll();
+
+        System.out.println(d1.getAutor());
+        System.out.println(docs.get(0).getAutor());
+        System.out.println(d1.getTitol());
+        System.out.println(docs.get(0).getTitol());
+        for(int i = 1; i < 5; ++i) {
+            switch (i) {
+                case 1: {
+                    assertEquals(d1, docs.get(0));
+                    break;
+                }
+                case 2: {
+                    assertEquals(d2, docs.get(1));
+                    break;
+                }
+                case 3: {
+                    assertEquals(d3, docs.get(2));
+                    break;
+                }
+                case 4: {
+                    assertEquals(d4, docs.get(3));
+                    break;
+                }
+                default: {
+                    break;
+                }
+            }
+        }
+
     }
 
     @Test

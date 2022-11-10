@@ -17,7 +17,6 @@ public class Pair<T1, T2> {
 
     @Override
     public boolean equals(Object obj) {
-        //return super.equals(obj);
         if (this == obj) {
             return true;
         }
@@ -25,7 +24,6 @@ public class Pair<T1, T2> {
             return false;
         }
         Pair<?, ?> pair = (Pair<?, ?>) obj;
-        // call `equals()` method of the underlying objects
         return x.equals(pair.x) && y.equals(pair.y);
     }
 

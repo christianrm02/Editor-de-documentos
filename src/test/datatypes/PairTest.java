@@ -4,16 +4,20 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+/**
+ * PairTest: Per fer el testing de la classe Pair
+ * @author Christian Rivero
+ */
 public class PairTest {
 
     /**
      * Objecte de la prova: Es prova la constructora de la classe Pair.
      * Altres elements integrats a la prova: -
      * Fitxers de dades necessaris: No calen fitxers de dades.
-     * Valors estudiats:
+     * Valors estudiats: Es fa servir l'estratègia de caixa grisa. Es proven amb diferents tipus d'elements.
      * Efectes estudiats: -
-     * Operativa: Es crean dos pairs i mitjançant que els seus atributs són públics, es
-     * comproba que els objectes estan correctament inicialitzats
+     * Operativa: Es crean dos pairs i mitjançant que els seus atributs són públics, es comprova que els
+     * objectes estan correctament inicialitzats.
      */
     @Test
     public void testConstructora() {
@@ -25,19 +29,37 @@ public class PairTest {
         assertEquals(false, p2.y);
     }
 
+    /**
+     * Objecte de la prova: Es prova l'operació equals() de la classe Pair.
+     * Altres elements integrats a la prova: -
+     * Fitxers de dades necessaris: No calen fitxers de dades.
+     * Valors estudiats: Es fa servir l'estratègia de caixa blanca. Es proven tot tipus de combinacions.
+     * Efectes estudiats: -
+     * Operativa: Es crean diversos pairs i es compara per saber si són iguals.
+     */
     @Test
     public void testEquals() {
         Pair<String, Integer> p1 = new Pair<>("Primer", 1);
         Pair<String, Integer> p2 = new Pair<>("Segon", 1);
         Pair<String, Integer> p3 = new Pair<>("Primer", 2);
         Pair<String, Integer> p4 = new Pair<>("Primer", 1);
+        Pair<String, Double> p5 = new Pair<>("Primer", 1.);
         assertFalse(p1.equals(p2));
         assertFalse(p1.equals(p3));
         assertTrue(p1.equals(p4));
         assertTrue(p1.equals(p1));
         assertFalse(p1.equals(null));
+        assertFalse(p1.equals(p5));
     }
 
+    /**
+     * Objecte de la prova: Es prova l'operació hashCode() de la classe Pair.
+     * Altres elements integrats a la prova: -
+     * Fitxers de dades necessaris: No calen fitxers de dades.
+     * Valors estudiats: Es fa servir l'estratègia de caixa grisa. Com és una funcionalitat bàsica, el test també ho és.
+     * Efectes estudiats: -
+     * Operativa: Es crean diversos pairs i es comparen per saber si tenen el mateix hashCode.
+     */
     @Test
     public void testHashCode() {
         Pair<String, Integer> p1 = new Pair<>("Primer", 1);

@@ -1,32 +1,58 @@
 package controladores;
-//import java.util.List;
-//import java.util.HashSet; //para los sets?
-//import java.util.HashMap;
 
 import datatypes.Document;
 import datatypes.Format;
 import datatypes.Pair;
 
 import java.util.*;
+
+/**
+ * @author Christian Rivero
+ */
 public class CtrlDocument {
     public Document docAct; //la pongo publica para el test, aunque igual vale la pena dejarla así
-    private TreeMap<String, TreeMap<String, Document>> documents;
+    private TreeMap<String, TreeMap<String, Document>> documents; //TreeMap amb clau "autor" de TreeMaps amb clau "titol" de Documents
 
 
     /*CONTRUCTORA*/
+    /**
+     * Creadora d'un Document buit.
+     */
     public CtrlDocument() {
         documents = new TreeMap<>();
     }
 
     /*GETTERS*/
+    /**
+     * Operació que retorna el document identificat per autor+titol.
+     * @param autor: String: Autor del document.
+     * @param titol: String: Títol del document.
+     * @return Document: Es retorna el document que es buscaba, o null si no existeix.
+     */
     public Document getDocument(String autor, String titol) { //EXCEPCIÓ NO EXISTEIX EL DOCUMENT (autor, titol), tiene q comprobar la facade q exista, porq sinó existe devuelve null
-        return documents.get(autor).get(titol);
+        if(documents.get(autor) != null) {
+            return documents.get(autor).get(titol);
+        }
+        else {
+            return null;
+        }
     }
 
-    public Boolean existsDocument(String autor, String titol) {
+    /**
+     * Consultora que retorna si existeix un document identificat per autor+titol al sistema.
+     * @param autor: String: Autor del document.
+     * @param titol: String: Títol del document.
+     * @return boolean: Si existeix retorna true, sinó retorna false.
+     */
+    public boolean existsDocument(String autor, String titol) {
         return (documents.containsKey(autor) && documents.get(autor).containsKey(titol));
     }
 
+    /**
+     * Operació que retorna tots els documents del sistema, sense repetits.
+     * @return List<Document>: Retorna una llista amb tots els documents del sistema, aquesta estarà buida si no
+     * n'hi ha cap document.
+     */
     public List<Document> getAll() {
         List<Document> docs = new ArrayList<>();
         for(Map<String, Document> titols : documents.values()) {
@@ -35,14 +61,18 @@ public class CtrlDocument {
         return docs;
     }
 
+    /**
+     * Operació que retorna tots els autors del sistema, sense repetits.
+     * @return Set<String>: Retorna un set amb tots els autors del sistema, aquest estarà buit si no hi ha cap document.
+     */
     public Set<String> getAutors() {
-        /*List<String> autors = new ArrayList<String>();
-        for(Map<String, Document> titols : documents.values()) {
-            autors.add(titols.getKey());
-        }*/
         return documents.keySet();
     }
 
+    /**
+     * Operació que retorna tots els títols del sistema, sense repetits.
+     * @return Set<String>: Retorna un set amb tots els títols del sistema, aquest estarà buit si no hi ha cap document.
+     */
     public Set<String> getTitols() {
         Set<String> ttls = new TreeSet<>();
         for(String autor : documents.keySet()) {
@@ -52,16 +82,13 @@ public class CtrlDocument {
         return ttls;
     }
 
+    /**
+     * Operació que retorna totes les claus (autor+titol) dels documents del sistema.
+     * @return List<Pair<String, String>>: Retorna una llista amb totes les claus del sistema, aquesta estarà buida
+     * si no hi ha cap document.
+     */
     public List<Pair<String, String>> getClaus() {
         List<Pair<String, String>> claus = new ArrayList<>();
-        /*for(Map<String, Document> titols : documents.values()) {
-            autor = titols.getKey();
-            for (Document document : titols.values()) {
-                titol = document.getKey();
-                clau.setAutor(autor); clau.setTitol(titol);
-                claus.add(clau);
-            }
-        }*/
         for(String autor : documents.keySet()) {
             Map<String,Document> titols = documents.get(autor);
             for(String titol : titols.keySet()) {
@@ -72,20 +99,32 @@ public class CtrlDocument {
         return claus;
     }
 
+    /**
+     * Operació que retorna el contingut del document actual.
+     * @return List<String>: Retorna una llista de les frases del document actual.
+     */
     public List<String> getContingut() { //EXCEPCIÓ NO EXISTEIX EL DOCUMENT (autor, titol)
         return docAct.getContingut();
     }
 
-    /*public List<String> getContingut(String autor, String titol) { //EXCEPCIÓ NO EXISTEIX EL DOCUMENT (autor, titol)
-        return documents.get(autor).get(titol).getContingut();
-    }*/
-    
+    /**
+     * Operació que retorna els títols dels documents d'un autor.
+     * @param autor: String: Autor sobre el que es vol fer la búsqueda.
+     * @return Set<String>: Retorna un set format pels títols de l'autor. El set estarà buit si l'autor no té cap
+     * document al sistema.
+     */
     public Set<String> getTitolsAutor(String autor) {
         return documents.get(autor).keySet();
     }
 
     /*SETTERS*/
-    public void crearDocument(String autor, String titol) { //EXCEPCIÓ JA EXISTEIX EL DOCUMENT (autor, titol), SE ENCARGA FACADE
+    /**
+     * Operació que afegeix un nou document al sistema. Si no existia l'autor, s'afegeix al sistema amb un únic títol,
+     * i sinó, només s'afegeix el títol al map de títols de l'autor. No existia un document amb claus (autor+titol).
+     * @param autor: String: Autor del nou document.
+     * @param titol: String: Títol del nou document.
+     */
+    public void crearDocument(String autor, String titol) {
         TreeMap<String, Document> titols = new TreeMap<>();
         Document d = new Document(autor, titol, Format.txt); ////////////////FALTA EL FORMATO
         if (documents.containsKey(autor)){ //existe el autor
@@ -96,13 +135,25 @@ public class CtrlDocument {
         obreDocument(autor, titol);
     }
 
+    /**
+     * Operació que actualitza l'atribut docAct, passa a ser el document identificat per (autor+titol). Existeix
+     * al sistema.
+     * @param autor: String: Autor del document.
+     * @param titol: String: Títol del document.
+     */
     public void obreDocument(String autor, String titol) {
         docAct = getDocument(autor, titol);
     }
 
-    public boolean esborrarDocument(String autor, String titol) { //EXCEPCIÓ NO EXISTEIX EL DOCUMENT (autor, titol)
+    /**
+     * Operació que elimina el document identificat per (autor+titol) del sistema. El document existia.
+     * @param autor: String: Autor del document.
+     * @param titol: String: Títol del document.
+     * @return boolean: Retorna false si l'autor s'elimina del sistema, sinó retorna true.
+     */
+    public boolean esborrarDocument(String autor, String titol) {
         boolean autorContinua = true;
-        if (documents.get(autor).size() == 1) { //si l'autor només té un titol, s'esborra l'autor
+        if (documents.get(autor).size() == 1) { //si l'autor només té un títol, s'esborra l'autor
             documents.remove(autor);
             autorContinua = false;
         }
@@ -114,7 +165,14 @@ public class CtrlDocument {
         return autorContinua;
     }
 
-    public boolean modificarAutor(String autor, String titol, String newA) { //EXCEPCIÓ YA EXISTEIX EL DOCUMENT (newA, titol)
+    /**
+     * Operació que canvia l'autor del document identificat per (autor+titol). El document existia.
+     * @param autor: String: Antic autor del document.
+     * @param titol: String: Títol del document.
+     * @param newA: String: Nou autor del document.
+     * @return boolean: Retorna false si l'autor s'elimina del sistema, sinó retorna true.
+     */
+    public boolean modificarAutor(String autor, String titol, String newA) {
         /*try {
             if(existsDocument(newA, titol)) throw new Exception();
         }
@@ -146,7 +204,13 @@ public class CtrlDocument {
         return autorContinua;
     }
 
-    public void modificarTitol(String autor, String titol, String newT) { //EXCEPCIÓ YA EXISTEIX EL DOCUMENT (autor, newT)
+    /**
+     * Operació que canvia el títol del document identificat per (autor+titol). El document existia.
+     * @param autor: String: Autor del document.
+     * @param titol: String: Antic títol del document.
+     * @param newT: String: Nou títol del document.
+     */
+    public void modificarTitol(String autor, String titol, String newT) {
         TreeMap<String, Document> titols = documents.get(autor);
         Document d = titols.get(titol);
         d.setTitol(newT);
@@ -155,6 +219,10 @@ public class CtrlDocument {
         documents.put(autor, titols);
     }
 
+    /**
+     * Operació que canvia el contingut del document obert, és a dir, docAct. El document existia.
+     * @param newC: String: Nou contingut del document.
+     */
     public void modificarContingut(String newC) {
         docAct.setContingut(newC);
     }
@@ -168,10 +236,4 @@ public class CtrlDocument {
         titols.put(titol, d);
         documents.put(autor, titols);
     }*/
-
-
-
-
-
-
 }

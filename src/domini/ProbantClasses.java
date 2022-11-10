@@ -14,6 +14,8 @@ public class ProbantClasses {
         cD.crearDocument("Alex", "Camino");
         cD.crearDocument("Sara", "Dia");
 
+        cD.getDocument("Pep", "Day");
+
         System.out.println("Autors: " + cD.getAutors());
         System.out.println("Titols: " + cD.getTitols());
         //System.out.println("Claus: " + cD.getClaus());
@@ -137,7 +139,7 @@ public class ProbantClasses {
         ///////////
         HashMap<Pair<String, String>, Integer> test = new HashMap<>();
         test.put(p1, 1);
-        test.put(p2, 2);
+        /*test.put(p2, 2);
         test.put(p3, 3);
         test.put(p4, 4);
         test.put(p5, 5);
@@ -148,7 +150,7 @@ public class ProbantClasses {
             System.out.println("[Autor: " + pt.x + " Titol: " + pt.y + "] ");
         }
 
-        System.out.println("Benvingut al driver de ctrlDocument, per probar un metode ingressa per teclat el seu numero");
+        /*System.out.println("Benvingut al driver de ctrlDocument, per probar un metode ingressa per teclat el seu numero");
         System.out.println("**Constructors**");
         System.out.println("1-  Constructora");
         System.out.println("**Getters**");
@@ -165,6 +167,6 @@ public class ProbantClasses {
         System.out.println("11-  obreDocument");
         System.out.println("12-  modificarAutor");
         System.out.println("13-  modificarTitol");
-        System.out.println("14-  modificarContingut");
+        System.out.println("14-  modificarContingut");*/
     }
 }

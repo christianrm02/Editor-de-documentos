@@ -30,7 +30,7 @@ public class DocumentTest {
     }
 
     /**
-     * Objecte de la prova: Es prova l'operació getAutor de la classe Document.
+     * Objecte de la prova: Es prova l'operació getAutor() de la classe Document.
      * Altres elements integrats a la prova: -
      * Fitxers de dades necessaris: No calen fitxers de dades.
      * Valors estudiats: Es fa servir l'estratègia de caixa grisa. Com és una funcionalitat bàsica, el test també ho és.
@@ -44,7 +44,7 @@ public class DocumentTest {
     }
 
     /**
-     * Objecte de la prova: Es prova l'operació getTitol de la classe Document.
+     * Objecte de la prova: Es prova l'operació getTitol() de la classe Document.
      * Altres elements integrats a la prova: -
      * Fitxers de dades necessaris: No calen fitxers de dades.
      * Valors estudiats: Es fa servir l'estratègia de caixa grisa. Com és una funcionalitat bàsica, el test també ho és.
@@ -58,7 +58,7 @@ public class DocumentTest {
     }
 
     /**
-     * Objecte de la prova: Es prova l'operació getContingut de la classe Document.
+     * Objecte de la prova: Es prova l'operació getContingut() de la classe Document.
      * Altres elements integrats a la prova: -
      * Stubs: Es fa ús de l'operació getFrases de la classe DocumentStub, retorna el contingut que es posa amb setContingut.
      * Fitxers de dades necessaris: No calen fitxers de dades.
@@ -78,7 +78,7 @@ public class DocumentTest {
     }
 
     /**
-     * Objecte de la prova: Es prova l'operació getFormat de la classe Document.
+     * Objecte de la prova: Es prova l'operació getFormat() de la classe Document.
      * Altres elements integrats a la prova: -
      * Fitxers de dades necessaris: No calen fitxers de dades.
      * Valors estudiats: Es fa servir l'estratègia de caixa grisa. Com és una funcionalitat bàsica, el test també ho és.
@@ -92,7 +92,7 @@ public class DocumentTest {
     }
 
     /**
-     * Objecte de la prova: Es prova l'operació setAutor de la classe Document.
+     * Objecte de la prova: Es prova l'operació setAutor() de la classe Document.
      * Altres elements integrats a la prova: -
      * Fitxers de dades necessaris: No calen fitxers de dades.
      * Valors estudiats: Es fa servir l'estratègia de caixa grisa. Com és una funcionalitat bàsica, el test també ho és.
@@ -109,7 +109,7 @@ public class DocumentTest {
     }
 
     /**
-     * Objecte de la prova: Es prova l'operació setTitol de la classe Document.
+     * Objecte de la prova: Es prova l'operació setTitol() de la classe Document.
      * Altres elements integrats a la prova: -
      * Fitxers de dades necessaris: No calen fitxers de dades.
      * Valors estudiats: Es fa servir l'estratègia de caixa grisa. Com és una funcionalitat bàsica, el test també ho és.
@@ -126,7 +126,7 @@ public class DocumentTest {
     }
 
     /**
-     * Objecte de la prova: Es prova l'operació getContingut de la classe Document.
+     * Objecte de la prova: Es prova l'operació getContingut() de la classe Document.
      * Altres elements integrats a la prova: -
      * Stubs: Es fa ús de l'operació getFrases de la classe DocumentStub, retorna el contingut que es posa amb setContingut.
      * Fitxers de dades necessaris: No calen fitxers de dades.

@@ -1,9 +1,10 @@
 package indexs;
 
-import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import datatypes.Pair;
 import datatypes.Utility;
@@ -21,6 +22,7 @@ public class IndexExpBooleana {
     public IndexExpBooleana() {
         indexParaulaFrase = new HashMap<String, List<Boolean>>();
         indexFraseDocument = new ArrayList<Pair<String, String>>();
+        indexFrases = new ArrayList<String>();
     }
 
     public void AfegirDoc(String autor, String titol, List<String> contingut) {
@@ -38,41 +40,43 @@ public class IndexExpBooleana {
                 if(!indexParaulaFrase.containsKey(paraula)) {
                     List<Boolean> infoParaula = new ArrayList<Boolean>();
                     fillList(infoParaula);                  //Omplim la llista amb false
-                    infoParaula.set(indexFrases.size()-1, true);    //Lultim element sera true perque es la paraula que acabem de insertar
+                    infoParaula.set(indexFrases.size()-1, true);  //L'ultim element sera true perque es la paraula que acabem de insertar
                     indexParaulaFrase.put(paraula, infoParaula);
                 }
                 //Si la paraula ja existeix al index simplement posem a true la casella corresponent 
                 else {
-                    List<Boolean> aux = indexParaulaFrase.get(paraula);
-                    aux.set(indexFrases.size()-1, true);
-                    indexParaulaFrase.put(paraula, aux);
+                    List<Boolean> infoParaula = indexParaulaFrase.get(paraula);
+                    infoParaula.set(indexFrases.size()-1, true);
+                    indexParaulaFrase.put(paraula, infoParaula);
                 }
             }
         }
     }
 
+    //PRE: El document existeix
     public void EsborrarDoc(String autor, String titol) {
-        List<Integer> frasesAEliminar = new ArrayList<Integer>();
+        int startingIndexEliminar = -1;
+        int numFrasesEliminar = 0;
 
         //Obtenim totes les frases que pertanyen al document que esborrarem
         //OPTIMITZACIO: Es pot fer un break quan ha trobat tots els autorTitol iguals seguits
-        boolean found = false;
         for (int i = 0; i < indexFraseDocument.size(); i++) {
             Pair<String, String> autorTitol = indexFraseDocument.get(i);
             if(autor == autorTitol.x && titol == autorTitol.y) {
-                frasesAEliminar.add(i);
-                found = true;
-            } else if (found) break;
+                if(startingIndexEliminar == -1) startingIndexEliminar = i;
+                numFrasesEliminar++;
+            } else if (startingIndexEliminar != -1) break;
         }
 
         //Eliminem les frases
-        for (int fraseIndex : frasesAEliminar) {
-            indexFraseDocument.remove(fraseIndex);
-            indexFrases.remove(fraseIndex);
+        for (int i = startingIndexEliminar; i < startingIndexEliminar+numFrasesEliminar; i++) {
+            //int s = indexFraseDocument.size();
+            indexFraseDocument.remove(startingIndexEliminar);
+            indexFrases.remove(startingIndexEliminar);
 
             //Del indexParaulaFrase eliminem les posicions de les frases eliminades
             for (List<Boolean> infoParaula : indexParaulaFrase.values()) {
-                infoParaula.remove(fraseIndex);
+                infoParaula.remove(startingIndexEliminar);
             }
         }
 
@@ -80,31 +84,41 @@ public class IndexExpBooleana {
         cleanIndex();
     }
 
+    //PRE: El document existeix
     public void ActualitzarTitol(String autor, String titol, String newTitol) {
         Pair<String, String> oldAutorTitol = new Pair<String, String>(autor, titol);
         Pair<String, String> newAutorTitol = new Pair<String, String>(autor, newTitol);
         
-        boolean found = false;
-        for (Pair<String, String> Pair : indexFraseDocument) {
-            if(Pair == oldAutorTitol) {
-                Pair = newAutorTitol;
-                found = true;
-            }
-            else if (found) break;
+        int startingIndexCanviar = -1;
+        int numDocsCanviar = 0;
+        for (int i = 0; i < indexFraseDocument.size(); i++) {
+            if(indexFraseDocument.get(i).equals(oldAutorTitol)) {
+                if(startingIndexCanviar == -1) startingIndexCanviar = i;
+                numDocsCanviar++;
+            } else if (startingIndexCanviar != -1) break;
+        }
+
+        for (int i = startingIndexCanviar; i < startingIndexCanviar+numDocsCanviar; i++) {
+            indexFraseDocument.set(i, newAutorTitol);
         }
     }
 
+    //PRE: El document existeix
     public void ActualitzarAutor(String autor, String titol, String newAutor) {
         Pair<String, String> oldAutorTitol = new Pair<String, String>(autor, titol);
         Pair<String, String> newAutorTitol = new Pair<String, String>(newAutor, titol);
         
-        boolean found = false;
-        for (Pair<String, String> Pair : indexFraseDocument) {
-            if(Pair == oldAutorTitol) {
-                Pair = newAutorTitol;
-                found = true;
-            }
-            else if (found) break;
+        int startingIndexCanviar = -1;
+        int numDocsCanviar = 0;
+        for (int i = 0; i < indexFraseDocument.size(); i++) {
+            if(indexFraseDocument.get(i).equals(oldAutorTitol)) {
+                if(startingIndexCanviar == -1) startingIndexCanviar = i;
+                numDocsCanviar++;
+            } else if (startingIndexCanviar != -1) break;
+        }
+
+        for (int i = startingIndexCanviar; i < startingIndexCanviar+numDocsCanviar; i++) {
+            indexFraseDocument.set(i, newAutorTitol);
         }
     }
 
@@ -117,6 +131,9 @@ public class IndexExpBooleana {
     public List<Integer> GetFrases(String paraula) {
         List<Integer> frases = new ArrayList<Integer>();
         List<Boolean> infoParaula = indexParaulaFrase.get(paraula);
+
+        //Si la paraula no es a cap frase returnem una llista buida
+        if(infoParaula == null) return frases;
 
         for(int i = 0; i < infoParaula.size(); i++) {
             if(infoParaula.get(i)) frases.add(i);
@@ -151,9 +168,9 @@ public class IndexExpBooleana {
         return docs;
     }
 
-    //Omplira les N primeres posicions de la llista amb false
-    static private void fillList(List<Boolean> list) {
-        for(int i = 0; i < list.size(); i++) list.add(false);
+    //Omplira les primeres posicions de la llista amb false
+    private void fillList(List<Boolean> infoWord) {
+        for(int i = 0; i < indexFrases.size(); i++) infoWord.add(false);
     }
     
     //Crea una nova columna de false al index per la frase que inserirem a continuacio
@@ -165,16 +182,21 @@ public class IndexExpBooleana {
 
     //Netegem el index treient les paraules que no apareixen
     private void cleanIndex() {
+        Set<String> toRemove = new HashSet<String>();
+
+        //Busquem les paraules que no tenen entrades
         for (String paraula : indexParaulaFrase.keySet()) {
             List<Boolean> infoParaula = indexParaulaFrase.get(paraula);
-            Boolean found = false;
-            for (Boolean b : infoParaula) {
+            boolean found = false;
+            for (boolean b : infoParaula) {
                 if(b) {
                     found = true;
                     break;
                 }
             }
-            if(!found) indexParaulaFrase.remove(paraula);
+            if(!found) toRemove.add(paraula);
         }
+        //Borrem les paraules que no tenen entrades
+        for (String s : toRemove) indexParaulaFrase.remove(s);
     }
 }

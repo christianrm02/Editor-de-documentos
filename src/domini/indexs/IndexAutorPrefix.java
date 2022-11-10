@@ -3,7 +3,6 @@ package indexs;
 import java.util.List;
 
 import datatypes.Trie;
-import datatypes.Utility;
 
 public class IndexAutorPrefix {
 
@@ -14,7 +13,11 @@ public class IndexAutorPrefix {
     }
 
     public void InsertAutor(String autor) {
-        index.Insert(Utility.UTF8toASCII(autor));
+        index.Insert(autor);
+    }
+
+    public boolean FindAutor(String autor) {
+        return index.Find(autor);
     }
 
     public List<String> GetAutorsPrefix(String prefix) {

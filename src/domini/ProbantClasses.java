@@ -1,9 +1,8 @@
+import controladores.CtrlDocument;
 import datatypes.Document;
 import datatypes.Pair;
 
 import java.util.*;
-
-import controladores.CtrlDocument;
 public class ProbantClasses {
     public static void main(String[] args) {
         CtrlDocument cD = new CtrlDocument();
@@ -80,10 +79,7 @@ public class ProbantClasses {
 
         //nuevas
         cD.obreDocument("Joan", "Vida");
-        cD.modificarContingut("""
-                La vida es buena
-                Solo que a veces, es.
-                Una cabrona!""");
+        cD.modificarContingut("Hola...");
         List<String> oldc = cD.getContingut();
         System.out.println(oldc);
         cD.modificarContingut("VIVA ONE PIECE. Pero no a ratos! Siempre");

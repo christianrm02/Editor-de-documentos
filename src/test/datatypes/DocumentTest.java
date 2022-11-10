@@ -3,7 +3,6 @@ package datatypes;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -75,7 +74,7 @@ public class DocumentTest {
         doctest.setAutor("Pep");
         assertEquals("Pep", doctest.getAutor());
         doctest.setAutor("Joan");
-        assertEquals("Joan  ", doctest.getAutor());
+        assertEquals("Joan", doctest.getAutor());
     }
 
     @Test

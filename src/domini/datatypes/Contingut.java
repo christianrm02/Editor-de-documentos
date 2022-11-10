@@ -9,11 +9,11 @@ public class Contingut {
 
     // Metode per convertir un string en una llista de frases
     private void converteix_a_frases(String fr) {
-        boolean salt_final = false;
-        if (fr.charAt(fr.length() - 1) == '\n') salt_final = true;
+        frases = new ArrayList<String>();
+        if (fr == "") return;
+        boolean salt_final = fr.charAt(fr.length() - 1) == '\n';
         List<String> aux = List.of(fr.split("\n"));
 
-        frases = new ArrayList<String>();
         for (int j = 0; j < aux.size(); ++j) {
             String f = aux.get(j);
             if (f.equals("")) frases.add("\n");

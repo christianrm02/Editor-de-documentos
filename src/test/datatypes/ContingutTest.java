@@ -11,7 +11,7 @@ import java.util.List;
 public class ContingutTest {
     private String f1 = "Hola, em dic Marc. Com estàs?\nJo bé! Bueno adéeeu";
     private String f2 = "Bon dia, com vas? Ara ve el mundial, fins cap d'any no torna a jugar el Barça. Vaja\nQuè hi farem\n";
-    private String f3 = "Hola\n\n, què és això?\n\n, no ho sé, però\n bé!\n això s'acaba.\n Ara sí. Està bé? Està bé! a";
+    private String f3 = "Hola\n\n, què és això?\n\n, no ho sé, però\nbé!\naixò s'acaba.\nAra sí. Està bé? Està bé! a";
     private List<String> sol1, sol2, sol3;
 
     @Before
@@ -34,12 +34,12 @@ public class ContingutTest {
         sol3.add(", què és això?\n");
         sol3.add("\n");
         sol3.add(", no ho sé, però\n");
-        sol3.add(" bé!\n");
-        sol3.add(" això s'acaba.\n");
-        sol3.add(" Ara sí.");
-        sol3.add(" Està bé?");
-        sol3.add(" Està bé!");
-        sol3.add(" a");
+        sol3.add("bé!\n");
+        sol3.add("això s'acaba.\n");
+        sol3.add("Ara sí.");
+        sol3.add("Està bé?");
+        sol3.add("Està bé!");
+        sol3.add("a");
     }
 
     /**

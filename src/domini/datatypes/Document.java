@@ -1,8 +1,7 @@
 package datatypes;
-import datatypes.Format;
-import datatypes.Contingut;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Document {
     private String autor;
@@ -47,5 +46,14 @@ public class Document {
 
     public void setContingut(String newContingut) {
         contingut.actualitzaContingut(newContingut);
+    }
+}
+
+class DocumentStub extends Document {
+    @Override
+    public List<String> getContingut(){
+        List<String> contingut = new ArrayList<>();
+        contingut.add("En un lugar de la Mancha, de cuyo nombre no quiero acordarme.");
+        return contingut;
     }
 }

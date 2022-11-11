@@ -119,13 +119,13 @@ public class CtrlDomini {
     }
 
     public List<Pair<String, String>> cercarExpressioBooleana(String exp) {
-        return ce.cercarExpressioBooleana(exp);
+        return ce.cercarExpressioBooleana(exp, ci);
     }
 
-    // OPCIONAL
+/*    // OPCIONAL
     public List<Pair<String, String>> cercarPerRellevancia(List<String> paraules, int K) {
         return null;
-    }
+    }*/
 
     // Getter d'expressio booleana
     public String getExpressioBooleana(String nom) {

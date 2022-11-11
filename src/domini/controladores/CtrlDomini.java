@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Set;
 import java.util.TreeSet;
-import java.lang.Exception;
 import java.lang.String;
 
 import datatypes.*;
@@ -53,13 +52,14 @@ public class CtrlDomini {
     }
 
     // Creacio de document
-    public void crearDocument(String autor, String titol/*, string format*/) throws Exception {
+    public boolean crearDocument(String autor, String titol/*, string format*/) {
         boolean ed = cd.existsDocument(autor, titol);
         if (!ed) {
             cd.crearDocument(autor, titol/*, format*/); // PRE: no existeix Document
             ci.AfegirDoc(autor, titol, new ArrayList<String>());
         }
-        else throw new Exception();
+        else return false;
+        return true;
     }
 
     // Destruccio de documents
@@ -74,16 +74,17 @@ public class CtrlDomini {
     }
 
     // Modificadores de document
-    public void modificarTitol(String autor, String titol, String newT) throws Exception {
+    public boolean modificarTitol(String autor, String titol, String newT) {
         boolean ed = cd.existsDocument(autor, newT);
         if (!ed) {
             cd.modificarTitol(autor, titol, newT);
             ci.ActualitzarTitol(autor, titol, newT);
         }
-        else throw new Exception();
+        else return false;
+        return true;
     }
 
-    public void modificarAutor(String autor, String titol, String newA) throws Exception {
+    public boolean modificarAutor(String autor, String titol, String newA) {
         boolean ed = cd.existsDocument(newA, titol);
         if (!ed) {
             boolean asegueix = cd.modificarAutor(autor, titol, newA);
@@ -91,7 +92,8 @@ public class CtrlDomini {
             List<String> a = new ArrayList<String>(); a.add(autor);
             if (!asegueix) ci.EsborrarAutors(a);
         }
-        else throw new Exception();
+        else return false;
+        return true;
     }
 
     public void modificarContingut(String autor, String titol, String cont) {
@@ -111,8 +113,8 @@ public class CtrlDomini {
         return ci.GetAutorsPrefix(prefix);
     }
 
-    public List<Pair<String, String>> llistarKDocumentsS(String autor, String titol, int K) throws Exception {
-        if (K < 1) throw new Exception();
+    public List<Pair<String, String>> llistarKDocumentsS(String autor, String titol, int K) {
+        if (K < 1) return null;
         return ci.GetKDocsSimilarS(autor, titol, K);
     }
 
@@ -131,10 +133,11 @@ public class CtrlDomini {
     }
 
     // Creadora d'expressio booleana
-    public void setExpressioBooleana(String nom, String exp) throws Exception {
+    public boolean setExpressioBooleana(String nom, String exp) {
         boolean ee = ce.existsExpressioBooleana(nom);
         if (!ee) ce.setExpressioBooleana(nom, exp); // PRE: no existeix ExpressioBooleana
-        else throw new Exception();
+        else return false;
+        return true;
     }
 
     public void modExpressioBooleana(String nom, String nExp) {

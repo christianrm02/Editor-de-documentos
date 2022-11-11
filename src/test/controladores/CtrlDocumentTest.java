@@ -1,4 +1,4 @@
-/*package controladores;
+package controladores;
 
 import datatypes.Document;
 import datatypes.Format;
@@ -13,16 +13,34 @@ import static org.mockito.Mockito.when;
 
 public class CtrlDocumentTest {
 
+    /**
+     * Objecte de la prova: Es prova l'operació getDocument() de la classe CtrlDocument.
+     * Altres elements integrats a la prova: -
+     * Fitxers de dades necessaris: No calen fitxers de dades.
+     * Valors estudiats: Es fa servir l'estratègia de caixa grisa. Com és una funcionalitat bàsica, el test també ho és.
+     * Efectes estudiats: -
+     * Operativa: Es crea un document, s'obté amb el getDocument, i es mira que retorna el que hauria de retornar.
+     */
     @Test
-    public void getDocument() {
+    public void getDocument() { /////
         CtrlDocument cd = new CtrlDocument();
         cd.crearDocument("Pep", "Dia");
         assertNull(cd.getDocument("Pep", "Day"));
         assertNull(cd.getDocument("Joan", "Day"));
-        Document d = new Document("Pep", "Dia", Format.txt);
-        assertEquals(d, cd.getDocument("Pep", "Dia"));
+        Document d = cd.getDocument("Pep", "Dia");
+        assertEquals("Pep", d.getAutor());
+        assertEquals("Dia", d.getTitol());
+        assertEquals(Format.txt, d.getFormat());
     }
 
+    /**
+     * Objecte de la prova: Es prova l'operació existsDocument() de la classe CtrlDocument.
+     * Altres elements integrats a la prova: -
+     * Fitxers de dades necessaris: No calen fitxers de dades.
+     * Valors estudiats: Es fa servir l'estratègia de caixa grisa. Es prova l'operació en diferents casos.
+     * Efectes estudiats: -
+     * Operativa: Es crean diversos documents i es comprova si existeixen al sistema aquests, i altres que no.
+     */
     @Test
     public void existsDocument() {
         CtrlDocument cd = new CtrlDocument();
@@ -37,25 +55,52 @@ public class CtrlDocumentTest {
         assertFalse(cd.existsDocument("Alex", "Dia"));
     }
 
+    /**
+     * Objecte de la prova: Es prova l'operació getAll() de la classe CtrlDocument.
+     * Altres elements integrats a la prova: -
+     * Fitxers de dades necessaris: No calen fitxers de dades.
+     * Valors estudiats: Es fa servir l'estratègia de caixa grisa.
+     * Efectes estudiats: -
+     * Operativa: Es crean diversos documents i es comprova que amb el getAll es retorna els valors correctes i
+     * ordenats alfabèticament.
+     */
     @Test
-    public void getAll() {
+    public void getAll() { /////
         CtrlDocument cd = new CtrlDocument();
         cd.crearDocument("Pep", "Noche");
         cd.crearDocument("Pep", "Dia");
         cd.crearDocument("Joan", "Vida");
         cd.crearDocument("Alex", "Camino");
-        Document d1 = new Document("Alex", "Camino", Format.txt);
+        /*Document d1 = new Document("Alex", "Camino", Format.txt);
         Document d2 = new Document("Joan", "Vida", Format.txt);
         Document d3 = new Document("Pep", "Dia", Format.txt);
-        Document d4 = new Document("Pep", "Noche", Format.txt);
-        List<Document> docs = new ArrayList<>();
+        Document d4 = new Document("Pep", "Noche", Format.txt);*/
+        List<Document> docs = cd.getAll();
         //docs.add(d1); docs.add(d2); docs.add(d3); docs.add(d4);
-        docs = cd.getAll();
+        //docs =
+        assertEquals("Alex", docs.get(0).getAutor()); //primer element
+        assertEquals("Camino", docs.get(0).getTitol());
+        assertEquals(Format.txt, docs.get(0).getFormat());
+
+        assertEquals("Joan", docs.get(1).getAutor()); //segon element
+        assertEquals("Vida", docs.get(1).getTitol());
+        assertEquals(Format.txt, docs.get(1).getFormat());
+
+        assertEquals("Pep", docs.get(2).getAutor()); //tercer element
+        assertEquals("Dia", docs.get(2).getTitol());
+        assertEquals(Format.txt, docs.get(2).getFormat());
+
+        assertEquals("Pep", docs.get(3).getAutor()); //últim element
+        assertEquals("Noche", docs.get(3).getTitol());
+        assertEquals(Format.txt, docs.get(3).getFormat());
+        /*
 
         System.out.println(d1.getAutor());
         System.out.println(docs.get(0).getAutor());
         System.out.println(d1.getTitol());
         System.out.println(docs.get(0).getTitol());
+        System.out.println(d1.getFormat());
+        System.out.println(docs.get(0).getFormat());
         for(int i = 1; i < 5; ++i) {
             switch (i) {
                 case 1: {
@@ -78,10 +123,20 @@ public class CtrlDocumentTest {
                     break;
                 }
             }
-        }
+        }*/
 
     }
 
+    /**
+     * Objecte de la prova: Es prova l'operació getAutors() de la classe CtrlDocument.
+     * Altres elements integrats a la prova: -
+     * Fitxers de dades necessaris: No calen fitxers de dades.
+     * Valors estudiats: Es fa servir l'estratègia de caixa grisa. S'introdueixen autors repetits per comprovar
+     * que només el mostra una vegada.
+     * Efectes estudiats: -
+     * Operativa: Es crean diversos documents i es mira que el getAutors retorna els autors en ordre i sense
+     * repetits.
+     */
     @Test
     public void getAutors() {
         CtrlDocument cd = new CtrlDocument();
@@ -124,7 +179,7 @@ public class CtrlDocumentTest {
 
     //mock
     @Test
-    public void getContingut() {
+    public void getContingut() { /////
         Document d = mock(Document.class);
         when(d.getContingut()).thenReturn(Collections.singletonList("Vaca Nou cont.")); //no funciona bien el mock
 
@@ -213,7 +268,7 @@ public class CtrlDocumentTest {
 
     //mock
     @Test
-    public void modificarContingut() {
+    public void modificarContingut() { /////
         Document d = mock(Document.class);
         when(d.getContingut()).thenReturn(Collections.singletonList("Hola, este es el old contenido."));
 
@@ -224,12 +279,4 @@ public class CtrlDocumentTest {
         frases.add("Hola, este es el old contenido.");
         assertEquals(frases, cd.getContingut());
     }
-
-    /*public static void main(String[] args) {
-        CtrlDocumentTest cdt = new CtrlDocumentTest();
-        cdt.modificarTitol();
-        cdt.modificarAutor();
-        cdt.modificarContingut();
-
-    }*/
-//}
+}

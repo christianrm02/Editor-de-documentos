@@ -12,6 +12,10 @@ import org.junit.Test;
 
 import datatypes.Pair;
 
+/**
+ * IndexExpBooleanaTest: Per fer el testing de la classe IndexExpBooleana
+ * @author Èric Ryhr
+ */
 public class IndexExpBooleanaTest {
     @Test
     public void testActualitzarAutor() {

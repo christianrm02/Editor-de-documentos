@@ -27,9 +27,9 @@ public class IndexParaulaTFIDF {
 
     static Set<String> stopWords;
     
-    //Index TFIDFs per document. x es TF i y es TFIDF
+    //Index TFIDFs per document i paraula. x es TF i y es TFIDF
     private TreeMap<Pair<String, String>, TreeMap<String, Pair<Double, Double>>> indexTFIDF;
-    //Index IDF per paraula (ordenades de la mateixa manera que les columnes del indexTFIDF)
+    //Index nombre de documents on apareix la paraula
     private TreeMap<String, Integer> indexGlobalTF;
 
     public IndexParaulaTFIDF() {
@@ -45,7 +45,7 @@ public class IndexParaulaTFIDF {
         Pair<String, String> autorTitol = new Pair<String, String>(autor, titol);
         //Creem una nova fila pel nou document
         TreeMap<String, Pair<Double, Double>> infoDoc = new TreeMap<>();
-        calcularTFs(autorTitol, infoDoc, paraules, numWordsDoc);
+        calcularTFs(infoDoc, paraules, numWordsDoc);
         indexTFIDF.put(autorTitol, infoDoc);
 
         calcularGlobalTFs(paraules);
@@ -124,6 +124,9 @@ public class IndexParaulaTFIDF {
     }
 
     static private Double cosinusMetric(TreeMap<String, Pair<Double, Double>> query, TreeMap<String, Pair<Double, Double>> document){
+        //Si algun dels documents es buit la metrica es nula
+        if(query.size() == 0 || document.size() == 0) return 0.0;
+
         double dot = 0.0;
         double queryNorm = 0.0;
         double documentNorm = 0.0;
@@ -133,7 +136,7 @@ public class IndexParaulaTFIDF {
         String wordQ = (String) itQuery.next();
         String wordD = (String) docQuery.next();
         
-        do {
+        while(itQuery.hasNext() && docQuery.hasNext()) {
             double q = query.get(wordQ).y;
             double d = document.get(wordD).y;
             //Si son iguals calculem el producte escalar i avancem els 2 iteradors
@@ -151,7 +154,7 @@ public class IndexParaulaTFIDF {
                 documentNorm += d*d;
                 wordD = (String) docQuery.next();
             }
-        } while(itQuery.hasNext() || docQuery.hasNext());
+        } 
 
         queryNorm = Math.sqrt(queryNorm);
         documentNorm = Math.sqrt(documentNorm);
@@ -167,26 +170,11 @@ public class IndexParaulaTFIDF {
         return paraules;
     }
 
-    /*private void addCurrentWords(TreeMap<String, Pair<Double, Double>> infoDoc){
-        for (String word : indexGlobalTF.keySet()) {
-            Pair<Double, Double> infoWord = new Pair<Double,Double>(0.0, 0.0);
-            infoDoc.put(word, infoWord);
-        }
-    }
-
-    private void addColumn(String word) {
-        indexGlobalTF.put(word, 0);
-        for (TreeMap<String, Pair<Double, Double>> infoDoc : indexTFIDF.values()) {
-            Pair<Double, Double> infoWord = new Pair<Double,Double>(0.0, 0.0);
-            infoDoc.put(word, infoWord);
-        }
-    }*/
-
     private double idf(String word) {
         return Math.log((1+indexTFIDF.size())/(1+indexGlobalTF.get(word))) + 1;
     }
 
-    private void calcularTFs(Pair<String, String> autorTitol, TreeMap<String, Pair<Double, Double>> infoDoc, List<String> paraules, int numWordsDoc){
+    private void calcularTFs(TreeMap<String, Pair<Double, Double>> infoDoc, List<String> paraules, int numWordsDoc){
         //Sumem les paraules que apareixen al document
         for(String paraula : paraules) {
             if(stopWords.contains(paraula)) continue;

@@ -10,14 +10,15 @@ import datatypes.Pair;
 import datatypes.Utility;
 
 
-//Aquest index desa per cada paraula les frases a la que apareix i per cada frase el document on apareix
-//Insercions tenen cost linear amb el nombre de paraules
-//Cerques tenen cost linear amb el nombre de frases
+/**
+ * IndexExpBooleana: Index per les cerques per expressió booleana
+ * @author Èric Ryhr
+ */
 public class IndexExpBooleana {
     
     private HashMap<String, List<Boolean>> indexParaulaFrase;   //Per cada paraula indica a quines frases apareix
     private List<Pair<String, String>> indexFraseDocument;      //Per cada frase(index) indica a quin document pertany 
-    private List<String> indexFrases;                           //Ens guardem les frases en ordre per comprovar si existeixen sequencies
+    private List<String> indexFrases;                           //Ens guardem les frases en ordre per comprovar si existeixen sequencies de paraules
 
     public IndexExpBooleana() {
         indexParaulaFrase = new HashMap<String, List<Boolean>>();

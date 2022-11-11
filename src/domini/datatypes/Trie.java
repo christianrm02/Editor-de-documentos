@@ -7,6 +7,7 @@ import java.util.List;
 
 /**
  * Trie: Estructura de dades per emmagatzemar strings
+ * Implementació bàsica del trie extreta de https://www.baeldung.com/trie-java
  * @author Èric Ryhr
  */
 public class Trie {

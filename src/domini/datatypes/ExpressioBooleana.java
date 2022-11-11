@@ -146,6 +146,9 @@ public class ExpressioBooleana {
     }
 
 
+
+
+
     //Getters
     public String getNom() { return nom; }
 
@@ -163,6 +166,12 @@ public class ExpressioBooleana {
         this.exp = exp;
         //crearArbre();
     }
+
+
+
+
+
+
 
     /*
     private void crearLlista(String s) throws Exception {

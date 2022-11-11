@@ -1,14 +1,50 @@
 package datatypes;
+import java.util.*;
 
 public class TreeNode {
     public String data;
-
     public TreeNode leftNode;
     public TreeNode rightNode;
 
     public TreeNode() {
         this.leftNode = null;
         this.rightNode = null;
+    }
+
+    public TreeNode(String s) {
+        this.leftNode = null;
+        this.rightNode = null;
+        this.data = s;
+    }
+
+    private boolean isOperator(String s) {
+        return s.length() == 1 && (s.equals("&") || s.equals("|") || s.equals("!"));
+    }
+
+    public  TreeNode expressionTree(List<String> postfix){
+        Stack<TreeNode> st = new Stack<TreeNode>();
+        TreeNode t1,t2,temp;
+
+        for (String s : postfix) {
+            if(!isOperator(s)){
+                temp = new TreeNode(s);
+                st.push(temp);
+            }
+            else{
+                temp = new TreeNode(s);
+
+                t1 = st.pop();
+                t2 = st.pop();
+
+                temp.leftNode = t2;
+                temp.rightNode = t1;
+
+                st.push(temp);
+            }
+
+        }
+        temp = st.pop();
+        return temp;
     }
 
 /*

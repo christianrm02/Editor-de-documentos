@@ -168,6 +168,8 @@ public class CtrlExpressioBooleana {
             ++i;
         }
         if (s1.length() > 0) llista.add(s1);
+
+
         for (String h : llista) {
             System.out.print(h +",");
         }

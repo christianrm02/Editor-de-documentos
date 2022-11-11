@@ -99,7 +99,7 @@ public class Tree {
         if (arrel == null) return;
         else {
             InOrder(arrel.leftNode);
-            System.out.println(arrel.data);
+            System.out.print(arrel.data+", ");
             InOrder(arrel.rightNode);
         }
     }

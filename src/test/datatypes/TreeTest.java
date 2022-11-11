@@ -14,15 +14,15 @@ public class TreeTest {
         List<String> list = new ArrayList<>();
         list.add("a");
         list.add("b");
-        list.add("&");
+        list.add("|");
         list.add("c");
-        list.add("&");
         list.add("d");
         list.add("e");
         list.add("|");
         list.add("&");
-        list.add("h");
         list.add("&");
+        //list.add("h");
+        //list.add("&");
         Tree tree = new Tree(list);
         InOrder(tree.root);
     }

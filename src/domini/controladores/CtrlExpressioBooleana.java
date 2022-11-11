@@ -55,18 +55,18 @@ public class CtrlExpressioBooleana {
         if (!isOperator(node.data)) {
             String[] words = node.data.split("\\W+"); //per la sequencia
             Set<Integer> frases = new HashSet<>();
-            frases.addAll(ci.GetFrases(words[0]));
+            frases = ci.GetFrases(words[0]);
             if (words.length == 1) return frases;
             else { //es una sequencia
                 int i = 1;
                 while (i < words.length) {
                     Set<Integer> frases2 = new HashSet<>();
-                    frases2.addAll(ci.GetFrases(words[i]));
+                    frases2 = ci.GetFrases(words[i]);
                     frases.retainAll(frases2);
                     ++i;
                 }
                 Set<Integer> frases3 = new HashSet<>();
-                frases3.addAll(ci.GetSequencia(node.data, (List<Integer>) frases));
+                frases3 = (ci.GetSequencia(node.data, frases));
                 return frases3;
             }
         } else {
@@ -79,8 +79,8 @@ public class CtrlExpressioBooleana {
     public List<Pair<String, String>> cercarExpressioBooleana(String exp) {
         ExpressioBooleana expB = new ExpressioBooleana(exp);
         TreeNode expTree = expB.getExpA();
-        List<Integer> frases = new ArrayList<>();
-        frases.addAll(cercaExpBol(expTree));
+        Set<Integer> frases = new HashSet<>();
+        frases = cercaExpBol(expTree);
         //List<Pair> documents = new ArrayList<>();
         return ci.GetDocuments(frases);
     }

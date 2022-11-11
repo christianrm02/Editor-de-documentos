@@ -9,6 +9,10 @@ import java.util.List;
 
 import org.junit.Test;
 
+/**
+ * TrieTest: Per fer el testing de la classe Trie
+ * @author Èric Ryhr
+ */
 public class TrieTest {
     @Test
     public void testDelete() {

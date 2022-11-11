@@ -29,11 +29,10 @@ public class IndexExpBooleana {
         Pair<String, String> autorTitol = new Pair<String, String>(autor, titol);
 
         for (String frase : contingut) {
-            frase = Utility.UTF8toASCII(frase);
             indexFraseDocument.add(autorTitol);
             indexFrases.add(frase);
             addPosition();
-            String[] paraules = Utility.parseFrase(frase);
+            String[] paraules = Utility.ParseFrase(frase);
 
             for (String paraula : paraules) {
                 //Si la paraula no era al index afegim una altra entrada

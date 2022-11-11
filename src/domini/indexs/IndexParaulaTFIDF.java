@@ -162,7 +162,7 @@ public class IndexParaulaTFIDF {
         List<String> paraules = new ArrayList<String>();
         for (String frase : frases) {
             frase = Utility.UTF8toASCII(frase);
-            paraules.addAll(Arrays.asList(Utility.parseFrase(frase)));
+            paraules.addAll(Arrays.asList(Utility.ParseFrase(frase)));
         }
         return paraules;
     }

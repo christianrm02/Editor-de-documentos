@@ -2,7 +2,6 @@ package indexs;
 
 import static org.junit.Assert.assertEquals;
 
-import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.List;
 

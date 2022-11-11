@@ -4,24 +4,25 @@ import java.util.List;
 import java.util.Set;
 
 import datatypes.Pair;
+import datatypes.Trie;
 import indexs.*;
 
 
 public class CtrlIndex {
 
-    private IndexAutorPrefix indexAutorPrefix;
+    private Trie indexAutorPrefix;
     private IndexExpBooleana indexExpBooleana;
     private IndexParaulaTFIDF indexParaulaTFIDF;
     
 
     public CtrlIndex() {
-        indexAutorPrefix = new IndexAutorPrefix();
+        indexAutorPrefix = new Trie();
         indexExpBooleana = new IndexExpBooleana();
         indexParaulaTFIDF = new IndexParaulaTFIDF();
     }
 
     public void AfegirDoc(String autor, String titol, List<String> contingut) {
-        indexAutorPrefix.InsertAutor(autor);
+        indexAutorPrefix.Insert(autor);
         indexExpBooleana.AfegirDoc(autor, titol, contingut);
         indexParaulaTFIDF.AfegirDoc(autor, titol, contingut);
     }
@@ -33,7 +34,7 @@ public class CtrlIndex {
 
     public void EsborrarAutors(List<String> autors) {
         for (String autor : autors) {
-            indexAutorPrefix.DeleteAutor(autor);
+            indexAutorPrefix.Delete(autor);
         }
     }
 
@@ -53,7 +54,7 @@ public class CtrlIndex {
     }
 
     public List<String> GetAutorsPrefix(String prefix) {
-        return indexAutorPrefix.GetAutorsPrefix(prefix);
+        return indexAutorPrefix.SearchWordsPrefix(prefix);
     }
 
     public List<Pair<String, String>> GetKDocsSimilarS (String autor, String titol, int K) {

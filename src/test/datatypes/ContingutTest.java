@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * DocumentTest: Per fer el testing de la classe Contingut
+ * ContingutTest: Per fer el testing de la classe Contingut
  * @author Marc Roman
  */
 public class ContingutTest {

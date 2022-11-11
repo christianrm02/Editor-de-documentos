@@ -4,6 +4,10 @@ import java.util.List;
 import java.util.ArrayList;
 import java.lang.String;
 
+/**
+ * Contingut: S'implementa la classe Contingut.
+ * @author Marc Roman
+ */
 public class Contingut {
     private List<String> frases;
 

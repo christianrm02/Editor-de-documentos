@@ -4,6 +4,8 @@ import datatypes.*;
 import java.text.Normalizer;
 import java.util.*;
 
+import static datatypes.Utility.ParseFrase;
+
 public class CtrlExpressioBooleana {
 
     private Map<String, ExpressioBooleana> expressions;
@@ -49,7 +51,7 @@ public class CtrlExpressioBooleana {
     private Set<Integer> cercaExpBol(TreeNode node) {
         //List<Integer> frases = new ArrayList<Integer>();
         if (!isOperator(node.data)) {
-            String[] words = node.data.split("\\W+"); //per la sequencia
+            String[] words = ParseFrase(node.data); //per la sequencia
             Set<Integer> frases = new HashSet<>();
             frases = ci.GetFrases(words[0]);
             if (words.length == 1) return frases;

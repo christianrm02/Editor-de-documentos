@@ -15,7 +15,7 @@ public class Contingut {
     private void converteix_a_frases(String fr) {
         frases = new ArrayList<String>();
         if (fr == "") return;
-        boolean salt_final = fr.charAt(fr.length() - 1) == '\n';
+        boolean salt_final = fr.charAt(fr.length() - 1) == '\n'; // si l'ultim caracter es '\n', salt_final es true, altrament fals
         List<String> aux = List.of(fr.split("\n"));
 
         for (int j = 0; j < aux.size(); ++j) {

@@ -11,6 +11,9 @@ public class IndexAutorPrefix {
     public IndexAutorPrefix() {
         index = new Trie();
     }
+    public IndexAutorPrefix(Trie trie) {
+        index = trie;
+    }
 
     public void InsertAutor(String autor) {
         index.Insert(autor);

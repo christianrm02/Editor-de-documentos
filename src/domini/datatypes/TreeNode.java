@@ -1,6 +1,16 @@
 package datatypes;
 import java.util.*;
 
+
+public class Tree {
+
+    public TreeNode root;
+    public Tree(List<String> exp) {
+
+    }
+}
+
+
 public class TreeNode {
     public String data;
     public TreeNode leftNode;
@@ -47,55 +57,62 @@ public class TreeNode {
         return temp;
     }
 
-/*
-    public TreeNode construir_arbre(List<String> exp) {
-        Map<String, Integer> prio = new HashMap<>();
-
-        prio.put("(", 1);
-        prio.put("|", 2);
-        prio.put("&", 3);
-        prio.put("!", 4);
-
-        Deque<String> ops = new ArrayDeque<>();
-        Deque<TreeNode> stack = new ArrayDeque<>();
-
-        for (int i = 0; i < exp.size(); i++) {
-            String s = exp.get(i);
-            if (s == "(") ops.push(s);
-            else if (s == ")") {
-                while (ops.peek() != "(") {
-                    combine(ops, stack);
-                }
-                // pop left "("
-                ops.pop();
-            }
-
-            else if (s == "&" || s == "!" || s == "|"){
-                while (!ops.isEmpty() && prio.get(ops.peek()) >= prio.get(s)) { //
-                    combine(ops, stack);
-                }
-
-                ops.push(s);
-            }
-            else stack.push(new TreeNode(s));
+    private int preced(String s) {
+        if (s.equals("|")) {
+            return 1;              //Precedence of | 1
         }
-
-        while (stack.size() > 1) {
-            combine(ops, stack);
+        else if (s.equals("&")) {
+            return 2;            //Precedence of & is 2
         }
-
-        return stack.peek();
+        else if (s.equals("!")) {
+            return 3;            //Precedence of ! is 3
+        }
+        else if (s.equals("(")) {
+            return 0;
+        }
+        return -1;
     }
 
-        private void combine(Deque<String> ops, Deque<TreeNode> stack) {
-            TreeNode root = new TreeNode(ops.pop());
-            // right first, then left
-            root.rightNode = stack.pop();
-            root.leftNode = stack.pop();
+    public List<String> inToPost(List<String> infix) {
+        Stack<String> stk = new Stack<>();
+        stk.push("#"); //add some extra character to avoid underflow
 
-            stack.push(root);
+        List<String> postfix = new ArrayList<>();
+
+        for (String s : infix) {
+            if (!isOperator(s)) {
+                postfix.add(s);
+            }
+            else if (s.equals("(")) {
+                stk.push(s);
+            }
+            else if (s.equals(")")) {
+                while (!stk.peek().equals("#") && !stk.peek().equals("(")) {
+                    postfix.add(stk.peek());
+                    stk.pop();
+                }
+                stk.pop();
+            }
+            else {
+                if (preced(s) > preced(stk.peek())) stk.push(s);
+                else {
+                    while (!stk.peek().equals("#") && preced(s) <= preced(stk.peek())) {
+                        postfix.add(stk.peek());
+                        stk.pop();
+                    }
+                    stk.push(s);
+                }
+            }
         }
-    }*/
+
+        while(!stk.peek().equals("#")) {
+            postfix.add(stk.peek());        //store and pop until stack is not empty.
+            stk.pop();
+        }
+        return postfix;
+    }
+
+
 
     private void InOrder(TreeNode node) {
         if (node == null) return;

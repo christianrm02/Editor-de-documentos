@@ -1,4 +1,4 @@
-package controladores;
+/*package controladores;
 
 import datatypes.Document;
 import datatypes.Format;
@@ -232,4 +232,4 @@ public class CtrlDocumentTest {
         cdt.modificarContingut();
 
     }*/
-}
+//}

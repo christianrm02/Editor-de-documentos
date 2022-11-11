@@ -1,6 +1,7 @@
 package controladores;
 
 import java.util.List;
+import java.util.Set;
 
 import datatypes.Pair;
 import indexs.*;
@@ -60,7 +61,7 @@ public class CtrlIndex {
     }
 
     //Retorna els indexs de les frases que contenen paraula
-    public List<Integer> GetFrases(String paraula) {
+    public Set<Integer> GetFrases(String paraula) {
         return indexExpBooleana.GetFrases(paraula);
     }
 
@@ -68,12 +69,12 @@ public class CtrlIndex {
         return indexExpBooleana.GetNumFrases();
     }
 
-    public List<Integer> GetSequencia(String sequencia, List<Integer> candidats) {
+    public Set<Integer> GetSequencia(String sequencia, Set<Integer> candidats) {
         return indexExpBooleana.GetSequencia(sequencia, candidats);
     }
 
     //Retorna els documents que contenen les frases indexs
-    public List<Pair<String, String>> GetDocuments(List<Integer> indexs) {
+    public List<Pair<String, String>> GetDocuments(Set<Integer> indexs) {
         return indexExpBooleana.GetDocuments(indexs);
     }
 

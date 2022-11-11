@@ -128,8 +128,8 @@ public class IndexExpBooleana {
     }
 
     //Retorna els indexs de les frases que contenen paraula
-    public List<Integer> GetFrases(String paraula) {
-        List<Integer> frases = new ArrayList<Integer>();
+    public Set<Integer> GetFrases(String paraula) {
+        Set<Integer> frases = new HashSet<Integer>();
         List<Boolean> infoParaula = indexParaulaFrase.get(paraula);
 
         //Si la paraula no es a cap frase returnem una llista buida
@@ -147,8 +147,8 @@ public class IndexExpBooleana {
     }
 
     //Comprova si existeix una sequencia de paraules seguides a una frase
-    public List<Integer> GetSequencia(String sequencia, List<Integer> candidats){
-        List<Integer> res = new ArrayList<Integer>();
+    public Set<Integer> GetSequencia(String sequencia, Set<Integer> candidats){
+        Set<Integer> res = new HashSet<Integer>();
 
         for (Integer i : candidats) {
             if(indexFrases.get(i).contains(sequencia)) res.add(i);
@@ -158,7 +158,7 @@ public class IndexExpBooleana {
     }
 
     //Retorna els documents que contenen les frases indexs
-    public List<Pair<String, String>> GetDocuments(List<Integer> indexs) {
+    public List<Pair<String, String>> GetDocuments(Set<Integer> indexs) {
         List<Pair<String, String>> docs = new ArrayList<Pair<String, String>>();
 
         for (int index : indexs) {

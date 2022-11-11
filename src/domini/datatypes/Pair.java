@@ -2,15 +2,13 @@ package datatypes;
 
 import java.util.Objects;
 
-public class Pair<T1, T2> {
+public class Pair<T1, T2> implements Comparable{
     public T1 x;
     public T2 y;
-    private int hashCode;
 
     public Pair(T1 x, T2 y) {
         this.x = x;
         this.y = y;
-        this.hashCode = Objects.hash(x, y);
     }
 
     public Pair() {}
@@ -28,8 +26,15 @@ public class Pair<T1, T2> {
     }
 
     @Override
+    public int compareTo(Object o) {
+        if(hashCode() < o.hashCode()) return -1;
+        if(hashCode() == o.hashCode()) return 0;
+        else return 1;
+    }
+
+    @Override
     public int hashCode() {
-        return this.hashCode;
+        return Objects.hash(x, y);
     }
 
 /*package datatypes;

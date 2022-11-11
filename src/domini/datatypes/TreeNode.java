@@ -1,6 +1,16 @@
 package datatypes;
 import java.util.*;
 
+
+public class Tree {
+
+    public TreeNode root;
+    public Tree(List<String> exp) {
+
+    }
+}
+
+
 public class TreeNode {
     public String data;
     public TreeNode leftNode;

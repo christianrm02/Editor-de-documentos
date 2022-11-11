@@ -8,16 +8,19 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Test;
+
+import datatypes.TrieStub;
 public class IndexAutorPrefixTest {
     @Test
     public void testDeleteAutor() {
-        IndexAutorPrefix index = new IndexAutorPrefix();
+        TrieStub trie = new TrieStub();
+        trie.Insert("patata");
+        trie.Insert("patatal");
 
-        index.InsertAutor("patata");
-        index.InsertAutor("patatal");
+        IndexAutorPrefix index = new IndexAutorPrefix(trie);
         index.DeleteAutor("patata");
-        assertFalse("L'índex no ha trobat la paraula", index.FindAutor("patata"));
-        assertTrue("L'índex ha trobat la paraula", index.FindAutor("patatal"));
+        assertFalse("L'índex no ha trobat la paraula", trie.Find("patata"));
+        assertTrue("L'índex ha trobat la paraula", trie.Find("patatal"));
     }
 
     @Test

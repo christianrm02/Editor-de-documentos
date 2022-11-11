@@ -4,7 +4,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.junit.Test;
 
@@ -21,7 +23,7 @@ public class IndexExpBooleanaTest {
         String autor3 = "Rick3";
         String titol3 = "NGGYU3";
         Pair<String, String> pair1 = new Pair<>(autor1, titol1);
-        Pair<String, String> pair2 = new Pair<>(autor2, titol2);
+        //Pair<String, String> pair2 = new Pair<>(autor2, titol2);
         Pair<String, String> pair3 = new Pair<>(autor3, titol3);
         List<String> contingut1 = getTestString(1);
         List<String> contingut2 = getTestString(2);
@@ -30,7 +32,7 @@ public class IndexExpBooleanaTest {
         index.AfegirDoc(autor2, titol2, contingut2);
         index.AfegirDoc(autor3, titol3, contingut3);
         
-        List<Integer> test = Arrays.asList(1, 10);
+        Set<Integer> test = new HashSet<Integer>(Arrays.asList(1, 10));
         List<Pair<String, String>> expected = Arrays.asList(pair1, pair3);
         assertEquals(expected, index.GetDocuments(test));
         index.ActualitzarAutor(autor1, titol1, "Rick Impostor");
@@ -46,16 +48,16 @@ public class IndexExpBooleanaTest {
         String titol1 = "NGGYU1";
         String autor2 = "Rick2";
         String titol2 = "NGGYU2";
-        String autor3 = "Rick3";
-        String titol3 = "NGGYU3";
+        //String autor3 = "Rick3";
+        //String titol3 = "NGGYU3";
         List<String> contingut1 = getTestString(1);
         List<String> contingut2 = getTestString(2);
         List<String> contingut3 = getTestString(3);
         index.AfegirDoc(autor1, titol1, contingut1);
         index.AfegirDoc(autor2, titol2, contingut2);
-        List<Integer> expectedYou = Arrays.asList(1, 3);
-        List<Integer> expectedWouldnt = Arrays.asList(3);
-        List<Integer> expectedNever = Arrays.asList(4, 5, 6, 7, 8, 9);
+        Set<Integer> expectedYou = new HashSet<Integer>(Arrays.asList(1, 3));
+        Set<Integer> expectedWouldnt = new HashSet<Integer>(Arrays.asList(3));
+        Set<Integer> expectedNever = new HashSet<Integer>(Arrays.asList(4, 5, 6, 7, 8, 9));
         
         assertEquals(6, index.GetNumFrases());
         assertNotEquals(expectedNever, index.GetFrases("Never"));
@@ -78,7 +80,7 @@ public class IndexExpBooleanaTest {
         String autor3 = "Rick3";
         String titol3 = "NGGYU3";
         Pair<String, String> pair1 = new Pair<>(autor1, titol1);
-        Pair<String, String> pair2 = new Pair<>(autor2, titol2);
+        //Pair<String, String> pair2 = new Pair<>(autor2, titol2);
         Pair<String, String> pair3 = new Pair<>(autor3, titol3);
         List<String> contingut1 = getTestString(1);
         List<String> contingut2 = getTestString(2);
@@ -87,7 +89,7 @@ public class IndexExpBooleanaTest {
         index.AfegirDoc(autor2, titol2, contingut2);
         index.AfegirDoc(autor3, titol3, contingut3);
         
-        List<Integer> test = Arrays.asList(1, 10);
+        Set<Integer> test = new HashSet<Integer>(Arrays.asList(1, 10));
         List<Pair<String, String>> expected = Arrays.asList(pair1, pair3);
         assertEquals(expected, index.GetDocuments(test));
         index.ActualitzarTitol(autor1, titol1, "NGGYU Impostor");
@@ -112,9 +114,9 @@ public class IndexExpBooleanaTest {
         index.AfegirDoc(autor1, titol1, contingut1);
         index.AfegirDoc(autor2, titol2, contingut2);
         index.AfegirDoc(autor3, titol3, contingut3);
-        List<Integer> expectedYou = Arrays.asList(1, 3);
-        List<Integer> expectedWouldnt = Arrays.asList(3);
-        List<Integer> expectedNever = Arrays.asList(6, 7, 8, 9, 10, 11);
+        Set<Integer> expectedYou = new HashSet<Integer>(Arrays.asList(1, 3));
+        Set<Integer> expectedWouldnt = new HashSet<Integer>(Arrays.asList(3));
+        Set<Integer> expectedNever = new HashSet<Integer>(Arrays.asList(6, 7, 8, 9, 10, 11));
 
         assertEquals(12, index.GetNumFrases());
         assertEquals(expectedYou, index.GetFrases("You"));
@@ -138,9 +140,9 @@ public class IndexExpBooleanaTest {
         index.AfegirDoc(autor1, titol1, contingut1);
         index.AfegirDoc(autor2, titol2, contingut2);
         index.AfegirDoc(autor3, titol3, contingut3);
-        List<Integer> expectedYou = Arrays.asList(0, 1);
-        List<Integer> expectedWouldnt = Arrays.asList(3);
-        List<Integer> expectedNever = Arrays.asList(6, 7, 8, 9, 10, 11);
+        Set<Integer> expectedYou = new HashSet<Integer>(Arrays.asList(0, 1));
+        Set<Integer> expectedWouldnt = new HashSet<Integer>(Arrays.asList(3));
+        Set<Integer> expectedNever = new HashSet<Integer>(Arrays.asList(6, 7, 8, 9, 10, 11));
         index.EsborrarDoc(autor1, titol1);
         index.EsborrarDoc(autor3, titol3);
 
@@ -169,9 +171,9 @@ public class IndexExpBooleanaTest {
         index.AfegirDoc(autor2, titol2, contingut2);
         index.AfegirDoc(autor3, titol3, contingut3);
         
-        List<Integer> indexs1 = Arrays.asList(2, 3, 4);
-        List<Integer> indexs2 = Arrays.asList(4, 6, 10);
-        List<Integer> indexs3 = Arrays.asList(11, 8);
+        Set<Integer> indexs1 = new HashSet<Integer>(Arrays.asList(2, 3, 4));
+        Set<Integer> indexs2 = new HashSet<Integer>(Arrays.asList(4, 6, 10));
+        Set<Integer> indexs3 = new HashSet<Integer>(Arrays.asList(11, 8));
         List<Pair<String, String>> expected1 = Arrays.asList(pair1, pair1, pair2);
         List<Pair<String, String>> expected2 = Arrays.asList(pair2, pair3, pair3);
         List<Pair<String, String>> expected3 = Arrays.asList(pair3, pair3);
@@ -197,9 +199,9 @@ public class IndexExpBooleanaTest {
         index.AfegirDoc(autor1, titol1, contingut1);
         index.AfegirDoc(autor2, titol2, contingut2);
         index.AfegirDoc(autor3, titol3, contingut3);
-        List<Integer> expectedYou = Arrays.asList(1, 3);
-        List<Integer> expectedWouldnt = Arrays.asList(3);
-        List<Integer> expectedNever = Arrays.asList(6, 7, 8, 9, 10, 11);
+        Set<Integer> expectedYou = new HashSet<Integer>(Arrays.asList(1, 3));
+        Set<Integer> expectedWouldnt = new HashSet<Integer>(Arrays.asList(3));
+        Set<Integer> expectedNever = new HashSet<Integer>(Arrays.asList(6, 7, 8, 9, 10, 11));
 
         assertEquals(expectedYou, index.GetFrases("You"));
         assertEquals(expectedWouldnt, index.GetFrases("wouldn't"));
@@ -207,9 +209,9 @@ public class IndexExpBooleanaTest {
 
         index.EsborrarDoc(autor1, titol1);
         index.EsborrarDoc(autor2, titol2);
-        List<Integer> expectedyou = Arrays.asList(0, 1, 2, 3, 5);
-        List<Integer> expectedWouldnt2 = Arrays.asList();
-        List<Integer> expectedNever2 = Arrays.asList(0, 1, 2, 3, 4, 5);
+        Set<Integer> expectedyou = new HashSet<Integer>(Arrays.asList(0, 1, 2, 3, 5));
+        Set<Integer> expectedWouldnt2 = new HashSet<Integer>(Arrays.asList());
+        Set<Integer> expectedNever2 = new HashSet<Integer>(Arrays.asList(0, 1, 2, 3, 4, 5));
 
         assertEquals(expectedyou, index.GetFrases("you"));
         assertEquals(expectedWouldnt2, index.GetFrases("wouldn't"));
@@ -232,9 +234,6 @@ public class IndexExpBooleanaTest {
         index.AfegirDoc(autor1, titol1, contingut1);
         index.AfegirDoc(autor2, titol2, contingut2);
         index.AfegirDoc(autor3, titol3, contingut3);
-        List<Integer> expectedYou = Arrays.asList(1, 3);
-        List<Integer> expectedWouldnt = Arrays.asList(3);
-        List<Integer> expectedNever = Arrays.asList(6, 7, 8, 9, 10, 11);
 
         assertEquals(12, index.GetNumFrases());
         
@@ -263,12 +262,12 @@ public class IndexExpBooleanaTest {
         index.AfegirDoc(autor1, titol1, contingut1);
         index.AfegirDoc(autor2, titol2, contingut2);
         index.AfegirDoc(autor3, titol3, contingut3);
-        List<Integer> candidats1 = Arrays.asList(5, 7, 9);
-        List<Integer> candidats2 = Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11);
-        List<Integer> candidats3 = Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11);
-        List<Integer> expected1 = Arrays.asList(5, 9);
-        List<Integer> expected2 = Arrays.asList();
-        List<Integer> expected3 = Arrays.asList(6, 7, 8, 9, 10, 11);
+        Set<Integer> candidats1 = new HashSet<Integer>(Arrays.asList(5, 7, 9));
+        Set<Integer> candidats2 = new HashSet<Integer>(Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11));
+        Set<Integer> candidats3 = new HashSet<Integer>(Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11));
+        Set<Integer> expected1 = new HashSet<Integer>(Arrays.asList(5, 9));
+        Set<Integer> expected2 = new HashSet<Integer>(Arrays.asList());
+        Set<Integer> expected3 = new HashSet<Integer>(Arrays.asList(6, 7, 8, 9, 10, 11));
 
         assertEquals(expected1, index.GetSequencia("make you", candidats1));
         assertEquals(expected2, index.GetSequencia("Rick Astley", candidats2));

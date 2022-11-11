@@ -19,9 +19,10 @@ import java.util.Set;
 import datatypes.Pair;
 import datatypes.Utility;
 
-//Aquest index desa els documents en forma de vector de TF-IDFs
-//Insercions tenen cost linear amb el nombre de paraules
-//Cerques tenen cost linear amb el nombre de documents
+/**
+ * IndexParaulaTFIDF: Index de semblança entre documents
+ * @author Èric Ryhr
+ */
 public class IndexParaulaTFIDF {
 
     static Set<String> stopWords;
@@ -161,7 +162,6 @@ public class IndexParaulaTFIDF {
     static private List<String> getAllWords(List<String> frases){
         List<String> paraules = new ArrayList<String>();
         for (String frase : frases) {
-            frase = Utility.UTF8toASCII(frase);
             paraules.addAll(Arrays.asList(Utility.ParseFrase(frase)));
         }
         return paraules;
@@ -242,13 +242,9 @@ public class IndexParaulaTFIDF {
             String sp = Files.readString(spPath);
             String eng = Files.readString(engPath);
 
-            String caASCII = Utility.UTF8toASCII(ca);
-            String spASCII = Utility.UTF8toASCII(sp);
-            String engASCII = Utility.UTF8toASCII(eng);
-
-            String[] caStopWords = caASCII.split("\n");
-            String[] spStopWords = spASCII.split("\n");
-            String[] engStopWords = engASCII.split("\n");
+            String[] caStopWords = ca.split("\n");
+            String[] spStopWords = sp.split("\n");
+            String[] engStopWords = eng.split("\n");
 
             for (String caStopWord : caStopWords) stopWords.add(caStopWord);
             for (String spStopWord : spStopWords) stopWords.add(spStopWord);

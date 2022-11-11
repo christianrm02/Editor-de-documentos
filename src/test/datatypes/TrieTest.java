@@ -53,6 +53,7 @@ public class TrieTest {
         Trie trie = new Trie();
         List<String> expected1 = Arrays.asList(new String[]{"manol", "manoló", "manolo"});
         List<String> expected2 = Arrays.asList(new String[]{"Manolo"});
+        int expectedSize3 = 5;
 
         trie.Insert("manolo");
         trie.Insert("manol");
@@ -62,8 +63,10 @@ public class TrieTest {
 
         List<String> obtained1 = trie.SearchWordsPrefix("man");
         List<String> obtained2 = trie.SearchWordsPrefix("Man");
+        List<String> obtained3 = trie.SearchWordsPrefix("");
 
         assertEquals(expected1, obtained1);
         assertEquals(expected2, obtained2);
+        assertEquals(expectedSize3, obtained3.size());
     }
 }

@@ -9,6 +9,10 @@ import org.junit.Test;
 
 import datatypes.Pair;
 
+/**
+ * IndexParaulaTFIDFTest: Per fer el testing de la classe IndexParaulaTFIDF
+ * @author Èric Ryhr
+ */
 public class IndexParaulaTFIDFTest {
     @Test
     public void testActualitzarAutor() {

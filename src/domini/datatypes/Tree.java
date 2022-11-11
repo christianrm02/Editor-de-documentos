@@ -14,7 +14,7 @@ public class Tree {
         return s.length() == 1 && (s.equals("&") || s.equals("|") || s.equals("!"));
     }
 
-    public  TreeNode expressionTree(List<String> postfix){
+    public TreeNode expressionTree(List<String> postfix){
         Stack<TreeNode> st = new Stack<TreeNode>();
         TreeNode t1,t2,temp;
 
@@ -95,11 +95,11 @@ public class Tree {
         return postfix;
     }
 
-    private void InOrder(TreeNode arrel) {
+    public static void InOrder(TreeNode arrel) {
         if (arrel == null) return;
         else {
             InOrder(arrel.leftNode);
-            System.out.println(arrel.data);
+            System.out.print(arrel.data+", ");
             InOrder(arrel.rightNode);
         }
     }

@@ -8,7 +8,7 @@ public class ExpressioBooleana {
 
     private String nom;
     private String exp;
-    private TreeNode expA;
+    private Tree expA;
 
     //Constructora
     public ExpressioBooleana (String nom, String exp) {
@@ -79,8 +79,7 @@ public class ExpressioBooleana {
             ++i;
         }
         if (s1.length() > 0) llista.add(s1);
-        this.expA = new TreeNode(llista);
-
+        this.expA = new Tree(llista);
     }
 
     //Getters
@@ -88,7 +87,7 @@ public class ExpressioBooleana {
 
     public String getExp() { return exp; }
 
-    public TreeNode getExpA() { return expA; }
+    public Tree getExpA() { return expA; }
 
    // public List<String> getLlista() { return llista; }
 

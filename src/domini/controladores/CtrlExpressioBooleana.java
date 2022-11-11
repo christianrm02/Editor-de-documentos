@@ -1,12 +1,8 @@
 package controladores;
-import datatypes.TreeNode;
+import datatypes.*;
 
 import java.text.Normalizer;
 import java.util.*;
-
-import datatypes.ExpressioBooleana;
-import datatypes.Pair;
-import datatypes.TreeNode;
 
 public class CtrlExpressioBooleana {
 
@@ -78,9 +74,9 @@ public class CtrlExpressioBooleana {
 
     public List<Pair<String, String>> cercarExpressioBooleana(String exp) {
         ExpressioBooleana expB = new ExpressioBooleana(exp);
-        TreeNode expTree = expB.getExpA();
+        Tree expTree = expB.getExpA();
         Set<Integer> frases = new HashSet<>();
-        frases = cercaExpBol(expTree);
+        frases = cercaExpBol(expTree.root);
         //List<Pair> documents = new ArrayList<>();
         return ci.GetDocuments(frases);
     }

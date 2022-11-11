@@ -9,7 +9,6 @@ import static datatypes.Utility.ParseFrase;
 public class CtrlExpressioBooleana {
 
     private Map<String, ExpressioBooleana> expressions;
-    private CtrlIndex ci;
 
     public CtrlExpressioBooleana() {
         expressions = new HashMap<String, ExpressioBooleana>();
@@ -23,10 +22,10 @@ public class CtrlExpressioBooleana {
         return expressions.containsKey(nom);
     }
 
-    private Set<Integer> not(Set<Integer> set) {
+    private Set<Integer> not(Set<Integer> set, CtrlIndex ci) {
         int n = ci.GetNumFrases();
         Set<Integer> complementary = new HashSet<>();
-        for (int i = 0; i < n - set.size(); ++i) {
+        for (int i = 0; i < n; ++i) {
             if (!set.contains(i)) complementary.add(i);
         }
         return complementary;
@@ -48,7 +47,7 @@ public class CtrlExpressioBooleana {
         return s.length() == 1 && (s.equals("&") || s.equals("|") || s.equals("!"));
     }
 
-    private Set<Integer> cercaExpBol(TreeNode node) {
+    private Set<Integer> cercaExpBol(TreeNode node, CtrlIndex ci) {
         //List<Integer> frases = new ArrayList<Integer>();
         if (!isOperator(node.data)) {
             String[] words = ParseFrase(node.data); //per la sequencia
@@ -68,17 +67,17 @@ public class CtrlExpressioBooleana {
                 return frases3;
             }
         } else {
-            if (node.data.equals("&")) return intersection(cercaExpBol(node.leftNode), cercaExpBol(node.rightNode));
-            else if (node.data.equals("|")) return union(cercaExpBol(node.leftNode), cercaExpBol(node.rightNode));
-            else return not(cercaExpBol(node.leftNode));
+            if (node.data.equals("&")) return intersection(cercaExpBol(node.leftNode, ci), cercaExpBol(node.rightNode, ci));
+            else if (node.data.equals("|")) return union(cercaExpBol(node.leftNode, ci), cercaExpBol(node.rightNode, ci));
+            else return not(cercaExpBol(node.leftNode, ci), ci);
         }
     }
 
-    public List<Pair<String, String>> cercarExpressioBooleana(String exp) {
+    public List<Pair<String, String>> cercarExpressioBooleana(String exp, CtrlIndex ci) {
         ExpressioBooleana expB = new ExpressioBooleana(exp);
         Tree expTree = expB.getExpA();
         Set<Integer> frases = new HashSet<>();
-        frases = cercaExpBol(expTree.root);
+        frases = cercaExpBol(expTree.root, ci);
         //List<Pair> documents = new ArrayList<>();
         return ci.GetDocuments(frases);
     }
@@ -105,68 +104,14 @@ public class CtrlExpressioBooleana {
         expressions.remove(nom);
     }
 
-    private static String UTF8toASCII(String frase) {
-        String res = Normalizer.normalize(frase, Normalizer.Form.NFKD).replaceAll("\\p{M}", "");
-        return res.replaceAll("·", "");
-    }
-
     public static void main(String[] args) {
-        Scanner leer = new Scanner(System.in);
-        String s = leer.nextLine();
-        s = UTF8toASCII(s);
-        List<String> llista = new ArrayList<>();
-        int i = 0;
-        String s1 = "";
-        while (i < s.length()) {
-            if (s.charAt(i) == '{') {
-                llista.add("(");
-                ++i;
-                String s2 = "";
-                while (s.charAt(i) != '}') {
-                    if (s.charAt(i) == ' ') {
-                        llista.add(s2);
-                        llista.add("&");
-                        s2 = "";
-                    } else s2 += s.charAt(i);
-                    ++i;
-                }
-                llista.add(s2);
-                llista.add(")");
-                ++i;
-            } else if (s.charAt(i) == '&') {
-                llista.add("&");
-                ++i;
-            } else if (s.charAt(i) == '|') {
-                llista.add("|");
-                ++i;
-            } else if (s.charAt(i) == '!') llista.add("!");
-            else if (s.charAt(i) == '(') llista.add("(");
-            else if (s.charAt(i) == ')') {
-                llista.add(s1);
-                llista.add(")");
-                ++i;
-                s1 = "";
-            } else if (s.charAt(i) == '\"') {
-                ++i;
-                String s2 = "";
-                while (s.charAt(i) != '\"') {
-                    s2 += s.charAt(i);
-                    ++i;
-                }
-                llista.add(s2);
-                ++i;
-            } else if (s.charAt(i) == ' ') {
-                llista.add(s1);
-                s1 = "";
-            } else s1 += s.charAt(i);
-            ++i;
+        Set<Integer> s1 = new HashSet<>();
+        s1.add(1); s1.add(3); s1.add(4); s1.add(8);
+        int n = 10;
+        Set<Integer> complementary = new HashSet<>();
+        for (int i = 0; i < n; ++i) {
+            if (!s1.contains(i)) complementary.add(i);
         }
-        if (s1.length() > 0) llista.add(s1);
-
-
-        for (String h : llista) {
-            System.out.print(h + ",");
-        }
-
+        for (Integer i : complementary) System.out.print(i +", ");
     }
 }

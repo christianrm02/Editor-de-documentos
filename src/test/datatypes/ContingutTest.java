@@ -51,7 +51,7 @@ public class ContingutTest {
      * Objecte de la prova: Es proven les constructores de la classe Contingut.
      * Altres elements integrats a la prova: -
      * Fitxers de dades necessaris: No es necessari cap fitxer de dades.
-     * Valors estudiats: Es fa servir l'estratègia de caixa grisa. Com és una funcionalitat bàsica, el test també ho és.
+     * Valors estudiats: Es fa servir l'estratègia de caixa blanca. Es comproven les dues creadores.
      * Efectes estudiats: -
      * Operativa: Es crea un nou Contingut buit i un nou Contingut amb una sequencia de frases i mitjançant els getters es comproba si s'ha inicialitzat correctament.
      */
@@ -67,10 +67,10 @@ public class ContingutTest {
      * Objecte de la prova: Es prova l'operacio getFrases, que retorna una llista de String, de la classe Contingut.
      * Altres elements integrats a la prova: -
      * Fitxers de dades necessaris: No es necessari cap fitxer de dades.
-     * Valors estudiats: Es fa servir l'estrategia de caixa grisa. Com es una funcionalitat basica, el test tambe ho es.
+     * Valors estudiats: Es fa servir l'estrategia de caixa blanca. Es comprova amb cas buit i amb text, les dues principals opcions.
      * Efectes estudiats: -
-     * Operativa: Es crea un contingut i es fa un getFrases, per comprovar si funciona correctament l'operacio.
-     *            Tambe es crea un contingut buit i es comprova que tambe funcioni correctament l'operacio.
+     * Operativa: Es crea un contingut i es fa un getFrases, per comprovar si funciona correctament l'operacio amb contingut.
+     *            Tambe es crea un contingut buit i es comprova que tambe funcioni correctament l'operacio amb contingut buit.
      */
     @Test
     public void testGetFrases() {
@@ -84,7 +84,7 @@ public class ContingutTest {
      * Objecte de la prova: Es prova l'operacio actualitzaContingut.
      * Altres elements integrats a la prova: -
      * Fitxers de dades necessaris: No es necessari cap fitxer de dades.
-     * Valors estudiats: Es fa servir l'estrategia de caixa grisa. Com es una funcionalitat basica, el test tambe ho es.
+     * Valors estudiats: Es fa servir l'estrategia de caixa blanca. Es proben diferents tipus de combinacions.
      * Efectes estudiats: -
      * Operativa: Es crea un Contingut buit i se li fan diverses modificacions mitjançant actualitzaContingut, per comprovar
      *            que funciona correctament la operació.

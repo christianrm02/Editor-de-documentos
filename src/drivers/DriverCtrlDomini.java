@@ -8,7 +8,7 @@ public class DriverCtrlDomini {
     Scanner entrada;
     Boolean dObert;
 
-    Integer nDocuments;
+    int nDocuments;
 
     DriverCtrlDomini() {
         cd = null;
@@ -28,19 +28,17 @@ public class DriverCtrlDomini {
         System.out.println("Escriu l'autor del document que vols crear: ");
         String autor = entrada.nextLine();
         System.out.println("Has introduit el titol " + titol + "i l'autor " + autor + ".");
-        try {
-            cd.crearDocument(autor, titol);
+        if (cd.crearDocument(autor, titol)) {
+            ++nDocuments;
+            System.out.println("El document ha estat creat correctament");
         }
-        ++nDocuments;
-        catch {
-
-        }
+        else System.out.println("El document " + titol + " + " + autor + " existeix");
     }
 
-    public TreeMap<Integer, Pair<String, String>> escriuClaus() {
+    public TreeMap<int, Pair<String, String>> escriuClaus() {
         List<Pair<String, String>> titaut = cd.getTitolsAutors();
-        TreeMap<Integer, Pair<String, String>> m = new TreeMap<Integer, Pair<String, String>>();
-        Integer i = 0;
+        TreeMap<int, Pair<String, String>> m = new TreeMap<int, Pair<String, String>>();
+        int i = 0;
         for (Pair<String, String> ta : titaut) {
             m.put(i, ta);
             System.out.println(Integer.toString(i) + ". Titol: " ta.y + " Autor: " + ta.x);
@@ -51,66 +49,86 @@ public class DriverCtrlDomini {
 
     public void tEsborrarDocuments() {
         System.out.println("A continuacio sortiran els documents existents, com a molt pots seleccionar-ne 10:");
-        TreeMap<Integer, Pair<String, String>> m = escriuClaus();
+        TreeMap<int, Pair<String, String>> m = escriuClaus();
         //s'ha d'acabar
     }
 
     public void tGetTitols() {
         System.out.println("A continuacio tenim els titols de tots els documents existents:");
         List<String> titols = cd.getTitols();
-        for (String t : titols) {
-            System.out.println(t);
-        }
+        for (String t : titols) System.out.println(t);
     }
 
     public void tGetAutors() {
         System.out.println("A continuacio tenim els autors de tots els documents existents:");
         List<String> autors = cd.getAutors();
-        for (String a : autors) {
-            System.out.println(a);
-        }
+        for (String a : autors) System.out.println(a);
     }
 
     public void tGetTitolsAutors() {
         System.out.println("A continuacio tenim tots els documents (titol i autor) existents:");
         List<Pair<String, String>> titaut = cd.getTitolsAutors();
-        for (Pair<String, String> ta : titaut) {
-            System.out.println("Titol: " ta.y + " Autor: " + ta.x);
-        }
+        for (Pair<String, String> ta : titaut) System.out.println("Titol: " + ta.y + " Autor: " + ta.x);
     }
 
     public void tObrirDocument() {
         System.out.println("A continuacio sortiran els documents existents, selecciona'n un:");
-        TreeMap<Integer, Pair<String, String>> m = escriuClaus();
+        TreeMap<int, Pair<String, String>> m = escriuClaus();
         String docSel = entrada.nextLine();
         Pair<String, String> p = m.get(Integer.valueOf(docSel));
         cd.obrirDocument(p.x, p.y);
+        System.out.println("El document " + p.x + " " + p.y + " s'ha obert.");
     }
 
     public void tModificarTitol() {
         System.out.println("A continuacio sortiran els documents existents, selecciona'n un:");
-        TreeMap<Integer, Pair<String, String>> m = escriuClaus();
+        TreeMap<int, Pair<String, String>> m = escriuClaus();
         String docSel = entrada.nextLine();
         System.out.println("Introdueix el nou titol:");
         String newT = entrada.nextLine();
         Pair<String, String> p = m.get(Integer.valueOf(docSel));
-        cd.modificarTitol(p.x, p.y, newT);
+        if (cd.modificarTitol(p.x, p.y, newT)) System.out.println("El titol ha estat modificat correctament");
+        else System.out.println("El document " + newT + " + " + autor + " existeix");
     }
 
     public void tModificarAutor() {
         System.out.println("A continuacio sortiran els documents existents, selecciona'n un:");
-        TreeMap<Integer, Pair<String, String>> m = escriuClaus();
+        TreeMap<int, Pair<String, String>> m = escriuClaus();
         String docSel = entrada.nextLine();
         System.out.println("Introdueix el nou autor:");
         String newA = entrada.nextLine();
         Pair<String, String> p = m.get(Integer.valueOf(docSel));
-        cd.modificarTitol(p.x, p.y, newA);
+        if (cd.modificarAutor(p.x, p.y, newA)) System.out.println("L'autor ha estat modificat correctament");
+        else System.out.println("El document " + titol + " + " + newA + " existeix");
     }
 
     public void tModificarContingut() { // no tinc lar com fer-la
         System.out.println("Introdueix el nou contingut:");
         String cont = entrada.nextLine();
-        cd.modificarContingut(cont);
+        cd.modificarContingut(titol, autor, cont);
+    }
+
+    public void tLlistarTitolsdAutors() {
+        System.out.println("A continuacio sortiran els autors existents, selecciona'n un:");
+        List<String> aut = cd.getAutors();
+        TreeMap<int, Pair<String, String>> m = new TreeMap<int, String>();
+        int i = 0;
+        for (String a : aut) {
+            m.put(i, a);
+            System.out.println(Integer.toString(i) + ". " + ta.x);
+            ++i;
+        }
+        String au = entrada.nextLine();
+        String autor = m.get(Integer.valueOf(au));
+        List<String> titols = cd.llistarTitolsdAutors(autor);
+        for (String t : titols) System.out.println(t);
+    }
+
+    public void tLlistarAutorsPrefix() {
+        System.out.println("Introdueix un prefix per fer la cerca dels autors:");
+        String prefix = entrada.nextLine();
+        List<String> autors = cd.llistarAutorsPrefix();
+        for (String a : autors) System.out.println(a);
     }
 
     public static void main (String [] args) throws Exception {
@@ -157,7 +175,7 @@ public class DriverCtrlDomini {
                     dcd.tModificarContingut();
                     break;
                 }
-/*                case "10": { // Llista els titols d'un autor existent escollit per l'usuari
+                case "10": { // Llista els titols d'un autor existent escollit per l'usuari
                     dcd.tLlistarTitolsdAutors();
                     break;
                 }
@@ -165,7 +183,7 @@ public class DriverCtrlDomini {
                     dcd.tLlistarAutorsPrefix();
                     break;
                 }
-                case "12": { // Llista els K documents mes semblants a l'indicat
+/*                case "12": { // Llista els K documents mes semblants a l'indicat
                     dcd.tLlistarKDocumentsS();
                     break;
                 }

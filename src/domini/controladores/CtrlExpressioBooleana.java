@@ -12,22 +12,23 @@ public class CtrlExpressioBooleana {
 
     private Map<String, ExpressioBooleana> expressions;
     private CtrlIndex ci;
+
     public CtrlExpressioBooleana() {
         expressions = new HashMap<String, ExpressioBooleana>();
     }
 
     public String getExpressioBooleana(String nom) {
-            return expressions.get(nom).getExp();
+        return expressions.get(nom).getExp();
     }
 
     public Boolean existsExpressioBooleana(String nom) {
-            return expressions.containsKey(nom);
+        return expressions.containsKey(nom);
     }
 
     private Set<Integer> not(Set<Integer> set) {
         int n = ci.GetNumFrases();
         Set<Integer> complementary = new HashSet<>();
-        for (int i = 0; i < n-set.size(); ++i) {
+        for (int i = 0; i < n - set.size(); ++i) {
             if (!set.contains(i)) complementary.add(i);
         }
         return complementary;
@@ -38,6 +39,7 @@ public class CtrlExpressioBooleana {
         set1.addAll(set2);
         return set1;
     }
+
     //Per fer and
     private Set<Integer> intersection(Set<Integer> set1, Set<Integer> set2) {
         set1.retainAll(set2);
@@ -67,8 +69,7 @@ public class CtrlExpressioBooleana {
                 frases3.addAll(ci.GetSequencia(node.data, (List<Integer>) frases));
                 return frases3;
             }
-        }
-        else {
+        } else {
             if (node.data.equals("&")) return intersection(cercaExpBol(node.leftNode), cercaExpBol(node.rightNode));
             else if (node.data.equals("|")) return union(cercaExpBol(node.leftNode), cercaExpBol(node.rightNode));
             else return not(cercaExpBol(node.leftNode));
@@ -86,7 +87,7 @@ public class CtrlExpressioBooleana {
 
     public List<Pair> getAll() {
         List<Pair> exps = new ArrayList<Pair>();
-        for (String clau:expressions.keySet()) {
+        for (String clau : expressions.keySet()) {
             Pair p = new Pair();
             p.x = expressions.get(clau).getNom();
             p.y = expressions.get(clau).getExp();
@@ -105,12 +106,14 @@ public class CtrlExpressioBooleana {
     public void deleteExpressioBooleana(String nom) {
         expressions.remove(nom);
     }
+
     private static String UTF8toASCII(String frase) {
         String res = Normalizer.normalize(frase, Normalizer.Form.NFKD).replaceAll("\\p{M}", "");
         return res.replaceAll("·", "");
     }
+
     public static void main(String[] args) {
-        Scanner leer=new Scanner(System.in);
+        Scanner leer = new Scanner(System.in);
         String s = leer.nextLine();
         s = UTF8toASCII(s);
         List<String> llista = new ArrayList<>();
@@ -126,31 +129,26 @@ public class CtrlExpressioBooleana {
                         llista.add(s2);
                         llista.add("&");
                         s2 = "";
-                    }
-                    else s2+=s.charAt(i);
+                    } else s2 += s.charAt(i);
                     ++i;
                 }
                 llista.add(s2);
                 llista.add(")");
                 ++i;
-            }
-            else if (s.charAt(i) == '&') {
+            } else if (s.charAt(i) == '&') {
                 llista.add("&");
                 ++i;
-            }
-            else if (s.charAt(i) == '|') {
+            } else if (s.charAt(i) == '|') {
                 llista.add("|");
                 ++i;
-            }
-            else if (s.charAt(i) == '!') llista.add("!");
+            } else if (s.charAt(i) == '!') llista.add("!");
             else if (s.charAt(i) == '(') llista.add("(");
             else if (s.charAt(i) == ')') {
                 llista.add(s1);
                 llista.add(")");
                 ++i;
                 s1 = "";
-            }
-            else if (s.charAt(i) == '\"') {
+            } else if (s.charAt(i) == '\"') {
                 ++i;
                 String s2 = "";
                 while (s.charAt(i) != '\"') {
@@ -159,69 +157,18 @@ public class CtrlExpressioBooleana {
                 }
                 llista.add(s2);
                 ++i;
-            }
-            else if (s.charAt(i) == ' ') {
+            } else if (s.charAt(i) == ' ') {
                 llista.add(s1);
                 s1 = "";
-            }
-            else s1 += s.charAt(i);
+            } else s1 += s.charAt(i);
             ++i;
         }
         if (s1.length() > 0) llista.add(s1);
+
+
         for (String h : llista) {
-            System.out.print(h +",");
+            System.out.print(h + ",");
         }
 
     }
-
 }
-
-
-/*
-    public List<Pair> cercarExpressioBooleana(String exp) {
-        ExpressioBooleana expB = new ExpressioBooleana(exp);
-        List<String> llistaExp;
-        llistaExp = expB.getLlista();
-        List<Integer> frases = new ArrayList<Integer>();
-        boolean and = false; boolean or = false; boolean negacio = false; //un map?
-        for (int i = 0; i < llistaExp.size(); i++) {
-            String s = llistaExp.get(i);
-            if (s.length() == 1 && (s == "&" || s == "|" || s == "!")) {
-                if (s == "&") and = true;
-                else if (s == "|") or = true;
-                else negacio = true;
-            }
-            String paraules[] = s.split(" ");
-            if (paraules.length > 1) {
-                //sequencia de paraules
-            }
-            else frases = ci.GetFrases(s);
-        }
-
-    }*/
-
-/*    private List<Integer> intersection(List<Integer> llista1, List<Integer> llista2) {
-        List<Integer> llista = new ArrayList<>();
-        llista.addAll(llista1);
-        llista.retainAll(llista2);
-        return llista;
-    }
-
-
-    //Per fer or
-    private List<Integer> union(List<Integer> llista1, List<Integer> llista2) {
-        Set<Integer> set = new HashSet<>();
-        set.addAll(llista1);
-        set.addAll(llista2);
-        return new ArrayList<>(set);
-    }
-
-            private List<Integer> not(List<Integer> llista) {
-        int n = ci.GetNumFrasesTotals();
-        List<Integer> complementari = new ArrayList<>();
-        for (int i = 0; i < n-llista.size(); ++i) {
-            if (!llista.contains(i)) complementari.add(i);
-        }
-        return complementari;
-    }
- */

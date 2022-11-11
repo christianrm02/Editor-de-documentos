@@ -14,7 +14,7 @@ public class PairTest {
      * Objecte de la prova: Es prova la constructora de la classe Pair.
      * Altres elements integrats a la prova: -
      * Fitxers de dades necessaris: No calen fitxers de dades.
-     * Valors estudiats: Es fa servir l'estratègia de caixa grisa. Es proven amb diferents tipus d'elements.
+     * Valors estudiats: Es fa servir l'estratègia de caixa blanca. Es proven amb diferents tipus d'elements.
      * Efectes estudiats: -
      * Operativa: Es crean dos pairs i mitjançant que els seus atributs són públics, es comprova que els
      * objectes estan correctament inicialitzats.
@@ -56,7 +56,8 @@ public class PairTest {
      * Objecte de la prova: Es prova l'operació hashCode() de la classe Pair.
      * Altres elements integrats a la prova: -
      * Fitxers de dades necessaris: No calen fitxers de dades.
-     * Valors estudiats: Es fa servir l'estratègia de caixa grisa. Com és una funcionalitat bàsica, el test també ho és.
+     * Valors estudiats: Es fa servir l'estratègia de caixa blanca. Com és una funcionalitat bàsica, el test també
+     * ho és.
      * Efectes estudiats: -
      * Operativa: Es crean diversos pairs i es comparen per saber si tenen el mateix hashCode.
      */

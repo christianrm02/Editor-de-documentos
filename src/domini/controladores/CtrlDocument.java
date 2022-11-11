@@ -29,7 +29,7 @@ public class CtrlDocument {
      * @param titol: String: Títol del document.
      * @return Document: Es retorna el document que es buscaba, o null si no existeix.
      */
-    public Document getDocument(String autor, String titol) { //EXCEPCIÓ NO EXISTEIX EL DOCUMENT (autor, titol), tiene q comprobar la facade q exista, porq sinó existe devuelve null
+    public Document getDocument(String autor, String titol) {
         if(documents.get(autor) != null) {
             return documents.get(autor).get(titol);
         }

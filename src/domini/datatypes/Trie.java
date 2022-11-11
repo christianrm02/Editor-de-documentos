@@ -5,6 +5,10 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * Trie: Estructura de dades per emmagatzemar strings
+ * @author Èric Ryhr
+ */
 public class Trie {
     
     private TrieNode root;

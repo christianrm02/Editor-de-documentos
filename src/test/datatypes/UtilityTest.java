@@ -1,26 +1,28 @@
 package datatypes;
 
 import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 
 import org.junit.Test;
 
+/**
+ * UtilityTest: Per fer el testing de la classe Utility
+ * @author Èric Ryhr
+ */
 public class UtilityTest {
-    @Test
-    public void testUTF8toASCII() {
-        String test = "El goril·la juga a futbol amb el pingüí";
-        String expected = "El gorilla juga a futbol amb el pingui";
-        String actual = Utility.UTF8toASCII(test);
-        assertNotEquals(expected, test);
-        assertEquals(expected, actual);
-    }
 
+    /**
+     * Objecte de la prova: Es prova la funció ParseFrase
+     * Altres elements integrats a la prova: -
+     * Fitxers de dades necessaris: No calen fitxers de dades.
+     * Valors estudiats: Es fa servir l'estratègia de caixa blanca.
+     * Efectes estudiats: -
+     * Operativa: Es prova que la funció elimini correctament els símbols de puntuació i separi les paraules per espais
+     */
     @Test
     public void testParseFrase() {
         String test = "Ostres! Potser, hauriem... d'anar; alla? No\nno: crec";
         String[] expected = {"Ostres", "Potser", "hauriem", "d'anar", "alla", "No", "no", "crec"};
-        String[] actual = Utility.parseFrase(test);
+        String[] actual = Utility.ParseFrase(test);
         assertArrayEquals(actual, expected);
     }
 }

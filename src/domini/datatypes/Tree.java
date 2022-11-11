@@ -5,42 +5,42 @@ public class Tree {
 
     public TreeNode root;
     public Tree(List<String> exp) {
-        List<String> llista = new ArrayList<>();
+        List<String> llista;
         llista = inToPost(exp);
         root = expressionTree(llista);
     }
 
-    private boolean isOperator(String s) {
-        return s.length() == 1 && (s.equals("&") || s.equals("|") || s.equals("!"));
+    public static boolean isOperator(String s) {
+        return s.length() == 1 && (s.equals("&") || s.equals("|") || s.equals("!") || s.equals("(") || s.equals(")"));
     }
 
     public TreeNode expressionTree(List<String> postfix){
-        Stack<TreeNode> st = new Stack<TreeNode>();
-        TreeNode t1,t2,temp;
+        Stack<TreeNode> st = new Stack<>();
+        TreeNode t1 = null;
+        TreeNode t2,temp;
 
         for (String s : postfix) {
-            if(!isOperator(s)){
+            if (!isOperator(s)){
                 temp = new TreeNode(s);
                 st.push(temp);
             }
-            else{
+            else {
                 temp = new TreeNode(s);
-
-                t1 = st.pop();
+                if (!s.equals("!")) t1 = st.pop();
                 t2 = st.pop();
+                //System.out.println("pare: " + s + " left: " + t2.data + " right: " + t1.data);
 
                 temp.leftNode = t2;
-                temp.rightNode = t1;
+                if (!s.equals("!")) temp.rightNode = t1;
 
                 st.push(temp);
             }
-
         }
         temp = st.pop();
         return temp;
     }
 
-    private int preced(String s) {
+    public static int preced(String s) {
         if (s.equals("|")) {
             return 1;              //Precedence of | 1
         }
@@ -56,7 +56,7 @@ public class Tree {
         return -1;
     }
 
-    public List<String> inToPost(List<String> infix) {
+    public static List<String> inToPost(List<String> infix) {
         Stack<String> stk = new Stack<>();
         stk.push("#"); //add some extra character to avoid underflow
 
@@ -101,6 +101,15 @@ public class Tree {
             InOrder(arrel.leftNode);
             System.out.print(arrel.data+", ");
             InOrder(arrel.rightNode);
+        }
+    }
+
+    public static void PostOrder(TreeNode arrel) {
+        if (arrel == null) return;
+        else {
+            PostOrder(arrel.leftNode);
+            PostOrder(arrel.rightNode);
+            System.out.print(arrel.data+", ");
         }
     }
 }

@@ -9,7 +9,6 @@ import static datatypes.Utility.ParseFrase;
 public class CtrlExpressioBooleana {
 
     private Map<String, ExpressioBooleana> expressions;
-    private CtrlIndex ci;
 
     public CtrlExpressioBooleana() {
         expressions = new HashMap<String, ExpressioBooleana>();
@@ -23,7 +22,7 @@ public class CtrlExpressioBooleana {
         return expressions.containsKey(nom);
     }
 
-    private Set<Integer> not(Set<Integer> set) {
+    private Set<Integer> not(Set<Integer> set, CtrlIndex ci) {
         int n = ci.GetNumFrases();
         Set<Integer> complementary = new HashSet<>();
         for (int i = 0; i < n - set.size(); ++i) {
@@ -48,7 +47,7 @@ public class CtrlExpressioBooleana {
         return s.length() == 1 && (s.equals("&") || s.equals("|") || s.equals("!"));
     }
 
-    private Set<Integer> cercaExpBol(TreeNode node) {
+    private Set<Integer> cercaExpBol(TreeNode node, CtrlIndex ci) {
         //List<Integer> frases = new ArrayList<Integer>();
         if (!isOperator(node.data)) {
             String[] words = ParseFrase(node.data); //per la sequencia
@@ -68,17 +67,17 @@ public class CtrlExpressioBooleana {
                 return frases3;
             }
         } else {
-            if (node.data.equals("&")) return intersection(cercaExpBol(node.leftNode), cercaExpBol(node.rightNode));
-            else if (node.data.equals("|")) return union(cercaExpBol(node.leftNode), cercaExpBol(node.rightNode));
-            else return not(cercaExpBol(node.leftNode));
+            if (node.data.equals("&")) return intersection(cercaExpBol(node.leftNode, ci), cercaExpBol(node.rightNode, ci));
+            else if (node.data.equals("|")) return union(cercaExpBol(node.leftNode, ci), cercaExpBol(node.rightNode, ci));
+            else return not(cercaExpBol(node.leftNode, ci), ci);
         }
     }
 
-    public List<Pair<String, String>> cercarExpressioBooleana(String exp) {
+    public List<Pair<String, String>> cercarExpressioBooleana(String exp, CtrlIndex ci) {
         ExpressioBooleana expB = new ExpressioBooleana(exp);
         Tree expTree = expB.getExpA();
         Set<Integer> frases = new HashSet<>();
-        frases = cercaExpBol(expTree.root);
+        frases = cercaExpBol(expTree.root, ci);
         //List<Pair> documents = new ArrayList<>();
         return ci.GetDocuments(frases);
     }

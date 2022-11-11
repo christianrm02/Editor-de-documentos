@@ -2,8 +2,10 @@ package indexs;
 
 import java.util.PriorityQueue;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -23,35 +25,6 @@ import datatypes.Utility;
 public class IndexParaulaTFIDF {
 
     static Set<String> stopWords;
-
-    static {
-        stopWords = new HashSet<>();
-
-        //Add stop words
-        Path caPath = Path.of("./empty-ca-utf8.txt");
-        Path spPath = Path.of("./empty-sp-utf8.txt");
-        Path engPath = Path.of("./empty-eng-utf8.txt");
-
-        try {
-            String ca = Files.readString(caPath);
-            String sp = Files.readString(spPath);
-            String eng = Files.readString(engPath);
-
-            String caASCII = Utility.UTF8toASCII(ca);
-            String spASCII = Utility.UTF8toASCII(sp);
-            String engASCII = Utility.UTF8toASCII(eng);
-
-            String[] caStopWords = caASCII.split("\n");
-            String[] spStopWords = spASCII.split("\n");
-            String[] engStopWords = engASCII.split("\n");
-
-            for (String caStopWord : caStopWords) stopWords.add(caStopWord);
-            for (String spStopWord : spStopWords) stopWords.add(spStopWord);
-            for (String engStopWord : engStopWords) stopWords.add(engStopWord);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
     
     //Index TFIDFs per document. x es TF i y es TFIDF
     private TreeMap<Pair<String, String>, TreeMap<String, Pair<Double, Double>>> indexTFIDF;
@@ -61,6 +34,7 @@ public class IndexParaulaTFIDF {
     public IndexParaulaTFIDF() {
         indexTFIDF = new TreeMap<Pair<String, String>, TreeMap<String, Pair<Double, Double>>>();
         indexGlobalTF = new TreeMap<String, Integer>();
+        if(stopWords == null) readStopWords();
     }
 
     public void AfegirDoc(String autor, String titol, List<String> contingut) {
@@ -130,7 +104,7 @@ public class IndexParaulaTFIDF {
 
         //Comparem tots els documents amb query
         for (Pair<String, String> doc : indexTFIDF.keySet()) {
-            if(doc == autorTitol) continue;
+            if(doc.equals(autorTitol)) continue;
 
             TreeMap<String, Pair<Double, Double>> docTFIDF = indexTFIDF.get(doc);
             double metric = cosinusMetric(qTFIDF, docTFIDF);
@@ -140,7 +114,10 @@ public class IndexParaulaTFIDF {
         
         //Retornem els K primers resultats
         List<Pair<String, String>> result = new ArrayList<Pair<String, String>>();
-        for(int i = 0; i < K; i++) result.add(docsSemblants.poll().y);
+        for(int i = 0; i < K; i++) {
+            if(docsSemblants.size() == 0) return result;
+            result.add(docsSemblants.poll().y);
+        }
         
         return result;
     }
@@ -237,7 +214,8 @@ public class IndexParaulaTFIDF {
         for (String paraula : paraules) {
             int count = 0; 
             for (TreeMap<String, Pair<Double, Double>> infoDoc : indexTFIDF.values()) {
-                if(infoDoc.get(paraula).x > 0.0) count++;
+                if(infoDoc.get(paraula) != null) 
+                    if(infoDoc.get(paraula).x > 0.0) count++;
             }
             indexGlobalTF.put(paraula, count);
         }
@@ -249,6 +227,36 @@ public class IndexParaulaTFIDF {
                 String paraula = infoWord.getKey();
                 infoWord.getValue().y = infoWord.getValue().x * idf(paraula);
             }
+        }
+    }
+
+    private void readStopWords() {
+        stopWords = new HashSet<>();
+        
+        //Add stop words
+        try {
+            Path caPath = Paths.get(getClass().getResource("empty-ca-utf8.txt").toURI());
+            Path spPath = Paths.get(getClass().getResource("empty-sp-utf8.txt").toURI());
+            Path engPath = Paths.get(getClass().getResource("empty-eng-utf8.txt").toURI());
+            String ca = Files.readString(caPath);
+            String sp = Files.readString(spPath);
+            String eng = Files.readString(engPath);
+
+            String caASCII = Utility.UTF8toASCII(ca);
+            String spASCII = Utility.UTF8toASCII(sp);
+            String engASCII = Utility.UTF8toASCII(eng);
+
+            String[] caStopWords = caASCII.split("\n");
+            String[] spStopWords = spASCII.split("\n");
+            String[] engStopWords = engASCII.split("\n");
+
+            for (String caStopWord : caStopWords) stopWords.add(caStopWord);
+            for (String spStopWord : spStopWords) stopWords.add(spStopWord);
+            for (String engStopWord : engStopWords) stopWords.add(engStopWord);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
         }
     }
 }

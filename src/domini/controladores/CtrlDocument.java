@@ -153,14 +153,15 @@ public class CtrlDocument {
     }
 
     /**
-     * Operació que elimina el document identificat per (autor+titol) del sistema. El document existia.
+     * Operació que elimina el document identificat per (autor+titol) del sistema. El document existia. Si s'esborra el
+     * document actual, aquest passa a null.
      * @param autor: String: Autor del document.
      * @param titol: String: Títol del document.
      * @return boolean: Retorna false si l'autor s'elimina del sistema, sinó retorna true.
      */
     public boolean esborrarDocument(String autor, String titol) {
         boolean autorContinua = true;
-        if(docAct.equals(getDocument(autor, titol))) docAct = null; //si estava obert, ja no /////////////////////////
+        if(docAct != null && docAct.equals(getDocument(autor, titol))) docAct = null; //si estava obert, ja no /////////////////////////
         if (documents.get(autor).size() == 1) { //si l'autor només té un títol, s'esborra l'autor
             documents.remove(autor);
             autorContinua = false;

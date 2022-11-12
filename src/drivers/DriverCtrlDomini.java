@@ -4,17 +4,18 @@ import controladores.*;
 import java.util.*;
 import transversal.*;
 import static java.lang.Math.min;
+import java.lang.Exception;
 
 /**
  * DriverCtrlDomini: Driver per provar totes les funcionalitats disponibles des de CtrlDomini.
  * @author Marc Roman
  */
 public class DriverCtrlDomini {
-    CtrlDomini cd;
-    Scanner entrada;
-    Boolean dObert;
-    int nDocuments, nExps;
-    String titolO, autorO;
+    public CtrlDomini cd;
+    public Scanner entrada;
+    public boolean dObert, esp;
+    public int nDocuments, nExps;
+    public String titolO, autorO;
 
     DriverCtrlDomini() {
         cd = new CtrlDomini();
@@ -22,6 +23,14 @@ public class DriverCtrlDomini {
         dObert = false;
         nDocuments = 0;
         nExps = 0;
+    }
+
+    public void espera() {
+        try {
+            Thread.sleep(1000);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 
     public void tCrearDocument() {
@@ -38,6 +47,7 @@ public class DriverCtrlDomini {
             System.out.println("El document ha estat creat i obert correctament.");
         }
         else System.out.println("El document " + titol + " + " + autor + " existeix");
+        if (esp) espera();
     }
 
     public TreeMap<Integer, Pair<String, String>> escriuClaus() {
@@ -92,6 +102,7 @@ public class DriverCtrlDomini {
                 } else System.out.println("Has cancel·lat l'operacio.");
             }
         } else System.out.println("No hi ha documents a esborrar, crea'n un abans!");
+        if (esp) espera();
     }
 
     public void tGetTitols() {
@@ -100,6 +111,7 @@ public class DriverCtrlDomini {
             List<String> titols = cd.getTitols();
             for (String t : titols) System.out.println(t);
         } else System.out.println("No hi ha titols a mostrar, crea un document abans!");
+        if (esp) espera();
     }
 
     public void tGetAutors() {
@@ -108,6 +120,7 @@ public class DriverCtrlDomini {
             List<String> autors = cd.getAutors();
             for (String a : autors) System.out.println(a);
         } else System.out.println("No hi ha autors a llistar, crea un document abans!");
+        if (esp) espera();
     }
 
     public void tGetTitolsAutors() {
@@ -116,6 +129,7 @@ public class DriverCtrlDomini {
             List<Pair<String, String>> titaut = cd.getTitolsAutors();
             for (Pair<String, String> ta : titaut) System.out.println("Titol: " + ta.y + " Autor: " + ta.x);
         } else System.out.println("No hi ha documents a llistar, crea'n un abans!");
+        if (esp) espera();
     }
 
     public void tObrirDocument() {
@@ -128,6 +142,7 @@ public class DriverCtrlDomini {
             System.out.println("El document " + p.x + " " + p.y + " s'ha obert.");
             dObert = true; autorO = p.x; titolO = p.y;
         } else System.out.println("No hi ha documents a obrir, crea'n un abans!");
+        if (esp) espera();
     }
 
     public void tModificarTitol() {
@@ -141,6 +156,7 @@ public class DriverCtrlDomini {
             if (cd.modificarTitol(p.x, p.y, newT)) System.out.println("El titol ha estat modificat correctament.");
             else System.out.println("El document " + newT + " + " + p.x + " existeix.");
         } else System.out.println("No hi ha documents a modificar, crea'n un abans!");
+        if (esp) espera();
     }
 
     public void tModificarAutor() {
@@ -154,6 +170,7 @@ public class DriverCtrlDomini {
             if (cd.modificarAutor(p.x, p.y, newA)) System.out.println("L'autor ha estat modificat correctament.");
             else System.out.println("El document " + p.y + " + " + newA + " existeix.");
         } else System.out.println("No hi ha documents a modificar, crea'n un abans!");
+        if (esp) espera();
     }
 
     public void tModificarContingut() { // Quan posem un contingut nou, si fem diversos salts de linia seguits o espais després de la ultima paraula de la linia, no es guarden be per les limitacions del .nextline()
@@ -168,6 +185,7 @@ public class DriverCtrlDomini {
             cd.modificarContingut(autorO, titolO, cont);
         } else if (nDocuments < 1) System.out.println("No hi ha cap document, crea'n un abans!");
         else System.out.println("No hi ha cap document obert, obre'n un abans!");
+        if (esp) espera();
     }
 
     public void tLlistarTitolsdAutors() {
@@ -186,6 +204,7 @@ public class DriverCtrlDomini {
             List<String> titols = cd.llistarTitolsdAutors(autor);
             for (String t : titols) System.out.println(t);
         } else System.out.println("No hi ha cap document, crea'n un abans!");
+        if (esp) espera();
     }
 
     public void tLlistarAutorsPrefix() {
@@ -196,6 +215,7 @@ public class DriverCtrlDomini {
             if (autors.size() == 0) System.out.println("No hi ha autors amb el prefix " + prefix + ".");
             else for (String a : autors) System.out.println(a);
         } else System.out.println("No hi ha cap autor a llistar, crea un document abans!");
+        if (esp) espera();
     }
 
     public void tMostrarDocument() {
@@ -211,6 +231,7 @@ public class DriverCtrlDomini {
             }
             System.out.print("\n");
         } else System.out.println("No hi ha cap document, crea'n un abans!");
+        if (esp) espera();
     }
 
     public void tLlistarKDocumentsS() {
@@ -229,6 +250,7 @@ public class DriverCtrlDomini {
                 for (Pair<String,String> d : docs) System.out.println(d.y + ' ' + d.x);
             }
         } else System.out.println("No hi ha cap document, crea'n un abans!");
+        if (esp) espera();
     }
 
     public void tCercarExpressioBooleana() {
@@ -262,6 +284,7 @@ public class DriverCtrlDomini {
                 for (Pair<String,String> d : docs) System.out.println(d.y + ' ' + d.x);
             }
         } else System.out.println("No hi ha cap document, crea'n un abans!");
+        if (esp) espera();
     }
 
     public void tGetAllExpressionsBooleanes() {
@@ -271,6 +294,7 @@ public class DriverCtrlDomini {
             for (Pair<String, String> eb : l)
                 System.out.println("Nom: " + eb.x + " Expressio: " + eb.y);
         } else System.out.println("No hi ha expressions booleanes guardades, crea'n una abans!");
+        if (esp) espera();
     }
 
     public void tSetExpressioBooleana() {
@@ -279,12 +303,13 @@ public class DriverCtrlDomini {
 
         System.out.println("Escriu el nom amb el que vols guardar l'expressio booleana:");
         String nom = entrada.nextLine();
-        System.out.println("Has introduit el nom " + nom + "i l'expressio booleana " + exp + ".");
+        System.out.println("Has introduit el nom " + nom + " i l'expressio booleana " + exp + ".");
         if (cd.setExpressioBooleana(nom, exp)) {
             ++nExps;
             System.out.println("L'expressio booleana s'ha guardat correctament.");
         }
         else System.out.println("Existeix una expressio booleana guardada amb el nom " + nom  + ".");
+        if (esp) espera();
     }
 
     public void tModExpressioBooleana() {
@@ -297,6 +322,7 @@ public class DriverCtrlDomini {
             cd.modExpressioBooleana(m.get(Integer.valueOf(e)).x, nExp);
             System.out.println("L'expressio booleana s'ha modificat correctament.");
         } else System.out.println("No hi ha expressions booleanes guardades, crea'n una abans!");
+        if (esp) espera();
     }
 
     public void tDeleteExpressioBooleana() {
@@ -314,13 +340,20 @@ public class DriverCtrlDomini {
                 --nExps;
             } else System.out.println("Has cancel·lat l'operacio.");
         } else System.out.println("No hi ha expressions booleanes guardades, crea'n una abans!");
+        if (esp) espera();
     }
 
     public static void main (String [] args) {
         DriverCtrlDomini dcd = new DriverCtrlDomini();
         System.out.println("Benvingut al driver de ctrlDomini. Aquest driver esta pensat per utilitzar-lo correctament.");
-        opcions_disponibles();
+        System.out.println("Vols fer una interaccio rapida o anar fent i miriant tranquilament (1 s d'espera):");
+        System.out.println("1. Interaccio rapida");
+        System.out.println("2. Interaccio tranquila");
         String ent = dcd.entrada.nextLine();
+        if (ent.equals("1")) dcd.esp = false;
+        else dcd.esp = true;
+        opcions_disponibles();
+        ent = dcd.entrada.nextLine();
         while (!ent.equals("0")) { // Si posem 0, surt
             switch (ent) {
                 case "1": { // Constructora de CtrlDomini la 1a vegada / Constructora de document i obre el document
@@ -406,7 +439,7 @@ public class DriverCtrlDomini {
     }
 
     private static void opcions_disponibles() {
-        System.out.println("Per provar un metode ingressa per teclat el seu numero");
+        System.out.println("Per provar un metode ingressa per teclat el seu numero:");
         System.out.println("1-  Constructora de document");
         System.out.println("Abans d'utilitzar les seguents, com a minim ha d'haver un document.");
         System.out.println("2-  Destructora de document");

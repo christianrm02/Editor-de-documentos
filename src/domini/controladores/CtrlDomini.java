@@ -111,9 +111,9 @@ public class CtrlDomini {
         return ci.GetAutorsPrefix(prefix);
     }
 
-    public List<Pair<String, String>> llistarKDocumentsS(String autor, String titol, int K) {
+    public List<Pair<String, String>> llistarKDocumentsS(String autor, String titol, int K, boolean strategy) {
         if (K < 1) return null;
-        return ci.GetKDocsSimilarS(autor, titol, K);
+        return ci.GetKDocsSimilarS(autor, titol, K, strategy);
     }
 
     public List<Pair<String, String>> cercarExpressioBooleana(String exp) {

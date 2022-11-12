@@ -244,7 +244,13 @@ public class DriverCtrlDomini {
             System.out.println("Introdueix el nombre de documents que vols llistar:");
             String k = entrada.nextLine();
             Pair<String, String> doc = m.get(Integer.valueOf(docSel));
-            List<Pair<String, String>> docs = cd.llistarKDocumentsS(doc.x, doc.y, Integer.parseInt(k));
+            System.out.println("Quina estrategia vols utilitzar?");
+            System.out.println("1. tf-idf");
+            System.out.println("2. tf");
+            String st = entrada.nextLine();
+            boolean strategy = false;
+            if (st.equals("2")) strategy = true;
+            List<Pair<String, String>> docs = cd.llistarKDocumentsS(doc.x, doc.y, Integer.parseInt(k), strategy);
             if (docs == null) System.out.println("K no es un nombre natural.");
             else if (docs.size() == 0) System.out.println("No hi ha documents semblants al document seleccionat.");
             else {

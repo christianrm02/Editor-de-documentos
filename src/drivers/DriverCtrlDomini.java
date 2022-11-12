@@ -212,6 +212,7 @@ public class DriverCtrlDomini {
             System.out.print("\n");
         } else System.out.println("No hi ha cap document, crea'n un abans!");
     }
+
     public void tLlistarKDocumentsS() {
         if (nDocuments > 0) {
             System.out.println("A continuacio sortiran els documents existents, selecciona'n un:");
@@ -269,7 +270,7 @@ public class DriverCtrlDomini {
             List<Pair<String, String>> l = cd.getAllExpressionsBooleanes();
             for (Pair<String, String> eb : l)
                 System.out.println("Nom: " + eb.x + " Expressio: " + eb.y);
-        } System.out.println("No hi ha expressions booleanes guardades, crea'n una abans!");
+        } else System.out.println("No hi ha expressions booleanes guardades, crea'n una abans!");
     }
 
     public void tSetExpressioBooleana() {

@@ -35,7 +35,7 @@ public class DriverCtrlDomini {
             ++nDocuments;
             dObert = true;
             titolO = titol; autorO = autor;
-            System.out.println("El document ha estat creat i obert correctament");
+            System.out.println("El document ha estat creat i obert correctament.");
         }
         else System.out.println("El document " + titol + " + " + autor + " existeix");
     }
@@ -87,7 +87,8 @@ public class DriverCtrlDomini {
                             break;
                         }
                     cd.esborrarDocuments(docs);
-                    System.out.println("Els documents s'han esborrat corractament.");
+                    System.out.println("Els documents s'han esborrat correctament.");
+                    nDocuments -= docs.size();
                 } else System.out.println("Has cancel·lat l'operacio.");
             }
         } else System.out.println("No hi ha documents a esborrar, crea'n un abans!");

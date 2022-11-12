@@ -156,10 +156,15 @@ public class DriverCtrlDomini {
         } else System.out.println("No hi ha documents a modificar, crea'n un abans!");
     }
 
-    public void tModificarContingut() {
+    public void tModificarContingut() { // Quan posem un contingut nou, si fem diversos salts de linia seguits o espais després de la ultima paraula de la linia, no es guarden be per les limitacions del .nextline()
         if (dObert && nDocuments > 0) {
-            System.out.println("Introdueix el nou contingut:");
-            String cont = entrada.nextLine();
+            System.out.println("Introdueix el nou contingut, quan ja l'hagis acabat, escriu '!fi' a una ultima linia:");
+            String cont = "";
+            String ent = entrada.nextLine();
+            while (!ent.equals("!fi")) {
+                cont += ent + '\n';
+                ent = entrada.nextLine();
+            }
             cd.modificarContingut(autorO, titolO, cont);
         } else if (nDocuments < 1) System.out.println("No hi ha cap document, crea'n un abans!");
         else System.out.println("No hi ha cap document obert, obre'n un abans!");
@@ -170,7 +175,7 @@ public class DriverCtrlDomini {
             System.out.println("A continuacio sortiran els autors existents, selecciona'n un:");
             List<String> aut = cd.getAutors();
             TreeMap<Integer, String> m = new TreeMap<>();
-            int i = 0;
+            int i = 1;
             for (String a : aut) {
                 m.put(i, a);
                 System.out.println(i + ". " + a);
@@ -193,6 +198,20 @@ public class DriverCtrlDomini {
         } else System.out.println("No hi ha cap autor a llistar, crea un document abans!");
     }
 
+    public void tMostrarDocument() {
+        if (nDocuments > 0) {
+            System.out.println("A continuacio sortiran els documents existents, selecciona'n un:");
+            TreeMap<Integer, Pair<String, String>> m = escriuClaus();
+            String docSel = entrada.nextLine();
+            Pair<String, String> p = m.get(Integer.valueOf(docSel));
+            List<String> cont = cd.getContingut(p.x, p.y);
+            for (String c : cont) {
+                if (c.charAt(c.length()-1) != '\n') System.out.print(c + ' ');
+                else System.out.print(c);
+            }
+            System.out.print("\n");
+        } else System.out.println("No hi ha cap document, crea'n un abans!");
+    }
     public void tLlistarKDocumentsS() {
         if (nDocuments > 0) {
             System.out.println("A continuacio sortiran els documents existents, selecciona'n un:");
@@ -348,27 +367,31 @@ public class DriverCtrlDomini {
                     dcd.tLlistarAutorsPrefix();
                     break;
                 }
-                case "12": { // Llista els K documents mes semblants a l'indicat
+                case "12": { // Retorna el contingut del document indicat i el mostra
+                    dcd.tMostrarDocument();
+                    break;
+                }
+                case "13": { // Llista els K documents mes semblants a l'indicat
                     dcd.tLlistarKDocumentsS();
                     break;
                 }
-                case "13": { // Cerca segons una expressio booleana
+                case "14": { // Cerca segons una expressio booleana
                     dcd.tCercarExpressioBooleana();
                     break;
                 }
-                case "14": { // Getter de totes les expressions booleanes, si no hi ha cap expressio booleana, no funciona.
+                case "15": { // Getter de totes les expressions booleanes, si no hi ha cap expressio booleana, no funciona.
                     dcd.tGetAllExpressionsBooleanes();
                     break;
                 }
-                case "15": { // Setter d'expressio booleana
+                case "16": { // Setter d'expressio booleana
                     dcd.tSetExpressioBooleana();
                     break;
                 }
-                case "16": { // Modificadora d'expressio booleana, si no hi ha cap expressio booleana, no funciona.
+                case "17": { // Modificadora d'expressio booleana, si no hi ha cap expressio booleana, no funciona.
                     dcd.tModExpressioBooleana();
                     break;
                 }
-                case "17": { // Destructora d'expressio booleana, si no hi ha cap expressio booleana, no funciona.
+                case "18": { // Destructora d'expressio booleana, si no hi ha cap expressio booleana, no funciona.
                     dcd.tDeleteExpressioBooleana();
                     break;
                 }
@@ -395,14 +418,14 @@ public class DriverCtrlDomini {
         System.out.println("9-  Modificar contingut d'un document (primer s'ha d'obrir un document)");
         System.out.println("10- Llistar titols d'un autor");
         System.out.println("11- Llistar autors per prefix");
-        System.out.println("12- Llistar K documents semblants a un document D");
-        System.out.println("13- Cerca amb una expressio booleana");
-        System.out.println("14- getExpressioBooleana");
+        System.out.println("12- Mostrar document");
+        System.out.println("13- Llistar K documents semblants a un document D");
+        System.out.println("14- Cerca amb una expressio booleana");
         System.out.println("15- getAllExpressionsBooleanes");
         System.out.println("16- Crea expressio booleana");
         System.out.println("17- Modififica expressio booleana");
         System.out.println("18- Elimina expressio booleana");
         System.out.println("0-  Cancel·lar");
-        System.out.println("Introdueix un numero: ");
+        System.out.println("Introdueix un numero:");
     }
 }

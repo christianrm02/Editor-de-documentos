@@ -42,6 +42,16 @@ public class ExpressioBooleana {
                 llista.add(")");
                 ++i;
             }
+            else if (exp.charAt(i) == '\"') {
+                ++i;
+                String s2 = "";
+                while (exp.charAt(i) != '\"') {
+                    s2 += exp.charAt(i);
+                    ++i;
+                }
+                llista.add(s2);
+                ++i;
+            }
             else if (exp.charAt(i) == '&') {
                 llista.add("&");
                 ++i;
@@ -57,16 +67,6 @@ public class ExpressioBooleana {
                 llista.add(")");
                 ++i;
                 s1 = "";
-            }
-            else if (exp.charAt(i) == '\"') {
-                ++i;
-                String s2 = "";
-                while (exp.charAt(i) != '\"') {
-                    s2 += exp.charAt(i);
-                    ++i;
-                }
-                llista.add(s2);
-                ++i;
             }
             else if (exp.charAt(i) == ' ') {
                 llista.add(s1);

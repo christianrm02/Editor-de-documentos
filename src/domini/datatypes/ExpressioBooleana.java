@@ -1,5 +1,4 @@
 package datatypes;
-import java.text.Normalizer;
 import java.util.*;
 
 
@@ -22,7 +21,6 @@ public class ExpressioBooleana {
     }
 
     private void crearLlistaiArbre() {
-        //String s = UTF8toASCII(exp);
         List<String> llista = new ArrayList<>();
         int i = 0;
         String s1 = "";
@@ -37,7 +35,7 @@ public class ExpressioBooleana {
                         llista.add("&");
                         s2 = "";
                     }
-                    else s2+=exp.charAt(i);
+                    else s2 += exp.charAt(i);
                     ++i;
                 }
                 llista.add(s2);
@@ -87,9 +85,6 @@ public class ExpressioBooleana {
     public String getExp() { return exp; }
 
     public Tree getExpA() { return expA; }
-
-   // public List<String> getLlista() { return llista; }
-
 
     //Setters
     public void setNom(String nom) { this.nom = nom; }

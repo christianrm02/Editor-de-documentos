@@ -33,14 +33,12 @@ public class CtrlDomini {
     // Getters de de document
     public List<String> getTitols() {
         Set<String> s = cd.getTitols();
-        List<String> tit = new ArrayList<String>(s);
-        return tit;
+        return new ArrayList<>(s);
     }
 
     public List<String> getAutors() {
         Set<String> s = cd.getAutors();
-        List<String> aut = new ArrayList<String>(s);
-        return aut;
+        return new ArrayList<>(s);
     }
 
     public List<Pair<String, String>> getTitolsAutors() {
@@ -48,32 +46,32 @@ public class CtrlDomini {
     }
 
     public List<String> getContingut(String autor, String titol) {
-        return cd.getContingut();
+        return cd.getContingut(autor, titol);
     }
 
     public List<String> obrirDocument(String autor, String titol) {
         cd.obreDocument(autor, titol);
-        return cd.getContingut();
+        return cd.getContingutObert();
     }
 
     // Creacio de document
-    public boolean crearDocument(String autor, String titol/*, string format*/) {
+    public boolean crearDocument(String autor, String titol) {
         boolean ed = cd.existsDocument(autor, titol);
         if (!ed) {
-            cd.crearDocument(autor, titol/*, format*/); // PRE: no existeix Document
-            ci.AfegirDoc(autor, titol, new ArrayList<String>());
+            cd.crearDocument(autor, titol); // PRE: no existeix Document
+            ci.AfegirDoc(autor, titol, new ArrayList<>());
         }
         return !ed;
     }
 
     // Destruccio de documents
     public void esborrarDocuments(List<Pair<String, String>> docs) {
-        Set<String> a = new TreeSet<String>();
+        Set<String> a = new TreeSet<>();
         for (Pair<String, String> p : docs) {
             if (cd.esborrarDocument(p.x, p.y)) a.add(p.x);
             ci.EsborrarDoc(p.x, p.y);
         }
-        ci.EsborrarAutors(new ArrayList<String>(a));
+        ci.EsborrarAutors(new ArrayList<>(a));
     }
 
     // Modificadores de document
@@ -91,7 +89,7 @@ public class CtrlDomini {
         if (!ed) {
             boolean asegueix = cd.modificarAutor(autor, titol, newA);
             ci.ActualitzarAutor(autor, titol, newA);
-            List<String> a = new ArrayList<String>(); a.add(autor);
+            List<String> a = new ArrayList<>(); a.add(autor);
             if (!asegueix) ci.EsborrarAutors(a);
         }
         return !ed;
@@ -106,7 +104,7 @@ public class CtrlDomini {
     // Cerques
     public List<String> llistarTitolsdAutors(String autor) {
         Set<String> a = cd.getTitolsAutor(autor);
-        return new ArrayList<String>(a);
+        return new ArrayList<>(a);
     }
 
     public List<String> llistarAutorsPrefix(String prefix) {

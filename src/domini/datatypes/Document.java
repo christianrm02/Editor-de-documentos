@@ -9,7 +9,7 @@ public class Document {
     private String autor;
     private String titol;
     private Contingut contingut;
-    private Format format;
+    //private Format format; per aquesta entrega no el tenim en compte
 
     /*CONTRUCTORES*/
     /**
@@ -21,10 +21,9 @@ public class Document {
      * Creadora d'un Document inicialitzat amb els paràmetres d'entrada i contingut buit.
      * @param autor: String: Autor del document a crear.
      * @param titol: String: Títol del document a crear.
-     * @param format: Format: Format del document a crear.
      */
-    public Document(String autor, String titol, Format format) {
-        this.format = format;
+    public Document(String autor, String titol) { //no tenim en compte el format per aquesta entrega; @param format: Format: Format del document a crear.
+        //this.format = format;
         this.autor = autor;
         this.titol = titol;
         this.contingut = new Contingut();
@@ -55,13 +54,15 @@ public class Document {
         return contingut.getFrases();
     }
 
+    /*
     /**
      * Consultora del format del document.
      * @return Format: El format del document.
-     */
+     *
     public Format getFormat() {
         return format;
     }
+    */
 
     /*SETTERS*/
     /**

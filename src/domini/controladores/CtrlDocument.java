@@ -1,7 +1,6 @@
 package controladores;
 
 import datatypes.Document;
-import datatypes.Format;
 import transversal.Pair;
 
 import java.util.*;
@@ -103,8 +102,16 @@ public class CtrlDocument {
      * Operació que retorna el contingut del document actual.
      * @return List<String>: Retorna una llista de les frases del document actual.
      */
-    public List<String> getContingut() { //EXCEPCIÓ NO EXISTEIX EL DOCUMENT (autor, titol)
+    public List<String> getContingutObert() {
         return docAct.getContingut();
+    }
+
+    /**
+     * Operació que retorna el contingut del document identificat per (autor+titol).
+     * @return List<String>: Retorna una llista de les frases del document actual.
+     */
+    public List<String> getContingut(String autor, String titol) {
+        return documents.get(autor).get(titol).getContingut();
     }
 
     /**
@@ -126,7 +133,7 @@ public class CtrlDocument {
      */
     public void crearDocument(String autor, String titol) {
         TreeMap<String, Document> titols = new TreeMap<>();
-        Document d = new Document(autor, titol, Format.txt); ////////////////FALTA EL FORMATO
+        Document d = new Document(autor, titol); //Format.txt, no el tenim en compte per aquesta primera entrega
         if (documents.containsKey(autor)){ //existe el autor
             titols = documents.get(autor);
         }

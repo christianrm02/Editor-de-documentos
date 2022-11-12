@@ -26,8 +26,29 @@ public class ExpressioBooleanaTest {
         ExpressioBooleana expTest = new ExpressioBooleana("Expressió 1", "{p1 p2 p3} & (\"hola adéu\" | pep) & !joan");
         assertEquals("{p1 p2 p3} & (\"hola adéu\" | pep) & !joan", expTest.getExp());
     }
+    /*
 
+                             &(0)
+                      /                \
+                    &(1)              !(2)
+                /         \             /
+               &(3)         |(4)     joan(5)
+           /     \      /         \
+         &(6)  p3(7) "hola adéu"(8) pep(9)
+          /   \
+       p1(10)  p2(11)
+*/
     @Test
     public void getExpA() {
+        ExpressioBooleana expTest = new ExpressioBooleana("Expressió 1", "{p1 p2 p3} & (\"hola adéu\" | pep) & !joan");
+        Tree arbre = expTest.getExpA();
+        assertEquals("&", arbre.root.data);
+        TreeNode fillesq = arbre.root.leftNode;
+        TreeNode filldre = arbre.root.rightNode;
+        assertEquals("!", filldre.data);
+        assertEquals("&", fillesq.data);
+        TreeNode filldret = filldre.rightNode;
+        assertEquals(null, filldret);
+
     }
 }

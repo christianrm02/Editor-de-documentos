@@ -14,6 +14,7 @@ public class ExpressioBooleana {
         this.exp = exp;
 
         List<String> llistaExp = crearLlista();
+        //for (String s : llistaExp) System.out.print(s + ", ");
         this.expA = new Tree(llistaExp);
     }
 

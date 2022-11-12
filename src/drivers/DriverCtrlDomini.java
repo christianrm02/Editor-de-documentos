@@ -37,9 +37,9 @@ public class DriverCtrlDomini {
         else System.out.println("El document " + titol + " + " + autor + " existeix");
     }
 
-    public TreeMap<int, Pair<String, String>> escriuClaus() {
+    public TreeMap<Integer, Pair<String, String>> escriuClaus() {
         List<Pair<String, String>> titaut = cd.getTitolsAutors();
-        TreeMap<int, Pair<String, String>> m = new TreeMap<int, Pair<String, String>>();
+        TreeMap<Integer, Pair<String, String>> m = new TreeMap<Integer, Pair<String, String>>();
         int i = 1;
         for (Pair<String, String> ta : titaut) {
             m.put(i, ta);
@@ -49,9 +49,9 @@ public class DriverCtrlDomini {
         return m;
     }
 
-    public TreeMap<int, Pair<String, String>> escriuExps() {
+    public TreeMap<Integer, Pair<String, String>> escriuExps() {
         List<Pair<String, String>> l = cd.getAllExpressionsBooleanes();
-        TreeMap<int, Pair<String, String>> m = new TreeMap<int, Pair<String, String>>();
+        TreeMap<Integer, Pair<String, String>> m = new TreeMap<Integer, Pair<String, String>>();
         int i = 1;
         for (Pair<String, String> eb : l) {
             m.put(i, eb);
@@ -64,7 +64,7 @@ public class DriverCtrlDomini {
     public void tEsborrarDocuments() {
         if (nDocuments > 0) {
             System.out.println("A continuacio sortiran els documents existents, com a molt pots seleccionar-ne 10:");
-            TreeMap<int, Pair<String, String>> m = escriuClaus();
+            TreeMap<Integer, Pair<String, String>> m = escriuClaus();
             System.out.println("Posa els numeros dels documents. Si poses 0, es considera que no vols esborrar mes documents.");
             List<Pair<String, String>> docs = new ArrayList<Pair<String, String>>();
             String ent = entrada.nextLine();
@@ -112,7 +112,7 @@ public class DriverCtrlDomini {
     public void tObrirDocument() {
         if (nDocuments > 0) {
             System.out.println("A continuacio sortiran els documents existents, selecciona'n un:");
-            TreeMap<int, Pair<String, String>> m = escriuClaus();
+            TreeMap<Integer, Pair<String, String>> m = escriuClaus();
             String docSel = entrada.nextLine();
             Pair<String, String> p = m.get(Integer.valueOf(docSel));
             cd.obrirDocument(p.x, p.y);
@@ -123,7 +123,7 @@ public class DriverCtrlDomini {
     public void tModificarTitol() {
         if (nDocuments > 0) {
             System.out.println("A continuacio sortiran els documents existents, selecciona'n un:");
-            TreeMap<int, Pair<String, String>> m = escriuClaus();
+            TreeMap<Integer, Pair<String, String>> m = escriuClaus();
             String docSel = entrada.nextLine();
             System.out.println("Introdueix el nou titol:");
             String newT = entrada.nextLine();
@@ -136,7 +136,7 @@ public class DriverCtrlDomini {
     public void tModificarAutor() {
         if (nDocuments > 0) {
             System.out.println("A continuacio sortiran els documents existents, selecciona'n un:");
-            TreeMap<int, Pair<String, String>> m = escriuClaus();
+            TreeMap<Integer, Pair<String, String>> m = escriuClaus();
             String docSel = entrada.nextLine();
             System.out.println("Introdueix el nou autor:");
             String newA = entrada.nextLine();
@@ -159,7 +159,7 @@ public class DriverCtrlDomini {
         if (nDocuments > 0) {
             System.out.println("A continuacio sortiran els autors existents, selecciona'n un:");
             List<String> aut = cd.getAutors();
-            TreeMap<int, Pair<String, String>> m = new TreeMap<int, String>();
+            TreeMap<Integer, Pair<String, String>> m = new TreeMap<Integer, String>();
             int i = 0;
             for (String a : aut) {
                 m.put(i, a);
@@ -186,7 +186,7 @@ public class DriverCtrlDomini {
     public void tLlistarKDocumentsS() {
         if (nDocuments > 0) {
             System.out.println("A continuacio sortiran els documents existents, selecciona'n un:");
-            TreeMap<int, Pair<String, String>> m = escriuClaus();
+            TreeMap<Integer, Pair<String, String>> m = escriuClaus();
             String docSel = entrada.nextLine();
             System.out.println("Introdueix el nombre de documents que vols llistar:");
             String k = entrada.nextLine();
@@ -211,7 +211,7 @@ public class DriverCtrlDomini {
                 q = entrada.nextLine();
                 if (q.equals("1")) {
                     System.out.println("Selecciona una expressio booleana guardada:");
-                    TreeMap<int, Pair<String, String>> m = escriuExps();
+                    TreeMap<Integer, Pair<String, String>> m = escriuExps();
                     String e = entrada.nextLine();
                     exp = m.get(Integer.valueOf(e)).y;
                 }
@@ -256,7 +256,7 @@ public class DriverCtrlDomini {
     public void tModExpressioBooleana() {
         if (nExps > 0) {
             System.out.println("Selecciona una expressio booleana guardada:");
-            TreeMap<int, Pair<String, String>> m = escriuExps();
+            TreeMap<Integer, Pair<String, String>> m = escriuExps();
             String e = entrada.nextLine();
             System.out.println("Escriu la nova expressio booleana per a la seleccionada:");
             String nExp = entrada.nextLine();
@@ -268,7 +268,7 @@ public class DriverCtrlDomini {
     public void tDeleteExpressioBooleana() {
         if (nExps > 0) {
             System.out.println("Selecciona una expressio booleana per esborrar-la:");
-            TreeMap<int, Pair<String, String>> m = escriuExps();
+            TreeMap<Integer, Pair<String, String>> m = escriuExps();
             String e = entrada.nextLine();
             System.out.println("Segur que vols esborrar l'expressio booleana seleccionada?");
             System.out.println("0. Cancel·lar");

@@ -1,12 +1,10 @@
 package controladores;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
-import java.lang.String;
-
-import datatypes.*;
+import transversal.*;
 
 /**
  * @author Marc Roman

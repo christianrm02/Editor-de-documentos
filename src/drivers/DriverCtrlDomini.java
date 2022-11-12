@@ -81,9 +81,10 @@ public class DriverCtrlDomini {
             System.out.println("Posa els numeros dels documents. Si poses 0, es considera que no vols esborrar mes documents.");
             List<Pair<String, String>> docs = new ArrayList<>();
             String ent = entrada.nextLine();
-            for (int i = 0; i < min(10, nDocuments) && !ent.equals("0"); ++i) {
+            int min = min(10, nDocuments);
+            for (int i = 0; i < min && !ent.equals("0"); ++i) {
                 docs.add(m.get(Integer.valueOf(ent)));
-                if (i < 9) ent = entrada.nextLine();
+                if (i < min - 1) ent = entrada.nextLine();
             }
             if (docs.size() == 0) System.out.println("No has seleccionat cap document a esborrar.");
             else {

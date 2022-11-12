@@ -87,10 +87,6 @@ public class ExpressioBooleana {
     public Tree getExpA() { return expA; }
 
     //Setters
-    public void setNom(String nom) { this.nom = nom; }
+    //public void setNom(String nom) { this.nom = nom; }
 
-    public void setExp(String exp) {
-        this.exp = exp;
-        //crearArbre();
-    }
 }

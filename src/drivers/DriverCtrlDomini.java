@@ -1,21 +1,20 @@
 package drivers;
 
 import controladores.*;
-import datatypes.*;
-import transversal.*;
 import java.util.*;
 import transversal.*;
+import static java.lang.Math.min;
 
 /**
  * DriverCtrlDomini: Driver per provar totes les funcionalitats disponibles des de CtrlDomini.
  * @author Marc Roman
  */
 public class DriverCtrlDomini {
-    CtrlDomini cd;
+    CtrlDomini cd;0
     Scanner entrada;
     Boolean dObert;
-    int nDocuments;
-    int nExps;
+    int nDocuments, nExps;
+    String titolO, autorO;
 
     DriverCtrlDomini() {
         cd = new CtrlDomini();
@@ -35,6 +34,7 @@ public class DriverCtrlDomini {
         if (cd.crearDocument(autor, titol)) {
             ++nDocuments;
             dObert = true;
+            titolO = titol; autorO = autor;
             System.out.println("El document ha estat creat i obert correctament");
         }
         else System.out.println("El document " + titol + " + " + autor + " existeix");
@@ -42,11 +42,11 @@ public class DriverCtrlDomini {
 
     public TreeMap<Integer, Pair<String, String>> escriuClaus() {
         List<Pair<String, String>> titaut = cd.getTitolsAutors();
-        TreeMap<Integer, Pair<String, String>> m = new TreeMap<Integer, Pair<String, String>>();
+        TreeMap<Integer, Pair<String, String>> m = new TreeMap<>();
         int i = 1;
         for (Pair<String, String> ta : titaut) {
             m.put(i, ta);
-            System.out.println(Integer.toString(i) + ". Titol: " + ta.y + " Autor: " + ta.x);
+            System.out.println(i + ". Titol: " + ta.y + " Autor: " + ta.x);
             ++i;
         }
         return m;
@@ -54,11 +54,11 @@ public class DriverCtrlDomini {
 
     public TreeMap<Integer, Pair<String, String>> escriuExps() {
         List<Pair<String, String>> l = cd.getAllExpressionsBooleanes();
-        TreeMap<Integer, Pair<String, String>> m = new TreeMap<Integer, Pair<String, String>>();
+        TreeMap<Integer, Pair<String, String>> m = new TreeMap<>();
         int i = 1;
         for (Pair<String, String> eb : l) {
             m.put(i, eb);
-            System.out.println(Integer.toString(i) + ". Nom: " + eb.x + " Expressio: " + eb.y);
+            System.out.println(i + ". Nom: " + eb.x + " Expressio: " + eb.y);
             ++i;
         }
         return m;
@@ -69,9 +69,9 @@ public class DriverCtrlDomini {
             System.out.println("A continuacio sortiran els documents existents, com a molt pots seleccionar-ne 10:");
             TreeMap<Integer, Pair<String, String>> m = escriuClaus();
             System.out.println("Posa els numeros dels documents. Si poses 0, es considera que no vols esborrar mes documents.");
-            List<Pair<String, String>> docs = new ArrayList<Pair<String, String>>();
+            List<Pair<String, String>> docs = new ArrayList<>();
             String ent = entrada.nextLine();
-            for (int i = 0; i < Math.min(10, nDocuments) && ent != "0"; ++i) {
+            for (int i = 0; i < min(10, nDocuments) && !ent.equals("0"); ++i) {
                 docs.add(m.get(Integer.valueOf(ent)));
             }
             if (docs.size() == 0) System.out.println("No has seleccionat cap document a esborrar.");
@@ -80,7 +80,12 @@ public class DriverCtrlDomini {
                 System.out.println("0. Cancel·lar");
                 System.out.println("1. Esborrar");
                 String ec = entrada.nextLine();
-                if (ec == "1") {
+                if (ec.equals("1")) {
+                    for (Pair<String, String> d : docs)
+                        if (d.x.equals(autorO) && d.y.equals(titolO)) {
+                            dObert = false;
+                            break;
+                        }
                     cd.esborrarDocuments(docs);
                     System.out.println("Els documents s'han esborrat corractament.");
                 } else System.out.println("Has cancel·lat l'operacio.");
@@ -120,6 +125,7 @@ public class DriverCtrlDomini {
             Pair<String, String> p = m.get(Integer.valueOf(docSel));
             cd.obrirDocument(p.x, p.y);
             System.out.println("El document " + p.x + " " + p.y + " s'ha obert.");
+            dObert = true; autorO = p.x; titolO = p.y;
         } else System.out.println("No hi ha documents a obrir, crea'n un abans!");
     }
 
@@ -132,7 +138,7 @@ public class DriverCtrlDomini {
             String newT = entrada.nextLine();
             Pair<String, String> p = m.get(Integer.valueOf(docSel));
             if (cd.modificarTitol(p.x, p.y, newT)) System.out.println("El titol ha estat modificat correctament.");
-            else System.out.println("El document " + newT + " + " + autor + " existeix.");
+            else System.out.println("El document " + newT + " + " + p.x + " existeix.");
         } else System.out.println("No hi ha documents a modificar, crea'n un abans!");
     }
 
@@ -145,16 +151,15 @@ public class DriverCtrlDomini {
             String newA = entrada.nextLine();
             Pair<String, String> p = m.get(Integer.valueOf(docSel));
             if (cd.modificarAutor(p.x, p.y, newA)) System.out.println("L'autor ha estat modificat correctament.");
-            else System.out.println("El document " + titol + " + " + newA + " existeix.");
+            else System.out.println("El document " + p.y + " + " + newA + " existeix.");
         } else System.out.println("No hi ha documents a modificar, crea'n un abans!");
     }
 
-    public void tModificarContingut() { // no tinc clar com fer-la
+    public void tModificarContingut() {
         if (dObert && nDocuments > 0) {
             System.out.println("Introdueix el nou contingut:");
             String cont = entrada.nextLine();
-            //Aqui falta titol i autor
-            //cd.modificarContingut(titol, autor, cont);
+            cd.modificarContingut(autorO, titolO, cont);
         } else if (nDocuments < 1) System.out.println("No hi ha cap document, crea'n un abans!");
         else System.out.println("No hi ha cap document obert, obre'n un abans!");
     }
@@ -163,11 +168,11 @@ public class DriverCtrlDomini {
         if (nDocuments > 0) {
             System.out.println("A continuacio sortiran els autors existents, selecciona'n un:");
             List<String> aut = cd.getAutors();
-            TreeMap<Integer, Pair<String, String>> m = new TreeMap<Integer, String>();
+            TreeMap<Integer, String> m = new TreeMap<>();
             int i = 0;
             for (String a : aut) {
                 m.put(i, a);
-                System.out.println(Integer.toString(i) + ". " + ta.x);
+                System.out.println(i + ". " + a);
                 ++i;
             }
             String au = entrada.nextLine();
@@ -181,7 +186,7 @@ public class DriverCtrlDomini {
         if (nDocuments > 0) {
             System.out.println("Introdueix un prefix per fer la cerca dels autors:");
             String prefix = entrada.nextLine();
-            List<String> autors = cd.llistarAutorsPrefix();
+            List<String> autors = cd.llistarAutorsPrefix(prefix);
             if (autors.size() == 0) System.out.println("No hi ha autors amb el prefix " + prefix + ".");
             else for (String a : autors) System.out.println(a);
         } else System.out.println("No hi ha cap autor a llistar, crea un document abans!");
@@ -194,7 +199,8 @@ public class DriverCtrlDomini {
             String docSel = entrada.nextLine();
             System.out.println("Introdueix el nombre de documents que vols llistar:");
             String k = entrada.nextLine();
-            List<String> docs = cd.llistarKDocumentsS();
+            Pair<String, String> doc = m.get(Integer.valueOf(docSel));
+            List<Pair<String, String>> docs = cd.llistarKDocumentsS(doc.x, doc.y, Integer.parseInt(k));
             if (docs == null) System.out.println("K no es un nombre natural.");
             else if (docs.size() == 0) System.out.println("No hi ha documents semblants al document seleccionat.");
             else {
@@ -206,21 +212,24 @@ public class DriverCtrlDomini {
 
     public void tCercarExpressioBooleana() {
         if (nDocuments > 0) {
-            String q;
             String exp;
             if (nExps > 0) {
                 System.out.println("Vols fer la cerca amb una expressio booleana guardada o nova?");
                 System.out.println("1. Expressio booleana guardada");
                 System.out.println("2. Expressio booleana nova");
-                q = entrada.nextLine();
+                String q = entrada.nextLine();
                 if (q.equals("1")) {
                     System.out.println("Selecciona una expressio booleana guardada:");
                     TreeMap<Integer, Pair<String, String>> m = escriuExps();
                     String e = entrada.nextLine();
                     exp = m.get(Integer.valueOf(e)).y;
                 }
+                else {
+                    System.out.println("Escriu una expressio booleana:");
+                    exp = entrada.nextLine();
+                }
             }
-            if (nExps < 1 || q.equals("2")) {
+            else {
                 System.out.println("Escriu una expressio booleana:");
                 exp = entrada.nextLine();
             }
@@ -239,7 +248,7 @@ public class DriverCtrlDomini {
             System.out.println("A continuacio tenim totes les expressions booleanes guardades:");
             List<Pair<String, String>> l = cd.getAllExpressionsBooleanes();
             for (Pair<String, String> eb : l)
-                System.out.println(Integer.toString(i) + ". Nom: " + ta.x + " Expressio: " + ta.y);
+                System.out.println("Nom: " + eb.x + " Expressio: " + eb.y);
         } System.out.println("No hi ha expressions booleanes guardades, crea'n una abans!");
     }
 
@@ -278,7 +287,7 @@ public class DriverCtrlDomini {
             System.out.println("0. Cancel·lar");
             System.out.println("1. Esborrar");
             String ec = entrada.nextLine();
-            if (ec == "1") {
+            if (ec.equals("1")) {
                 cd.deleteExpressioBooleana(m.get(Integer.valueOf(e)).x);
                 System.out.println("L'expressio booleana s'ha esborrat correctament.");
                 --nExps;

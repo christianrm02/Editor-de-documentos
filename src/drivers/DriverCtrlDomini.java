@@ -10,7 +10,7 @@ import static java.lang.Math.min;
  * @author Marc Roman
  */
 public class DriverCtrlDomini {
-    CtrlDomini cd;0
+    CtrlDomini cd;
     Scanner entrada;
     Boolean dObert;
     int nDocuments, nExps;

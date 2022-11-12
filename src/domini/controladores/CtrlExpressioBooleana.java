@@ -49,37 +49,30 @@ public class CtrlExpressioBooleana {
     }
 
     private Set<Integer> cercaExpBol(TreeNode node, CtrlIndex ci) {
-        //List<Integer> frases = new ArrayList<Integer>();
         if (!isOperator(node.data)) {
-            String[] words = ParseFrase(node.data); //per la sequencia
-            Set<Integer> frases = new HashSet<>();
-            frases = ci.GetFrases(words[0]);
-            if (words.length == 1) return frases;
+            String[] words = ParseFrase(node.data); //per la seqüècia
+            Set<Integer> frases = ci.GetFrases(words[0]); //frases on apareix la primera paraula
+            if (words.length == 1) return frases; //només és una paraula
             else { //es una sequencia
                 int i = 1;
                 while (i < words.length) {
-                    Set<Integer> frases2 = new HashSet<>();
-                    frases2 = ci.GetFrases(words[i]);
+                    Set<Integer> frases2 = ci.GetFrases(words[i]);
                     frases.retainAll(frases2);
                     ++i;
                 }
-                Set<Integer> frases3 = new HashSet<>();
-                frases3 = (ci.GetSequencia(node.data, frases));
-                return frases3;
+                return ci.GetSequencia(node.data, frases); //frases on apareix la seqüència
             }
         } else {
             if (node.data.equals("&")) return intersection(cercaExpBol(node.leftNode, ci), cercaExpBol(node.rightNode, ci));
             else if (node.data.equals("|")) return union(cercaExpBol(node.leftNode, ci), cercaExpBol(node.rightNode, ci));
-            else return not(cercaExpBol(node.leftNode, ci), ci);
+            else return not(cercaExpBol(node.leftNode, ci), ci);  //operador !
         }
     }
 
     public List<Pair<String, String>> cercarExpressioBooleana(String exp, CtrlIndex ci) {
         ExpressioBooleana expB = new ExpressioBooleana(exp);
         Tree expTree = expB.getExpA();
-        Set<Integer> frases = new HashSet<>();
-        frases = cercaExpBol(expTree.root, ci);
-        //List<Pair> documents = new ArrayList<>();
+        Set<Integer> frases = cercaExpBol(expTree.root, ci);
         return ci.GetDocuments(frases);
     }
 
@@ -104,7 +97,7 @@ public class CtrlExpressioBooleana {
     public void deleteExpressioBooleana(String nom) {
         expressions.remove(nom);
     }
-
+/*
     public static void main(String[] args) {
         Set<Integer> s1 = new HashSet<>();
         s1.add(1); s1.add(3); s1.add(4); s1.add(8);
@@ -114,5 +107,5 @@ public class CtrlExpressioBooleana {
             if (!s1.contains(i)) complementary.add(i);
         }
         for (Integer i : complementary) System.out.print(i +", ");
-    }
+    }*/
 }

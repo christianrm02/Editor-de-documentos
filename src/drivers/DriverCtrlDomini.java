@@ -289,7 +289,7 @@ public class DriverCtrlDomini {
 
     public static void main (String [] args) {
         DriverCtrlDomini dcd = new DriverCtrlDomini();
-        System.out.println("Donem")
+        System.out.println("Benvingut al driver de ctrlDomini.");
         opcions_disponibles();
         String ent = dcd.entrada.nextLine();
         while (!ent.equals("0")) { // Si posem 0, surt
@@ -374,7 +374,7 @@ public class DriverCtrlDomini {
     }
 
     private static void opcions_disponibles() {
-        System.out.println("Benvingut al driver de ctrlDomini, per provar un metode ingressa per teclat el seu numero");
+        System.out.println("Per provar un metode ingressa per teclat el seu numero");
         System.out.println("1-  Constructora de document");
         System.out.println("Abans d'utilitzar les seguents, com a minim ha d'haver un document.");
         System.out.println("2-  Destructora de document");
@@ -385,16 +385,16 @@ public class DriverCtrlDomini {
         System.out.println("7-  Modificar titol d'un document");
         System.out.println("8-  Modificar autor d'un document");
         System.out.println("9-  Modificar contingut d'un document (primer s'ha d'obrir un document)");
-        System.out.println("10-  Llistar titols d'un autor");
-        System.out.println("11-  Llistar autors per prefix");
-        System.out.println("12-  Llistar K documents semblants a un document D");
-        System.out.println("13-  Cerca amb una expressio booleana");
-        System.out.println("14-  getExpressioBooleana");
-        System.out.println("15-  getAllExpressionsBooleanes");
-        System.out.println("16-  Crea expressio booleana");
-        System.out.println("17-  Modififica expressio booleana");
-        System.out.println("18-  Elimina expressio booleana");
-        System.out.println("0-  cancel·lar");
+        System.out.println("10- Llistar titols d'un autor");
+        System.out.println("11- Llistar autors per prefix");
+        System.out.println("12- Llistar K documents semblants a un document D");
+        System.out.println("13- Cerca amb una expressio booleana");
+        System.out.println("14- getExpressioBooleana");
+        System.out.println("15- getAllExpressionsBooleanes");
+        System.out.println("16- Crea expressio booleana");
+        System.out.println("17- Modififica expressio booleana");
+        System.out.println("18- Elimina expressio booleana");
+        System.out.println("0-  Cancel·lar");
         System.out.println("Introdueix un numero: ");
     }
 }

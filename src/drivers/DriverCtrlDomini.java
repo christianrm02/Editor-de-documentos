@@ -1,7 +1,9 @@
 package drivers;
+
 import controladores.*;
 import datatypes.*;
 import java.util.*;
+import transversal.*;
 
 /**
  * DriverCtrlDomini: Driver per provar totes les funcionalitats disponibles des de CtrlDomini.

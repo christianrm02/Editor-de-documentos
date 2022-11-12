@@ -15,6 +15,28 @@ import org.junit.Test;
  */
 public class TrieTest {
     @Test
+    public void testInsertFind() {
+        Trie trie = new Trie();
+
+        assertFalse("El trie no ha trobat la paraula", trie.Find(""));
+        trie.Insert("");
+        assertTrue("El trie ha trobat la paraula", trie.Find(""));
+        
+        trie.Insert("patata");
+        trie.Insert("Cogombre");
+        assertFalse("El trie no ha trobat la paraula", trie.Find("cogombre"));
+        assertTrue("El trie ha trobat la paraula", trie.Find("patata"));
+        assertFalse("El trie no ha trobat la paraula", trie.Find("Patata"));
+        assertFalse("El trie no ha trobat la paraula", trie.Find("patatá"));
+        
+        trie.Insert("patatá");
+        trie.Insert("Patata");
+        assertTrue("El trie ha trobat la paraula", trie.Find("patata"));
+        assertTrue("El trie ha trobat la paraula", trie.Find("Patata"));
+        assertTrue("El trie ha trobat la paraula", trie.Find("patatá"));
+    }
+    
+    @Test
     public void testDelete() {
         Trie trie = new Trie();
 
@@ -23,29 +45,6 @@ public class TrieTest {
         trie.Delete("patata");
         assertFalse("El trie no ha trobat la paraula", trie.Find("patata"));
         assertTrue("El trie ha trobat la paraula", trie.Find("patatal"));
-    }
-
-    @Test
-    public void testFind() {
-        Trie trie = new Trie();
-
-        trie.Insert("patata");
-        assertFalse("El trie ha trobat la paraula", trie.Find("cogombre"));
-        assertTrue("El trie ha trobat la paraula", trie.Find("patata"));
-        assertFalse("El trie no ha trobat la paraula", trie.Find("Patata"));
-        assertFalse("El trie no ha trobat la paraula", trie.Find("patatá"));
-    }
-
-    @Test
-    public void testInsert() {
-        Trie trie = new Trie();
-
-        trie.Insert("patata");
-        trie.Insert("Patata");
-        trie.Insert("patatá");
-        assertTrue("El trie ha trobat la paraula", trie.Find("patata"));
-        assertTrue("El trie ha trobat la paraula", trie.Find("Patata"));
-        assertTrue("El trie ha trobat la paraula", trie.Find("patatá"));
     }
 
     @Test

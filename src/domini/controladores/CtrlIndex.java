@@ -57,8 +57,8 @@ public class CtrlIndex {
         return indexAutorPrefix.SearchWordsPrefix(prefix);
     }
 
-    public List<Pair<String, String>> GetKDocsSimilarS (String autor, String titol, int K) {
-        return indexParaulaTFIDF.GetKDocsSimilarS(new Pair<String, String>(autor, titol), K);
+    public List<Pair<String, String>> GetKDocsSimilarS (String autor, String titol, int K, boolean estrategia) {
+        return indexParaulaTFIDF.GetKDocsSimilarS(new Pair<String, String>(autor, titol), K, estrategia);
     }
 
     //Retorna els indexs de les frases que contenen paraula

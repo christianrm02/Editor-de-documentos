@@ -89,7 +89,11 @@ public class IndexParaulaTFIDF {
         AfegirDoc(autor, titol, contingut);
     }
 
-    public List<Pair<String, String>> GetKDocsSimilarS(Pair<String, String> autorTitol, int K) {
+    public boolean DocExists(Pair<String, String> autorTitol){
+        return indexTFIDF.get(autorTitol) != null;
+    }
+
+    public List<Pair<String, String>> GetKDocsSimilarS(Pair<String, String> autorTitol, int K, boolean estrategia) {
         //Obtenim la llista de TF-IDF's de S
         TreeMap<String, Pair<Double, Double>> qTFIDF = indexTFIDF.get(autorTitol);
         
@@ -108,7 +112,7 @@ public class IndexParaulaTFIDF {
             if(doc.equals(autorTitol)) continue;
 
             TreeMap<String, Pair<Double, Double>> docTFIDF = indexTFIDF.get(doc);
-            double metric = cosinusMetric(qTFIDF, docTFIDF);
+            double metric = cosinusMetric(qTFIDF, docTFIDF, estrategia);
 
             docsSemblants.add(new Pair<Double, Pair<String, String>>(metric, doc));
         }
@@ -123,7 +127,7 @@ public class IndexParaulaTFIDF {
         return result;
     }
 
-    static private Double cosinusMetric(TreeMap<String, Pair<Double, Double>> query, TreeMap<String, Pair<Double, Double>> document){
+    static private Double cosinusMetric(TreeMap<String, Pair<Double, Double>> query, TreeMap<String, Pair<Double, Double>> document, boolean estrategia){
         //Si algun dels documents es buit la metrica es nula
         if(query.size() == 0 || document.size() == 0) return 0.0;
 
@@ -137,8 +141,16 @@ public class IndexParaulaTFIDF {
         String wordD = (String) docQuery.next();
         
         while(itQuery.hasNext() && docQuery.hasNext()) {
-            double q = query.get(wordQ).y;
-            double d = document.get(wordD).y;
+            double q, d;
+            if(estrategia) {
+                //Agafem TFs
+                q = query.get(wordQ).x;
+                d = document.get(wordD).x;
+            } else {
+                //Agafem TFIDFs
+                q = query.get(wordQ).y;
+                d = document.get(wordD).y;
+            }
             //Si son iguals calculem el producte escalar i avancem els 2 iteradors
             if(wordQ.equals(wordD)) {
                 dot += q*d;

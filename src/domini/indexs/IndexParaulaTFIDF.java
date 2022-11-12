@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import datatypes.Pair;
+import transversal.Pair;
 import datatypes.Utility;
 
 /**

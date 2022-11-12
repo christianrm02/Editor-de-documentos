@@ -1,5 +1,6 @@
 package controladores;
 import datatypes.*;
+import transversal.*;
 
 import java.text.Normalizer;
 import java.util.*;

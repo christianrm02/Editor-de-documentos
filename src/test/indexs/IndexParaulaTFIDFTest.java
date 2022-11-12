@@ -8,7 +8,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-import datatypes.Pair;
+import transversal.Pair;
 
 /**
  * IndexParaulaTFIDFTest: Per fer el testing de la classe IndexParaulaTFIDF

@@ -7,6 +7,7 @@ import java.util.TreeSet;
 import java.lang.String;
 
 import datatypes.*;
+import transversal.*;
 
 /**
  * @author Marc Roman
@@ -125,9 +126,9 @@ public class CtrlDomini {
     }*/
 
     // Getter d'expressions booleanes
-    public List<Pair<String, String>> getAllExpressionsBooleanes() {
+    /*public List<Pair<String, String>> getAllExpressionsBooleanes() {
         return ce.getAll();
-    }
+    }*/
 
     // Creadora d'expressio booleana
     public boolean setExpressioBooleana(String nom, String exp) {

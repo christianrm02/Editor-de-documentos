@@ -3,7 +3,7 @@ package controladores;
 import java.util.List;
 import java.util.Set;
 
-import datatypes.Pair;
+import transversal.Pair;
 import datatypes.Trie;
 import indexs.*;
 

@@ -83,8 +83,8 @@ public class CtrlExpressioBooleana {
         return ci.GetDocuments(frases);
     }
 
-    public List<Pair> getAll() {
-        List<Pair> exps = new ArrayList<Pair>();
+    public List<Pair<String, String>> getAll() {
+        List<Pair<String, String>> exps = new ArrayList<>();
         for (String clau : expressions.keySet()) {
             Pair p = new Pair();
             p.x = expressions.get(clau).getNom();

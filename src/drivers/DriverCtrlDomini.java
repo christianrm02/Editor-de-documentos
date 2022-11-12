@@ -30,7 +30,7 @@ public class DriverCtrlDomini {
 
         System.out.println("Escriu l'autor del document que vols crear: ");
         String autor = entrada.nextLine();
-        System.out.println("Has introduit el titol " + titol + "i l'autor " + autor + ".");
+        System.out.println("Has introduit el titol " + titol + " i l'autor " + autor + ".");
         if (cd.crearDocument(autor, titol)) {
             ++nDocuments;
             dObert = true;

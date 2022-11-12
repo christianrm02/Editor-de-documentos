@@ -23,10 +23,9 @@ public class DocumentTest {
      */
     @Test
     public void testConstructora() {
-        Document doctest = new Document("Pep", "Dia", Format.txt);
+        Document doctest = new Document("Pep", "Dia");
         assertEquals("Pep", doctest.getAutor());
         assertEquals("Dia", doctest.getTitol());
-        assertEquals(Format.txt, doctest.getFormat());
     }
 
     /**
@@ -39,7 +38,7 @@ public class DocumentTest {
      */
     @Test
     public void getAutor() {
-        Document doctest = new Document("Pep", "Dia", Format.txt);
+        Document doctest = new Document("Pep", "Dia");
         assertEquals("Pep", doctest.getAutor());
     }
 
@@ -53,7 +52,7 @@ public class DocumentTest {
      */
     @Test
     public void getTitol() {
-        Document doctest = new Document("Pep", "Dia", Format.txt);
+        Document doctest = new Document("Pep", "Dia");
         assertEquals("Dia", doctest.getTitol());
     }
 
@@ -68,7 +67,7 @@ public class DocumentTest {
      */
     @Test
     public void getContingut() {
-        Document doctest = new Document("Pep", "Vida", Format.txt);
+        Document doctest = new Document("Pep", "Vida");
         ContingutStub c = new ContingutStub();
         doctest.Contingut(c);
         doctest.setContingut("En un lugar de la Mancha, de cuyo nombre no quiero acordarme.");
@@ -77,6 +76,7 @@ public class DocumentTest {
         assertEquals(contingut, doctest.getContingut());
     }
 
+    /*
     /**
      * Objecte de la prova: Es prova l'operació getFormat() de la classe Document.
      * Altres elements integrats a la prova: -
@@ -84,12 +84,13 @@ public class DocumentTest {
      * Valors estudiats: Es fa servir l'estratègia de caixa grisa. Com és una funcionalitat bàsica, el test també ho és.
      * Efectes estudiats: -
      * Operativa: Una vegada comprovat que la creadora funciona bé, el testeig d'aquest mètode és immediat.
-     */
+     *
     @Test
     public void getFormat() {
         Document doctest = new Document("Pep", "Dia", Format.txt);
         assertEquals(Format.txt, doctest.getFormat());
     }
+    */
 
     /**
      * Objecte de la prova: Es prova l'operació setAutor() de la classe Document.
@@ -136,7 +137,7 @@ public class DocumentTest {
      */
     @Test
     public void setContingut() {
-        Document doctest = new Document("Pep", "Vida", Format.txt);
+        Document doctest = new Document("Pep", "Vida");
         ContingutStub c = new ContingutStub();
         doctest.Contingut(c);
         doctest.setContingut("En un lugar de la Mancha, de cuyo nombre no quiero acordarme.");

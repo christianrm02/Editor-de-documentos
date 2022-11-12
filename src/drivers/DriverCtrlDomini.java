@@ -11,7 +11,6 @@ public class DriverCtrlDomini {
     CtrlDomini cd;
     Scanner entrada;
     Boolean dObert;
-
     int nDocuments;
     int nExps;
 
@@ -69,7 +68,7 @@ public class DriverCtrlDomini {
             System.out.println("Posa els numeros dels documents. Si poses 0, es considera que no vols esborrar mes documents.");
             List<Pair<String, String>> docs = new ArrayList<Pair<String, String>>();
             String ent = entrada.nextLine();
-            for (int i = 0; i < 10 && ent != "0"; ++i) {
+            for (int i = 0; i < min(10, nDocuments) && ent != "0"; ++i) {
                 docs.add(m.get(Integer.valueOf(ent)));
             }
             if (docs.size() == 0) System.out.println("No has seleccionat cap document a esborrar.");
@@ -285,7 +284,7 @@ public class DriverCtrlDomini {
 
     public static void main (String [] args) {
         DriverCtrlDomini dcd = new DriverCtrlDomini();
-        System.out.println("Benvingut al driver de ctrlDomini.");
+        System.out.println("Benvingut al driver de ctrlDomini. Aquest driver esta pensat per utilitzar-lo correctament.");
         opcions_disponibles();
         String ent = dcd.entrada.nextLine();
         while (!ent.equals("0")) { // Si posem 0, surt

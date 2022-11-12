@@ -83,6 +83,7 @@ public class DriverCtrlDomini {
             String ent = entrada.nextLine();
             for (int i = 0; i < min(10, nDocuments) && !ent.equals("0"); ++i) {
                 docs.add(m.get(Integer.valueOf(ent)));
+                ent = entrada.nextLine();
             }
             if (docs.size() == 0) System.out.println("No has seleccionat cap document a esborrar.");
             else {

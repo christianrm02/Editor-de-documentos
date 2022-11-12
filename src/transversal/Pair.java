@@ -1,4 +1,4 @@
-package datatypes;
+package transversal;
 
 import java.util.Objects;
 

@@ -47,6 +47,10 @@ public class CtrlDomini {
         return cd.getClaus();
     }
 
+    public List<String> getContingut(String autor, String titol) {
+        return cd.getContingut();
+    }
+
     public List<String> obrirDocument(String autor, String titol) {
         cd.obreDocument(autor, titol);
         return cd.getContingut();

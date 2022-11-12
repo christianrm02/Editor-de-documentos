@@ -2,7 +2,7 @@ package controladores;
 
 import datatypes.Document;
 import datatypes.Format;
-import datatypes.Pair;
+import transversal.Pair;
 
 import java.util.*;
 

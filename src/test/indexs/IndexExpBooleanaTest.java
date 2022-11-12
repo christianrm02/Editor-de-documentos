@@ -10,7 +10,7 @@ import java.util.Set;
 
 import org.junit.Test;
 
-import datatypes.Pair;
+import transversal.Pair;
 
 /**
  * IndexExpBooleanaTest: Per fer el testing de la classe IndexExpBooleana

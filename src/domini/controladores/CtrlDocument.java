@@ -153,6 +153,7 @@ public class CtrlDocument {
      */
     public boolean esborrarDocument(String autor, String titol) {
         boolean autorContinua = true;
+        if(docAct.equals(getDocument(autor, titol))) docAct = null; //si estava obert, ja no /////////////////////////
         if (documents.get(autor).size() == 1) { //si l'autor només té un títol, s'esborra l'autor
             documents.remove(autor);
             autorContinua = false;
@@ -173,12 +174,8 @@ public class CtrlDocument {
      * @return boolean: Retorna false si l'autor s'elimina del sistema, sinó retorna true.
      */
     public boolean modificarAutor(String autor, String titol, String newA) {
-        /*try {
-            if(existsDocument(newA, titol)) throw new Exception();
-        }
-        catch (Exception e){
-            System.out.println("Ja existeix un document identificat amb (newA, titol)");
-        }*/
+        boolean actualitzaAct = false;
+        if(docAct.equals(getDocument(autor, titol))) actualitzaAct = true;
         TreeMap<String, Document> titols = documents.get(autor);
         Document d = titols.get(titol);
         d.setAutor(newA);
@@ -201,6 +198,7 @@ public class CtrlDocument {
             titols.put(titol, d);
             documents.put(newA, titols);
         }
+        if(actualitzaAct) obreDocument(newA, titol);
         return autorContinua;
     }
 
@@ -211,12 +209,15 @@ public class CtrlDocument {
      * @param newT: String: Nou títol del document.
      */
     public void modificarTitol(String autor, String titol, String newT) {
+        boolean actualitzaAct = false;
+        if(docAct.equals(getDocument(autor, titol))) actualitzaAct = true;
         TreeMap<String, Document> titols = documents.get(autor);
         Document d = titols.get(titol);
         d.setTitol(newT);
         titols.remove(titol);
         titols.put(newT, d);
         documents.put(autor, titols);
+        if(actualitzaAct) obreDocument(autor, newT);
     }
 
     /**

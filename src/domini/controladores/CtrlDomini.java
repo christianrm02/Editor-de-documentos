@@ -8,6 +8,9 @@ import java.lang.String;
 
 import datatypes.*;
 
+/**
+ * @author Marc Roman
+ */
 public class CtrlDomini {
     private CtrlDocument cd;
     private CtrlIndex ci;

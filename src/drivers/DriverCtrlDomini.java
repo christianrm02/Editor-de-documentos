@@ -293,7 +293,7 @@ public class DriverCtrlDomini {
             String e = entrada.nextLine();
             System.out.println("Escriu la nova expressio booleana per a la seleccionada:");
             String nExp = entrada.nextLine();
-            cd.setExpressioBooleana(m.get(Integer.valueOf(e)).x, nExp);
+            cd.modExpressioBooleana(m.get(Integer.valueOf(e)).x, nExp);
             System.out.println("L'expressio booleana s'ha modificat correctament.");
         } else System.out.println("No hi ha expressions booleanes guardades, crea'n una abans!");
     }

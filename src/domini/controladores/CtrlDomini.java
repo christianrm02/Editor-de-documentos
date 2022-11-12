@@ -48,7 +48,7 @@ public class CtrlDomini {
     }
 
     public List<String> getContingut(String autor, String titol) {
-        return cd.getContingut();
+        return cd.getContingut(autor, titol);
     }
 
     public List<String> obrirDocument(String autor, String titol) {

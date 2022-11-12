@@ -2,7 +2,6 @@ package controladores;
 import datatypes.*;
 import transversal.*;
 
-import java.text.Normalizer;
 import java.util.*;
 
 import static datatypes.Utility.ParseFrase;
@@ -12,11 +11,7 @@ public class CtrlExpressioBooleana {
     private Map<String, ExpressioBooleana> expressions;
 
     public CtrlExpressioBooleana() {
-        expressions = new HashMap<String, ExpressioBooleana>();
-    }
-
-    public String getExpressioBooleana(String nom) {
-        return expressions.get(nom).getExp();
+        expressions = new HashMap<>();
     }
 
     public Boolean existsExpressioBooleana(String nom) {

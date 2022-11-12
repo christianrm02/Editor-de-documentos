@@ -16,15 +16,11 @@ public class DriverCtrlDomini {
     int nExps;
 
     DriverCtrlDomini() {
-        cd = null;
+        cd = new CtrlDomini();
         entrada = new Scanner(System.in);
         dObert = false;
         nDocuments = 0;
         nExps = 0;
-    }
-
-    public void tCrearCtrlDomini() {
-        cd = new CtrlDomini();
     }
 
     public void tCrearDocument() {
@@ -48,7 +44,7 @@ public class DriverCtrlDomini {
         int i = 1;
         for (Pair<String, String> ta : titaut) {
             m.put(i, ta);
-            System.out.println(Integer.toString(i) + ". Titol: " ta.y + " Autor: " + ta.x);
+            System.out.println(Integer.toString(i) + ". Titol: " + ta.y + " Autor: " + ta.x);
             ++i;
         }
         return m;
@@ -60,7 +56,7 @@ public class DriverCtrlDomini {
         int i = 1;
         for (Pair<String, String> eb : l) {
             m.put(i, eb);
-            System.out.println(Integer.toString(i) + ". Nom: "ta.x + " Expressio: " + ta.y);
+            System.out.println(Integer.toString(i) + ". Nom: " + ta.x + " Expressio: " + ta.y);
             ++i;
         }
         return m;
@@ -240,7 +236,7 @@ public class DriverCtrlDomini {
             System.out.println("A continuacio tenim totes les expressions booleanes guardades:");
             List<Pair<String, String>> l = cd.getAllExpressionsBooleanes();
             for (Pair<String, String> eb : l)
-                System.out.println(Integer.toString(i) + ". Nom: "ta.x + " Expressio: " + ta.y);
+                System.out.println(Integer.toString(i) + ". Nom: " + ta.x + " Expressio: " + ta.y);
         } System.out.println("No hi ha expressions booleanes guardades, crea'n una abans!");
     }
 
@@ -295,7 +291,6 @@ public class DriverCtrlDomini {
         while (!ent.equals("0")) { // Si posem 0, surt
             switch (ent) {
                 case "1": { // Constructora de CtrlDomini la 1a vegada / Constructora de document i obre el document
-                    if (cd == null) dcd.tCrearCtrlDomini();
                     dcd.tCrearDocument();
                     break;
                 }
@@ -356,11 +351,11 @@ public class DriverCtrlDomini {
                     dcd.tSetExpressioBooleana();
                     break;
                 }
-                case "16"; { // Modificadora d'expressio booleana, si no hi ha cap expressio booleana, no funciona.
+                case "16": { // Modificadora d'expressio booleana, si no hi ha cap expressio booleana, no funciona.
                     dcd.tModExpressioBooleana();
                     break;
                 }
-                case "17"; { // Destructora d'expressio booleana, si no hi ha cap expressio booleana, no funciona.
+                case "17": { // Destructora d'expressio booleana, si no hi ha cap expressio booleana, no funciona.
                     dcd.tDeleteExpressioBooleana();
                     break;
                 }

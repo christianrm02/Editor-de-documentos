@@ -12,46 +12,54 @@ public class ExpressioBooleana {
     public ExpressioBooleana (String nom, String exp) {
         this.nom = nom;
         this.exp = exp;
-        crearLlistaiArbre();
+
+        List<String> llistaExp = crearLlista();
+        this.expA = new Tree(llistaExp);
     }
 
     public ExpressioBooleana (String exp) {
         this.exp = exp;
-        crearLlistaiArbre();
+
+        List<String> llistaExp = crearLlista();
+        this.expA = new Tree(llistaExp);
     }
 
-    private void crearLlistaiArbre() {
+    private int casCometes(List<String> llista, int index) {
+        ++index;
+        String s = "";
+        while (exp.charAt(index) != '\"') {
+            s += exp.charAt(index);
+            ++index;
+        }
+        llista.add(s);
+        return ++index;
+    }
+
+    private int casClau(List<String> llista, int index) {
+        llista.add("(");
+        ++index;
+        String s = "";
+        while (exp.charAt(index) != '}') {
+            if (exp.charAt(index) == ' ') {
+                llista.add(s);
+                llista.add("&");
+                s = "";
+            }
+            else s += exp.charAt(index);
+            ++index;
+        }
+        llista.add(s);
+        llista.add(")");
+        return ++index;
+    }
+
+    private List<String> crearLlista() {
         List<String> llista = new ArrayList<>();
         int i = 0;
         String s1 = "";
         while (i < exp.length()) {
-            if (exp.charAt(i) == '{') {
-                llista.add("(");
-                ++i;
-                String s2 = "";
-                while (exp.charAt(i) != '}') {
-                    if (exp.charAt(i) == ' ') {
-                        llista.add(s2);
-                        llista.add("&");
-                        s2 = "";
-                    }
-                    else s2 += exp.charAt(i);
-                    ++i;
-                }
-                llista.add(s2);
-                llista.add(")");
-                ++i;
-            }
-            else if (exp.charAt(i) == '\"') {
-                ++i;
-                String s2 = "";
-                while (exp.charAt(i) != '\"') {
-                    s2 += exp.charAt(i);
-                    ++i;
-                }
-                llista.add(s2);
-                ++i;
-            }
+            if (exp.charAt(i) == '{') i = casClau(llista, i);
+            else if (exp.charAt(i) == '\"') i = casCometes(llista, i);
             else if (exp.charAt(i) == '&') {
                 llista.add("&");
                 ++i;
@@ -76,7 +84,7 @@ public class ExpressioBooleana {
             ++i;
         }
         if (s1.length() > 0) llista.add(s1);
-        this.expA = new Tree(llista);
+        return llista;
     }
 
     //Getters
@@ -88,5 +96,4 @@ public class ExpressioBooleana {
 
     //Setters
     //public void setNom(String nom) { this.nom = nom; }
-
 }

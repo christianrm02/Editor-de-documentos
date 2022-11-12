@@ -97,7 +97,7 @@ public class CtrlDomini {
 
     public void modificarContingut(String autor, String titol, String cont) {
         cd.modificarContingut(cont);
-        List<String> c = cd.getContingut();
+        List<String> c = cd.getContingutObert();
         ci.ActualitzarContingut(autor, titol, c);
     }
 

@@ -20,14 +20,13 @@ public class CtrlDomini {
         ce = new CtrlExpressioBooleana();
     }
 
-    // Interaccio amb capa de persistencia
-    public void carregaFitxers(List<String> locs) {
+/*    public void carregaFitxers(List<String> locs) {
 
     }
 
     public void exportarFitxer(String autor, String titol, String loc, int format) {
 
-    }
+    }*/
 
     // Getters de de document
     public List<String> getTitols() {
@@ -58,8 +57,7 @@ public class CtrlDomini {
             cd.crearDocument(autor, titol/*, format*/); // PRE: no existeix Document
             ci.AfegirDoc(autor, titol, new ArrayList<String>());
         }
-        else return false;
-        return true;
+        return !ed;
     }
 
     // Destruccio de documents
@@ -69,8 +67,7 @@ public class CtrlDomini {
             if (cd.esborrarDocument(p.x, p.y)) a.add(p.x);
             ci.EsborrarDoc(p.x, p.y);
         }
-        List<String> aut = new ArrayList<String>(a);
-        ci.EsborrarAutors(aut);
+        ci.EsborrarAutors(new ArrayList<String>(a));
     }
 
     // Modificadores de document
@@ -80,8 +77,7 @@ public class CtrlDomini {
             cd.modificarTitol(autor, titol, newT);
             ci.ActualitzarTitol(autor, titol, newT);
         }
-        else return false;
-        return true;
+        return !ed;
     }
 
     public boolean modificarAutor(String autor, String titol, String newA) {
@@ -92,8 +88,7 @@ public class CtrlDomini {
             List<String> a = new ArrayList<String>(); a.add(autor);
             if (!asegueix) ci.EsborrarAutors(a);
         }
-        else return false;
-        return true;
+        return !ed;
     }
 
     public void modificarContingut(String autor, String titol, String cont) {
@@ -105,8 +100,7 @@ public class CtrlDomini {
     // Cerques
     public List<String> llistarTitolsdAutors(String autor) {
         Set<String> a = cd.getTitolsAutor(autor);
-        List<String> aut = new ArrayList<String>(a);
-        return aut;
+        return new ArrayList<String>(a);
     }
 
     public List<String> llistarAutorsPrefix(String prefix) {
@@ -127,17 +121,16 @@ public class CtrlDomini {
         return null;
     }*/
 
-    // Getter d'expressio booleana
-    public String getExpressioBooleana(String nom) {
-        return ce.getExpressioBooleana(nom);
+    // Getter d'expressions booleanes
+    public List<Pair<String, String>> getAllExpressionsBooleanes() {
+        return ce.getAll();
     }
 
     // Creadora d'expressio booleana
     public boolean setExpressioBooleana(String nom, String exp) {
         boolean ee = ce.existsExpressioBooleana(nom);
         if (!ee) ce.setExpressioBooleana(nom, exp); // PRE: no existeix ExpressioBooleana
-        else return false;
-        return true;
+        return !ee;
     }
 
     public void modExpressioBooleana(String nom, String nExp) {

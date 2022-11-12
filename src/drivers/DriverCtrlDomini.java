@@ -1,8 +1,10 @@
 package drivers;
+
 import controladores.*;
 import datatypes.*;
 import transversal.*;
 import java.util.*;
+import transversal.*;
 
 /**
  * DriverCtrlDomini: Driver per provar totes les funcionalitats disponibles des de CtrlDomini.
@@ -188,7 +190,7 @@ public class DriverCtrlDomini {
     public void tLlistarKDocumentsS() {
         if (nDocuments > 0) {
             System.out.println("A continuacio sortiran els documents existents, selecciona'n un:");
-            TreeMap<int, Pair<String, String>> m = escriuClaus();
+            TreeMap<Integer, Pair<String, String>> m = escriuClaus();
             String docSel = entrada.nextLine();
             System.out.println("Introdueix el nombre de documents que vols llistar:");
             String k = entrada.nextLine();

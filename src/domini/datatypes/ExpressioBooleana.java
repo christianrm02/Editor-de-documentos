@@ -9,7 +9,7 @@ public class ExpressioBooleana {
     private Tree expA;
 
     //Constructora
-    public ExpressioBooleana (String nom, String exp) {
+    public ExpressioBooleana(String nom, String exp) {
         this.nom = nom;
         this.exp = exp;
 
@@ -18,7 +18,7 @@ public class ExpressioBooleana {
         this.expA = new Tree(llistaExp);
     }
 
-    public ExpressioBooleana (String exp) {
+    public ExpressioBooleana(String exp) {
         this.exp = exp;
 
         List<String> llistaExp = crearLlista();

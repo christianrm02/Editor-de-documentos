@@ -29,11 +29,8 @@ public class Contingut {
                         s += f.charAt(i);
                         ++i;
                     }
-                    if (i < f.length()) {
-                        s += f.charAt(i);
-                        ++i;
-                    }
-                    if (i == f.length() && (salt_final || j != aux.size() - 1)) s += '\n';
+                    if (i < f.length()) s += f.charAt(i);
+                    if (i >= f.length() - 1 && (salt_final || j != aux.size() - 1)) s += '\n';
                     frases.add(s);
                 }
             }

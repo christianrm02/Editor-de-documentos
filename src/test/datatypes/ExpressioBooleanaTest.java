@@ -4,6 +4,11 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+/**
+ * ContingutTest: Per fer el testing de la classe ExpressioBooleana
+ * @author Pol Fradera
+ */
+
 public class ExpressioBooleanaTest {
 
 
@@ -13,7 +18,7 @@ public class ExpressioBooleanaTest {
      * Fitxers de dades necessaris: No calen fitxers de dades.
      * Valors estudiats: Es fa servir l'estratègia de caixa grisa. Com és una funcionalitat bàsica, el test també ho és.
      * Efectes estudiats: -
-     * Operativa: Una vegada comprovat que la creadora funciona bé, el testeig d'aquest mètode és immediat.
+     * Operativa: Executar el jUnit test.
      */
     @Test
     public void getNom() {
@@ -21,11 +26,30 @@ public class ExpressioBooleanaTest {
         assertEquals("Expressió 1", expTest.getNom());
     }
 
+    /**
+     * Objecte de la prova: Es prova l'operació getExp() de la classe ExpressioBooleana.
+     * Altres elements integrats a la prova: -
+     * Fitxers de dades necessaris: No calen fitxers de dades.
+     * Valors estudiats: Es fa servir l'estratègia de caixa grisa. Com és una funcionalitat bàsica, el test també ho és.
+     * Efectes estudiats: -
+     * Operativa: Executar el jUnit test.
+     */
     @Test
     public void getExp() {
         ExpressioBooleana expTest = new ExpressioBooleana("Expressió 1", "{p1 p2 p3} & (\"hola adéu\" | pep) & !joan");
         assertEquals("{p1 p2 p3} & (\"hola adéu\" | pep) & !joan", expTest.getExp());
     }
+
+
+
+    /**
+     * Objecte de la prova: Es prova l'operació getExpA() de la classe ExpressioBooleana.
+     * Altres elements integrats a la prova: -
+     * Fitxers de dades necessaris: No calen fitxers de dades.
+     * Valors estudiats: Es fa servir l'estratègia de caixa grisa. Com és una funcionalitat bàsica, el test també ho és.
+     * Efectes estudiats: -
+     * Operativa: Executar el jUnit test.
+     */
     /*
 
                              &(0)
@@ -68,6 +92,5 @@ public class ExpressioBooleanaTest {
         assertEquals("pep", node9.data);
         assertEquals("p1", node10.data);
         assertEquals("p2", node11.data);
-
     }
 }

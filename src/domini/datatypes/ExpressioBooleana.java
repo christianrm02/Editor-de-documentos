@@ -8,20 +8,20 @@ public class ExpressioBooleana {
     private String exp;
     private Tree expA;
 
-    //Constructora
-    public ExpressioBooleana (String nom, String exp) {
+    //Constructores
+    public ExpressioBooleana(String exp) {
+        this.exp = exp;
+
+        List<String> llistaExp = crearLlista();
+        this.expA = new Tree(llistaExp);
+    }
+
+    public ExpressioBooleana(String nom, String exp) {
         this.nom = nom;
         this.exp = exp;
 
         List<String> llistaExp = crearLlista();
         //for (String s : llistaExp) System.out.print(s + ", ");
-        this.expA = new Tree(llistaExp);
-    }
-
-    public ExpressioBooleana (String exp) {
-        this.exp = exp;
-
-        List<String> llistaExp = crearLlista();
         this.expA = new Tree(llistaExp);
     }
 

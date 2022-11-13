@@ -17,7 +17,7 @@ public class DocumentTest {
      * Objecte de la prova: Es prova la constructora de la classe Document.
      * Altres elements integrats a la prova: -
      * Fitxers de dades necessaris: No calen fitxers de dades.
-     * Valors estudiats: Es fa servir l'estratègia de caixa grisa. Com és una funcionalitat bàsica, el test també ho és.
+     * Valors estudiats: Es fa servir l'estratègia de caixa negra. Com és una funcionalitat bàsica, el test també ho és.
      * Efectes estudiats: -
      * Operativa: Es crea un nou document i mitjançant els getters es comprova si s'ha inicialitzat correctament.
      */
@@ -32,7 +32,7 @@ public class DocumentTest {
      * Objecte de la prova: Es prova l'operació getAutor() de la classe Document.
      * Altres elements integrats a la prova: -
      * Fitxers de dades necessaris: No calen fitxers de dades.
-     * Valors estudiats: Es fa servir l'estratègia de caixa grisa. Com és una funcionalitat bàsica, el test també ho és.
+     * Valors estudiats: Es fa servir l'estratègia de caixa negra. Com és una funcionalitat bàsica, el test també ho és.
      * Efectes estudiats: -
      * Operativa: Una vegada comprovat que la creadora funciona bé, el testeig d'aquest mètode és immediat.
      */
@@ -45,8 +45,8 @@ public class DocumentTest {
     /**
      * Objecte de la prova: Es prova l'operació getTitol() de la classe Document.
      * Altres elements integrats a la prova: -
-     * Fitxers de dades necessaris: No calen fitxers de dades.
-     * Valors estudiats: Es fa servir l'estratègia de caixa grisa. Com és una funcionalitat bàsica, el test també ho és.
+     * Fitxers de dades necessaris: -
+     * Valors estudiats: Es fa servir l'estratègia de caixa negra. Com és una funcionalitat bàsica, el test també ho és.
      * Efectes estudiats: -
      * Operativa: Una vegada comprovat que la creadora funciona bé, el testeig d'aquest mètode és immediat.
      */
@@ -61,7 +61,7 @@ public class DocumentTest {
      * Altres elements integrats a la prova: -
      * Stubs: Es fa ús de l'operació getFrases de la classe DocumentStub, retorna el contingut que es posa amb setContingut.
      * Fitxers de dades necessaris: No calen fitxers de dades.
-     * Valors estudiats: Es fa servir l'estratègia de caixa grisa. Com és una funcionalitat bàsica, el test també ho és.
+     * Valors estudiats: Es fa servir l'estratègia de caixa negra. Com és una funcionalitat bàsica, el test també ho és.
      * Efectes estudiats: -
      * Operativa: Amb el setContingut guardem el nou contingut, i la funció del stub és retornar el mateix.
      */
@@ -81,7 +81,7 @@ public class DocumentTest {
      * Objecte de la prova: Es prova l'operació getFormat() de la classe Document.
      * Altres elements integrats a la prova: -
      * Fitxers de dades necessaris: No calen fitxers de dades.
-     * Valors estudiats: Es fa servir l'estratègia de caixa grisa. Com és una funcionalitat bàsica, el test també ho és.
+     * Valors estudiats: Es fa servir l'estratègia de caixa negra. Com és una funcionalitat bàsica, el test també ho és.
      * Efectes estudiats: -
      * Operativa: Una vegada comprovat que la creadora funciona bé, el testeig d'aquest mètode és immediat.
      *
@@ -95,8 +95,8 @@ public class DocumentTest {
     /**
      * Objecte de la prova: Es prova l'operació setAutor() de la classe Document.
      * Altres elements integrats a la prova: -
-     * Fitxers de dades necessaris: No calen fitxers de dades.
-     * Valors estudiats: Es fa servir l'estratègia de caixa grisa. Com és una funcionalitat bàsica, el test també ho és.
+     * Fitxers de dades necessaris: -
+     * Valors estudiats: Es fa servir l'estratègia de caixa negra. Com és una funcionalitat bàsica, el test també ho és.
      * Efectes estudiats: -
      * Operativa: Es crea un nou document, mitjançant l'operació getAutor es comprova que els canvis amb setAutor es fan correctament.
      */
@@ -112,10 +112,10 @@ public class DocumentTest {
     /**
      * Objecte de la prova: Es prova l'operació setTitol() de la classe Document.
      * Altres elements integrats a la prova: -
-     * Fitxers de dades necessaris: No calen fitxers de dades.
-     * Valors estudiats: Es fa servir l'estratègia de caixa grisa. Com és una funcionalitat bàsica, el test també ho és.
+     * Fitxers de dades necessaris: -
+     * Valors estudiats: Es fa servir l'estratègia de caixa negra. Com és una funcionalitat bàsica, el test també ho és.
      * Efectes estudiats: -
-     * Operativa: Es crea un nou document, mitjançant l'operació getTitol es comprova que els canvis amb setAutor es fan correctament.
+     * Operativa: Es crea un nou document, mitjançant l'operació getTitol es comprova que els canvis amb setTitol es fan correctament.
      */
     @Test
     public void setTitol() {
@@ -127,11 +127,11 @@ public class DocumentTest {
     }
 
     /**
-     * Objecte de la prova: Es prova l'operació getContingut() de la classe Document.
+     * Objecte de la prova: Es prova l'operació setContingut() de la classe Document.
      * Altres elements integrats a la prova: -
      * Stubs: Es fa ús de l'operació getFrases de la classe DocumentStub, retorna el contingut que es posa amb setContingut.
-     * Fitxers de dades necessaris: No calen fitxers de dades.
-     * Valors estudiats: Es fa servir l'estratègia de caixa grisa. Com és una funcionalitat bàsica, el test també ho és.
+     * Fitxers de dades necessaris: -
+     * Valors estudiats: Es fa servir l'estratègia de caixa blanca. Com és una funcionalitat bàsica, el test també ho és.
      * Efectes estudiats: -
      * Operativa: Amb el setContingut guardem el nou contingut, i la funció del stub és retornar el mateix.
      */

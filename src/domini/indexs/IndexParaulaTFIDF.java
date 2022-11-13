@@ -43,11 +43,13 @@ public class IndexParaulaTFIDF {
         List<String> paraules = getAllWords(contingut);
         int numWordsDoc = paraules.size();
         Pair<String, String> autorTitol = new Pair<String, String>(autor, titol);
-        //Creem una nova fila pel nou document
+
+        //Creem una nova fila pel nou document i en calculem les Term Frequencies
         TreeMap<String, Pair<Double, Double>> infoDoc = new TreeMap<>();
         calcularTFs(infoDoc, paraules, numWordsDoc);
         indexTFIDF.put(autorTitol, infoDoc);
 
+        //Actualitzem les frequencies globals i els TFIDFs
         calcularGlobalTFs(paraules);
         calcularTFIDFs();
     }
@@ -55,9 +57,9 @@ public class IndexParaulaTFIDF {
     public void EsborrarDoc(String autor, String titol) {
         Pair<String, String> autorTitol = new Pair<String,String>(autor, titol);
 
-        var infoDoc = indexTFIDF.get(autorTitol);
-        for(Map.Entry<String,Pair<Double, Double>> infoWord : infoDoc.entrySet()) {
-            if(infoWord.getValue().x == 0.0) continue;
+        TreeMap<String, Pair<Double, Double>> infoDoc = indexTFIDF.get(autorTitol);
+        //Per cada paraula del document actualitzem indexGlobalTF
+        for(Map.Entry<String, Pair<Double, Double>> infoWord : infoDoc.entrySet()) {
             String paraula = infoWord.getKey();
             int newGlobalTF = indexGlobalTF.get(paraula) - 1;
             indexGlobalTF.put(paraula, newGlobalTF);
@@ -72,7 +74,7 @@ public class IndexParaulaTFIDF {
         Pair<String, String> oldAutorTitol = new Pair<String, String>(autor, titol);
         Pair<String, String> newAutorTitol = new Pair<String, String>(autor, newTitol);
 
-        var infoDoc = indexTFIDF.remove(oldAutorTitol);
+        TreeMap<String, Pair<Double, Double>> infoDoc = indexTFIDF.remove(oldAutorTitol);
         indexTFIDF.put(newAutorTitol, infoDoc);
     }
 
@@ -80,7 +82,7 @@ public class IndexParaulaTFIDF {
         Pair<String, String> oldAutorTitol = new Pair<String, String>(autor, titol);
         Pair<String, String> newAutorTitol = new Pair<String, String>(newAutor, titol);
 
-        var infoDoc = indexTFIDF.remove(oldAutorTitol);
+        TreeMap<String, Pair<Double, Double>> infoDoc = indexTFIDF.remove(oldAutorTitol);
         indexTFIDF.put(newAutorTitol, infoDoc);
     }
 

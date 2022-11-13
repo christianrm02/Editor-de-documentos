@@ -33,7 +33,7 @@ public class ExpressioBooleana {
             ++index;
         }
         llista.add(s);
-        return ++index;
+        return index;
     }
 
     private int casClau(List<String> llista, int index) {
@@ -51,7 +51,7 @@ public class ExpressioBooleana {
         }
         llista.add(s);
         llista.add(")");
-        return ++index;
+        return index;
     }
 
     private List<String> crearLlista() {

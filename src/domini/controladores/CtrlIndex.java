@@ -32,10 +32,8 @@ public class CtrlIndex {
         indexParaulaTFIDF.EsborrarDoc(autor, titol);
     }
 
-    public void EsborrarAutors(List<String> autors) {
-        for (String autor : autors) {
-            indexAutorPrefix.Delete(autor);
-        }
+    public void EsborrarAutor(String autor) {
+        indexAutorPrefix.Delete(autor);
     }
 
     public void ActualitzarTitol(String autor, String titol, String newTitol) {

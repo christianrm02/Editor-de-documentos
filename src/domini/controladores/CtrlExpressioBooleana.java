@@ -21,6 +21,7 @@ public class CtrlExpressioBooleana {
         return expressions.containsKey(nom);
     }
 
+    //Per fer not
     private Set<Integer> not(Set<Integer> set, CtrlIndex ci) {
         int n = ci.GetNumFrases();
         Set<Integer> complementary = new HashSet<>();

@@ -11,9 +11,7 @@ public class Tree {
 
     public Tree(List<String> exp) {
         List<String> llista;
-        //for (String s : exp) System.out.print(s + ", ");
         llista = infixToPost(exp);
-        //for (String s : llista) System.out.print(s + ", ");
         root = expressionTree(llista);
     }
 
@@ -33,9 +31,9 @@ public class Tree {
             }
             else {
                 node = new TreeNode(s);
+
                 if (!s.equals("!")) t1 = st.pop();
                 t2 = st.pop();
-                //System.out.println("pare: " + s + " left: " + t2.data + " right: " + t1.data);
 
                 node.leftNode = t2;
                 if (!s.equals("!")) node.rightNode = t1;
@@ -49,13 +47,13 @@ public class Tree {
 
     private int priority(String s) {
         if (s.equals("|")) {
-            return 1;              //Precedence of | 1
+            return 1;               //Precedence of | 1
         }
         else if (s.equals("&")) {
-            return 2;            //Precedence of & is 2
+            return 2;               //Precedence of & is 2
         }
         else if (s.equals("!")) {
-            return 3;            //Precedence of ! is 3
+            return 3;               //Precedence of ! is 3
         }
         else if (s.equals("(")) {
             return 0;

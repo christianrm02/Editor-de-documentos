@@ -18,7 +18,7 @@ public class TreeTest {
      * Objectes de la prova: Es prova les constructora de la classe Tree.
      * Altres elements integrats de la prova: -
      * Fitxers de dades necessaris: -
-     * Valors estudiats: Es fa servir l’estratègia de caixa blanca. Es comprova que funcionen correctament la creadora.
+     * Valors estudiats: Es fa servir l’estratègia de caixa blanca. Es comprova que funciona correctament la creadora.
      * Efectes estudiats: -
      * Operativa: Executar el jUnit test.
      */

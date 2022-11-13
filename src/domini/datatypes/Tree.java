@@ -7,7 +7,9 @@ public class Tree {
 
     public Tree(List<String> exp) {
         List<String> llista;
+        //for (String s : exp) System.out.print(s + ", ");
         llista = infixToPost(exp);
+        //for (String s : llista) System.out.print(s + ", ");
         root = expressionTree(llista);
     }
 
@@ -18,27 +20,27 @@ public class Tree {
     private TreeNode expressionTree(List<String> postfix){
         Stack<TreeNode> st = new Stack<>();
         TreeNode t1 = null;
-        TreeNode t2, operator;
+        TreeNode t2, node;
 
         for (String s : postfix) {
             if (!isOperator(s)){
-                operator = new TreeNode(s);
-                st.push(operator);
+                node = new TreeNode(s);
+                st.push(node);
             }
             else {
-                operator = new TreeNode(s);
+                node = new TreeNode(s);
                 if (!s.equals("!")) t1 = st.pop();
                 t2 = st.pop();
                 //System.out.println("pare: " + s + " left: " + t2.data + " right: " + t1.data);
 
-                operator.leftNode = t2;
-                if (!s.equals("!")) operator.rightNode = t1;
+                node.leftNode = t2;
+                if (!s.equals("!")) node.rightNode = t1;
 
-                st.push(operator);
+                st.push(node);
             }
         }
-        operator = st.pop();
-        return operator;
+        node = st.pop();
+        return node;
     }
 
     private int priority(String s) {

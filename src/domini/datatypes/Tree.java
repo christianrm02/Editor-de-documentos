@@ -9,16 +9,19 @@ public class Tree {
 
     public TreeNode root;
 
+    //Constructora
     public Tree(List<String> exp) {
         List<String> llista;
         llista = infixToPost(exp);
         root = expressionTree(llista);
     }
 
+    //Retorna true si s és un operador lògic
     private boolean isOperator(String s) {
         return s.length() == 1 && (s.equals("&") || s.equals("|") || s.equals("!") || s.equals("(") || s.equals(")"));
     }
 
+    //Retorna l'arrel de l'arbre que es crea a partir de la llista en notació postfix
     private TreeNode expressionTree(List<String> postfix){
         Stack<TreeNode> st = new Stack<>();
         TreeNode t1 = null;
@@ -45,6 +48,7 @@ public class Tree {
         return node;
     }
 
+    //Retorna la prioritat de l'operador
     private int priority(String s) {
         if (s.equals("|")) {
             return 1;               //Precedence of | 1
@@ -61,6 +65,7 @@ public class Tree {
         return -1;
     }
 
+    //Retorna una llista convertida de infix a postfix
     private List<String> infixToPost(List<String> infix) {
         Stack<String> st = new Stack<>();
         st.push("#"); //per mirar quan la pila és buida

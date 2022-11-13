@@ -62,12 +62,12 @@ public class ContingutTest {
     }
 
     /**
-     * Objecte de la prova: Es proven les constructores de la classe Contingut.
-     * Altres elements integrats a la prova: -
-     * Fitxers de dades necessaris: No es necessari cap fitxer de dades.
-     * Valors estudiats: Es fa servir l'estratègia de caixa blanca. Es comproven les dues creadores.
+     * Objectes de la prova: Es proven les constructores de la classe Contingut.
+     * Altres elements integrats de la prova: -
+     * Fitxers de dades necessaris: -
+     * Valors estudiats: Es fa servir l’estratègia de caixa blanca. Es comprova que funcionen correctament les dues creadores.
      * Efectes estudiats: -
-     * Operativa: Es crea un nou Contingut buit i un nou Contingut amb una sequencia de frases i mitjançant els getters es comproba si s'ha inicialitzat correctament.
+     * Operativa: Executar el jUnit test.
      */
     @Test
     public void testConstructores() {
@@ -78,13 +78,12 @@ public class ContingutTest {
     }
 
     /**
-     * Objecte de la prova: Es prova l'operacio getFrases, que retorna una llista de String, de la classe Contingut.
-     * Altres elements integrats a la prova: -
-     * Fitxers de dades necessaris: No es necessari cap fitxer de dades.
-     * Valors estudiats: Es fa servir l'estrategia de caixa blanca. Es comprova amb cas buit i amb text, les dues principals opcions.
+     * Objectes de la prova: Es prova l'operació getFrases, que retorna una llista de String, de la classe Contingut.
+     * Altres elements integrats de la prova: -
+     * Fitxers de dades necessaris: -
+     * Valors estudiats: Es fa servir l'estratègia de caixa blanca. Es comprova amb cas buit i amb text, les dues principals opcions.
      * Efectes estudiats: -
-     * Operativa: Es crea un contingut i es fa un getFrases, per comprovar si funciona correctament l'operacio amb contingut.
-     *            Tambe es crea un contingut buit i es comprova que tambe funcioni correctament l'operacio amb contingut buit.
+     * Operativa: Executar el jUnit test.
      */
     @Test
     public void testGetFrases() {
@@ -95,13 +94,12 @@ public class ContingutTest {
     }
 
     /**
-     * Objecte de la prova: Es prova l'operacio actualitzaContingut.
-     * Altres elements integrats a la prova: -
-     * Fitxers de dades necessaris: No es necessari cap fitxer de dades.
-     * Valors estudiats: Es fa servir l'estrategia de caixa blanca. Es proben diferents tipus de combinacions.
+     * Objectes de la prova: Es prova l'operació actualitzaContingut de la classe Contingut.
+     * Altres elements integrats de la prova: -
+     * Fitxers de dades necessaris: -
+     * Valors estudiats: Es fa servir l'estratègia de caixa blanca. Es proven diferents tipus de combinacions que pensem que poden ser problemàtiques per dividir bé les frases.
      * Efectes estudiats: -
-     * Operativa: Es crea un Contingut buit i se li fan diverses modificacions mitjançant actualitzaContingut, per comprovar
-     *            que funciona correctament la operació.
+     * Operativa: Executar el jUnit test.
      */
     @Test
     public void testActualitzaContingut() {

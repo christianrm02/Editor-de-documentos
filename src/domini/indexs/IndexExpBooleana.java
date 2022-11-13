@@ -159,13 +159,13 @@ public class IndexExpBooleana {
 
     //Retorna els documents que contenen les frases indexs
     public List<Pair<String, String>> GetDocuments(Set<Integer> indexs) {
-        List<Pair<String, String>> docs = new ArrayList<Pair<String, String>>();
+        Set<Pair<String, String>> docs = new HashSet<Pair<String, String>>();
 
         for (int index : indexs) {
             docs.add(indexFraseDocument.get(index));
         }
 
-        return docs;
+        return new ArrayList<Pair<String, String>>(docs);
     }
 
     //Omplira les primeres posicions de la llista amb false

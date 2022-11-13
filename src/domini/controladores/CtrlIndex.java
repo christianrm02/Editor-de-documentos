@@ -44,6 +44,7 @@ public class CtrlIndex {
     }
 
     public void ActualitzarAutor(String autor, String titol, String newAutor) {
+        indexAutorPrefix.Insert(newAutor);
         indexExpBooleana.ActualitzarAutor(autor, titol, newAutor);
         indexParaulaTFIDF.ActualitzarAutor(autor, titol, newAutor);
     }

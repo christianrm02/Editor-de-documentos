@@ -51,21 +51,29 @@ public class TrieTest {
     public void testSearchWordsPrefix() {
         Trie trie = new Trie();
         List<String> expected1 = Arrays.asList(new String[]{"manol", "manoló", "manolo"});
-        List<String> expected2 = Arrays.asList(new String[]{"Manolo"});
-        int expectedSize3 = 5;
+        List<String> expected2 = Arrays.asList(new String[]{"Manoló", "Manolo"});
+        int expectedSize3 = 6;
 
         trie.Insert("manolo");
         trie.Insert("manol");
         trie.Insert("Manolo");
+        trie.Insert("Manoló");
         trie.Insert("manoló");
         trie.Insert("patata");
 
-        List<String> obtained1 = trie.SearchWordsPrefix("man");
-        List<String> obtained2 = trie.SearchWordsPrefix("Man");
-        List<String> obtained3 = trie.SearchWordsPrefix("");
+        assertEquals(expected1, trie.SearchWordsPrefix("man"));
+        assertEquals(expected2, trie.SearchWordsPrefix("Man"));
+        assertEquals(expectedSize3, trie.SearchWordsPrefix("").size());
 
-        assertEquals(expected1, obtained1);
-        assertEquals(expected2, obtained2);
-        assertEquals(expectedSize3, obtained3.size());
+        List<String> expectedd1 = Arrays.asList(new String[]{"manol", "manoló"});
+        List<String> expectedd2 = Arrays.asList(new String[]{"Manoló"});
+        int expecteddSize3 = 4;
+
+        trie.Delete("manolo");
+        trie.Delete("Manolo");
+
+        assertEquals(expectedd1, trie.SearchWordsPrefix("man"));
+        assertEquals(expectedd2, trie.SearchWordsPrefix("Man"));
+        assertEquals(expecteddSize3, trie.SearchWordsPrefix("").size());
     }
 }

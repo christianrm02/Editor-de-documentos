@@ -13,6 +13,7 @@ public class CtrlExpressioBooleana {
 
     private Map<String, ExpressioBooleana> expressions;
 
+    //Constructora
     public CtrlExpressioBooleana() {
         expressions = new HashMap<>();
     }

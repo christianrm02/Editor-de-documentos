@@ -85,7 +85,7 @@ public class ExpressioBooleana {
                 s1 = "";
                 paraula = false;
             }
-            else {
+            else if (exp.charAt(i) != ' ') {
                 s1 += exp.charAt(i);
                 paraula = true;
             }

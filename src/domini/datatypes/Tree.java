@@ -4,6 +4,7 @@ import java.util.*;
 public class Tree {
 
     public TreeNode root;
+
     public Tree(List<String> exp) {
         List<String> llista;
         llista = infixToPost(exp);

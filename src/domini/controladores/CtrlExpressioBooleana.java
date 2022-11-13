@@ -71,6 +71,7 @@ public class CtrlExpressioBooleana {
         return ci.GetDocuments(frases);
     }
 
+    //Getter
     public List<Pair<String, String>> getAll() {
         List<Pair<String, String>> exps = new ArrayList<>();
         for (String clau : expressions.keySet()) {
@@ -92,15 +93,4 @@ public class CtrlExpressioBooleana {
     public void deleteExpressioBooleana(String nom) {
         expressions.remove(nom);
     }
-/*
-    public static void main(String[] args) {
-        Set<Integer> s1 = new HashSet<>();
-        s1.add(1); s1.add(3); s1.add(4); s1.add(8);
-        int n = 10;
-        Set<Integer> complementary = new HashSet<>();
-        for (int i = 0; i < n; ++i) {
-            if (!s1.contains(i)) complementary.add(i);
-        }
-        for (Integer i : complementary) System.out.print(i +", ");
-    }*/
 }

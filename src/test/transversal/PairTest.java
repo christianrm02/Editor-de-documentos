@@ -35,7 +35,7 @@ public class PairTest {
      * Fitxers de dades necessaris: No calen fitxers de dades.
      * Valors estudiats: Es fa servir l'estratègia de caixa blanca. Es proven tot tipus de combinacions.
      * Efectes estudiats: -
-     * Operativa: Es crean diversos pairs i es compara per saber si són iguals.
+     * Operativa: Es crean diversos pairs i es comparen per saber si són iguals.
      */
     @Test
     public void testEquals() {
@@ -58,7 +58,7 @@ public class PairTest {
      * Fitxers de dades necessaris: No calen fitxers de dades.
      * Valors estudiats: Es fa servir l'estratègia de caixa blanca. Es proven tot tipus de combinacions.
      * Efectes estudiats: -
-     * Operativa: Es crean diversos pairs i es compara per saber si els ordena correctament.
+     * Operativa: Es crean diversos pairs i es comparen per saber si els ordena correctament.
      */
     @Test
     public void testCompareTo() {
@@ -68,10 +68,10 @@ public class PairTest {
         Pair<String, String> p4 = new Pair<>("Pep", "Diurno");
         Pair<String, String> p5 = new Pair<>("Zacarias", "Alas");
         Pair<String, String> p6 = new Pair<>("Alex", "Dia");
-        assertEquals(-1, p2.compareTo(p1));
+        assertEquals(1, p2.compareTo(p1));
         assertEquals(0, p3.compareTo(p6));
-        assertEquals(1, p1.compareTo(p2));
-        assertEquals(-1, p6.compareTo(p1));
+        assertEquals(-1, p1.compareTo(p2));
+        assertEquals(1, p6.compareTo(p1));
     }
 
     /**

@@ -183,7 +183,7 @@ public class CtrlDocument {
      */
     public boolean modificarAutor(String autor, String titol, String newA) {
         boolean actualitzaAct = false;
-        if(docAct.equals(getDocument(autor, titol))) actualitzaAct = true;
+        if(docAct != null && docAct.equals(getDocument(autor, titol))) actualitzaAct = true;
         TreeMap<String, Document> titols = documents.get(autor);
         Document d = titols.get(titol);
         d.setAutor(newA);
@@ -218,7 +218,7 @@ public class CtrlDocument {
      */
     public void modificarTitol(String autor, String titol, String newT) {
         boolean actualitzaAct = false;
-        if(docAct.equals(getDocument(autor, titol))) actualitzaAct = true;
+        if(docAct != null && docAct.equals(getDocument(autor, titol))) actualitzaAct = true;
         TreeMap<String, Document> titols = documents.get(autor);
         Document d = titols.get(titol);
         d.setTitol(newT);

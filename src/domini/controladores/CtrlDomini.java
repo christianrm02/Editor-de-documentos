@@ -66,12 +66,11 @@ public class CtrlDomini {
 
     // Destruccio de documents
     public void esborrarDocuments(List<Pair<String, String>> docs) {
-        Set<String> a = new TreeSet<>();
         for (Pair<String, String> p : docs) {
-            if (cd.esborrarDocument(p.x, p.y)) a.add(p.x);
+            boolean asegueix = cd.esborrarDocument(p.x, p.y);
             ci.EsborrarDoc(p.x, p.y);
+            if (!asegueix) ci.EsborrarAutor(p.x);
         }
-        ci.EsborrarAutors(new ArrayList<>(a));
     }
 
     // Modificadores de document
@@ -89,8 +88,7 @@ public class CtrlDomini {
         if (!ed) {
             boolean asegueix = cd.modificarAutor(autor, titol, newA);
             ci.ActualitzarAutor(autor, titol, newA);
-            List<String> a = new ArrayList<>(); a.add(autor);
-            if (!asegueix) ci.EsborrarAutors(a);
+            if (!asegueix) ci.EsborrarAutor(autor);
         }
         return !ed;
     }

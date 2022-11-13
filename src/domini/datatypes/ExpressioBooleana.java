@@ -1,7 +1,10 @@
 package datatypes;
 import java.util.*;
 
-
+/**
+* ExpressioBooleana: S'implementa la classe Expressió Booleana.
+* @author Pol Fradera
+*/
 public class ExpressioBooleana {
 
     private String nom;
@@ -33,7 +36,7 @@ public class ExpressioBooleana {
             ++index;
         }
         llista.add(s);
-        return ++index;
+        return index;
     }
 
     private int casClau(List<String> llista, int index) {
@@ -51,12 +54,13 @@ public class ExpressioBooleana {
         }
         llista.add(s);
         llista.add(")");
-        return ++index;
+        return index;
     }
 
     private List<String> crearLlista() {
         List<String> llista = new ArrayList<>();
         int i = 0;
+        boolean paraula = false;
         String s1 = "";
         while (i < exp.length()) {
             if (exp.charAt(i) == '{') i = casClau(llista, i);
@@ -72,16 +76,22 @@ public class ExpressioBooleana {
             else if (exp.charAt(i) == '!') llista.add("!");
             else if (exp.charAt(i) == '(') llista.add("(");
             else if (exp.charAt(i) == ')') {
-                llista.add(s1);
+                if (paraula) {
+                    llista.add(s1);
+                    paraula = false;
+                }
                 llista.add(")");
-                ++i;
                 s1 = "";
             }
-            else if (exp.charAt(i) == ' ') {
+            else if (paraula && exp.charAt(i) == ' ') {
                 llista.add(s1);
                 s1 = "";
+                paraula = false;
             }
-            else s1 += exp.charAt(i);
+            else if (exp.charAt(i) != ' ') {
+                s1 += exp.charAt(i);
+                paraula = true;
+            }
             ++i;
         }
         if (s1.length() > 0) llista.add(s1);

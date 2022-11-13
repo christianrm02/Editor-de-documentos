@@ -236,6 +236,7 @@ public class DriverCtrlDomini {
             List<String> cont = cd.getContingut(p.x, p.y);
             for (String c : cont) System.out.print(c);
             System.out.print("\n");
+            System.out.print("Això ja no és contingut!");
         } else System.out.println("No hi ha cap document, crea'n un abans!");
         if (esp) espera();
     }

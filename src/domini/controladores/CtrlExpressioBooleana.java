@@ -6,6 +6,9 @@ import java.util.*;
 
 import static datatypes.Utility.ParseFrase;
 
+/**
+ * @author Pol Fradera
+ */
 public class CtrlExpressioBooleana {
 
     private Map<String, ExpressioBooleana> expressions;
@@ -14,7 +17,7 @@ public class CtrlExpressioBooleana {
         expressions = new HashMap<>();
     }
 
-    public Boolean existsExpressioBooleana(String nom) {
+    public boolean existsExpressioBooleana(String nom) {
         return expressions.containsKey(nom);
     }
 

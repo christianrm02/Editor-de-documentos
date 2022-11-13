@@ -13,7 +13,7 @@ public class PairTest {
     /**
      * Objecte de la prova: Es prova la constructora de la classe Pair.
      * Altres elements integrats a la prova: -
-     * Fitxers de dades necessaris: No calen fitxers de dades.
+     * Fitxers de dades necessaris: -
      * Valors estudiats: Es fa servir l'estratègia de caixa blanca. Es proven amb diferents tipus d'elements.
      * Efectes estudiats: -
      * Operativa: Es crean dos pairs i mitjançant que els seus atributs són públics, es comprova que els
@@ -32,7 +32,7 @@ public class PairTest {
     /**
      * Objecte de la prova: Es prova l'operació equals() de la classe Pair.
      * Altres elements integrats a la prova: -
-     * Fitxers de dades necessaris: No calen fitxers de dades.
+     * Fitxers de dades necessaris: -
      * Valors estudiats: Es fa servir l'estratègia de caixa blanca. Es proven tot tipus de combinacions.
      * Efectes estudiats: -
      * Operativa: Es crean diversos pairs i es comparen per saber si són iguals.
@@ -55,7 +55,7 @@ public class PairTest {
     /**
      * Objecte de la prova: Es prova l'operació compareTo() de la classe Pair.
      * Altres elements integrats a la prova: -
-     * Fitxers de dades necessaris: No calen fitxers de dades.
+     * Fitxers de dades necessaris: -
      * Valors estudiats: Es fa servir l'estratègia de caixa blanca. Es proven tot tipus de combinacions.
      * Efectes estudiats: -
      * Operativa: Es crean diversos pairs i es comparen per saber si els ordena correctament.
@@ -77,7 +77,7 @@ public class PairTest {
     /**
      * Objecte de la prova: Es prova l'operació hashCode() de la classe Pair.
      * Altres elements integrats a la prova: -
-     * Fitxers de dades necessaris: No calen fitxers de dades.
+     * Fitxers de dades necessaris: -
      * Valors estudiats: Es fa servir l'estratègia de caixa blanca. Com és una funcionalitat bàsica, el test també
      * ho és.
      * Efectes estudiats: -

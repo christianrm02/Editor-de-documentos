@@ -9,7 +9,7 @@ import java.util.*;
  * @author Christian Rivero
  */
 public class CtrlDocument {
-    public Document docAct; //la pongo publica para el test, aunque igual vale la pena dejarla así
+    public Document docAct;
     private TreeMap<String, TreeMap<String, Document>> documents; //TreeMap amb clau "autor" de TreeMaps amb clau "titol" de Documents
 
 
@@ -47,11 +47,12 @@ public class CtrlDocument {
         return (documents.containsKey(autor) && documents.get(autor).containsKey(titol));
     }
 
+    /*
     /**
      * Operació que retorna tots els documents del sistema, sense repetits.
      * @return List<Document>: Retorna una llista amb tots els documents del sistema, aquesta estarà buida si no
      * n'hi ha cap document.
-     */
+     *
     public List<Document> getAll() {
         List<Document> docs = new ArrayList<>();
         for(Map<String, Document> titols : documents.values()) {
@@ -59,6 +60,7 @@ public class CtrlDocument {
         }
         return docs;
     }
+    */
 
     /**
      * Operació que retorna tots els autors del sistema, sense repetits.
@@ -161,13 +163,13 @@ public class CtrlDocument {
      */
     public boolean esborrarDocument(String autor, String titol) {
         boolean autorContinua = true;
-        if(docAct != null && docAct.equals(getDocument(autor, titol))) docAct = null; //si estava obert, ja no /////////////////////////
+        if(docAct != null && docAct.equals(getDocument(autor, titol))) docAct = null; //si estava obert, ja no
         if (documents.get(autor).size() == 1) { //si l'autor només té un títol, s'esborra l'autor
             documents.remove(autor);
             autorContinua = false;
         }
         else {
-            TreeMap<String, Document> titols = documents.get(autor); //estas 3 lineas podrian ser documents.get(doc.getAutor()).erase(doc.getTitol()) ???
+            TreeMap<String, Document> titols = documents.get(autor);
             titols.remove(titol);
             documents.put(autor, titols);
         }

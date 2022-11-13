@@ -1,7 +1,10 @@
 package datatypes;
 import java.util.*;
 
-
+/**
+* ExpressioBooleana: S'implementa la classe Expressió Booleana.
+* @author Pol Fradera
+*/
 public class ExpressioBooleana {
 
     private String nom;

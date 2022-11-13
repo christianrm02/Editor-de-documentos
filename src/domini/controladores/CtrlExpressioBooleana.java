@@ -6,6 +6,9 @@ import java.util.*;
 
 import static datatypes.Utility.ParseFrase;
 
+/**
+ * @author Pol Fradera
+ */
 public class CtrlExpressioBooleana {
 
     private Map<String, ExpressioBooleana> expressions;

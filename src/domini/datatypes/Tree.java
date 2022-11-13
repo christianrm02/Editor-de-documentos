@@ -1,6 +1,10 @@
 package datatypes;
 import java.util.*;
 
+/**
+ * @author Pol Fradera
+ */
+
 public class Tree {
 
     public TreeNode root;

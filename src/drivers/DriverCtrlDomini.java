@@ -46,7 +46,7 @@ public class DriverCtrlDomini {
             titolO = titol; autorO = autor;
             System.out.println("El document ha estat creat i obert correctament.");
         }
-        else System.out.println("El document " + titol + " + " + autor + " existeix");
+        else System.out.println("El document " + titol + " + " + autor + " existeix.");
         if (esp) espera();
     }
 
@@ -56,7 +56,7 @@ public class DriverCtrlDomini {
         int i = 1;
         for (Pair<String, String> ta : titaut) {
             m.put(i, ta);
-            System.out.println(i + ". Titol: " + ta.y + " Autor: " + ta.x);
+            System.out.println(i + ". Titol: " + ta.y + " | Autor: " + ta.x);
             ++i;
         }
         return m;
@@ -68,7 +68,7 @@ public class DriverCtrlDomini {
         int i = 1;
         for (Pair<String, String> eb : l) {
             m.put(i, eb);
-            System.out.println(i + ". Nom: " + eb.x + " Expressio: " + eb.y);
+            System.out.println(i + ". Nom: " + eb.x + " | Expressio: " + eb.y);
             ++i;
         }
         return m;
@@ -129,7 +129,7 @@ public class DriverCtrlDomini {
         if (nDocuments > 0) {
             System.out.println("A continuacio tenim tots els documents (titol i autor) existents:");
             List<Pair<String, String>> titaut = cd.getTitolsAutors();
-            for (Pair<String, String> ta : titaut) System.out.println("Titol: " + ta.y + " Autor: " + ta.x);
+            for (Pair<String, String> ta : titaut) System.out.println("Titol: " + ta.y + " | Autor: " + ta.x);
         } else System.out.println("No hi ha documents a llistar, crea'n un abans!");
         if (esp) espera();
     }
@@ -141,7 +141,7 @@ public class DriverCtrlDomini {
             String docSel = entrada.nextLine();
             Pair<String, String> p = m.get(Integer.valueOf(docSel));
             cd.obrirDocument(p.x, p.y);
-            System.out.println("El document " + p.x + " " + p.y + " s'ha obert.");
+            System.out.println("El document " + p.x + " + " + p.y + " s'ha obert.");
             dObert = true; autorO = p.x; titolO = p.y;
         } else System.out.println("No hi ha documents a obrir, crea'n un abans!");
         if (esp) espera();
@@ -185,6 +185,7 @@ public class DriverCtrlDomini {
                 ent = entrada.nextLine();
             }
             cd.modificarContingut(autorO, titolO, cont);
+            System.out.println("El contingut del document obert s'ha modificat correctament.");
         } else if (nDocuments < 1) System.out.println("No hi ha cap document, crea'n un abans!");
         else System.out.println("No hi ha cap document obert, obre'n un abans!");
         if (esp) espera();
@@ -227,10 +228,7 @@ public class DriverCtrlDomini {
             String docSel = entrada.nextLine();
             Pair<String, String> p = m.get(Integer.valueOf(docSel));
             List<String> cont = cd.getContingut(p.x, p.y);
-            for (String c : cont) {
-                if (c.charAt(c.length()-1) != '\n') System.out.print(c + ' ');
-                else System.out.print(c);
-            }
+            for (String c : cont) System.out.print(c);
             System.out.print("\n");
         } else System.out.println("No hi ha cap document, crea'n un abans!");
         if (esp) espera();
@@ -440,7 +438,7 @@ public class DriverCtrlDomini {
                 default:
                     break;
             }
-            opcions_disponibles();
+            if (dcd.esp) opcions_disponibles();
             ent = dcd.entrada.nextLine();
         }
         dcd.entrada.close();
@@ -449,7 +447,6 @@ public class DriverCtrlDomini {
     private static void opcions_disponibles() {
         System.out.println("Per provar un metode ingressa per teclat el seu numero:");
         System.out.println("1-  Constructora de document");
-        System.out.println("Abans d'utilitzar les seguents, com a minim ha d'haver un document.");
         System.out.println("2-  Destructora de document");
         System.out.println("3-  getTitols");
         System.out.println("4-  getAutors");

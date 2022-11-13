@@ -6,41 +6,41 @@ public class Tree {
     public TreeNode root;
     public Tree(List<String> exp) {
         List<String> llista;
-        llista = inToPost(exp);
+        llista = infixToPost(exp);
         root = expressionTree(llista);
     }
 
-    public static boolean isOperator(String s) {
+    private boolean isOperator(String s) {
         return s.length() == 1 && (s.equals("&") || s.equals("|") || s.equals("!") || s.equals("(") || s.equals(")"));
     }
 
-    public TreeNode expressionTree(List<String> postfix){
+    private TreeNode expressionTree(List<String> postfix){
         Stack<TreeNode> st = new Stack<>();
         TreeNode t1 = null;
-        TreeNode t2,temp;
+        TreeNode t2, operator;
 
         for (String s : postfix) {
             if (!isOperator(s)){
-                temp = new TreeNode(s);
-                st.push(temp);
+                operator = new TreeNode(s);
+                st.push(operator);
             }
             else {
-                temp = new TreeNode(s);
+                operator = new TreeNode(s);
                 if (!s.equals("!")) t1 = st.pop();
                 t2 = st.pop();
                 //System.out.println("pare: " + s + " left: " + t2.data + " right: " + t1.data);
 
-                temp.leftNode = t2;
-                if (!s.equals("!")) temp.rightNode = t1;
+                operator.leftNode = t2;
+                if (!s.equals("!")) operator.rightNode = t1;
 
-                st.push(temp);
+                st.push(operator);
             }
         }
-        temp = st.pop();
-        return temp;
+        operator = st.pop();
+        return operator;
     }
 
-    public static int preced(String s) {
+    private int priority(String s) {
         if (s.equals("|")) {
             return 1;              //Precedence of | 1
         }
@@ -56,9 +56,9 @@ public class Tree {
         return -1;
     }
 
-    public static List<String> inToPost(List<String> infix) {
-        Stack<String> stk = new Stack<>();
-        stk.push("#"); //add some extra character to avoid underflow
+    private List<String> infixToPost(List<String> infix) {
+        Stack<String> st = new Stack<>();
+        st.push("#"); //per mirar quan la pila és buida
 
         List<String> postfix = new ArrayList<>();
 
@@ -67,30 +67,30 @@ public class Tree {
                 postfix.add(s);
             }
             else if (s.equals("(")) {
-                stk.push(s);
+                st.push(s);
             }
             else if (s.equals(")")) {
-                while (!stk.peek().equals("#") && !stk.peek().equals("(")) {
-                    postfix.add(stk.peek());
-                    stk.pop();
+                while (!st.peek().equals("#") && !st.peek().equals("(")) {
+                    postfix.add(st.peek());
+                    st.pop();
                 }
-                stk.pop();
+                st.pop();
             }
             else {
-                if (preced(s) > preced(stk.peek())) stk.push(s);
+                if (priority(s) > priority(st.peek())) st.push(s);
                 else {
-                    while (!stk.peek().equals("#") && preced(s) <= preced(stk.peek())) {
-                        postfix.add(stk.peek());
-                        stk.pop();
+                    while (!st.peek().equals("#") && priority(s) <= priority(st.peek())) {
+                        postfix.add(st.peek());
+                        st.pop();
                     }
-                    stk.push(s);
+                    st.push(s);
                 }
             }
         }
 
-        while(!stk.peek().equals("#")) {
-            postfix.add(stk.peek());        //store and pop until stack is not empty.
-            stk.pop();
+        while(!st.peek().equals("#")) {
+            postfix.add(st.peek());        //afegir els nodes fins que la pila quedi buida
+            st.pop();
         }
         return postfix;
     }

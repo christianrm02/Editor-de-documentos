@@ -28,6 +28,7 @@ public class ExpressioBooleana {
         this.expA = new Tree(llistaExp);
     }
 
+
     private int casCometes(List<String> llista, int index) {
         ++index;
         String s = "";
@@ -38,6 +39,7 @@ public class ExpressioBooleana {
         llista.add(s);
         return index;
     }
+
 
     private int casClau(List<String> llista, int index) {
         llista.add("(");
@@ -57,6 +59,7 @@ public class ExpressioBooleana {
         return index;
     }
 
+    //Converteix l'expressió booleana a una llista de strings
     private List<String> crearLlista() {
         List<String> llista = new ArrayList<>();
         int i = 0;
@@ -83,12 +86,12 @@ public class ExpressioBooleana {
                 llista.add(")");
                 s1 = "";
             }
-            else if (paraula && exp.charAt(i) == ' ') {
+            else if (paraula && exp.charAt(i) == ' ') { //si abans de l'espai hi ha una paraula
                 llista.add(s1);
                 s1 = "";
                 paraula = false;
             }
-            else if (exp.charAt(i) != ' ') {
+            else if (exp.charAt(i) != ' ') {  //si hi ha un caràcter d'una paraula
                 s1 += exp.charAt(i);
                 paraula = true;
             }

@@ -5,15 +5,9 @@ public class TreeNode {
     public TreeNode leftNode;
     public TreeNode rightNode;
 
-    public TreeNode() {
-        this.leftNode = null;
-        this.rightNode = null;
-    }
-
     public TreeNode(String s) {
         this.leftNode = null;
         this.rightNode = null;
         this.data = s;
     }
-
 }

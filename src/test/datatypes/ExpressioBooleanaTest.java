@@ -2,56 +2,71 @@ package datatypes;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
+
 import static org.junit.Assert.*;
 
 /**
- * ContingutTest: Per fer el testing de la classe ExpressioBooleana
+ * ExpressioBooleanaTest: Per fer el testing de la classe ExpressioBooleana
  * @author Pol Fradera
  */
 
 public class ExpressioBooleanaTest {
 
+    /**
+     * Objectes de la prova: Es proven les constructores de la classe ExpressioBooleana.
+     * Altres elements integrats de la prova: -
+     * Fitxers de dades necessaris: -
+     * Valors estudiats: Es fa servir l’estratègia de caixa blanca. Es comprova que funcionen correctament les dues creadores.
+     * Efectes estudiats: -
+     * Operativa: Executar el jUnit test.
+     */
+    @Test
+    public void testConstructores() {
+        ExpressioBooleana expTest = new ExpressioBooleana("{p1 p2 p3} & (\"hola adéu\" | pep) & !joan");
+        assertEquals("{p1 p2 p3} & (\"hola adéu\" | pep) & !joan", expTest.getExp());
+        ExpressioBooleana expTest2 = new ExpressioBooleana("Expressió 1","!((hola & adéu))");
+        assertEquals("Expressió 1", expTest2.getNom());
+        assertEquals("!((hola & adéu))", expTest2.getExp());
+    }
 
     /**
      * Objecte de la prova: Es prova l'operació getNom() de la classe ExpressioBooleana.
      * Altres elements integrats a la prova: -
      * Fitxers de dades necessaris: No calen fitxers de dades.
-     * Valors estudiats: Es fa servir l'estratègia de caixa grisa. Com és una funcionalitat bàsica, el test també ho és.
+     * Valors estudiats: Es fa servir l'estratègia de caixa negre. Com és una funcionalitat bàsica, el test també ho és.
      * Efectes estudiats: -
      * Operativa: Executar el jUnit test.
      */
     @Test
     public void getNom() {
-        ExpressioBooleana expTest = new ExpressioBooleana("Expressió 1", "{p1 p2 p3} & (\"hola adéu\" | pep) & !joan");
-        assertEquals("Expressió 1", expTest.getNom());
+        ExpressioBooleana expTest = new ExpressioBooleana("Expressió 2", "{p1 p2 p3} & (\"hola adéu\" | pep) & !joan");
+        assertEquals("Expressió 2", expTest.getNom());
     }
 
     /**
      * Objecte de la prova: Es prova l'operació getExp() de la classe ExpressioBooleana.
      * Altres elements integrats a la prova: -
      * Fitxers de dades necessaris: No calen fitxers de dades.
-     * Valors estudiats: Es fa servir l'estratègia de caixa grisa. Com és una funcionalitat bàsica, el test també ho és.
+     * Valors estudiats: Es fa servir l'estratègia de caixa negre. Com és una funcionalitat bàsica, el test també ho és.
      * Efectes estudiats: -
      * Operativa: Executar el jUnit test.
      */
     @Test
     public void getExp() {
-        ExpressioBooleana expTest = new ExpressioBooleana("Expressió 1", "{p1 p2 p3} & (\"hola adéu\" | pep) & !joan");
+        ExpressioBooleana expTest = new ExpressioBooleana("Expressió 3", "{p1 p2 p3} & (\"hola adéu\" | pep) & !joan");
         assertEquals("{p1 p2 p3} & (\"hola adéu\" | pep) & !joan", expTest.getExp());
     }
-
-
 
     /**
      * Objecte de la prova: Es prova l'operació getExpA() de la classe ExpressioBooleana.
      * Altres elements integrats a la prova: -
      * Fitxers de dades necessaris: No calen fitxers de dades.
-     * Valors estudiats: Es fa servir l'estratègia de caixa grisa. Com és una funcionalitat bàsica, el test també ho és.
+     * Valors estudiats: Es fa servir l'estratègia de caixa blanca. Ja que, es tracte de comprovar la creació de l'arbre.
      * Efectes estudiats: -
      * Operativa: Executar el jUnit test.
      */
     /*
-
                              &(0)
                       /                \
                     &(1)              !(2)
@@ -64,7 +79,7 @@ public class ExpressioBooleanaTest {
 */
     @Test
     public void getExpA() {
-        ExpressioBooleana expTest = new ExpressioBooleana("Expressió 1", "{p1 p2 p3} & (\"hola adéu\" | pep) & !joan");
+        ExpressioBooleana expTest = new ExpressioBooleana("Expressió 4", "{p1 p2 p3} & (\"hola adéu\" | pep) & !joan");
         Tree arbre = expTest.getExpA();
 
         TreeNode node0 = arbre.root;

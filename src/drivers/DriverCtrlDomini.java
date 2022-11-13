@@ -155,7 +155,10 @@ public class DriverCtrlDomini {
             System.out.println("Introdueix el nou titol:");
             String newT = entrada.nextLine();
             Pair<String, String> p = m.get(Integer.valueOf(docSel));
-            if (cd.modificarTitol(p.x, p.y, newT)) System.out.println("El titol ha estat modificat correctament.");
+            if (cd.modificarTitol(p.x, p.y, newT)) {
+                System.out.println("El titol ha estat modificat correctament.");
+                if (p.x.equals(autorO) && p.y.equals(titolO)) titolO = newT;
+            }
             else System.out.println("El document " + newT + " + " + p.x + " existeix.");
         } else System.out.println("No hi ha documents a modificar, crea'n un abans!");
         if (esp) espera();
@@ -169,7 +172,10 @@ public class DriverCtrlDomini {
             System.out.println("Introdueix el nou autor:");
             String newA = entrada.nextLine();
             Pair<String, String> p = m.get(Integer.valueOf(docSel));
-            if (cd.modificarAutor(p.x, p.y, newA)) System.out.println("L'autor ha estat modificat correctament.");
+            if (cd.modificarAutor(p.x, p.y, newA)) {
+                System.out.println("L'autor ha estat modificat correctament.");
+                if (p.x.equals(autorO) && p.y.equals(titolO)) autorO = newA;
+            }
             else System.out.println("El document " + p.y + " + " + newA + " existeix.");
         } else System.out.println("No hi ha documents a modificar, crea'n un abans!");
         if (esp) espera();

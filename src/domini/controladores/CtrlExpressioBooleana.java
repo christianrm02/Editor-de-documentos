@@ -74,7 +74,7 @@ public class CtrlExpressioBooleana {
     public List<Pair<String, String>> getAll() {
         List<Pair<String, String>> exps = new ArrayList<>();
         for (String clau : expressions.keySet()) {
-            Pair p = new Pair();
+            Pair<String, String> p = new Pair<>();
             p.x = expressions.get(clau).getNom();
             p.y = expressions.get(clau).getExp();
             exps.add(p);

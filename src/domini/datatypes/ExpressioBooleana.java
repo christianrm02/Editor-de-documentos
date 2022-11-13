@@ -27,7 +27,7 @@ public class ExpressioBooleana {
         this.expA = new Tree(llistaExp);
     }
 
-
+    //Es crida en el cas que a la transformació de string a llista hi hi hagin cometes
     private int casCometes(List<String> llista, int index) {
         ++index;
         String s = "";
@@ -39,7 +39,7 @@ public class ExpressioBooleana {
         return index;
     }
 
-
+    //Es crida en el cas que a la transformació de string a llista hi hi hagin claus
     private int casClau(List<String> llista, int index) {
         llista.add("(");
         ++index;

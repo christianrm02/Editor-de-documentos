@@ -97,7 +97,7 @@ public class Tree {
         }
         return postfix;
     }
-
+/*
     public static void InOrder(TreeNode arrel) {
         if (arrel == null) return;
         else {
@@ -114,5 +114,5 @@ public class Tree {
             PostOrder(arrel.rightNode);
             System.out.print(arrel.data+", ");
         }
-    }
+    }*/
 }

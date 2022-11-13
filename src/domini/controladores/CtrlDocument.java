@@ -9,7 +9,7 @@ import java.util.*;
  * @author Christian Rivero
  */
 public class CtrlDocument {
-    public Document docAct;
+    private Document docAct;
     private TreeMap<String, TreeMap<String, Document>> documents; //TreeMap amb clau "autor" de TreeMaps amb clau "titol" de Documents
 
 

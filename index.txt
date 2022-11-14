@@ -10,3 +10,4 @@ Ens trobem en el directori FONTS, en aquest directori trobem les classes impleme
     -make exec_driver_jocdeproves: executa el driver amb el joc de proves esmentat anteriorment
     -make exec_tests: executa tots els tests jUnit
     -make exec_*nomdeclasse*: executa els tests per provar la classe *nomdeclasse*
+    -make clean: borra la carpeta ../EXE/

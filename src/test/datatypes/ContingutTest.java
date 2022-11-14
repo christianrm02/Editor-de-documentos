@@ -1,7 +1,9 @@
-package datatypes;
+package test.datatypes;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import datatypes.Contingut;
 
 import static org.junit.Assert.*;
 

@@ -1,6 +1,9 @@
-package datatypes;
+package test.datatypes;
 
 import org.junit.Test;
+
+import datatypes.Tree;
+import datatypes.TreeNode;
 
 import java.util.ArrayList;
 import java.util.List;

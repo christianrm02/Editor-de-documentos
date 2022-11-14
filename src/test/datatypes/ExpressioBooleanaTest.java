@@ -1,6 +1,10 @@
-package datatypes;
+package test.datatypes;
 
 import org.junit.Test;
+
+import datatypes.ExpressioBooleana;
+import datatypes.Tree;
+import datatypes.TreeNode;
 
 import static org.junit.Assert.*;
 

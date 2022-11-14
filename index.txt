@@ -1,0 +1,3 @@
+Ens trobem en el directori FONTS, en aquest directori trobem les classes implementades fins ara, els tests d'aquestes i el driver del nostre controlador de domini, incloent el stub utilitzat, el Makefile, i les libreries requerides:
+-Directori lib: Reuneix les biblioteques utilitzades pels nostres programes.
+-Directori src: En aquest directori trobem les classes implementades fins ara, els tests d'aquestes i el driver del nostre controlador de domini, incloent el stub utilitzat.

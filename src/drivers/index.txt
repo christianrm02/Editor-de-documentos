@@ -1,3 +1,3 @@
-Ens trobem en el directori FONTS/src/Drivers, en aquest directori hi trobem els drivers.
+Ens trobem en el directori FONTS/src/drivers, en aquest directori hi trobem els drivers.
 - DriverCtrlDomini: Driver amb totes les funcionalitats del controlador de domini. Esta pensat per ser usat de forma correcta, com ho faria la capa de presentacio.
 - MANIFEST.MF: Indica el main del driver.

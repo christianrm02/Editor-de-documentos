@@ -1,0 +1,10 @@
+Ens trobem en el directori FONTS/src/domini/datatypes, en aquest directori trobem les classes datatypes implementades:
+-Contingut: Arxiu .java on s'implementa la classe Contingut.
+-ContingutStub: Arxiu .java on s'implementa la classe ContingutStub. Necessari pel test de la classe Document.
+-Document: Arxiu .java on s'implementa la classe Document.
+-ExpressioBooleana: Arxiu .java on s'implementa la classe ExpressioBooleana.
+-Format: Arxiu .java on s'implementa l'enum Format (no s'utilitza en aquesta entrega).
+-Tree: Arxiu .java on s'implementa la classe Tree.
+-TreeNode: Arxiu .java on s'implementa la classe TreeNode.
+-Trie: Arxiu .java on s'implementa la classe Trie.
+-Utility: Arxiu .java on s'implementa la classe Utility.

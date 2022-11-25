@@ -1,6 +1,8 @@
-package transversal;
+package test.transversal;
 
 import org.junit.Test;
+
+import transversal.Pair;
 
 import static org.junit.Assert.*;
 

@@ -1,6 +1,9 @@
-package datatypes;
+package test.datatypes;
 
 import org.junit.Test;
+
+import datatypes.ContingutStub;
+import datatypes.Document;
 
 import java.util.ArrayList;
 import java.util.List;

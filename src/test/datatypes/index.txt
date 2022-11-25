@@ -1,0 +1,7 @@
+Ens trobem en el directori FONTS/src/test/datatypes, en aquest directori trobem els test de les classes datatypes implementades:
+-ContingutTest: Arxiu .java on s'implementa el test de la classe Contingut.
+-DocumentTest: Arxiu .java on s'implementa el test de la classe Document.
+-ExpressioBooleanaTest: Arxiu .java on s'implementa el test de la classe ExpressioBooleana.
+-TreeTest: Arxiu .java on s'implementa el test de la classe Tree.
+-TrieTest: Arxiu .java on s'implementa el test de la classe Trie.
+-UtilityTest: Arxiu .java on s'implementa el test de la classe Utility.

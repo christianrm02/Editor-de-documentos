@@ -1,0 +1,5 @@
+Ens trobem en el directori FONTS/src/test, en aquest directori trobem els jUnit tests de les classes implementades:
+-Directori datatypes: En aquest directori trobem els test de les classes datatypes implementades.
+-Directori indexs: En aquest directori trobem els test de les classes indexs implementades.
+-Directori transversal: En aquest directori trobem els test de les classes transversal implementades.
+-MainTest: Arxiu .java necessari per poder correr tots els tests a l'hora amb una comanda del make.

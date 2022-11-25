@@ -7,7 +7,7 @@ import java.util.List;
  * ContingutStub: Per fer el testing de les operacions getContingut i setContingut de la classe Document
  * @author Christian Rivero
  */
-class ContingutStub extends Contingut {
+public class ContingutStub extends Contingut {
 
     @Override
     public List<String> getFrases(){

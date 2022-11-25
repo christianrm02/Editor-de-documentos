@@ -9,18 +9,19 @@ public class Tree {
 
     public TreeNode root;
 
+    //Constructora
     public Tree(List<String> exp) {
         List<String> llista;
-        //for (String s : exp) System.out.print(s + ", ");
         llista = infixToPost(exp);
-        //for (String s : llista) System.out.print(s + ", ");
         root = expressionTree(llista);
     }
 
+    //Retorna true si s és un operador lògic
     private boolean isOperator(String s) {
         return s.length() == 1 && (s.equals("&") || s.equals("|") || s.equals("!") || s.equals("(") || s.equals(")"));
     }
 
+    //Retorna l'arrel de l'arbre que es crea a partir de la llista en notació postfix
     private TreeNode expressionTree(List<String> postfix){
         Stack<TreeNode> st = new Stack<>();
         TreeNode t1 = null;
@@ -33,9 +34,9 @@ public class Tree {
             }
             else {
                 node = new TreeNode(s);
+
                 if (!s.equals("!")) t1 = st.pop();
                 t2 = st.pop();
-                //System.out.println("pare: " + s + " left: " + t2.data + " right: " + t1.data);
 
                 node.leftNode = t2;
                 if (!s.equals("!")) node.rightNode = t1;
@@ -47,15 +48,16 @@ public class Tree {
         return node;
     }
 
+    //Retorna la prioritat de l'operador
     private int priority(String s) {
         if (s.equals("|")) {
-            return 1;              //Precedence of | 1
+            return 1;               //Precedence of | 1
         }
         else if (s.equals("&")) {
-            return 2;            //Precedence of & is 2
+            return 2;               //Precedence of & is 2
         }
         else if (s.equals("!")) {
-            return 3;            //Precedence of ! is 3
+            return 3;               //Precedence of ! is 3
         }
         else if (s.equals("(")) {
             return 0;
@@ -63,6 +65,7 @@ public class Tree {
         return -1;
     }
 
+    //Retorna una llista convertida de infix a postfix
     private List<String> infixToPost(List<String> infix) {
         Stack<String> st = new Stack<>();
         st.push("#"); //per mirar quan la pila és buida

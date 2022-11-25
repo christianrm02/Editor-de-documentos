@@ -1,4 +1,4 @@
-package indexs;
+package test.indexs;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
@@ -11,6 +11,7 @@ import java.util.Set;
 
 import org.junit.Test;
 
+import indexs.IndexExpBooleana;
 import transversal.Pair;
 
 /**
@@ -124,9 +125,9 @@ public class IndexExpBooleanaTest {
         Set<Integer> indexs1 = new HashSet<Integer>(Arrays.asList(2, 3, 4));
         Set<Integer> indexs2 = new HashSet<Integer>(Arrays.asList(4, 6, 10));
         Set<Integer> indexs3 = new HashSet<Integer>(Arrays.asList(8, 11));
-        List<Pair<String, String>> expected1 = Arrays.asList(pair1, pair1, pair2);
-        List<Pair<String, String>> expected2 = Arrays.asList(pair2, pair3, pair3);
-        List<Pair<String, String>> expected3 = Arrays.asList(pair3, pair3);
+        List<Pair<String, String>> expected1 = Arrays.asList(pair1, pair2);
+        List<Pair<String, String>> expected2 = Arrays.asList(pair2, pair3);
+        List<Pair<String, String>> expected3 = Arrays.asList(pair3);
 
         assertEquals(expected1, index.GetDocuments(indexs1));
         assertEquals(expected2, index.GetDocuments(indexs2));
@@ -185,7 +186,7 @@ public class IndexExpBooleanaTest {
         
         //Frases a buscar
         Set<Integer> test = new HashSet<Integer>(Arrays.asList(1, 10));
-        List<Pair<String, String>> expected = Arrays.asList(pair1, pair3);
+        List<Pair<String, String>> expected = Arrays.asList(pair3, pair1);
         index.ActualitzarAutor(autor1, titol1, "Rick Impostor");
         List<Pair<String, String>> actual = index.GetDocuments(test);
         assertEquals(expected, actual);
@@ -212,7 +213,7 @@ public class IndexExpBooleanaTest {
         
         //Frases a buscar
         Set<Integer> test = new HashSet<Integer>(Arrays.asList(1, 10));
-        List<Pair<String, String>> expected = Arrays.asList(pair1, pair3);
+        List<Pair<String, String>> expected = Arrays.asList(pair3, pair1);
         index.ActualitzarTitol(autor1, titol1, "NGGYU Impostor");
         List<Pair<String, String>> actual = index.GetDocuments(test);
         assertEquals(expected, actual);

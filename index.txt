@@ -1,0 +1,13 @@
+Ens trobem en el directori FONTS, en aquest directori trobem les classes implementades fins ara, els tests d'aquestes i el driver del nostre controlador de domini, incloent el stub utilitzat, el Makefile, i les libreries requerides:
+-Directori lib: Reuneix les biblioteques utilitzades pels tests jUnit.
+-Directori src: En aquest directori trobem les classes implementades fins ara, els tests d'aquestes i el driver del nostre controlador de domini, incloent el stub utilitzat.
+-Joc_de_proves_amb_comentaris.txt: Joc de proves que executa el driver amb comentaris per entendre els diferents tests i comprovacions.
+-Joc_de_proves_sense_comentaris_input_directe_pel_driver.txt: Joc de proves que executa el driver
+-Makefile: fitxer per compilar el programa. Opcions del makefile:
+    -make driver: compila el driver a la carpeta ../EXE/
+    -make tests: compila els tests jUnit a la carpeta ../EXE/output/
+    -make exec_driver: executa el driver sense joc de proves
+    -make exec_driver_jocdeproves: executa el driver amb el joc de proves esmentat anteriorment
+    -make exec_tests: executa tots els tests jUnit
+    -make exec_*nomdeclasse*: executa els tests per provar la classe *nomdeclasse*
+    -make clean: borra la carpeta ../EXE/

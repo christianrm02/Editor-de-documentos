@@ -1,0 +1,3 @@
+Ens trobem en el directori FONTS/src/test/indexs, en aquest directori trobem els test de les classes indexs implementats:
+-IndexExpBooleanaTest: Arxiu .java on s'implementa el test de la classe IndexExpBooleana.
+-IndexParaulaTFIDFTest: Arxiu .java on s'implementa el test de la classe IndexParaulaTFIDF.

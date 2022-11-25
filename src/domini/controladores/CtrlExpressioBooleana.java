@@ -13,6 +13,7 @@ public class CtrlExpressioBooleana {
 
     private Map<String, ExpressioBooleana> expressions;
 
+    //Constructora
     public CtrlExpressioBooleana() {
         expressions = new HashMap<>();
     }
@@ -21,6 +22,7 @@ public class CtrlExpressioBooleana {
         return expressions.containsKey(nom);
     }
 
+    //Per fer not
     private Set<Integer> not(Set<Integer> set, CtrlIndex ci) {
         int n = ci.GetNumFrases();
         Set<Integer> complementary = new HashSet<>();
@@ -42,10 +44,12 @@ public class CtrlExpressioBooleana {
         return set1;
     }
 
+    //Retorna true si s és un operador lògic
     private boolean isOperator(String s) {
         return s.length() == 1 && (s.equals("&") || s.equals("|") || s.equals("!"));
     }
 
+    //Funció recursiva que fa les operacions lògiques descrites a l'arbre
     private Set<Integer> cercaExpBol(TreeNode node, CtrlIndex ci) {
         if (!isOperator(node.data)) {
             String[] words = ParseFrase(node.data); //per la seqüècia
@@ -67,6 +71,7 @@ public class CtrlExpressioBooleana {
         }
     }
 
+    //Retorna una llista dels documents que contenen les frases que compleixen l'expressió booleana exp
     public List<Pair<String, String>> cercarExpressioBooleana(String exp, CtrlIndex ci) {
         ExpressioBooleana expB = new ExpressioBooleana(exp);
         Tree expTree = expB.getExpA();

@@ -1,8 +1,10 @@
-package datatypes;
+package test.datatypes;
 
 import static org.junit.Assert.assertArrayEquals;
 
 import org.junit.Test;
+
+import datatypes.Utility;
 
 /**
  * UtilityTest: Per fer el testing de la classe Utility

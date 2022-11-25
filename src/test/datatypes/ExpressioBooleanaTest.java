@@ -1,8 +1,10 @@
-package datatypes;
+package test.datatypes;
 
 import org.junit.Test;
 
-import java.util.ArrayList;
+import datatypes.ExpressioBooleana;
+import datatypes.Tree;
+import datatypes.TreeNode;
 
 import static org.junit.Assert.*;
 
@@ -17,7 +19,7 @@ public class ExpressioBooleanaTest {
      * Objectes de la prova: Es proven les constructores de la classe ExpressioBooleana.
      * Altres elements integrats de la prova: -
      * Fitxers de dades necessaris: -
-     * Valors estudiats: Es fa servir l’estratègia de caixa blanca. Es comprova que funcionen correctament les dues creadores.
+     * Valors estudiats: Es fa servir l’estratègia de caixa negra. Es comprova que funcionen correctament les dues creadores.
      * Efectes estudiats: -
      * Operativa: Executar el jUnit test.
      */
@@ -34,7 +36,7 @@ public class ExpressioBooleanaTest {
      * Objecte de la prova: Es prova l'operació getNom() de la classe ExpressioBooleana.
      * Altres elements integrats a la prova: -
      * Fitxers de dades necessaris: No calen fitxers de dades.
-     * Valors estudiats: Es fa servir l'estratègia de caixa negre. Com és una funcionalitat bàsica, el test també ho és.
+     * Valors estudiats: Es fa servir l'estratègia de caixa negra. Com és una funcionalitat bàsica, el test també ho és.
      * Efectes estudiats: -
      * Operativa: Executar el jUnit test.
      */
@@ -48,7 +50,7 @@ public class ExpressioBooleanaTest {
      * Objecte de la prova: Es prova l'operació getExp() de la classe ExpressioBooleana.
      * Altres elements integrats a la prova: -
      * Fitxers de dades necessaris: No calen fitxers de dades.
-     * Valors estudiats: Es fa servir l'estratègia de caixa negre. Com és una funcionalitat bàsica, el test també ho és.
+     * Valors estudiats: Es fa servir l'estratègia de caixa negra. Com és una funcionalitat bàsica, el test també ho és.
      * Efectes estudiats: -
      * Operativa: Executar el jUnit test.
      */
@@ -66,17 +68,6 @@ public class ExpressioBooleanaTest {
      * Efectes estudiats: -
      * Operativa: Executar el jUnit test.
      */
-    /*
-                             &(0)
-                      /                \
-                    &(1)              !(2)
-                /         \             /
-               &(3)         |(4)     joan(5)
-           /     \      /         \
-         &(6)  p3(7) hola adéu(8) pep(9)
-        /   \
-   p1(10)  p2(11)
-*/
     @Test
     public void getExpA() {
         ExpressioBooleana expTest = new ExpressioBooleana("Expressió 4", "{p1 p2 p3} & (\"hola adéu\" | pep) & !joan");
@@ -94,7 +85,17 @@ public class ExpressioBooleanaTest {
         TreeNode node9 = node4.rightNode;
         TreeNode node10 = node6.leftNode;
         TreeNode node11 = node6.rightNode;
-
+        /*
+                                     &(0)
+                              /                \
+                            &(1)              !(2)
+                        /         \             /
+                       &(3)         |(4)     joan(5)
+                   /     \      /         \
+                 &(6)  p3(7) hola adéu(8) pep(9)
+                /   \
+           p1(10)  p2(11)
+        */
         assertEquals("&", node0.data);
         assertEquals("&", node1.data);
         assertEquals("!", node2.data);

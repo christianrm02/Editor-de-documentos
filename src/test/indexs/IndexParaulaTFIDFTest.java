@@ -1,4 +1,4 @@
-package indexs;
+package test.indexs;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -10,6 +10,7 @@ import java.util.List;
 
 import org.junit.Test;
 
+import indexs.IndexParaulaTFIDF;
 import transversal.Pair;
 
 /**

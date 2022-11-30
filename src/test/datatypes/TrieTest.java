@@ -20,33 +20,33 @@ public class TrieTest {
     public void testInsertFind() {
         Trie trie = new Trie();
 
-        assertFalse("El trie no ha trobat la paraula", trie.Find(""));
-        trie.Insert("");
-        assertTrue("El trie ha trobat la paraula", trie.Find(""));
+        assertFalse("El trie no ha trobat la paraula", trie.FindDoc(""));
+        trie.InsertDoc("");
+        assertTrue("El trie ha trobat la paraula", trie.FindDoc(""));
         
-        trie.Insert("patata");
-        trie.Insert("Cogombre");
-        assertFalse("El trie no ha trobat la paraula", trie.Find("cogombre"));
-        assertTrue("El trie ha trobat la paraula", trie.Find("patata"));
-        assertFalse("El trie no ha trobat la paraula", trie.Find("Patata"));
-        assertFalse("El trie no ha trobat la paraula", trie.Find("patatá"));
+        trie.InsertDoc("patata");
+        trie.InsertDoc("Cogombre");
+        assertFalse("El trie no ha trobat la paraula", trie.FindDoc("cogombre"));
+        assertTrue("El trie ha trobat la paraula", trie.FindDoc("patata"));
+        assertFalse("El trie no ha trobat la paraula", trie.FindDoc("Patata"));
+        assertFalse("El trie no ha trobat la paraula", trie.FindDoc("patatá"));
         
-        trie.Insert("patatá");
-        trie.Insert("Patata");
-        assertTrue("El trie ha trobat la paraula", trie.Find("patata"));
-        assertTrue("El trie ha trobat la paraula", trie.Find("Patata"));
-        assertTrue("El trie ha trobat la paraula", trie.Find("patatá"));
+        trie.InsertDoc("patatá");
+        trie.InsertDoc("Patata");
+        assertTrue("El trie ha trobat la paraula", trie.FindDoc("patata"));
+        assertTrue("El trie ha trobat la paraula", trie.FindDoc("Patata"));
+        assertTrue("El trie ha trobat la paraula", trie.FindDoc("patatá"));
     }
     
     @Test
     public void testDelete() {
         Trie trie = new Trie();
 
-        trie.Insert("patata");
-        trie.Insert("patatal");
-        trie.Delete("patata");
-        assertFalse("El trie no ha trobat la paraula", trie.Find("patata"));
-        assertTrue("El trie ha trobat la paraula", trie.Find("patatal"));
+        trie.InsertDoc("patata");
+        trie.InsertDoc("patatal");
+        trie.DeleteDoc("patata");
+        assertFalse("El trie no ha trobat la paraula", trie.FindDoc("patata"));
+        assertTrue("El trie ha trobat la paraula", trie.FindDoc("patatal"));
     }
 
     @Test
@@ -56,12 +56,12 @@ public class TrieTest {
         List<String> expected2 = Arrays.asList(new String[]{"Manoló", "Manolo"});
         int expectedSize3 = 6;
 
-        trie.Insert("manolo");
-        trie.Insert("manol");
-        trie.Insert("Manolo");
-        trie.Insert("Manoló");
-        trie.Insert("manoló");
-        trie.Insert("patata");
+        trie.InsertDoc("manolo");
+        trie.InsertDoc("manol");
+        trie.InsertDoc("Manolo");
+        trie.InsertDoc("Manoló");
+        trie.InsertDoc("manoló");
+        trie.InsertDoc("patata");
 
         assertEquals(expected1, trie.SearchWordsPrefix("man"));
         assertEquals(expected2, trie.SearchWordsPrefix("Man"));
@@ -71,8 +71,8 @@ public class TrieTest {
         List<String> expectedd2 = Arrays.asList(new String[]{"Manoló"});
         int expecteddSize3 = 4;
 
-        trie.Delete("manolo");
-        trie.Delete("Manolo");
+        trie.DeleteDoc("manolo");
+        trie.DeleteDoc("Manolo");
 
         assertEquals(expectedd1, trie.SearchWordsPrefix("man"));
         assertEquals(expectedd2, trie.SearchWordsPrefix("Man"));

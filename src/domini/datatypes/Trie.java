@@ -2,8 +2,10 @@ package datatypes;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Trie: Estructura de dades per emmagatzemar strings
@@ -13,36 +15,86 @@ import java.util.List;
 public class Trie {
     
     private TrieNode root;
-    private int maxLength = 0;    
+    private int maxLength = 0;
+
+    private class TrieNode {
+
+        HashMap<Character, TrieNode> children;
+        boolean isEndWord = false;
+        Set<String> titols;
+    
+        TrieNode() {
+            children = new HashMap<>();
+            titols = new HashSet<>();
+        }
+    }
 
     public Trie() {
-        root = new TrieNode('\0');
+        root = new TrieNode();
     }
 
-    //Insertar paraula al trie
-    public void Insert(String word) {
+    //Insertar un nou document al trie
+    public void AfegirDoc(String autor, String titol) {
         TrieNode current = root;
     
-        for (char l: word.toCharArray()) {
-            current = current.children.computeIfAbsent(l, c -> new TrieNode(l));
+        for (char l: autor.toCharArray()) {
+            current = current.children.computeIfAbsent(l, c -> new TrieNode());
         }
         current.isEndWord = true;
+        current.titols.add(titol);
 
-        if(maxLength < word.length()) maxLength = word.length();
+        if(maxLength < autor.length()) maxLength = autor.length();
     }
 
-    //Retorna true si word es al trie
-    public boolean Find(String word) {
+    //Retorna true si un document es al trie
+    public boolean FindDoc(String autor, String titol) {
         TrieNode current = root;
-        for (int i = 0; i < word.length(); i++) {
-            char ch = word.charAt(i);
+        for (int i = 0; i < autor.length(); i++) {
+            char ch = autor.charAt(i);
             TrieNode node = current.children.get(ch);
             if (node == null) {
                 return false;
             }
             current = node;
         }
-        return current.isEndWord;
+        return current.titols.contains(titol);
+    }
+
+    //Esborra un document del trie. Si un autor es queda sense titols s'esborra tambe
+    public void EsborrarDoc(String autor, String titol) {
+        delete(root, autor, titol, 0);
+    }
+
+    //Actualitza el titol d'un document amb la precondicio de que existeixi
+    public void ActualitzarTitol(String autor, String titol, String newTitol) {
+        TrieNode current = root;
+        for (int i = 0; i < autor.length(); i++) {
+            char ch = autor.charAt(i);
+            TrieNode node = current.children.get(ch);
+            current = node;
+        }
+        current.titols.remove(titol);
+        current.titols.add(newTitol);
+    }
+
+    //Actualitza l'autor d'un document amb la precondicio de que existeixi
+    public void ActualitzarAutor(String autor, String titol, String newAutor) {
+        EsborrarDoc(autor, titol);
+        AfegirDoc(newAutor, titol);
+    }
+
+    //Retorna els titols d'un autor o un set buit si no existeix l'autor
+    public Set<String> GetTitolsAutor(String autor) {
+        TrieNode current = root;
+        for (int i = 0; i < autor.length(); i++) {
+            char ch = autor.charAt(i);
+            TrieNode node = current.children.get(ch);
+            if (node == null) {
+                return new HashSet<String>();
+            }
+            current = node;
+        }
+        return current.titols;
     }
 
     //Retorna les paraules del trie que comencen per prefix
@@ -66,27 +118,25 @@ public class Trie {
 
         return words;
     }
-
-    //Esborra una paraula del trie
-    public void Delete(String word) {
-        delete(root, word, 0);
-    }
     
-    //Recursivament esborra caracters del trie
-    private boolean delete(TrieNode current, String word, int index) {
-        if (index == word.length()) {
+    //Recursivament esborra nodes del trie
+    private boolean delete(TrieNode current, String autor, String titol, int index) {
+        //Quan arribem a l'ultim node
+        if (index == autor.length()) {
+            current.titols.remove(titol);
             if (!current.isEndWord) {
                 return false;
             }
             current.isEndWord = false;
-            return current.children.isEmpty();
+            return current.children.isEmpty() && current.titols.isEmpty();
         }
-        char ch = word.charAt(index);
+
+        char ch = autor.charAt(index);
         TrieNode node = current.children.get(ch);
         if (node == null) {
             return false;
         }
-        boolean shouldDeleteCurrentNode = delete(node, word, index + 1) && !node.isEndWord;
+        boolean shouldDeleteCurrentNode = delete(node, autor, titol, index + 1) && !node.isEndWord;
     
         if (shouldDeleteCurrentNode) {
             current.children.remove(ch);
@@ -111,18 +161,4 @@ public class Trie {
             prefix.deleteCharAt(level);
         }
     }
-
-}
-
-class TrieNode {
-
-    HashMap<Character, TrieNode> children;
-    char data;
-    boolean isEndWord;
-
-    TrieNode(char data) {
-        children = new HashMap<>();
-        this.data = data;
-    }
-
 }

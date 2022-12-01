@@ -7,6 +7,8 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.lang.String;
 
+import static datatypes.Utility.*;
+
 /**
  * @author Marc Roman
  */
@@ -32,33 +34,30 @@ public class CtrlDomini {
 
     // Getters de de document
     public List<String> getTitols() {
-        Set<String> s = cd.getTitols();
-        return new ArrayList<>(s);
+        return null;
     }
 
     public List<String> getAutors() {
-        Set<String> s = cd.getAutors();
-        return new ArrayList<>(s);
+        return ci.GetAutorsPrefix("");
     }
 
     public List<Pair<String, String>> getTitolsAutors() {
-        return cd.getClaus();
+        return null;
     }
 
     public List<String> getContingut(String autor, String titol) {
-        return cd.getContingut(autor, titol);
+        return null;
     }
 
-    public List<String> obrirDocument(String autor, String titol) {
+    public List<String> obrirDocument(String autor, String titol) { // s'haura de mirar
         cd.obreDocument(autor, titol);
         return cd.getContingutObert();
     }
 
     // Creacio de document
     public boolean crearDocument(String autor, String titol) {
-        boolean ed = cd.existsDocument(autor, titol);
+        boolean ed = ci.FindDoc(autor, titol);
         if (!ed) {
-            cd.crearDocument(autor, titol); // PRE: no existeix Document
             ci.AfegirDoc(autor, titol, new ArrayList<>());
         }
         return !ed;
@@ -67,41 +66,34 @@ public class CtrlDomini {
     // Destruccio de documents
     public void esborrarDocuments(List<Pair<String, String>> docs) {
         for (Pair<String, String> p : docs) {
-            boolean asegueix = cd.esborrarDocument(p.x, p.y);
             ci.EsborrarDoc(p.x, p.y);
-            if (!asegueix) ci.EsborrarAutor(p.x);
         }
     }
 
     // Modificadores de document
     public boolean modificarTitol(String autor, String titol, String newT) {
-        boolean ed = cd.existsDocument(autor, newT);
+        boolean ed = ci.FindDoc(autor, newT);
         if (!ed) {
-            cd.modificarTitol(autor, titol, newT);
             ci.ActualitzarTitol(autor, titol, newT);
         }
         return !ed;
     }
 
     public boolean modificarAutor(String autor, String titol, String newA) {
-        boolean ed = cd.existsDocument(newA, titol);
+        boolean ed = ci.FindDoc(newA, titol);
         if (!ed) {
-            boolean asegueix = cd.modificarAutor(autor, titol, newA);
             ci.ActualitzarAutor(autor, titol, newA);
-            if (!asegueix) ci.EsborrarAutor(autor);
         }
         return !ed;
     }
 
-    public void modificarContingut(String autor, String titol, String cont) {
-        cd.modificarContingut(cont);
-        List<String> c = cd.getContingutObert();
-        ci.ActualitzarContingut(autor, titol, c);
+    public void modificarContingut(String autor, String titol, String cont) { //s'ha de mirar q mes ha de fer
+        ci.ActualitzarContingut(autor, titol, converteix_a_frases(cont));
     }
 
     // Cerques
     public List<String> llistarTitolsdAutors(String autor) {
-        Set<String> a = cd.getTitolsAutor(autor);
+        Set<String> a = ci.GetTitolsAutor(autor);
         return new ArrayList<>(a);
     }
 

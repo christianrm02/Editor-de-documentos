@@ -1,5 +1,6 @@
 package datatypes;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -12,7 +13,7 @@ import java.util.Set;
  * Implementació bàsica del trie extreta de https://www.baeldung.com/trie-java
  * @author Èric Ryhr
  */
-public class Trie {
+public class Trie implements Serializable{
     
     private TrieNode root;
     private int maxLength = 0;

@@ -1,5 +1,12 @@
 package controladores;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -37,6 +44,10 @@ public class CtrlIndex {
         indexParaulaTFIDF.EsborrarDoc(autor, titol);
     }
 
+    public boolean FindDoc(String autor, String titol) {
+        return indexDocuments.FindDoc(autor, titol);
+    }
+
     public void ActualitzarTitol(String autor, String titol, String newTitol) {
         if(!indexDocuments.FindDoc(autor, titol)) return;
 
@@ -72,6 +83,10 @@ public class CtrlIndex {
         return indexParaulaTFIDF.GetKDocsSimilarS(new Pair<String, String>(autor, titol), K, estrategia);
     }
 
+    public List<Pair<String, String>> CercaPerRellevancia(String entrada, int K, boolean estrategia) {
+        return indexParaulaTFIDF.CercaPerRellevancia(entrada, K, estrategia);
+    }
+
     //Retorna els indexs de les frases que contenen paraula
     public Set<Integer> GetFrases(String paraula) {
         return indexExpBooleana.GetFrases(paraula);
@@ -88,6 +103,35 @@ public class CtrlIndex {
     //Retorna els documents que contenen les frases indexs
     public List<Pair<String, String>> GetDocuments(Set<Integer> indexs) {
         return indexExpBooleana.GetDocuments(indexs);
+    }
+
+    public void ImportarIndexs(byte[] info) {
+        try {
+            ByteArrayInputStream bais = new ByteArrayInputStream(info);
+            ObjectInputStream ois = new ObjectInputStream(bais);
+            List<Object> indexs = (ArrayList<Object>) ois.readObject();
+            indexDocuments = (Trie) indexs.get(0);
+            indexExpBooleana = (IndexExpBooleana) indexs.get(1);
+            indexParaulaTFIDF = (IndexParaulaTFIDF) indexs.get(2);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public byte[] ExportarIndexs() {
+        try {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ObjectOutputStream oos = new ObjectOutputStream(baos);
+            List<Object> indexs = Arrays.asList(indexDocuments, indexExpBooleana, indexParaulaTFIDF);
+            oos.writeObject(indexs);
+            oos.close();
+            return baos.toByteArray();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }

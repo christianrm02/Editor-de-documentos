@@ -13,13 +13,12 @@ import static datatypes.Utility.converteix_a_frases;
  * @author Marc Roman
  */
 public class CtrlDomini {
-    private CtrlDocument cd;
     private CtrlIndex ci;
     private CtrlExpressioBooleana ce;
+    private String titolAct, autorAct, contAct;
 
     // Constructora
     public CtrlDomini() {
-        cd = new CtrlDocument();
         ci = new CtrlIndex();
         ce = new CtrlExpressioBooleana();
     }
@@ -49,9 +48,11 @@ public class CtrlDomini {
         return null;
     }
 
-    public List<String> obrirDocument(String autor, String titol) { // s'haura de mirar
-        cd.obreDocument(autor, titol);
-        return cd.getContingutObert();
+    public String obrirDocument(String autor, String titol) { // s'haura de mirar
+        titolAct = titol;
+        autorAct = autor;
+        contAct = null;
+        return contAct;
     }
 
     // Creacio de document
@@ -110,10 +111,10 @@ public class CtrlDomini {
         return ce.cercarExpressioBooleana(exp, ci);
     }
 
-/*    // OPCIONAL
-    public List<Pair<String, String>> cercarPerRellevancia(List<String> paraules, int K) {
-        return null;
-    }*/
+    // OPCIONAL
+    public List<Pair<String, String>> cercarPerRellevancia(List<String> paraules, int K, boolean estrategia) {
+        return ci.CercaPerRellevancia(paraules, K, estrategia);
+    }
 
     // Getter d'expressions booleanes
     public List<Pair<String, String>> getAllExpressionsBooleanes() {

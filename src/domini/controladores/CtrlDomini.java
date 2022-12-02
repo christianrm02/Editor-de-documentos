@@ -32,7 +32,7 @@ public class CtrlDomini {
 
     }*/
 
-    // Getters de de document
+    // Getters de document
     public List<String> getTitols() {
         return null;
     }

@@ -4,8 +4,6 @@ package datatypes;
 
 import java.util.*;
 
-import transversal.Pair;
-
 /**
  * Utility: Funcions estàtiques per processar text
  * @author Èric Ryhr
@@ -48,42 +46,5 @@ public class Utility {
             }
         }
         return frases;
-    }
-
-    static public List<String> ordena_alfab_desc(List<String> l) {
-        Collections.reverse(l);
-        return l;
-    }
-
-    static public List<Pair<String, String>> ordena_alfab_desc_x(List<Pair<String, String>> l) {
-        Collections.reverse(l);
-        return l;
-    }
-
-    static public List<Pair<String, String>> ordena_alfab_asc_y(List<Pair<String, String>> l) {
-        Set<Pair<String, String>> s = new TreeSet<>();
-        for (int i = 0; i < l.size(); ++i) {
-            Pair<String, String> p = l.get(i);
-            s.add(new Pair<>(p.y, p.x));
-        }
-        List<Pair<String, String>> l2 = new ArrayList<>(s);
-        for (int i = 0; i < l2.size(); ++i) {
-            Pair<String, String> p = swap(l2.remove(i));
-            l.add(i, p);
-        }
-        return l2;
-    }
-
-    static public List<Pair<String, String>> ordena_alfab_desc_y(List<Pair<String, String>> l) {
-        List<Pair<String, String>> l2 = ordena_alfab_asc_y(l);
-        Collections.reverse(l2);
-        return l2;
-    }
-
-    static public Pair<String, String> swap(Pair<String, String> p) {
-        String aux = p.x;
-        p.x = p.y;
-        p.y = aux;
-        return p;
     }
 }

@@ -1,13 +1,13 @@
 package controladores;
 
-import transversal.*;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Set;
-import java.util.TreeSet;
-import java.lang.String;
+import transversal.Pair;
 
-import static datatypes.Utility.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
+import static datatypes.Ordeneitor.*;
+import static datatypes.Utility.converteix_a_frases;
 
 /**
  * @author Marc Roman

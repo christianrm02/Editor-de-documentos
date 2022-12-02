@@ -10,6 +10,7 @@ import static datatypes.Ordeneitor.*;
 import static datatypes.Utility.converteix_a_frases;
 
 /**
+ *
  * @author Marc Roman
  */
 public class CtrlDomini {
@@ -112,7 +113,7 @@ public class CtrlDomini {
     }
 
     // OPCIONAL
-    public List<Pair<String, String>> cercarPerRellevancia(List<String> paraules, int K, boolean estrategia) {
+    public List<Pair<String, String>> cercarPerRellevancia(String paraules, int K, boolean estrategia) {
         return ci.CercaPerRellevancia(paraules, K, estrategia);
     }
 

@@ -1,5 +1,6 @@
 package indexs;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -14,7 +15,7 @@ import datatypes.Utility;
  * IndexExpBooleana: Index per les cerques per expressió booleana
  * @author Èric Ryhr
  */
-public class IndexExpBooleana {
+public class IndexExpBooleana implements Serializable{
     
     private HashMap<String, List<Boolean>> indexParaulaFrase;   //Per cada paraula indica a quines frases apareix
     private List<Pair<String, String>> indexFraseDocument;      //Per cada frase(index) indica a quin document pertany 

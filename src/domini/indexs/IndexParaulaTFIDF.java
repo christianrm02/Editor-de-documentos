@@ -1,6 +1,7 @@
 package indexs;
 
 import java.util.PriorityQueue;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -18,18 +19,18 @@ import datatypes.Utility;
  * IndexParaulaTFIDF: Index de semblança entre documents
  * @author Èric Ryhr
  */
-public class IndexParaulaTFIDF {
+public class IndexParaulaTFIDF implements Serializable{
 
     static Set<String> stopWords;
     
     //Index TFIDFs per document i paraula. x es TF i y es TFIDF
     private TreeMap<Pair<String, String>, TreeMap<String, Pair<Double, Double>>> indexTFIDF;
     //Index nombre de documents on apareix la paraula
-    private TreeMap<String, Integer> indexGlobalTF;
+    private TreeMap<String, Integer> indexNumDocumentsParaula;
 
     public IndexParaulaTFIDF() {
         indexTFIDF = new TreeMap<Pair<String, String>, TreeMap<String, Pair<Double, Double>>>();
-        indexGlobalTF = new TreeMap<String, Integer>();
+        indexNumDocumentsParaula = new TreeMap<String, Integer>();
         if(stopWords == null) readStopWords();
     }
 
@@ -41,11 +42,11 @@ public class IndexParaulaTFIDF {
 
         //Creem una nova fila pel nou document i en calculem les Term Frequencies
         TreeMap<String, Pair<Double, Double>> infoDoc = new TreeMap<>();
-        calcularTFs(infoDoc, paraules, numWordsDoc);
+        calcularTFs(infoDoc, paraules, numWordsDoc, false);
         indexTFIDF.put(autorTitol, infoDoc);
 
         //Actualitzem les frequencies globals i els TFIDFs
-        calcularGlobalTFs(paraules);
+        calcularNumDocumentsParaules(paraules);
         calcularTFIDFs();
     }
 
@@ -56,8 +57,8 @@ public class IndexParaulaTFIDF {
         //Per cada paraula del document actualitzem indexGlobalTF
         for(Map.Entry<String, Pair<Double, Double>> infoWord : infoDoc.entrySet()) {
             String paraula = infoWord.getKey();
-            int newGlobalTF = indexGlobalTF.get(paraula) - 1;
-            indexGlobalTF.put(paraula, newGlobalTF);
+            int newGlobalTF = indexNumDocumentsParaula.get(paraula) - 1;
+            indexNumDocumentsParaula.put(paraula, newGlobalTF);
         }
 
         indexTFIDF.remove(autorTitol);
@@ -108,6 +109,49 @@ public class IndexParaulaTFIDF {
         for (Pair<String, String> doc : indexTFIDF.keySet()) {
             if(doc.equals(autorTitol)) continue;
 
+            TreeMap<String, Pair<Double, Double>> docTFIDF = indexTFIDF.get(doc);
+            double metric = cosinusMetric(qTFIDF, docTFIDF, estrategia);
+
+            docsSemblants.add(new Pair<Double, Pair<String, String>>(metric, doc));
+        }
+        
+        //Retornem els K primers resultats
+        List<Pair<String, String>> result = new ArrayList<Pair<String, String>>();
+        for(int i = 0; i < K; i++) {
+            if(docsSemblants.size() == 0) return result;
+            result.add(docsSemblants.poll().y);
+        }
+        
+        return result;
+    }
+
+    public List<Pair<String, String>> CercaPerRellevancia(String entrada, int K, boolean estrategia) {
+        //Obtenim la llista de TF-IDF's de l'entrada
+        TreeMap<String, Pair<Double, Double>> qTFIDF = new TreeMap<>();
+        //Juntem totes les paraules de l'entrada en una llista
+        List<String> paraules = getAllWords(Arrays.asList(entrada));
+        int numWordsDoc = paraules.size();
+
+        //TFs de la query
+        calcularTFs(qTFIDF, paraules, numWordsDoc, true);
+        //TF-IDFs de la query
+        for(Map.Entry<String,Pair<Double, Double>> infoWord : qTFIDF.entrySet()) {
+            String paraula = infoWord.getKey();
+            infoWord.getValue().y = infoWord.getValue().x * idf(paraula);
+        }
+
+        //Creem un comparador que ordeni elements de gran a petit
+        Comparator<Pair<Double, Pair<String, String>>> customComparator = new Comparator<Pair<Double, Pair<String, String>>>() {
+            @Override
+            public int compare(Pair<Double, Pair<String, String>> s1, Pair<Double, Pair<String, String>> s2) {
+                return Double.compare(s2.x, s1.x);
+            }
+        };
+        //Aqui colocarem els documents en ordre de similaritat
+        PriorityQueue<Pair<Double, Pair<String, String>>> docsSemblants = new PriorityQueue<Pair<Double, Pair<String, String>>>(customComparator);
+
+        //Comparem tots els documents amb query
+        for (Pair<String, String> doc : indexTFIDF.keySet()) {
             TreeMap<String, Pair<Double, Double>> docTFIDF = indexTFIDF.get(doc);
             double metric = cosinusMetric(qTFIDF, docTFIDF, estrategia);
 
@@ -180,16 +224,17 @@ public class IndexParaulaTFIDF {
     }
 
     private double idf(String word) {
-        return Math.log((1+indexTFIDF.size())/(1+indexGlobalTF.get(word))) + 1;
+        return Math.log((1+indexTFIDF.size())/(1+indexNumDocumentsParaula.get(word))) + 1;
     }
 
-    private void calcularTFs(TreeMap<String, Pair<Double, Double>> infoDoc, List<String> paraules, int numWordsDoc){
+    private void calcularTFs(TreeMap<String, Pair<Double, Double>> infoDoc, List<String> paraules, int numWordsDoc, boolean ignoreNewWords){
         //Sumem les paraules que apareixen al document
         for(String paraula : paraules) {
             if(stopWords.contains(paraula)) continue;
             //Si la paraula no existia afegim una nova columna al index global de paraules
-            if(!indexGlobalTF.containsKey(paraula)) {
-                indexGlobalTF.put(paraula, 0);
+            if(!indexNumDocumentsParaula.containsKey(paraula)) {
+                if(ignoreNewWords) continue; //No afegirem la paraula al index
+                else indexNumDocumentsParaula.put(paraula, 0);
             }
             //Sumem 1 a TF
             if(infoDoc.get(paraula) == null) infoDoc.put(paraula, new Pair<Double, Double>(1.0, 0.0));
@@ -206,7 +251,7 @@ public class IndexParaulaTFIDF {
         }
     }
 
-    private void calcularGlobalTFs(List<String> paraules) {
+    private void calcularNumDocumentsParaules(List<String> paraules) {
         //Per cada paraula recorrem la seva columna del index i comptem els cops que el seu TF > 0
         for (String paraula : paraules) {
             int count = 0; 
@@ -214,7 +259,7 @@ public class IndexParaulaTFIDF {
                 if(infoDoc.get(paraula) != null) 
                     if(infoDoc.get(paraula).x > 0.0) count++;
             }
-            indexGlobalTF.put(paraula, count);
+            indexNumDocumentsParaula.put(paraula, count);
         }
     }
 

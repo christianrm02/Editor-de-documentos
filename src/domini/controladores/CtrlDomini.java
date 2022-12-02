@@ -1,25 +1,24 @@
 package controladores;
 
-import transversal.*;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Set;
-import java.util.TreeSet;
-import java.lang.String;
+import transversal.Pair;
 
-import static datatypes.Utility.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
+import static datatypes.Ordeneitor.*;
+import static datatypes.Utility.converteix_a_frases;
 
 /**
  * @author Marc Roman
  */
 public class CtrlDomini {
-    private CtrlDocument cd;
     private CtrlIndex ci;
     private CtrlExpressioBooleana ce;
+    private String titolAct, autorAct, contAct;
 
     // Constructora
     public CtrlDomini() {
-        cd = new CtrlDocument();
         ci = new CtrlIndex();
         ce = new CtrlExpressioBooleana();
     }
@@ -32,7 +31,7 @@ public class CtrlDomini {
 
     }*/
 
-    // Getters de de document
+    // Getters de document
     public List<String> getTitols() {
         return null;
     }
@@ -49,9 +48,11 @@ public class CtrlDomini {
         return null;
     }
 
-    public List<String> obrirDocument(String autor, String titol) { // s'haura de mirar
-        cd.obreDocument(autor, titol);
-        return cd.getContingutObert();
+    public String obrirDocument(String autor, String titol) { // s'haura de mirar
+        titolAct = titol;
+        autorAct = autor;
+        contAct = null;
+        return contAct;
     }
 
     // Creacio de document
@@ -110,10 +111,10 @@ public class CtrlDomini {
         return ce.cercarExpressioBooleana(exp, ci);
     }
 
-/*    // OPCIONAL
-    public List<Pair<String, String>> cercarPerRellevancia(List<String> paraules, int K) {
-        return null;
-    }*/
+    // OPCIONAL
+    public List<Pair<String, String>> cercarPerRellevancia(List<String> paraules, int K, boolean estrategia) {
+        return ci.CercaPerRellevancia(paraules, K, estrategia);
+    }
 
     // Getter d'expressions booleanes
     public List<Pair<String, String>> getAllExpressionsBooleanes() {

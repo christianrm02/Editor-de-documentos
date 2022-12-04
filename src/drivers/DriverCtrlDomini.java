@@ -107,15 +107,6 @@ public class DriverCtrlDomini {
         if (esp) espera();
     }
 
-    public void tGetTitols() {
-        if (nDocuments > 0) {
-            System.out.println("A continuacio tenim els titols de tots els documents existents:");
-            List<String> titols = cd.getTitols();
-            for (String t : titols) System.out.println(t);
-        } else System.out.println("No hi ha titols a mostrar, crea un document abans!");
-        if (esp) espera();
-    }
-
     public void tGetAutors() {
         if (nDocuments > 0) {
             System.out.println("A continuacio tenim els autors de tots els documents existents:");
@@ -233,7 +224,7 @@ public class DriverCtrlDomini {
             TreeMap<Integer, Pair<String, String>> m = escriuClaus();
             String docSel = entrada.nextLine();
             Pair<String, String> p = m.get(Integer.valueOf(docSel));
-            List<String> cont = cd.getContingut(p.x, p.y);
+            String cont = cd.getContingut(p.x, p.y);
             for (String c : cont) System.out.print(c);
             System.out.print("\n");
             System.out.print("Això ja no és contingut!");

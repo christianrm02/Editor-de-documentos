@@ -32,12 +32,15 @@ public class CtrlDomini {
     }*/
 
     // Getters de document
+    public List<String> getAutors() {
+        return new ArrayList<>(ci.GetAutorsPrefix(""));
+    }
 
     public List<Pair<String, String>> getTitolsAutors() {
         return new ArrayList<>(ci.GetKeys());
     }
 
-    public List<String> getContingut(String autor, String titol) {
+    public String getContingut(String autor, String titol) {
         return null;
     }
 

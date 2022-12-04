@@ -225,7 +225,7 @@ public class DriverCtrlDomini {
             String docSel = entrada.nextLine();
             Pair<String, String> p = m.get(Integer.valueOf(docSel));
             String cont = cd.getContingut(p.x, p.y);
-            for (String c : cont) System.out.print(c);
+            System.out.print(cont);
             System.out.print("\n");
             System.out.print("Això ja no és contingut!");
         } else System.out.println("No hi ha cap document, crea'n un abans!");
@@ -367,10 +367,6 @@ public class DriverCtrlDomini {
                 // Si no es crea cap document, la resta d'operacions no funcionen, excepte les de crear, eliminar, consultar i modificar expressions booleanes.
                 case "2": { // Destructora de documents
                     dcd.tEsborrarDocuments();
-                    break;
-                }
-                case "3": { // Getter dels titols de tots els documents
-                    dcd.tGetTitols();
                     break;
                 }
                 case "4": { // Getter dels autors de tots els documents

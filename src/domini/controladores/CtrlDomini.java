@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import static datatypes.Ordeneitor.*;
 import static datatypes.Utility.converteix_a_frases;
 
 /**
@@ -28,21 +27,14 @@ public class CtrlDomini {
 
     }
 
-    public void exportarFitxer(String autor, String titol, String loc, int format) {
+    public void exportarFitxer(String autor, String titol, String loc, Format format) {
 
     }*/
 
     // Getters de document
-    public List<String> getTitols() {
-        return null;
-    }
-
-    public List<String> getAutors() {
-        return ci.GetAutorsPrefix("");
-    }
 
     public List<Pair<String, String>> getTitolsAutors() {
-        return null;
+        return new ArrayList<>(ci.GetKeys());
     }
 
     public List<String> getContingut(String autor, String titol) {
@@ -100,7 +92,7 @@ public class CtrlDomini {
     }
 
     public List<String> llistarAutorsPrefix(String prefix) {
-        return ci.GetAutorsPrefix(prefix);
+        return new ArrayList<>(ci.GetAutorsPrefix(prefix));
     }
 
     public List<Pair<String, String>> llistarKDocumentsS(String autor, String titol, int K, boolean estrategia) {

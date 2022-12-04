@@ -15,8 +15,19 @@
     </properties>
     <border type="none"/>
     <children>
-      <grid id="591e6" layout-manager="GridLayoutManager" row-count="5" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-        <margin top="0" left="0" bottom="0" right="0"/>
+      <grid id="591e6" layout-manager="FormLayout">
+        <rowspec value="center:max(d;4px):noGrow"/>
+        <rowspec value="top:4dlu:noGrow"/>
+        <rowspec value="center:max(d;4px):noGrow"/>
+        <rowspec value="top:4dlu:noGrow"/>
+        <rowspec value="center:d:grow"/>
+        <rowspec value="top:4dlu:noGrow"/>
+        <rowspec value="center:max(d;4px):noGrow"/>
+        <rowspec value="top:4dlu:noGrow"/>
+        <rowspec value="center:max(d;4px):noGrow"/>
+        <rowspec value="top:4dlu:noGrow"/>
+        <rowspec value="center:max(d;4px):noGrow"/>
+        <colspec value="fill:d:grow"/>
         <constraints>
           <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
             <preferred-size width="173" height="139"/>
@@ -28,127 +39,61 @@
         </properties>
         <border type="none"/>
         <children>
-          <component id="b1af7" class="javax.swing.JButton" binding="button2" default-binding="true">
+          <component id="b1af7" class="javax.swing.JButton" binding="creaButton" default-binding="true">
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false">
                 <preferred-size width="85" height="30"/>
               </grid>
+              <forms/>
             </constraints>
             <properties>
-              <text value="Button"/>
+              <text value="Crea"/>
             </properties>
           </component>
-          <component id="ca01f" class="javax.swing.JButton" binding="button3" default-binding="true">
+          <component id="ca01f" class="javax.swing.JButton" binding="importaButton" default-binding="true">
             <constraints>
-              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false">
+              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false">
                 <preferred-size width="85" height="30"/>
               </grid>
+              <forms/>
             </constraints>
             <properties>
-              <text value="Button"/>
+              <text value="Importa"/>
             </properties>
           </component>
-          <component id="1ec1e" class="javax.swing.JButton" binding="button4" default-binding="true">
+          <component id="7d562" class="javax.swing.JButton" binding="ajudaButton" default-binding="true">
             <constraints>
-              <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false">
+              <grid row="10" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false">
                 <preferred-size width="85" height="30"/>
               </grid>
+              <forms/>
             </constraints>
             <properties>
-              <text value="Button"/>
+              <text value="Ajuda"/>
             </properties>
           </component>
-          <component id="7d562" class="javax.swing.JButton" binding="button5" default-binding="true">
+          <component id="bd11" class="javax.swing.JButton" binding="button1" default-binding="true">
             <constraints>
-              <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false">
-                <preferred-size width="85" height="30"/>
-              </grid>
+              <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <forms/>
             </constraints>
             <properties>
-              <text value="Button"/>
+              <text value="| ¬ !&#10;" noi18n="true"/>
             </properties>
           </component>
-          <vspacer id="88507">
+          <vspacer id="8fd9c">
             <constraints>
-              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+              <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+              <forms defaultalign-vert="false"/>
             </constraints>
           </vspacer>
-        </children>
-      </grid>
-      <grid id="41547" layout-manager="FormLayout">
-        <rowspec value="center:max(d;4px):noGrow"/>
-        <rowspec value="top:4dlu:noGrow"/>
-        <rowspec value="center:d:grow"/>
-        <colspec value="fill:d:grow"/>
-        <constraints>
-          <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-          <forms defaultalign-vert="false"/>
-        </constraints>
-        <properties/>
-        <border type="none"/>
-        <children>
-          <component id="9a68" class="javax.swing.JLabel">
+          <component id="8508d" class="javax.swing.JButton" binding="busquedaButton">
             <constraints>
-              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="1" fill="0" indent="0" use-parent-layout="false"/>
-              <forms defaultalign-horz="false"/>
+              <grid row="8" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <forms/>
             </constraints>
             <properties>
-              <text value="Titulos"/>
-            </properties>
-          </component>
-          <component id="7f1fc" class="javax.swing.JList" binding="list1" default-binding="true">
-            <constraints>
-              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="2" anchor="0" fill="3" indent="0" use-parent-layout="false">
-                <preferred-size width="150" height="50"/>
-              </grid>
-              <forms defaultalign-vert="false"/>
-            </constraints>
-            <properties>
-              <model>
-                <item value="Vida"/>
-                <item value="Camino"/>
-                <item value="Day"/>
-              </model>
-              <selectionMode value="0"/>
-            </properties>
-          </component>
-        </children>
-      </grid>
-      <grid id="5e033" layout-manager="FormLayout">
-        <rowspec value="center:max(d;4px):noGrow"/>
-        <rowspec value="top:11dlu:noGrow"/>
-        <rowspec value="center:d:grow"/>
-        <colspec value="fill:d:grow"/>
-        <constraints>
-          <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-          <forms defaultalign-vert="false"/>
-        </constraints>
-        <properties/>
-        <border type="none"/>
-        <children>
-          <component id="509eb" class="javax.swing.JLabel">
-            <constraints>
-              <grid row="0" column="0" row-span="2" col-span="1" vsize-policy="0" hsize-policy="0" anchor="1" fill="0" indent="0" use-parent-layout="false"/>
-              <forms defaultalign-horz="false" defaultalign-vert="false"/>
-            </constraints>
-            <properties>
-              <text value="Autores"/>
-            </properties>
-          </component>
-          <component id="43d9a" class="javax.swing.JList" binding="list2" default-binding="true">
-            <constraints>
-              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="2" anchor="0" fill="3" indent="0" use-parent-layout="false">
-                <preferred-size width="150" height="50"/>
-              </grid>
-              <forms defaultalign-vert="false"/>
-            </constraints>
-            <properties>
-              <dropMode value="USE_SELECTION"/>
-              <model>
-                <item value="Joan"/>
-                <item value="Alex"/>
-                <item value="Pep"/>
-              </model>
+              <text value="Búsqueda &gt;"/>
             </properties>
           </component>
         </children>
@@ -162,6 +107,16 @@
           <text value="X"/>
         </properties>
       </component>
+      <grid id="d0998" binding="tablePanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints>
+          <grid row="2" column="1" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <forms defaultalign-vert="false"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children/>
+      </grid>
     </children>
   </grid>
 </form>

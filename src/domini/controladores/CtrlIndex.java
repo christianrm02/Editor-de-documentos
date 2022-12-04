@@ -5,8 +5,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -71,11 +69,15 @@ public class CtrlIndex {
         indexParaulaTFIDF.ActualitzarContingut(autor, titol, contingut);
     }
 
+    public Set<Pair<String, String>> GetKeys() {
+        return indexDocuments.GetKeys();
+    }
+
     public Set<String> GetTitolsAutor(String autor) {
         return indexDocuments.GetTitolsAutor(autor);
     }
 
-    public List<String> GetAutorsPrefix(String prefix) {
+    public Set<String> GetAutorsPrefix(String prefix) {
         return indexDocuments.SearchWordsPrefix(prefix);
     }
 
@@ -109,10 +111,10 @@ public class CtrlIndex {
         try {
             ByteArrayInputStream bais = new ByteArrayInputStream(info);
             ObjectInputStream ois = new ObjectInputStream(bais);
-            List<Object> indexs = (ArrayList<Object>) ois.readObject();
-            indexDocuments = (Trie) indexs.get(0);
-            indexExpBooleana = (IndexExpBooleana) indexs.get(1);
-            indexParaulaTFIDF = (IndexParaulaTFIDF) indexs.get(2);
+            Object[] indexs = (Object[]) ois.readObject();
+            indexDocuments = (Trie) indexs[0];
+            indexExpBooleana = (IndexExpBooleana) indexs[1];
+            indexParaulaTFIDF = (IndexParaulaTFIDF) indexs[2];
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
@@ -124,7 +126,7 @@ public class CtrlIndex {
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             ObjectOutputStream oos = new ObjectOutputStream(baos);
-            List<Object> indexs = Arrays.asList(indexDocuments, indexExpBooleana, indexParaulaTFIDF);
+            Object[] indexs = new Object[] {indexDocuments, indexExpBooleana, indexParaulaTFIDF};
             oos.writeObject(indexs);
             oos.close();
             return baos.toByteArray();

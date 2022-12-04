@@ -1,12 +1,12 @@
 package datatypes;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
+
+import transversal.Pair;
 
 /**
  * Trie: Estructura de dades per emmagatzemar strings
@@ -84,6 +84,13 @@ public class Trie implements Serializable{
         AfegirDoc(newAutor, titol);
     }
 
+    public Set<Pair<String, String>> GetKeys() {
+        Set<Pair<String, String>> keys = new HashSet<>();
+        StringBuilder s = new StringBuilder();
+        getKeys(root, maxLength, s, keys);
+        return keys;
+    }
+
     //Retorna els titols d'un autor o un set buit si no existeix l'autor
     public Set<String> GetTitolsAutor(String autor) {
         TrieNode current = root;
@@ -99,8 +106,8 @@ public class Trie implements Serializable{
     }
 
     //Retorna les paraules del trie que comencen per prefix
-    public List<String> SearchWordsPrefix(String prefix) {   
-        List<String> words = new ArrayList<String>();
+    public Set<String> SearchWordsPrefix(String prefix) {   
+        Set<String> words = new HashSet<String>();
         
         TrieNode current = root;
         //Fem un recorregut fins al node on acaba el prefix
@@ -146,8 +153,8 @@ public class Trie implements Serializable{
         return false;
     }
 
-    //Retorna a la llista words recursivament les paraules que troba des del node rootNode amb el prefix
-    private void getWords(TrieNode node, int level, StringBuilder prefix, List<String> words) {
+    //Retorna al set words recursivament les paraules que troba des del node rootNode amb el prefix
+    private void getWords(TrieNode node, int level, StringBuilder prefix, Set<String> words) {
 
         if(node.isEndWord){
             words.add(prefix.toString());
@@ -160,6 +167,26 @@ public class Trie implements Serializable{
             prefix = prefix.insert(level, character); 
             getWords(children.get(character), level+1, prefix, words);
             prefix.deleteCharAt(level);
+        }
+    }
+
+    //Retorna al set keys recursivament les keys autor+titol que troba des del node root
+    private void getKeys(TrieNode node, int level, StringBuilder autor, Set<Pair<String,String>> keys) {
+
+        if(node.isEndWord){
+            for (String titol : node.titols) {
+                Pair<String, String> key = new Pair<>(autor.toString(), titol);
+                keys.add(key);
+            }
+        }
+
+        HashMap<Character, TrieNode> children = node.children;
+        Iterator<Character> iterator = children.keySet().iterator();
+        while (iterator.hasNext()) {
+            char character = iterator.next();
+            autor = autor.insert(level, character); 
+            getKeys(children.get(character), level+1, autor, keys);
+            autor.deleteCharAt(level);
         }
     }
 }

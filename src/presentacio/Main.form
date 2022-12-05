@@ -72,21 +72,17 @@
               <text value="Ajuda"/>
             </properties>
           </component>
-          <component id="bd11" class="javax.swing.JButton" binding="button1" default-binding="true">
+          <component id="bd11" class="javax.swing.JButton" binding="gestióExpressionsBooleanesButton" default-binding="true">
             <constraints>
               <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
               <forms/>
             </constraints>
             <properties>
-              <text value="| ¬ !&#10;" noi18n="true"/>
+              <horizontalAlignment value="0"/>
+              <horizontalTextPosition value="0"/>
+              <text value="Gestió expressions booleanes" noi18n="true"/>
             </properties>
           </component>
-          <vspacer id="8fd9c">
-            <constraints>
-              <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
-              <forms defaultalign-vert="false"/>
-            </constraints>
-          </vspacer>
           <component id="8508d" class="javax.swing.JButton" binding="busquedaButton">
             <constraints>
               <grid row="8" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
@@ -96,6 +92,12 @@
               <text value="Búsqueda &gt;"/>
             </properties>
           </component>
+          <vspacer id="bbc8a">
+            <constraints>
+              <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+              <forms defaultalign-vert="false"/>
+            </constraints>
+          </vspacer>
         </children>
       </grid>
       <component id="f9f5f" class="javax.swing.JButton" binding="xButton" default-binding="true">
@@ -117,6 +119,16 @@
         <border type="none"/>
         <children/>
       </grid>
+      <component id="9622b" class="javax.swing.JLabel" binding="CapDocLabel">
+        <constraints>
+          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="9" fill="0" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <font name="Roboto Light" size="15" style="1"/>
+          <text value="Encara no hi ha cap document, els pots crear o importar."/>
+        </properties>
+      </component>
     </children>
   </grid>
 </form>

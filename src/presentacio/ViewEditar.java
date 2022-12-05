@@ -1,18 +1,20 @@
 package presentacio;
 import javax.swing.*;
 import javax.swing.text.StyledDocument;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import presentacio.JEditableLabel;
 
 public class ViewEditar extends JFrame {
     private JPanel panel1;
-    private JButton desarButton;
-    private JButton exportarButton;
+    protected JButton desarButton;
+    protected JButton exportarButton;
     private JButton xButton;
     private JButton sortirButton;
     private JLabel titol;
     private JLabel autor;
-    private JTextPane textPane1;
+    protected JTextPane textPane1;
 
     public ViewEditar(String title, String t, String a, String cont) {
         setContentPane(panel1);
@@ -24,6 +26,17 @@ public class ViewEditar extends JFrame {
         titol.setText(t);
         autor.setText(a);
         textPane1.setText(cont);
+        /*
+        sortirButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String contNou = textPane1.getText();
+                if (!cont.equals(contNou)) cp.tancaDocument(contNou);
+                else cp.tancaDocument();
+            }
+        });*/
+
+
 
         validate();
     }

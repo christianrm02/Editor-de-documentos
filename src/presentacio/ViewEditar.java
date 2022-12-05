@@ -31,12 +31,19 @@ public class ViewEditar extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String contNou = textPane1.getText();
-                if (!cont.equals(contNou)) cp.tancaDocument(contNou);
-                else cp.tancaDocument();
+                if (!cont.equals(contNou)) cp.desarDocument(contNou);
+                cp.tancaDocument();
             }
         });*/
 
-
+        /*
+        desarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String contNou = textPane1.getText();
+                if (!cont.equals(contNou)) cp.desarDocument(contNou);
+            }
+        });*/
 
         validate();
     }

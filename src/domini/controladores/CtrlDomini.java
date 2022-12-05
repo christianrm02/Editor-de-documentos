@@ -52,10 +52,10 @@ public class CtrlDomini {
     }
 
     // Creacio de document
-    public boolean crearDocument(String autor, String titol) {
+    public boolean crearDocument(String autor, String titol, String cont) {
         boolean ed = ci.FindDoc(autor, titol);
         if (!ed) {
-            ci.AfegirDoc(autor, titol, new ArrayList<>());
+            ci.AfegirDoc(autor, titol, converteix_a_frases(cont));
         }
         return !ed;
     }

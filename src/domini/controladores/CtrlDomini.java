@@ -1,5 +1,6 @@
 package controladores;
 
+import persistencia.CtrlPersistencia;
 import transversal.Pair;
 
 import java.util.ArrayList;
@@ -15,12 +16,23 @@ import static datatypes.Utility.converteix_a_frases;
 public class CtrlDomini {
     private CtrlIndex ci;
     private CtrlExpressioBooleana ce;
+    private CtrlPersistencia cp;
     private String titolAct, autorAct, contAct;
 
     // Constructora
     public CtrlDomini() {
         ci = new CtrlIndex();
         ce = new CtrlExpressioBooleana();
+        cp = new CtrlPersistencia();
+    }
+
+    public List<Pair<String, String>> init() {
+        ci.ImportarIndexs(cp.ImportarIndexs());
+        return getTitolsAutors();
+    }
+
+    public void tancar() {
+        cp.ExportarIndexs(ci.ExportarIndexs());
     }
 
 /*    public void carregaFitxers(List<String> locs) {

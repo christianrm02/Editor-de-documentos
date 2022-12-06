@@ -37,6 +37,7 @@ public class Main extends JFrame {
         setContentPane(panel1);
         setTitle("Editor de textos");
         setSize(1000, 300);
+        setMinimumSize(new Dimension(200, 200));
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
 
@@ -70,8 +71,6 @@ public class Main extends JFrame {
                 {"Lo que el viento se llevó", "Pepe", LocalDate.of(1972, 2, 23) + " " + LocalTime.of(20, 03, 15, 0003).truncatedTo(ChronoUnit.SECONDS)}};/*
 
 
-
-
                 {"Day", "Pepe", LocalDate.now() + " " + LocalTime.now()},
                 {"Rio", "Romero", LocalDate.now() + " " + LocalTime.now()},
                 {"Camino", "Alex", LocalDate.now() + " " + LocalTime.now()},
@@ -94,14 +93,11 @@ public class Main extends JFrame {
         //documents.setAutoResizeMode(5);
 
         documents.setAutoCreateRowSorter(true);
-        /*List<SortKey> sortKeys = new ArrayList<SortKey>();
-        sortKeys.add( new SortKey( 1, SortOrder.ASCENDING ) );
-        sortKeys.add( new SortKey( 0, SortOrder.ASCENDING ) );
-        documents.getRowSorter().setSortKeys( sortKeys );*/
         TableRowSorter<TableModel> sorter = new TableRowSorter<>(documents.getModel());
         documents.setRowSorter(sorter);
         List<RowSorter.SortKey> sortKeys = new ArrayList<>();
         sorter.setSortKeys(sortKeys);
+        //documents.setEnabled(false);///arreglar, necesito bloquear edicion tabla
 
         JTableHeader header = documents.getTableHeader();
         header.addMouseListener(new MouseAdapter() {
@@ -109,7 +105,7 @@ public class Main extends JFrame {
                 Point point = e.getPoint();
                 int column = documents.columnAtPoint(point);
                 sortKeys.clear();
-                System.out.println(anteriorColumn);
+                //System.out.println(anteriorColumn);
                 if(anteriorColumn != 1 && column == 1) {
                     sortKeys.add(new RowSorter.SortKey(1, SortOrder.ASCENDING));
                     sortKeys.add(new RowSorter.SortKey(0, SortOrder.ASCENDING));
@@ -130,8 +126,8 @@ public class Main extends JFrame {
                 //if(anteriorColumn != -1) anteriorColumn = column;
                 sorter.setSortKeys(sortKeys);
 
-                System.out.println(anteriorColumn);
-                System.out.println(column);
+                //System.out.println(anteriorColumn);
+                //System.out.println(column);
             }
         });
 
@@ -182,7 +178,6 @@ public class Main extends JFrame {
         documents.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                int fila = documents.rowAtPoint(e.getPoint());
                 int columna = documents.columnAtPoint(e.getPoint());
                 if (columna==3) {
                     popOptDoc.show(e.getComponent(), e.getX(), e.getY());
@@ -280,7 +275,6 @@ public class Main extends JFrame {
                 tableModel.addRow(new Object[]{newT.getText(), newA.getText(), LocalDate.now() + " " + LocalTime.now().truncatedTo(ChronoUnit.SECONDS)});
                 //System.out.println(newT.getText());
                 //System.out.println(newA.getText());
-
             }
         });
 
@@ -319,6 +313,13 @@ public class Main extends JFrame {
 
                     System.out.println(arxiu.getAbsolutePath());
                 }
+            }
+        });
+
+        gestióExpressionsBooleanesButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new VistaGestioExpBool();
             }
         });
     }

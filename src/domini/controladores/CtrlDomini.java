@@ -39,8 +39,8 @@ public class CtrlDomini {
 
     }
 
-    public void exportarFitxer(String autor, String titol, String loc, Format format) {
-
+    public void exportarDocument(String autor, String titol, String loc, Format format) {
+        cp.ExportaDocument(loc);
     }*/
 
     // Getters de document

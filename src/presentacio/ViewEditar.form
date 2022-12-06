@@ -45,7 +45,7 @@
               <forms/>
             </constraints>
             <properties>
-              <text value="Desar"/>
+              <text value="Desa"/>
             </properties>
           </component>
           <component id="ca01f" class="javax.swing.JButton" binding="exportarButton" default-binding="true">
@@ -56,7 +56,7 @@
               <forms/>
             </constraints>
             <properties>
-              <text value="Exportar"/>
+              <text value="Exporta"/>
             </properties>
           </component>
           <component id="7d562" class="javax.swing.JButton" binding="sortirButton" default-binding="true">
@@ -67,7 +67,7 @@
               <forms/>
             </constraints>
             <properties>
-              <text value="      Sortir     "/>
+              <text value="      Enrere     "/>
             </properties>
           </component>
           <vspacer id="8fd9c">

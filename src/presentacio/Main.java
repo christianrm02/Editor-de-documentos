@@ -4,6 +4,9 @@ import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.filechooser.FileSystemView;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,6 +16,8 @@ import java.io.File;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main extends JFrame {
     private JPanel panel1;
@@ -24,9 +29,11 @@ public class Main extends JFrame {
     private JButton gestióExpressionsBooleanesButton;
     private JButton busquedaButton;
     private JLabel CapDocLabel;
+    int anteriorColumn;
 
 
     public Main(String title) {
+        anteriorColumn = -1;
         setContentPane(panel1);
         setTitle("Editor de textos");
         setSize(1000, 300);
@@ -59,8 +66,8 @@ public class Main extends JFrame {
                 {"La venganza de Don Tenorio", "Ana", LocalDate.now() + " " + LocalTime.now().truncatedTo(ChronoUnit.SECONDS)},
                 {"La divina comedia", "Carlos", LocalDate.now() + " " + LocalTime.now().truncatedTo(ChronoUnit.SECONDS)},
                 {"La divina comedia", "Joan", LocalDate.now() + " " + LocalTime.now().truncatedTo(ChronoUnit.SECONDS)},
-                {"La ceguera", "Pepe", LocalDate.now() + " " + LocalTime.now().truncatedTo(ChronoUnit.SECONDS)},
-                {"Lo que el viento se llevó", "Pepe", LocalDate.now() + " " + LocalTime.now().truncatedTo(ChronoUnit.SECONDS)}};/*
+                {"La ceguera", "Pepe", LocalDate.of(1973, 2, 23) + " " + LocalTime.of(20, 01, 15, 0003).truncatedTo(ChronoUnit.SECONDS)},
+                {"Lo que el viento se llevó", "Pepe", LocalDate.of(1972, 2, 23) + " " + LocalTime.of(20, 03, 15, 0003).truncatedTo(ChronoUnit.SECONDS)}};/*
 
 
 
@@ -85,7 +92,49 @@ public class Main extends JFrame {
         DefaultTableModel tableModel = new DefaultTableModel(titols, colums);
         JTable documents = new JTable(tableModel);
         //documents.setAutoResizeMode(5);
+
         documents.setAutoCreateRowSorter(true);
+        /*List<SortKey> sortKeys = new ArrayList<SortKey>();
+        sortKeys.add( new SortKey( 1, SortOrder.ASCENDING ) );
+        sortKeys.add( new SortKey( 0, SortOrder.ASCENDING ) );
+        documents.getRowSorter().setSortKeys( sortKeys );*/
+        TableRowSorter<TableModel> sorter = new TableRowSorter<>(documents.getModel());
+        documents.setRowSorter(sorter);
+        List<RowSorter.SortKey> sortKeys = new ArrayList<>();
+        sorter.setSortKeys(sortKeys);
+
+        JTableHeader header = documents.getTableHeader();
+        header.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                Point point = e.getPoint();
+                int column = documents.columnAtPoint(point);
+                sortKeys.clear();
+                System.out.println(anteriorColumn);
+                if(anteriorColumn != 1 && column == 1) {
+                    sortKeys.add(new RowSorter.SortKey(1, SortOrder.ASCENDING));
+                    sortKeys.add(new RowSorter.SortKey(0, SortOrder.ASCENDING));
+                    anteriorColumn = column;
+                } else if(anteriorColumn != -0 && column == 0) {
+                    sortKeys.add(new RowSorter.SortKey(0, SortOrder.ASCENDING));
+                    sortKeys.add(new RowSorter.SortKey(1, SortOrder.ASCENDING));
+                    anteriorColumn = column;
+                } else if(anteriorColumn == 1 && column == 1) {
+                    sortKeys.add(new RowSorter.SortKey(1, SortOrder.DESCENDING));
+                    sortKeys.add(new RowSorter.SortKey(0, SortOrder.DESCENDING));
+                    anteriorColumn = -1;
+                } else if(anteriorColumn == 0 && column == 0) {
+                    sortKeys.add(new RowSorter.SortKey(0, SortOrder.DESCENDING));
+                    sortKeys.add(new RowSorter.SortKey(1, SortOrder.DESCENDING));
+                    anteriorColumn = -1;
+                }
+                //if(anteriorColumn != -1) anteriorColumn = column;
+                sorter.setSortKeys(sortKeys);
+
+                System.out.println(anteriorColumn);
+                System.out.println(column);
+            }
+        });
+
         tablePanel.setLayout(new BorderLayout());
         JScrollPane tableScroll = new JScrollPane(documents);
         //documents.setFillsViewportHeight(true);

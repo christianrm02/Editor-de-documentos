@@ -18,8 +18,14 @@ public class ViewEditar extends JFrame {
         String frase = "No has desat el document. El vols desar abans de ";
         if (sortir) frase += "tornar a la pantalla d'inici?";
         else frase += "tancar el programa?";
-        int opt = JOptionPane.showConfirmDialog(null, frase, "Desar document", JOptionPane.YES_NO_OPTION);
-        if (opt == 0) cp.modificarContingut(a, t, contNou);
+        int opt, opt2 = 1;
+        do {
+            opt = JOptionPane.showConfirmDialog(null, frase, "Desar document", JOptionPane.YES_NO_OPTION);
+            if (opt == 0) cp.modificarContingut(a, t, contNou);
+            else if (opt == 1) {
+                opt2 = JOptionPane.showConfirmDialog(null, "Estàs segur que no vols desar el document?", "Desar document", JOptionPane.YES_NO_OPTION);
+            }
+        } while(opt == 1 && opt2 == 1);
         return opt;
     }
 
@@ -46,7 +52,7 @@ public class ViewEditar extends JFrame {
                 if (!cont.equals(contNou)) {
                     desarAbansDeTancar(cp, a, t, contNou, true);
                 }
-                //cp.tancaDocument();
+                //cp.tancarDocument();
             }
         });
 
@@ -65,8 +71,11 @@ public class ViewEditar extends JFrame {
         exportarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String doc = JOptionPane.showInputDialog("Escriu el nom que li vols posar al document:");
-                if (doc != null && !doc.equals("")) {
+                String doc;
+                do {
+                    doc = JOptionPane.showInputDialog("Escriu el nom que li vols posar al document:");
+                } while (doc.equals(""));
+                if (doc != null) {
                     String[] tox = {"txt", "xml"};
                     int opt = JOptionPane.showOptionDialog(null, "Escull el format que vols pel document " + doc + ".", "Escollir format", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, tox, tox[0]);
                     if (opt == 0 || opt == 1) {
@@ -125,11 +134,15 @@ public class ViewEditar extends JFrame {
                 }
             }
         });
+
         titol.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                String newT = JOptionPane.showInputDialog("Escriu el nou títol:");
-                if(newT != null) {
+                String newT;
+                do {
+                    newT = JOptionPane.showInputDialog("Escriu el nou títol:");
+                } while (newT == "");
+                if(newT != null) { // diria q no pot passar a no ser q tanquis
                     String au = autor.getText(), ti = titol.getText();
                     int opt = JOptionPane.showConfirmDialog(null, "Segur que vols modificar el títol del document " + ti + " " + au + " de " + ti + " a " + newT + " ?", "Modificar títol", JOptionPane.YES_NO_OPTION);
                     if (opt == 0) {
@@ -150,7 +163,10 @@ public class ViewEditar extends JFrame {
         autor.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                String newA = JOptionPane.showInputDialog("Escriu el nou autor:");
+                String newA;
+                do {
+                    newA = JOptionPane.showInputDialog("Escriu el nou autor:");
+                } while (newA == "");
                 if(newA != null) {
                     String au = autor.getText(), ti = titol.getText();
                     int opt = JOptionPane.showConfirmDialog(null, "Segur que vols modificar l'autor del document " + ti + " " + au + " de " + au + " a " + newA + " ?", "Modificar autor", JOptionPane.YES_NO_OPTION);

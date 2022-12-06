@@ -53,6 +53,7 @@
                   <forms/>
                 </constraints>
                 <properties>
+                  <font name="Roboto Light" size="12" style="0"/>
                   <text value="Nova expressió booleana"/>
                 </properties>
               </component>
@@ -64,6 +65,7 @@
                   <forms/>
                 </constraints>
                 <properties>
+                  <font name="Roboto Light" size="12" style="0"/>
                   <text value="Ajuda"/>
                 </properties>
               </component>

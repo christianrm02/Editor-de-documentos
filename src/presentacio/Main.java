@@ -26,7 +26,7 @@ public class Main extends JFrame {
     private JButton ajudaButton;
     private JButton xButton;
     private JPanel tablePanel;
-    private JButton gestióExpressionsBooleanesButton;
+    private JButton gestioExpBoolButton;
     private JButton busquedaButton;
     private JLabel CapDocLabel;
     int anteriorColumn;
@@ -88,7 +88,12 @@ public class Main extends JFrame {
                 {"Yo q sé", "Yo", LocalDate.now() + " " + LocalTime.now()},*/
                 //{"Lápiz", "Antes", LocalDate.of(1972, 2, 23) + " " + LocalTime.of(20, 01, 15, 0003).truncatedTo(ChronoUnit.SECONDS)},
                 //{"Vida", "Después", LocalDate.of(1972, 2, 23) + " " + LocalTime.of(20, 03, 15, 0003).truncatedTo(ChronoUnit.SECONDS)}};
-        DefaultTableModel tableModel = new DefaultTableModel(titols, colums);
+        DefaultTableModel tableModel = new DefaultTableModel(titols, colums){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
         JTable documents = new JTable(tableModel);
         //documents.setAutoResizeMode(5);
 
@@ -97,6 +102,7 @@ public class Main extends JFrame {
         documents.setRowSorter(sorter);
         List<RowSorter.SortKey> sortKeys = new ArrayList<>();
         sorter.setSortKeys(sortKeys);
+        documents.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         //documents.setEnabled(false);///arreglar, necesito bloquear edicion tabla
 
         JTableHeader header = documents.getTableHeader();
@@ -116,11 +122,11 @@ public class Main extends JFrame {
                     anteriorColumn = column;
                 } else if(anteriorColumn == 1 && column == 1) {
                     sortKeys.add(new RowSorter.SortKey(1, SortOrder.DESCENDING));
-                    sortKeys.add(new RowSorter.SortKey(0, SortOrder.DESCENDING));
+                    sortKeys.add(new RowSorter.SortKey(0, SortOrder.DESCENDING)); //ASCENDING
                     anteriorColumn = -1;
                 } else if(anteriorColumn == 0 && column == 0) {
                     sortKeys.add(new RowSorter.SortKey(0, SortOrder.DESCENDING));
-                    sortKeys.add(new RowSorter.SortKey(1, SortOrder.DESCENDING));
+                    sortKeys.add(new RowSorter.SortKey(1, SortOrder.DESCENDING)); //ASCENDING
                     anteriorColumn = -1;
                 }
                 //if(anteriorColumn != -1) anteriorColumn = column;
@@ -175,6 +181,7 @@ public class Main extends JFrame {
             }
         });
 
+        /*Tres puntos opciones doc*/
         documents.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -184,6 +191,17 @@ public class Main extends JFrame {
                 }
             }
         });
+
+        /*Boton derecho opciones doc ABORTO LA IDEA PORQ PARA Q FUNCIONE TENDRIA Q HACER ANTES UN CLICK, Y NO SE COMO HACERLO
+        documents.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if(isRightMouseButton(e)) {
+                    click();
+                    popOptDoc.show(e.getComponent(), e.getX(), e.getY());
+                }
+            }
+        });*/
 
         xButton.addActionListener(new ActionListener() {
             @Override
@@ -199,8 +217,10 @@ public class Main extends JFrame {
                 if(newT != null) {
                     int opt = JOptionPane.showConfirmDialog(null, "Segur que vols modificar el títol del document " + documents.getValueAt(documents.getSelectedRow(), 0) + " de " + documents.getValueAt(documents.getSelectedRow(), 1) + " a " + newT + " ?", "Modificar títol", JOptionPane.YES_NO_OPTION);
                     if (opt == 0) {
-                        documents.setValueAt(newT, documents.getSelectedRow(), 0);
-                        JOptionPane.showMessageDialog(null, "S'ha modificat el títol a " + newT + ".");
+                        //documents.setValueAt(newT, documents.getSelectedRow(), 0);
+                        tableModel.addRow(new Object[]{newT, documents.getValueAt(documents.getSelectedRow(), 1), documents.getValueAt(documents.getSelectedRow(), 2)});
+                        tableModel.removeRow(documents.getSelectedRow());
+                        JOptionPane.showMessageDialog(null, "S'ha modificat el títol a " + newT + " .");
                     }
                     else {
                         JOptionPane.showMessageDialog(null, "No s'ha modificat el títol.");
@@ -219,8 +239,11 @@ public class Main extends JFrame {
                 if(newA != null) {
                     int opt = JOptionPane.showConfirmDialog(null, "Segur que vols modificar l'autor del document " + documents.getValueAt(documents.getSelectedRow(), 0) + " de " + documents.getValueAt(documents.getSelectedRow(), 1) + " a " + newA + " ?", "Modificar autor", JOptionPane.YES_NO_OPTION);
                     if (opt == 0) {
-                        documents.setValueAt(newA, documents.getSelectedRow(), 1);
-                        JOptionPane.showMessageDialog(null, "S'ha modificat l'autor a " + newA + ".");
+                        //documents.setValueAt(newA, documents.getSelectedRow(), 1);
+                        //como el cambiar de valor no lo ordenaba correctamente he decidido borrarlo y volverlo a crear
+                        tableModel.addRow(new Object[]{documents.getValueAt(documents.getSelectedRow(), 0), newA, documents.getValueAt(documents.getSelectedRow(), 2)});
+                        tableModel.removeRow(documents.getSelectedRow());
+                        JOptionPane.showMessageDialog(null, "S'ha modificat l'autor a " + newA + " .");
                     }
                     else {
                         JOptionPane.showMessageDialog(null, "No s'ha modificat l'autor.");
@@ -249,8 +272,6 @@ public class Main extends JFrame {
                 }
             }
         });
-
-        validate();
 
         creaButton.addActionListener(new ActionListener() {
             @Override
@@ -282,46 +303,62 @@ public class Main extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JFileChooser chooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-                chooser.setFileFilter(new FileNameExtensionFilter("Compatibles amb l'aplicació", "txt", "xml"));
-                chooser.setDialogTitle("Selecciona fitxer");
+                chooser.setFileFilter(new FileNameExtensionFilter("Compatibles amb l'aplicació, màxim 10", "txt", "xml"));
+                chooser.setDialogTitle("Selecciona fitxers, màxim 10");
+                chooser.setMultiSelectionEnabled(true);
                 //chooser.setCurrentDirectory(new File(System.getProperty("user.dir") + "/data/dades"));
                 int returnValue = chooser.showOpenDialog(null);
                 if (returnValue == JFileChooser.APPROVE_OPTION) {
-                    File arxiu = chooser.getSelectedFile();
-
-                    //CtrlPresentacio.importaDocument(arxiu.getAbsolutePath());
-                    /*byte[] bytes = new byte[0]; //mover esto al ctrl presentacion, a una uncion nueva
-                    try {
-                        bytes = Files.readAllBytes(Path.of(arxiu.getAbsolutePath()));
-                    } catch (IOException ex) {
-                        throw new RuntimeException(ex);
+                    File[] arxius = chooser.getSelectedFiles();
+                    if (arxius.length > 10) {
+                        JOptionPane.showMessageDialog(null, "Has seleccionat més arxius del màxim, s'importaran només els 10 primers.");
+                        File[] arxius_maxim = new File[10];
+                        for(int i = 0; i < 10; ++i) {
+                            arxius_maxim[i] = arxius[i];
+                        }
+                        //pasas al ctrlpres los paths
+                        //for(int i = 0; i < 10; ++i) {
+                            //System.out.println(arxius_maxim[i].getAbsolutePath());
+                        //}
                     }
-
-                    // Reading the file to String List
-                    try {
-                        @SuppressWarnings("unused")
-
-                        // Creating a List class object of string type
-                        // as data in file to be read is words
-                        List allLines = new List();
-                        allLines = (List) Files.readAllLines(Path.of(arxiu.getAbsolutePath()), StandardCharsets.UTF_8);
-                    } catch (IOException ex) {
-                        throw new RuntimeException(ex);
+                    else {
+                        ////pasas al ctrlpres los paths
                     }
-                    System.out.println(new String(bytes));*/
-
-
-                    System.out.println(arxiu.getAbsolutePath());
                 }
             }
         });
 
-        gestióExpressionsBooleanesButton.addActionListener(new ActionListener() {
+        gestioExpBoolButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new VistaGestioExpBool();
             }
         });
+
+        ajudaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int count = 0; //0 primera vez, -1 se cierra ventana
+                int opt = JOptionPane.showOptionDialog(null,"Amb el botó Crea es crea un nou document amb contingut buit.", "Panell d'ajuda", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[] {"Següent"}, "Següent");
+                //while(opt == -2);
+                String message = "";
+                while(count < 6 && opt != -1) {
+                    if(opt == 0 && count != 0) --count;
+                    else ++count;
+                    if(count == 0) message = "Amb el botó Crea es crea un nou document amb contingut buit.";
+                    else if(count == 1) message = "Amb el botó Importa es crea un nou document amb el contingut del document seleccionat. Només es pot importar documents de tipus .txt o .xml";
+                    else if(count == 2) message = "Amb el botó Gestió expressions booleanes s'obre una vista per gestionar les expressions guardades.";
+                    else if(count == 3) message = "Amb el botó de Cerca es pot filtrar els documents a mostrar";
+                    else if(count == 4) message = "Amb els 3 punts verticals de cada document, o clicant a sobre de la fila amb el botó dret, s'obre més opcions per aquell document";
+                    else if(count == 5) message = "Es pot tancar el programa en qualsevol moment clicant al botó amb la X de la cantonada superior dreta";
+                    if(count == 0) opt = JOptionPane.showOptionDialog(null,message, "Panell d'ajuda", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[] {"Següent"}, "Següent");
+                    else if(count < 5) opt = JOptionPane.showOptionDialog(null,message, "Panell d'ajuda", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[] { "Anterior", "Següent"}, "Següent");
+                    else opt = JOptionPane.showOptionDialog(null,message, "Panell d'ajuda", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[] { "Anterior", "Acaba"}, "Acaba");
+                }
+            }
+        });
+
+        validate();
     }
 
     public static void main(String[] args) {

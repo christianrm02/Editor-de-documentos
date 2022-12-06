@@ -5,7 +5,7 @@
     <rowspec value="top:0dlu:noGrow"/>
     <rowspec value="center:d:grow"/>
     <colspec value="left:min(m;206px):noGrow"/>
-    <colspec value="fill:d:grow"/>
+    <colspec value="fill:max(d;100px):grow"/>
     <colspec value="fill:d:grow"/>
     <constraints>
       <xy x="20" y="20" width="745" height="546"/>
@@ -47,6 +47,7 @@
               <forms/>
             </constraints>
             <properties>
+              <font name="Roboto Light" size="12" style="0"/>
               <text value="Crea"/>
             </properties>
           </component>
@@ -58,6 +59,7 @@
               <forms/>
             </constraints>
             <properties>
+              <font name="Roboto Light" size="12" style="0"/>
               <text value="Importa"/>
             </properties>
           </component>
@@ -69,15 +71,17 @@
               <forms/>
             </constraints>
             <properties>
+              <font name="Roboto Light" size="12" style="0"/>
               <text value="Ajuda"/>
             </properties>
           </component>
-          <component id="bd11" class="javax.swing.JButton" binding="gestióExpressionsBooleanesButton" default-binding="true">
+          <component id="bd11" class="javax.swing.JButton" binding="gestioExpBoolButton">
             <constraints>
               <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
               <forms/>
             </constraints>
             <properties>
+              <font name="Roboto Light" size="12" style="0"/>
               <horizontalAlignment value="0"/>
               <horizontalTextPosition value="0"/>
               <text value="Gestió expressions booleanes" noi18n="true"/>
@@ -89,7 +93,8 @@
               <forms/>
             </constraints>
             <properties>
-              <text value="Búsqueda &gt;"/>
+              <font name="Roboto Light" size="12" style="0"/>
+              <text value="Cerca &gt;"/>
             </properties>
           </component>
           <vspacer id="bbc8a">

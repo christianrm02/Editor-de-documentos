@@ -32,12 +32,19 @@ public class VistaGestioExpBool extends JFrame{
                 {"Kimetsu", "{p1 p2 p3} & !joan", },
                 {"Exp2", "{p1 p2 p3 p4} & !joan", }};
 
-        DefaultTableModel tableModel = new DefaultTableModel(titols, colums);
+        DefaultTableModel tableModel = new DefaultTableModel(titols, colums){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
         JTable expressions = new JTable(tableModel);
         expressions.setAutoCreateRowSorter(true);
         TableRowSorter<TableModel> sorter = new TableRowSorter<>(expressions.getModel());
         sorter.setSortable(1, false);
+        sorter.setSortable(2, false);
         expressions.setRowSorter(sorter);
+        expressions.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         //expressions.setEnabled(false);///arreglar, necesito bloquear edicion tabla
 
         tablePanel.setLayout(new BorderLayout());
@@ -141,6 +148,8 @@ public class VistaGestioExpBool extends JFrame{
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
+        pack();
+        validate();
     }
 
     public static void main(String[] args) {

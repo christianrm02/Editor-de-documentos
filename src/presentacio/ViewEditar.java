@@ -69,6 +69,8 @@ public class ViewEditar extends JFrame {
                         //chooser.setCurrentDirectory(new File(System.getProperty("user.dir") + "/data/dades"));
                         int returnValue = chooser.showOpenDialog(null);
                         if (returnValue == JFileChooser.APPROVE_OPTION) {
+                            String contNou = textPane1.getText();
+                            if (!cont.equals(contNou)) cp.modificarContingut(a, t, contNou);
                             File arxiu = chooser.getSelectedFile();
 
                             //CtrlPresentacio.importaDocument(arxiu.getAbsolutePath());

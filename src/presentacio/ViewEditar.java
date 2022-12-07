@@ -139,7 +139,7 @@ public class ViewEditar extends JFrame {
             public void mouseClicked(MouseEvent e) {
                 String newT;
                 do {
-                    newT = JOptionPane.showInputDialog("Escriu el nou títol:");
+                    newT = JOptionPane.showInputDialog(null, "Escriu el nou títol:", "Modificar títol", JOptionPane.DEFAULT_OPTION);
                 } while (newT == "");
                 if(newT != null) { // diria q no pot passar a no ser q tanquis
                     String au = autor.getText(), ti = titol.getText();
@@ -164,7 +164,8 @@ public class ViewEditar extends JFrame {
             public void mouseClicked(MouseEvent e) {
                 String newA;
                 do {
-                    newA = JOptionPane.showInputDialog("Escriu el nou autor:");
+                    newA = JOptionPane.showInputDialog(null, "Escriu el nou autor:", "Modificar autor", JOptionPane.DEFAULT_OPTION);
+
                 } while (newA == "");
                 if(newA != null) {
                     String au = autor.getText(), ti = titol.getText();

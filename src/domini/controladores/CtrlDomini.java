@@ -59,7 +59,7 @@ public class CtrlDomini {
     public String obrirDocument(String autor, String titol) { // s'haura de mirar
         titolAct = titol;
         autorAct = autor;
-        contAct = null;
+        //contAct = cp.obrirDocument(autor, titol);
         return contAct;
     }
 

@@ -6,6 +6,7 @@ import java.awt.event.*;
 import java.io.File;
 
 public class ViewEditar extends JFrame {
+    private CtrlPresentacio cp;
     private JPanel panel1;
     protected JButton desarButton;
     protected JButton exportarButton;
@@ -14,7 +15,7 @@ public class ViewEditar extends JFrame {
     private JLabel autor;
     protected JTextPane textPane1;
 
-    private int desarAbansDeTancar(CtrlPresentacio cp, String t, String a, String contNou, boolean sortir) {
+    private int desarAbansDeTancar(String t, String a, String contNou, boolean sortir) {
         String frase = "No has desat el document. El vols desar abans de ";
         if (sortir) frase += "tornar a la pantalla d'inici?";
         else frase += "tancar el programa?";
@@ -33,7 +34,8 @@ public class ViewEditar extends JFrame {
         cont = contNou;
     }
 
-    public ViewEditar(CtrlPresentacio cp, String t, String a, String cont) {
+    public ViewEditar(CtrlPresentacio ctrlp, String t, String a, String cont) {
+        cp = ctrlp;
         setContentPane(panel1);
         setMinimumSize(new Dimension(400, 200));
         setTitle("Editor de textos " + t + ", " + a);
@@ -50,7 +52,7 @@ public class ViewEditar extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String contNou = textPane1.getText();
                 if (!cont.equals(contNou)) {
-                    desarAbansDeTancar(cp, a, t, contNou, true);
+                    desarAbansDeTancar(a, t, contNou, true);
                 }
                 //cp.tancarDocument();
             }
@@ -124,7 +126,7 @@ public class ViewEditar extends JFrame {
             public void windowClosing(WindowEvent e) {
                 String contNou = textPane1.getText();
                 int opt = 0;
-                if (!cont.equals(contNou)) opt = desarAbansDeTancar(cp, a, t, contNou, false);
+                if (!cont.equals(contNou)) opt = desarAbansDeTancar(a, t, contNou, false);
                 if (opt == 0 || opt == 1) {
                     //afegir tot el tractament per guardar tot a persistencia
                     System.exit(0);

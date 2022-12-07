@@ -24,7 +24,7 @@ public class Utility {
 
     static public List<String> converteix_a_frases(String fr) {
         List<String> frases = new ArrayList<>();
-        if (fr == "") return frases;
+        if (fr.equals("")) return frases;
         boolean salt_final = fr.charAt(fr.length() - 1) == '\n'; // si l'ultim caracter es '\n', salt_final es true, altrament fals
         List<String> aux = List.of(fr.split("\n"));
 

@@ -73,11 +73,11 @@ public class ViewEditar extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String doc;
                 do {
-                    doc = JOptionPane.showInputDialog("Escriu el nom que li vols posar al document:");
-                } while (doc.equals(""));
+                    doc = JOptionPane.showInputDialog(null, "Escriu el nom que li vols posar al document:", "Exportar document", -1);
+                } while (doc != null && doc.equals(""));
                 if (doc != null) {
-                    String[] tox = {"txt", "xml"};
-                    int opt = JOptionPane.showOptionDialog(null, "Escull el format que vols pel document " + doc + ".", "Escollir format", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, tox, tox[0]);
+                    String[] tox = {"txt", "xml", "Cancel"};
+                    int opt = JOptionPane.showOptionDialog(null, "Escull el format que vols pel document " + doc + ".", "Escollir format", JOptionPane.DEFAULT_OPTION, JOptionPane.DEFAULT_OPTION, null, tox, tox[0]);
                     if (opt == 0 || opt == 1) {
                         JFileChooser chooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
                         chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
@@ -113,12 +113,9 @@ public class ViewEditar extends JFrame {
 
                             System.out.println(arxiu.getAbsolutePath());
                         }
-                    } else {
-                        JOptionPane.showMessageDialog(null, "No s'ha exportat el document.");
-                    }
-                } else {
-                    JOptionPane.showMessageDialog(null, "No s'ha exportat el document.");
-                }
+                        else JOptionPane.showMessageDialog(null, "No s'ha exportat el document.");
+                    } else JOptionPane.showMessageDialog(null, "No s'ha exportat el document.");
+                } else JOptionPane.showMessageDialog(null, "No s'ha exportat el document.");
             }
         });
 

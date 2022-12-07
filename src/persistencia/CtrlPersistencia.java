@@ -25,4 +25,12 @@ public class CtrlPersistencia {
         gI.ExportarIndexs(info);
     }
 
+    public byte[] CarregarExpB() {
+        return gEB.CarregarExpB();
+    }
+
+    public void GuardarExpB(byte[] info) {
+        gEB.GuardarExpB(info);
+    }
+
 }

@@ -1,13 +1,12 @@
 package presentacio;
 import javax.swing.*;
 import javax.swing.filechooser.FileSystemView;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.*;
+import java.awt.event.*;
 import java.io.File;
 
 public class ViewEditar extends JFrame {
+    private CtrlPresentacio cp;
     private JPanel panel1;
     protected JButton desarButton;
     protected JButton exportarButton;
@@ -16,14 +15,29 @@ public class ViewEditar extends JFrame {
     private JLabel autor;
     protected JTextPane textPane1;
 
-    private int desarAbansDeTancar(CtrlPresentacio cp, String t, String a, String contNou) {
-        int opt = JOptionPane.showConfirmDialog(null, "No has desat el document. El vols desar abans de tancar?", "Desar document", JOptionPane.YES_NO_OPTION);
-        if (opt == 0) cp.modificarContingut(a, t, contNou);
+    private int desarAbansDeTancar(String t, String a, String contNou, boolean sortir) {
+        String frase = "No has desat el document. El vols desar abans de ";
+        if (sortir) frase += "tornar a la pantalla d'inici?";
+        else frase += "tancar el programa?";
+        int opt, opt2 = 1;
+        do {
+            opt = JOptionPane.showConfirmDialog(null, frase, "Desar document", JOptionPane.YES_NO_OPTION);
+            if (opt == 0) cp.modificarContingut(a, t, contNou);
+            else if (opt == 1) {
+                opt2 = JOptionPane.showConfirmDialog(null, "Estàs segur que no vols desar el document?", "Desar document", JOptionPane.YES_NO_OPTION);
+            }
+        } while(opt == 1 && opt2 == 1);
         return opt;
     }
 
-    public ViewEditar(CtrlPresentacio cp, String t, String a, String cont) {
+    private void setCont(String cont, String contNou) {
+        cont = contNou;
+    }
+
+    public ViewEditar(CtrlPresentacio ctrlp, String t, String a, String cont) {
+        cp = ctrlp;
         setContentPane(panel1);
+        setMinimumSize(new Dimension(400, 200));
         setTitle("Editor de textos " + t + ", " + a);
         setSize(1000, 500);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -38,9 +52,9 @@ public class ViewEditar extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String contNou = textPane1.getText();
                 if (!cont.equals(contNou)) {
-                    desarAbansDeTancar(cp, a, t, contNou);
+                    desarAbansDeTancar(a, t, contNou, true);
                 }
-                //cp.tancaDocument();
+                //cp.tancarDocument();
             }
         });
 
@@ -50,6 +64,7 @@ public class ViewEditar extends JFrame {
                 String contNou = textPane1.getText();
                 if (!cont.equals(contNou)) {
                     cp.modificarContingut(t, a, contNou);
+                    setCont(cont, contNou); // cont = contNou, no deixa fer-ho sino
                     JOptionPane.showMessageDialog(null, "El document s'ha desat correctament.");
                 }
             }
@@ -58,10 +73,13 @@ public class ViewEditar extends JFrame {
         exportarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String doc = JOptionPane.showInputDialog("Escriu el nom que li vols posar al document:");
-                if (doc != null && !doc.equals("")) {
-                    String[] tox = {"txt", "xml"};
-                    int opt = JOptionPane.showOptionDialog(null, "Escull el format que vols pel document " + doc + ".", "Escollir format", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, tox, tox[0]);
+                String doc;
+                do {
+                    doc = JOptionPane.showInputDialog(null, "Escriu el nom que li vols posar al document:", "Exportar document", -1);
+                } while (doc != null && doc.equals(""));
+                if (doc != null) {
+                    String[] tox = {"txt", "xml", "Cancel"};
+                    int opt = JOptionPane.showOptionDialog(null, "Escull el format que vols pel document " + doc + ".", "Escollir format", JOptionPane.DEFAULT_OPTION, JOptionPane.DEFAULT_OPTION, null, tox, tox[0]);
                     if (opt == 0 || opt == 1) {
                         JFileChooser chooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
                         chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
@@ -97,23 +115,72 @@ public class ViewEditar extends JFrame {
 
                             System.out.println(arxiu.getAbsolutePath());
                         }
-                    } else {
-                        JOptionPane.showMessageDialog(null, "No s'ha exportat el document.");
-                    }
-                } else {
-                    JOptionPane.showMessageDialog(null, "No s'ha exportat el document.");
-                }
+                        else JOptionPane.showMessageDialog(null, "No s'ha exportat el document.");
+                    } else JOptionPane.showMessageDialog(null, "No s'ha exportat el document.");
+                } else JOptionPane.showMessageDialog(null, "No s'ha exportat el document.");
             }
         });
 
         addWindowListener(new WindowAdapter() {
+            @Override
             public void windowClosing(WindowEvent e) {
                 String contNou = textPane1.getText();
                 int opt = 0;
-                if (!cont.equals(contNou)) opt = desarAbansDeTancar(cp, a, t, contNou);
+                if (!cont.equals(contNou)) opt = desarAbansDeTancar(a, t, contNou, false);
                 if (opt == 0 || opt == 1) {
                     //afegir tot el tractament per guardar tot a persistencia
                     System.exit(0);
+                }
+            }
+        });
+
+        titol.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                String newT;
+                do {
+                    newT = JOptionPane.showInputDialog(null, "Escriu el nou títol:", "Modificar títol", JOptionPane.DEFAULT_OPTION);
+                } while (newT == "");
+                if(newT != null) { // diria q no pot passar a no ser q tanquis
+                    String au = autor.getText(), ti = titol.getText();
+                    int opt = JOptionPane.showConfirmDialog(null, "Segur que vols modificar el títol del document " + ti + " " + au + " de " + ti + " a " + newT + " ?", "Modificar títol", JOptionPane.YES_NO_OPTION);
+                    if (opt == 0) {
+                        cp.modificarTitol(au, ti, newT);
+                        titol.setText(newT);
+                        JOptionPane.showMessageDialog(null, "S'ha modificat el títol a " + newT + ".");
+                    }
+                    else {
+                        JOptionPane.showMessageDialog(null, "No s'ha modificat el títol.");
+                    }
+                }
+                else {
+                    JOptionPane.showMessageDialog(null, "No s'ha modificat el títol.");
+                }
+            }
+        });
+
+        autor.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                String newA;
+                do {
+                    newA = JOptionPane.showInputDialog(null, "Escriu el nou autor:", "Modificar autor", JOptionPane.DEFAULT_OPTION);
+
+                } while (newA == "");
+                if(newA != null) {
+                    String au = autor.getText(), ti = titol.getText();
+                    int opt = JOptionPane.showConfirmDialog(null, "Segur que vols modificar l'autor del document " + ti + " " + au + " de " + au + " a " + newA + " ?", "Modificar autor", JOptionPane.YES_NO_OPTION);
+                    if (opt == 0) {
+                        cp.modificarAutor(au, ti, newA);
+                        autor.setText(newA);
+                        JOptionPane.showMessageDialog(null, "S'ha modificat l'autor a " + newA + ".");
+                    }
+                    else {
+                        JOptionPane.showMessageDialog(null, "No s'ha modificat l'autor.");
+                    }
+                }
+                else {
+                    JOptionPane.showMessageDialog(null, "No s'ha modificat l'autor.");
                 }
             }
         });

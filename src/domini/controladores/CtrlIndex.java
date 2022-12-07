@@ -109,6 +109,9 @@ public class CtrlIndex {
 
     public void ImportarIndexs(byte[] info) {
         try {
+            //Si no existia el fitxer (programa obert per primer cop) no es fa res
+            if(info == null) return;
+
             ByteArrayInputStream bais = new ByteArrayInputStream(info);
             ObjectInputStream ois = new ObjectInputStream(bais);
             Object[] indexs = (Object[]) ois.readObject();

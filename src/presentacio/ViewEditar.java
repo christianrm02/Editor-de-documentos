@@ -6,7 +6,6 @@ import java.awt.event.*;
 import java.io.File;
 
 public class ViewEditar extends JFrame {
-    private CtrlPresentacio cp;
     private JPanel panel1;
     protected JButton desarButton;
     protected JButton exportarButton;
@@ -22,7 +21,7 @@ public class ViewEditar extends JFrame {
         int opt, opt2 = 1;
         do {
             opt = JOptionPane.showConfirmDialog(null, frase, "Desar document", JOptionPane.YES_NO_OPTION);
-            if (opt == 0) cp.modificarContingut(a, t, contNou);
+            if (opt == 0) CtrlPresentacio.modificarContingut(a, t, contNou);
             else if (opt == 1) {
                 opt2 = JOptionPane.showConfirmDialog(null, "Estàs segur que no vols desar el document?", "Desar document", JOptionPane.YES_NO_OPTION);
             }
@@ -34,8 +33,7 @@ public class ViewEditar extends JFrame {
         cont = contNou;
     }
 
-    public ViewEditar(CtrlPresentacio ctrlp, String t, String a, String cont) {
-        cp = ctrlp;
+    public ViewEditar(String t, String a, String cont) {
         setContentPane(panel1);
         setMinimumSize(new Dimension(400, 200));
         setTitle("Editor de textos " + t + ", " + a);
@@ -63,7 +61,7 @@ public class ViewEditar extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String contNou = textPane1.getText();
                 if (!cont.equals(contNou)) {
-                    cp.modificarContingut(t, a, contNou);
+                    CtrlPresentacio.modificarContingut(t, a, contNou);
                     setCont(cont, contNou); // cont = contNou, no deixa fer-ho sino
                     JOptionPane.showMessageDialog(null, "El document s'ha desat correctament.");
                 }
@@ -88,7 +86,7 @@ public class ViewEditar extends JFrame {
                         int returnValue = chooser.showOpenDialog(null);
                         if (returnValue == JFileChooser.APPROVE_OPTION) {
                             String contNou = textPane1.getText();
-                            if (!cont.equals(contNou)) cp.modificarContingut(a, t, contNou);
+                            if (!cont.equals(contNou)) CtrlPresentacio.modificarContingut(a, t, contNou);
                             File arxiu = chooser.getSelectedFile();
 
                             //CtrlPresentacio.importaDocument(arxiu.getAbsolutePath());
@@ -145,7 +143,7 @@ public class ViewEditar extends JFrame {
                     String au = autor.getText(), ti = titol.getText();
                     int opt = JOptionPane.showConfirmDialog(null, "Segur que vols modificar el títol del document " + ti + " " + au + " de " + ti + " a " + newT + " ?", "Modificar títol", JOptionPane.YES_NO_OPTION);
                     if (opt == 0) {
-                        cp.modificarTitol(au, ti, newT);
+                        CtrlPresentacio.modificarTitol(au, ti, newT);
                         titol.setText(newT);
                         JOptionPane.showMessageDialog(null, "S'ha modificat el títol a " + newT + ".");
                     }
@@ -171,7 +169,7 @@ public class ViewEditar extends JFrame {
                     String au = autor.getText(), ti = titol.getText();
                     int opt = JOptionPane.showConfirmDialog(null, "Segur que vols modificar l'autor del document " + ti + " " + au + " de " + au + " a " + newA + " ?", "Modificar autor", JOptionPane.YES_NO_OPTION);
                     if (opt == 0) {
-                        cp.modificarAutor(au, ti, newA);
+                        CtrlPresentacio.modificarAutor(au, ti, newA);
                         autor.setText(newA);
                         JOptionPane.showMessageDialog(null, "S'ha modificat l'autor a " + newA + ".");
                     }
@@ -187,7 +185,7 @@ public class ViewEditar extends JFrame {
     }
 
     public static void main(String[] args) {
-        JFrame view = new ViewEditar(new CtrlPresentacio(), "Hola q tal", "Paco", "Hola q tal, com estàs?");
+        JFrame view = new ViewEditar("Hola q tal", "Paco", "Hola q tal, com estàs?");
     }
 }
 

@@ -11,6 +11,19 @@ public class CtrlPresentacio {
     private JFrame Main;
     private static CtrlDomini cd = new CtrlDomini();
 
+    public static void mostraVistaGestioExpBool(){
+        new VistaGestioExpBool();
+    }
+
+    public static void mostraViewMostrarCont(String titol, String autor){
+        String cont = getContingut(autor, titol);
+        new ViewMostrarCont(titol, autor, cont);
+    }
+
+    public static void mostraViewEditar(String titol, String autor){
+        String cont = getContingut(autor, titol);
+        new ViewEditar(titol, autor, cont);
+    }
 
     /*Crides a domini*/
     public List<String> getAutors() {
@@ -21,8 +34,9 @@ public class CtrlPresentacio {
         return cd.getTitolsAutors();
     }
 
-    public String getContingut(String autor, String titol) {
-        return cd.getContingut(autor, titol);
+    public static String getContingut(String autor, String titol) {
+        //return cd.getContingut(autor, titol);
+        return "Casa";
     }
 
     public String obrirDocument(String autor, String titol) {
@@ -43,6 +57,11 @@ public class CtrlPresentacio {
         return docImp;
     }
 
+    public static boolean exportaDocument(String titol, String autor, String nomDoc, String path) { //seria mejor bool y q sea true si todo ok o false si ya existe ese doc?
+        //cd.exportaDocument(titol, autor, nomDoc, path); //el ctrl de persistencia tendria q conseguir el contenido del doc tambien
+        return false;
+    }
+
     public static void esborrarDocuments(List<Pair<String, String>> docs) {
         //cd.esborrarDocuments(docs);
     }
@@ -57,8 +76,8 @@ public class CtrlPresentacio {
         //return cd.modificarTitol(autor, titol, newA);
     }
 
-    public void modificarContingut(String autor, String titol, String cont) { //s'ha de mirar q mes ha de fer
-        cd.modificarContingut(autor, titol, cont);
+    public static void modificarContingut(String autor, String titol, String cont) { //vieweditar
+        //cd.modificarContingut(autor, titol, cont);
     }
 
     public static List<String> llistarTitolsdAutors(String autor) {
@@ -73,8 +92,18 @@ public class CtrlPresentacio {
         return autors;
     }
 
-    public List<Pair<String, String>> llistarKDocumentsS(String autor, String titol, int K, boolean estrategia) {
-        return cd.llistarKDocumentsS(autor, titol, K, estrategia);
+    public static List<Pair<String, String>> llistarKDocumentsS(String autor, String titol, int K, boolean estrategia) {
+        //return cd.llistarKDocumentsS(autor, titol, K, estrategia);
+        List<Pair<String, String>> docs = new ArrayList<>();
+        Pair p = new Pair();
+        p.x = "Pepe";
+        p.y = "Dia";
+        docs.add(p);
+        Pair p2 = new Pair();
+        p2.x = "Laura";
+        p2.y = "Escaleras";
+        docs.add(p2);
+        return docs;
     }
 
     public List<Pair<String, String>> cercarExpressioBooleana(String exp) {

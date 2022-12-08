@@ -84,7 +84,7 @@
           <forms/>
         </constraints>
         <properties>
-          <background color="-4109001"/>
+          <background color="-9273651"/>
           <enabled value="true"/>
           <font name="Verdana" size="14"/>
           <text value=""/>
@@ -96,7 +96,7 @@
           <forms/>
         </constraints>
         <properties>
-          <background color="-4109001"/>
+          <background color="-9273651"/>
           <font name="Verdana" size="14"/>
           <text value=""/>
         </properties>

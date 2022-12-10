@@ -11,8 +11,12 @@ public class CtrlPresentacio {
     private JFrame Main;
     private static CtrlDomini cd = new CtrlDomini();
 
-    public static void mostraVistaGestioExpBool(){
-        new VistaGestioExpBool();
+    public static void mostraViewPrincipal(){
+        new ViewPrincipal("Documentator");
+    }
+
+    public static void mostraVistaGestioExpBool(JTable documents){
+        new VistaGestioExpBool(documents);
     }
 
     public static void mostraViewMostrarCont(String titol, String autor){
@@ -30,8 +34,29 @@ public class CtrlPresentacio {
         return cd.getAutors();
     }
 
-    public List<Pair<String, String>> getTitolsAutors() {
-        return cd.getTitolsAutors();
+    public static List<Pair<String, String>> getTitolsAutors() {
+        //return cd.getTitolsAutors();
+        Pair<String, String> p1 = new Pair<>();
+        Pair<String, String> p2 = new Pair<>();
+        Pair<String, String> p3 = new Pair<>();
+        Pair<String, String> p4 = new Pair<>();
+        Pair<String, String> p5 = new Pair<>();
+        Pair<String, String> p6 = new Pair<>();
+        p1.x = "Ana"; p1.y = "Historia de una escalera";
+        p2.x = "Ana"; p2.y = "La venganza de Don Tenorio";
+        p3.x = "Carlos"; p3.y = "La divina comedia";
+        p4.x = "Joan"; p4.y = "La divina comedia";
+        p5.x = "Pepe"; p5.y = "La ceguera";
+        p6.x = "Pepe"; p6.y = "Lo que el viento se llevó";
+        List<Pair<String, String>> docs = new ArrayList<>();
+        docs.add(p1);
+        docs.add(p2);
+        docs.add(p3);
+        docs.add(p4);
+        docs.add(p5);
+        docs.add(p6);
+
+        return docs;
     }
 
     public static String getContingut(String autor, String titol) {
@@ -39,8 +64,9 @@ public class CtrlPresentacio {
         return "Casa";
     }
 
-    public String obrirDocument(String autor, String titol) {
-        return cd.obrirDocument(autor, titol);
+    public static String obrirDocument(String autor, String titol) { //QUE STRING DEVUELVE ESTA FUNC? FALTA PONER Q SE LLAME CUANDO SE ABRA DOC
+        //return cd.obrirDocument(autor, titol);
+        return "HOLA";
     }
 
     public static boolean crearDocument(String autor, String titol, String cont) {
@@ -82,7 +108,7 @@ public class CtrlPresentacio {
 
     public static List<String> llistarTitolsdAutors(String autor) {
         //return cd.llistarTitolsdAutors(autor);
-        List<String> titols = List.of(new String[]{"Dia", "Nit"});
+        List<String> titols = List.of(new String[]{"Historia de una escalera", "Ana"});
         return titols;
     }
 
@@ -96,8 +122,8 @@ public class CtrlPresentacio {
         //return cd.llistarKDocumentsS(autor, titol, K, estrategia);
         List<Pair<String, String>> docs = new ArrayList<>();
         Pair p = new Pair();
-        p.x = "Pepe";
-        p.y = "Dia";
+        p.x = "Ana";
+        p.y = "Historia de una escalera";
         docs.add(p);
         Pair p2 = new Pair();
         p2.x = "Laura";
@@ -106,16 +132,12 @@ public class CtrlPresentacio {
         return docs;
     }
 
-    public List<Pair<String, String>> cercarExpressioBooleana(String exp) {
-        return cd.cercarExpressioBooleana(exp);
-    }
-
     public static List<Pair<String, String>> cercarPerRellevancia(String paraules, int K, boolean estrategia) {
         //return cd.cercarPerRellevancia(paraules, K, estrategia);
         List<Pair<String, String>> docs = new ArrayList<>();
         Pair p = new Pair();
-        p.x = "Pepe";
-        p.y = "Dia";
+        p.x = "Ana";
+        p.y = "Historia de una escalera";
         docs.add(p);
         Pair p2 = new Pair();
         p2.x = "Laura";
@@ -128,16 +150,31 @@ public class CtrlPresentacio {
         return cd.getAllExpressionsBooleanes();
     }
 
-    public boolean setExpressioBooleana(String nom, String exp) {
-        return cd.setExpressioBooleana(nom, exp);
+    public static boolean creaExpressioBooleana(String nom, String exp) {
+        //return cd.setExpressioBooleana(nom, exp);
+        return true;
     }
 
-    public void modExpressioBooleana(String nom, String nExp) {
-        cd.modExpressioBooleana(nom, nExp);
+    public static List<Pair<String, String>> cercarExpressioBooleana(String exp) {
+        //return cd.cercarExpressioBooleana(exp);
+        List<Pair<String, String>> docs = new ArrayList<>();
+        Pair p = new Pair();
+        p.x = "Ana";
+        p.y = "Historia de una escalera";
+        docs.add(p);
+        Pair p2 = new Pair();
+        p2.x = "Laura";
+        p2.y = "Escaleras";
+        docs.add(p2);
+        return docs;
     }
 
-    public void deleteExpressioBooleana(String nom) {
-        cd.deleteExpressioBooleana(nom);
+    public static  void modExpressioBooleana(String nom, String nExp) {
+        //cd.modExpressioBooleana(nom, nExp);
+    }
+
+    public static void deleteExpressioBooleana(String nom) {
+        //cd.deleteExpressioBooleana(nom);
     }
 
 

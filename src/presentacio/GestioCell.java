@@ -14,9 +14,7 @@ public class GestioCell extends DefaultTableCellRenderer {
     private ImageIcon options = new ImageIcon(getClass().getResource("/presentacio/icons/moreOptions3.png"));
 
 
-    public GestioCell() {
-
-    }
+    public GestioCell() {}
 
     /**
      * Constructor explicito con el tipo de dato que tendr� la celda

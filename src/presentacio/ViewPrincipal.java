@@ -23,7 +23,7 @@ import java.util.List;
 
 import static javax.swing.SwingUtilities.isRightMouseButton;
 
-public class Main extends JFrame {
+public class ViewPrincipal extends JFrame {
     private JPanel panel1;
     private JButton creaButton;
     private JButton importaButton;
@@ -32,55 +32,48 @@ public class Main extends JFrame {
     private JPanel tablePanel;
     private JButton gestioExpBoolButton;
     private JButton busquedaButton;
-    private JLabel CapDocLabel;
     private JButton esborrarDocsButton;
+    private JLabel CapLabel0;
+    private JLabel CapButton1;
+    private JLabel CapLabel2;
+    private JLabel CapButton3;
     int anteriorColumn;
+    int numRows;
 
 
-    public Main(String title) {
+    public ViewPrincipal(String title) {
         anteriorColumn = -1;
         setContentPane(panel1);
         setTitle("Editor de textos");
         setSize(1000, 300);
-        setMinimumSize(new Dimension(200, 200));
+        setMinimumSize(new Dimension(400, 300));
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
 
         String[] colums = {"Titols", "Autors", "Darrera modificació", " "};
-        Object[][] titols = {
-                //{"Dia", "Pep", LocalDate.now() + " " + LocalTime.now().truncatedTo(ChronoUnit.SECONDS)},
-                {"Historia de una escalera", "Ana", LocalDate.now() + " " + LocalTime.now().truncatedTo(ChronoUnit.SECONDS)},
-                {"La venganza de Don Tenorio", "Ana", LocalDate.now() + " " + LocalTime.now().truncatedTo(ChronoUnit.SECONDS)},
-                {"La divina comedia", "Carlos", LocalDate.now() + " " + LocalTime.now().truncatedTo(ChronoUnit.SECONDS)},
-                {"La divina comedia", "Joan", LocalDate.now() + " " + LocalTime.now().truncatedTo(ChronoUnit.SECONDS)},
-                {"La ceguera", "Pepe", LocalDate.of(1973, 2, 23) + " " + LocalTime.of(20, 01, 15, 0003).truncatedTo(ChronoUnit.SECONDS)},
-                {"Lo que el viento se llevó", "Pepe", LocalDate.of(1972, 2, 23) + " " + LocalTime.of(20, 03, 15, 0003).truncatedTo(ChronoUnit.SECONDS)}};/*
+        List<Pair<String, String>> documentsList = new ArrayList<>();
+        documentsList = CtrlPresentacio.getTitolsAutors();
+        Object[][] documentsObj = new Object[documentsList.size()][2];
+        for(int i = 0; i < documentsList.size(); ++i) {
+            Object[] document = {documentsList.get(i).y, documentsList.get(i).x};
+            documentsObj[i] = document;
+        }
 
-
-                {"Day", "Pepe", LocalDate.now() + " " + LocalTime.now()},
-                {"Rio", "Romero", LocalDate.now() + " " + LocalTime.now()},
-                {"Camino", "Alex", LocalDate.now() + " " + LocalTime.now()},
-                {"Dia", "Zacarias", LocalDate.now() + " " + LocalTime.now()},
-                {"SD", "Juan", LocalDate.now() + " " + LocalTime.now()},
-                {"La hostia", "JAGGER", LocalDate.now() + " " + LocalTime.now()},
-                {"Illo no veas", "Illojuan", LocalDate.now() + " " + LocalTime.now()},
-                {"Siempre tipo fuego", "Oak", LocalDate.now() + " " + LocalTime.now()},
-                {"Adelante Pikachu", "Ash", LocalDate.now() + " " + LocalTime.now()},
-                {"Tornado de fuego", "Axel", LocalDate.now() + " " + LocalTime.now()},
-                {"Mano mágica", "Marc", LocalDate.now() + " " + LocalTime.now()},
-                {"Lo tengo!", "Layton", LocalDate.now() + " " + LocalTime.now()},
-                {"Ay ay ay", "Luke", LocalDate.now() + " " + LocalTime.now()},
-                {"Roooar", "Luxray", LocalDate.now() + " " + LocalTime.now()},
-                {"Yo q sé", "Yo", LocalDate.now() + " " + LocalTime.now()},*/
-        //{"Lápiz", "Antes", LocalDate.of(1972, 2, 23) + " " + LocalTime.of(20, 01, 15, 0003).truncatedTo(ChronoUnit.SECONDS)},
-        //{"Vida", "Después", LocalDate.of(1972, 2, 23) + " " + LocalTime.of(20, 03, 15, 0003).truncatedTo(ChronoUnit.SECONDS)}};
-        DefaultTableModel tableModel = new DefaultTableModel(titols, colums) {
+        DefaultTableModel tableModel = new DefaultTableModel(documentsObj, colums) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
         };
+        //JTable Jdocuments = new JTable(tableModel);
         JTable documents = new JTable(tableModel);
+        if(documents.getRowCount() == 0) {
+            showLabelNoDocs(documents);
+        }
+        else {
+            hideLabelNoDocs(documents);
+        }
+
         //documents.setAutoResizeMode(5);
 
         documents.setAutoCreateRowSorter(true);
@@ -133,19 +126,18 @@ public class Main extends JFrame {
         documents.getColumnModel().getColumn(3).setPreferredWidth(10);
         documents.getTableHeader().setReorderingAllowed(false);
 
+        numRows = documents.getRowCount();
+
         /* popup busqueda */
-        //JMenu menuBusqueda;
-        //JMenuBar mb = new JMenuBar();
-        //menuBusqueda = new JMenu("Búsqueda");
         JMenuItem llistarTdeA = new JMenuItem("Llistar títols autor");
         JMenuItem llistarAperP = new JMenuItem("Llistar autors prefix");
         JMenuItem cercaR = new JMenuItem("Cerca per rellevància");
-        //menuBusqueda.add(iB1); menuBusqueda.add(iB2); menuBusqueda.add(iB3);
-        //mb.add(menuBusqueda);
+        JMenuItem cercaExp = new JMenuItem("Cerca per expressió booleana");
         JPopupMenu popBusqueda = new JPopupMenu();
         popBusqueda.add(llistarTdeA);
         popBusqueda.add(llistarAperP);
         popBusqueda.add(cercaR);
+        popBusqueda.add(cercaExp);
 
         /* popup opciones docs */
         JMenuItem exportarD = new JMenuItem("Exportar document");
@@ -229,7 +221,7 @@ public class Main extends JFrame {
                             return false;
                         }
                     };
-                    JTable docsBorrar = new JTable(tm);
+                    /*JTable docsBorrar = new JTable(tm);
                     docsBorrar.setAutoCreateRowSorter(true);
                     docsBorrar.getTableHeader().setReorderingAllowed(false);
                     docsBorrar.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -237,9 +229,10 @@ public class Main extends JFrame {
                     docsBorrar.getColumnModel().getColumn(1).setCellRenderer(new GestioCell("text"));
                     JPanel panelBorrar = new JPanel();
                     panelBorrar.setLayout(new BorderLayout());
-                    JScrollPane tableAutsScroll = new JScrollPane(docsBorrar);
-                    panelBorrar.add(new JLabel("S'esborraran els següents documents:"), BorderLayout.NORTH);
-                    panelBorrar.add(tableAutsScroll, BorderLayout.CENTER);
+                    JScrollPane tableAutsScroll = new JScrollPane(docsBorrar);*/
+                    JPanel panelBorrar = new showingDocsTable(tm, documents);
+                    panelBorrar.add(new JLabel("S'esborraran els següents documents:"), BorderLayout.NORTH);////////////////
+                    //panelBorrar.add(tableAutsScroll, BorderLayout.CENTER);
                     panelBorrar.add(new JLabel("Estàs d'acord?"), BorderLayout.SOUTH);
                     //docsBorrar.setFillsViewportHeight(true);
 
@@ -252,6 +245,10 @@ public class Main extends JFrame {
                             tableModel.removeRow(documents.getSelectedRow());
                         }
                         JOptionPane.showMessageDialog(null, "S'han esborrat correctament els documents", "Esborrar documents seleccionats", JOptionPane.DEFAULT_OPTION);
+                        numRows = documents.getRowCount();
+                        if(numRows == 0) {
+                            showLabelNoDocs(documents);
+                        }
                     } else { //misstage no s'han borrat
                         JOptionPane.showMessageDialog(null, "No s'han esborrat cap document", "Esborrar documents seleccionats", JOptionPane.DEFAULT_OPTION);
                     }
@@ -263,8 +260,6 @@ public class Main extends JFrame {
 
         borrarDocsSeleccionats.addActionListener(esborrarDocsSeleccionatsAction);
         esborrarDocsButton.addActionListener(esborrarDocsSeleccionatsAction);
-
-        //table.getSelectedRows().length
 
         xButton.addActionListener(new ActionListener() {
             @Override
@@ -349,6 +344,10 @@ public class Main extends JFrame {
                         CapDocLabel.setVisible(true);
                     }*/
                     JOptionPane.showMessageDialog(null, "S'ha esborrat el document correctament");
+                    numRows = documents.getRowCount();
+                    if(numRows == 0) {
+                        showLabelNoDocs(documents);
+                    }
                 } else {
                     JOptionPane.showMessageDialog(null, "No s'ha esborrat el document");
                 }
@@ -380,6 +379,10 @@ public class Main extends JFrame {
                     if(creat) {
                         tableModel.addRow(new Object[]{newT.getText(), newA.getText(), LocalDate.now()
                                 + " " + LocalTime.now().truncatedTo(ChronoUnit.SECONDS)});
+                        numRows = documents.getRowCount();
+                        if(numRows != 0) {
+                            hideLabelNoDocs(documents);
+                        }
                     }
                     else {
                         JOptionPane.showMessageDialog(null, "El document amb títol " + newT.getText() + " i autor " + newA.getText() + " ja existeix.");
@@ -416,6 +419,12 @@ public class Main extends JFrame {
                                     "El document amb path " + arxius[i].getAbsolutePath() +
                                             " no es pot importar perqué ya existeix un document amb títol " +
                                             docImp.get(1) + " i autor " + docImp.get(0) + ".");
+                        }
+                        else{
+                            numRows = documents.getRowCount();
+                            if(numRows != 0) {
+                                hideLabelNoDocs(documents);
+                            }
                         }
                         //System.out.println(docImp.get(1) + docImp.get(0) + docImp.get(2));
                     }
@@ -471,7 +480,7 @@ public class Main extends JFrame {
         gestioExpBoolButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                CtrlPresentacio.mostraVistaGestioExpBool();
+                CtrlPresentacio.mostraVistaGestioExpBool(documents);
             }
         });
 
@@ -552,7 +561,7 @@ public class Main extends JFrame {
                             return false;
                         }
                     };
-                    JTable tits = new JTable(tm);
+                    /*JTable tits = new JTable(tm);
 
                     tits.setAutoCreateRowSorter(true);
                     tits.getTableHeader().setReorderingAllowed(false);
@@ -561,8 +570,10 @@ public class Main extends JFrame {
                     JPanel panelTits = new JPanel();
                     panelTits.setLayout(new BorderLayout());
                     JScrollPane tableAutsScroll = new JScrollPane(tits);
-                    panelTits.add(tableAutsScroll);
+                    panelTits.add(tableAutsScroll);*/
                     //panelTits.setBounds(200, 200, 50, 50);
+
+                    JPanel panelTits = new showingDocsTable(tm, documents);
 
                     JOptionPane.showMessageDialog(null, panelTits, "Títols de l'autor " + autorSelec, JOptionPane.DEFAULT_OPTION);
                 }
@@ -592,7 +603,7 @@ public class Main extends JFrame {
                         }
                     };
 
-                    JTable auts = new JTable(tm);
+                    /*JTable auts = new JTable(tm);
                     auts.setAutoCreateRowSorter(true);
                     auts.getTableHeader().setReorderingAllowed(false);
                     auts.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -600,7 +611,9 @@ public class Main extends JFrame {
                     JPanel panelAuts = new JPanel();
                     panelAuts.setLayout(new BorderLayout());
                     JScrollPane tableAutsScroll = new JScrollPane(auts);
-                    panelAuts.add(tableAutsScroll);
+                    panelAuts.add(tableAutsScroll);*/
+
+                    JPanel panelAuts = new showingDocsTable(tm, documents);
 
                     JOptionPane.showMessageDialog(null, panelAuts, "Autors amb el prefix " + pref, JOptionPane.DEFAULT_OPTION);
                 }
@@ -705,7 +718,7 @@ public class Main extends JFrame {
                             }
                         };
 
-                        JTable docs = new JTable(tm);
+                        /*JTable docs = new JTable(tm);
                         docs.setAutoCreateRowSorter(true);
                         docs.getTableHeader().setReorderingAllowed(false);
                         docs.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -714,12 +727,14 @@ public class Main extends JFrame {
                         JPanel panelDocs = new JPanel();
                         panelDocs.setLayout(new BorderLayout());
                         JScrollPane tableAutsScroll = new JScrollPane(docs);
-                        panelDocs.add(tableAutsScroll, BorderLayout.CENTER);
+                        panelDocs.add(tableAutsScroll, BorderLayout.CENTER);*/
+
+                        JPanel panelDocs = new showingDocsTable(tm, documents);
 
                         String estrat = "TF-IDF";
                         if(estrategia) estrat = "TF";
                         JLabel label = new JLabel( "Aquests són els " + num.getValue() +
-                                " documents més rellevants segons les paraules " + paraules +
+                                " documents més rellevants segons les paraules escollides" +
                                 " amb l'estratègia " + estrat + ".");
                         panelDocs.add(label, BorderLayout.SOUTH);
                         JOptionPane.showMessageDialog(null, panelDocs, "Documents segons la cerca per rellevància", JOptionPane.DEFAULT_OPTION);
@@ -746,9 +761,10 @@ public class Main extends JFrame {
                 int opt1 = JOptionPane.showOptionDialog(null, message, "Llistar documents semblants",
                         JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, JOptionPane.NO_OPTION);
                 if(opt1 == 0) {
-                    System.out.println(num.getValue());
+                    //System.out.println(num.getValue());
                     String[] tox = {"TF-IDF", "TF"};
-                    int opt2 = JOptionPane.showOptionDialog(null, "Escull l'estratègia amb la que vols cercar:", "Llistar documents semblants", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, tox, tox[0]);
+                    int opt2 = JOptionPane.showOptionDialog(null, "Escull l'estratègia amb la que vols cercar:",
+                            "Llistar documents semblants", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, tox, tox[0]);
                     if (opt2 == 0 || opt2 == 1) {
                         //List<Pair<String, String>> rell = cp.llistarKDocumentsS("Jose", "Hola", Integer.parseInt(k), opt != 0);
                         boolean estrategia = false;
@@ -769,7 +785,7 @@ public class Main extends JFrame {
                             }
                         };
 
-                        JTable docs = new JTable(tm);
+                        /*JTable docs = new JTable(tm);
                         docs.setAutoCreateRowSorter(true);
                         docs.getTableHeader().setReorderingAllowed(false);
                         docs.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -778,7 +794,9 @@ public class Main extends JFrame {
                         JPanel panelDocs = new JPanel();
                         panelDocs.setLayout(new BorderLayout());
                         JScrollPane tableAutsScroll = new JScrollPane(docs);
-                        panelDocs.add(tableAutsScroll, BorderLayout.CENTER);
+                        panelDocs.add(tableAutsScroll, BorderLayout.CENTER);*/
+
+                        JPanel panelDocs = new showingDocsTable(tm, documents);
 
                         String estrat = "TF-IDF";
                         if(estrategia) estrat = "TF";
@@ -792,6 +810,82 @@ public class Main extends JFrame {
             }
         });
 
+        cercaExp.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JPanel panelBusquedaExp = new JPanel();
+                JTextField newExp = new JTextField("",20);
+                JPanel insertExp = new JPanel();
+                insertExp.add(new JLabel("Escriu l'expressió per cercar:"));
+                insertExp.add(newExp);
+                panelBusquedaExp.setLayout(new BorderLayout());
+                panelBusquedaExp.add(insertExp, BorderLayout.CENTER);
+
+                String[] tox = {"Cerca", "Cancel·lar"};
+                int opt1 = JOptionPane.showOptionDialog(null, panelBusquedaExp,
+                        "Cercar per expressió booleana", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE,
+                        null, tox, tox[0]);
+                if (opt1 == 0 && !newExp.getText().equals("")) {
+                    List<Pair<String, String>> docsXExp = CtrlPresentacio.cercarExpressioBooleana(newExp.getText());
+
+                    Object[][] docsSemblantsObj = new Object[docsXExp.size()][2];
+                    for(int i = 0; i < docsXExp.size(); ++i) {
+                        Object[] docSemblantsObj = {docsXExp.get(i).y, docsXExp.get(i).x};
+                        docsSemblantsObj[i] = docSemblantsObj;
+                    }
+                    String[] columns = {"Títols", "Autors"};
+                    DefaultTableModel tm = new DefaultTableModel(docsSemblantsObj, columns) {
+                        @Override
+                        public boolean isCellEditable(int row, int column) {
+                            return false;
+                        }
+                    };
+
+                    JPanel panelDocs = new showingDocsTable(tm, documents);
+
+                    String[] tox2 = {"Guardar expressió", "Cancel·lar"};
+                    int opt2 = JOptionPane.showOptionDialog(null, panelDocs,
+                            "Resultats de cerca per expressió", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE,
+                            null, tox2, tox2[1]);
+                    if (opt2 == 0) { //guardar l'expressió
+                        JPanel panelGuardarExp = new JPanel();
+                        JTextField newNom = new JTextField("",20);
+                        JPanel insertNom = new JPanel();
+                        insertNom.add(new JLabel("Escriu el nom de la nova expressió: "));
+                        insertNom.add(newNom);
+                        panelGuardarExp.setLayout(new BorderLayout());
+                        panelGuardarExp.add(insertNom, BorderLayout.SOUTH);
+                        JPanel expresioIntroduida = new JPanel();
+                        newExp.setEditable(false);
+                        expresioIntroduida.add(new JLabel("Expressió: "));
+                        expresioIntroduida.add(newExp);
+                        panelGuardarExp.add(expresioIntroduida, BorderLayout.NORTH);
+
+                        int opt3 = JOptionPane.showOptionDialog(null, panelGuardarExp, "Guardar nova expressió booleana",
+                                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, JOptionPane.NO_OPTION);
+
+                        if(!newNom.getText().equals("") && opt3 == 0) {
+                            boolean creat = CtrlPresentacio.creaExpressioBooleana(newNom.getText(), newExp.getText());
+                            if(creat) {
+                                JOptionPane.showMessageDialog(null, "S'ha guardat l'expressió booleana " +
+                                        newExp.getText() + " amb nom " + newNom.getText() + ".", "Guardar nova expressió booleana",
+                                        JOptionPane.DEFAULT_OPTION);
+                            }
+                            else { ///EL MOTIVO ES ESTE??
+                                JOptionPane.showMessageDialog(null, "No s'ha creat l'expressió, el nom indicat ja existia.",
+                                        null, JOptionPane.DEFAULT_OPTION);
+                            }
+                        }
+                    }
+                }
+                if(newExp.getText() != null && !newExp.getText().equals("")) {
+
+                }
+                /*else if(newA.getText() != null && newT.getText() != null && (newT.getText().equals("") || newA.getText().equals(""))){ //FALTA PONER UN MENSAJE EN CASO DE Q SE DEJEN LOS 2 EN BLANCO Y SE CLIQ ACEPTAR
+                    JOptionPane.showMessageDialog(null, "Introdueix un autor i un títol vàlid");
+                }*/
+            }
+        });
 
         validate();
     }
@@ -808,10 +902,25 @@ public class Main extends JFrame {
         CtrlPresentacio.esborrarDocuments(docsBorrarList);
     }
 
+    private void hideLabelNoDocs(JTable documents) {
+        CapLabel0.setVisible(false);
+        CapButton1.setVisible(false);
+        CapLabel2.setVisible(false);
+        CapButton3.setVisible(false);
+        documents.setVisible(true);
+    }
+
+    private void showLabelNoDocs(JTable documents) {
+        CapLabel0.setVisible(true);
+        CapButton1.setVisible(true);
+        CapLabel2.setVisible(true);
+        CapButton3.setVisible(true);
+        documents.setVisible(false);
+    }
 
 
     public static void main(String[] args) {
-        JFrame mainView = new Main("Editor de textos");
+        JFrame mainView = new ViewPrincipal("Editor de textos");
 
         /* keyboard listeners */
         /*mainView.addKeyListener(new KeyAdapter() {

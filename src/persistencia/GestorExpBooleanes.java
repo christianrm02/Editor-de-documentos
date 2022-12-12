@@ -3,31 +3,29 @@ package persistencia;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
 
 public class GestorExpBooleanes {
-    public byte[] CarregarExpB() {
+    public String[] CarregarExpB(String path) {
         try {
-            FileInputStream fileInputStream = new FileInputStream("./appdata/expressions/expB");
-            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-            byte[] info = (byte[]) objectInputStream.readObject();
-            objectInputStream.close();
-            return info;
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            String nom = path.substring(path.lastIndexOf("/")+1);
+            BufferedReader reader = new BufferedReader(new FileReader(path));
+            String exp = reader.readLine();
+            reader.close();
+            return new String[]{nom, exp};
         } catch (IOException e) {
             e.printStackTrace();
         }
-        //Si no troba el fitxer simplement retorna null
         return null;
     }
 
-    public void GuardarExpB(byte[] info) {
+    public void GuardarExpB(String nom, String exp) {
         try {
-            //System.out.println("Working Directory = " + System.getProperty("user.dir"));
-            Files.createDirectories(Paths.get("./appdata/expressions/"));
-            FileOutputStream fileOutputStream = new FileOutputStream("./appdata/expressions/expB");
+            String dirPath = "./appdata/expressions/";
+            Files.createDirectories(Paths.get(dirPath));
+            FileOutputStream fileOutputStream = new FileOutputStream(dirPath.concat(nom));
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-            objectOutputStream.writeObject(info);
+            objectOutputStream.writeObject(exp);
             objectOutputStream.flush();
             objectOutputStream.close();
         } catch (IOException e){

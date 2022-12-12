@@ -37,12 +37,12 @@ public class CtrlPersistencia {
         gI.ExportarIndexs(info);
     }
 
-    public byte[] CarregarExpB() {
-        return gEB.CarregarExpB();
+    public String[] CarregarExpB(String path) {
+        return gEB.CarregarExpB(path);
     }
 
-    public void GuardarExpB(byte[] info) {
-        gEB.GuardarExpB(info);
+    public void GuardarExpB(String nom, String exp) {
+        gEB.GuardarExpB(nom, exp);
     }
 
 }

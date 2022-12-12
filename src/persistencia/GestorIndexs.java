@@ -18,9 +18,7 @@ public class GestorIndexs {
             byte[] info = (byte[]) objectInputStream.readObject();
             objectInputStream.close();
             return info;
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (ClassNotFoundException | IOException e) {
             e.printStackTrace();
         }
         //Si no troba el fitxer simplement retorna null

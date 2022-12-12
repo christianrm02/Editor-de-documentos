@@ -18,7 +18,7 @@ public class Trie implements Serializable{
     private TrieNode root;
     private int maxLength = 0;
 
-    private class TrieNode {
+    private class TrieNode implements Serializable{
 
         HashMap<Character, TrieNode> children;
         boolean isEndWord = false;

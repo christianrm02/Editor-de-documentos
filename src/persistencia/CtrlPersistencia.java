@@ -1,20 +1,26 @@
 package persistencia;
 
+import transversal.FileFormat;
+
 public class CtrlPersistencia {
     private GestorDocuments gD;
     private GestorIndexs gI;
     private GestorExpBooleanes gEB;
 
-    public void importaDocument(String path) {
-        gD.CarregaDocument(path);
+    public void carregaDocument(String path, FileFormat f) {
+        gD.CarregaDocument(path, f);
     }
 
-    public void ExportaDocument(String path) {
-        gD.ExportaDocument(path);
+    public void exportaDocument(String autor, String titol, String path, FileFormat f) {
+        gD.ExportaDocument(autor, titol, path, f);
     }
 
     public void obrirDocument(String autor, String titol) {
         gD.ObrirDocument(autor, titol);
+    }
+
+    public void desaDocument(String autor, String titol, String contingut) {
+        gD.DesaDocument(autor, titol, contingut);
     }
 
     public byte[] ImportarIndexs() {

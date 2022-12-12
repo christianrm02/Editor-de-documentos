@@ -1,5 +1,7 @@
 package persistencia;
 
+import controladores.CtrlExpressioBooleana;
+import controladores.CtrlIndex;
 import transversal.FileFormat;
 
 public class CtrlPersistencia {
@@ -7,8 +9,12 @@ public class CtrlPersistencia {
     private GestorIndexs gI;
     private GestorExpBooleanes gEB;
 
-    public void carregaDocument(String path, FileFormat f) {
-        gD.CarregaDocument(path, f);
+    // Constructora
+    public CtrlPersistencia() {
+
+    }
+    public String[] carregaDocument(String path, FileFormat f) {
+        return gD.CarregaDocument(path, f);
     }
 
     public void exportaDocument(String autor, String titol, String path, FileFormat f) {

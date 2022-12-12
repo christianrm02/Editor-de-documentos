@@ -181,7 +181,7 @@ public class DriverCtrlDomini {
                 cont += ent + '\n';
                 ent = entrada.nextLine();
             }
-            cd.modificarContingut(autorO, titolO, cont);
+            //cd.modificarContingut(autorO, titolO, cont);
             System.out.println("El contingut del document obert s'ha modificat correctament.");
         } else if (nDocuments < 1) System.out.println("No hi ha cap document, crea'n un abans!");
         else System.out.println("No hi ha cap document obert, obre'n un abans!");

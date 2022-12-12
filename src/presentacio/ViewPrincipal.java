@@ -39,14 +39,16 @@ public class ViewPrincipal extends JFrame {
     private JLabel CapButton3;
     int anteriorColumn;
     int numRows;
+    DefaultTableModel tableModel;
+    JTable documents;
 
 
     public ViewPrincipal(String title) {
         anteriorColumn = -1;
         setContentPane(panel1);
         setTitle("Editor de textos");
-        setSize(1000, 300);
-        setMinimumSize(new Dimension(400, 300));
+        setSize(1000, 500);
+        setMinimumSize(new Dimension(500, 300));
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
 
@@ -59,14 +61,14 @@ public class ViewPrincipal extends JFrame {
             documentsObj[i] = document;
         }
 
-        DefaultTableModel tableModel = new DefaultTableModel(documentsObj, colums) {
+        tableModel = new DefaultTableModel(documentsObj, colums) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
         };
         //JTable Jdocuments = new JTable(tableModel);
-        JTable documents = new JTable(tableModel);
+        documents = new JTable(tableModel);
         if(documents.getRowCount() == 0) {
             showLabelNoDocs(documents);
         }
@@ -277,6 +279,7 @@ public class ViewPrincipal extends JFrame {
                     if(opt == 0) {
                         boolean modificat = CtrlPresentacio.modificarTitol((String) documents.getValueAt(documents.getSelectedRow(), 1), (String) documents.getValueAt(documents.getSelectedRow(), 0), newT); //autor, titol, newT
                         if(modificat) {
+                            System.out.println(documents.getSelectedRow());
                             tableModel.addRow(new Object[]{newT, documents.getValueAt(documents.getSelectedRow(), 1), documents.getValueAt(documents.getSelectedRow(), 2)});
                             tableModel.removeRow(documents.getSelectedRow());
                             JOptionPane.showMessageDialog(null, "S'ha modificat el títol a " + newT + ".");
@@ -309,6 +312,7 @@ public class ViewPrincipal extends JFrame {
                         //como el cambiar de valor no lo ordenaba correctamente he decidido borrarlo y volverlo a crear
                         boolean modificat = CtrlPresentacio.modificarAutor((String) documents.getValueAt(documents.getSelectedRow(), 1), (String) documents.getValueAt(documents.getSelectedRow(), 0), newA); //autor, titol, newA
                         if(modificat) {
+                            System.out.println(documents.getSelectedRow());
                             tableModel.addRow(new Object[]{documents.getValueAt(documents.getSelectedRow(), 0), newA, documents.getValueAt(documents.getSelectedRow(), 2)});
                             tableModel.removeRow(documents.getSelectedRow());
                             JOptionPane.showMessageDialog(null, "S'ha modificat l'autor a " + newA + ".");
@@ -496,7 +500,10 @@ public class ViewPrincipal extends JFrame {
             public void mouseClicked(MouseEvent e) {
                 int columna = documents.columnAtPoint(e.getPoint());
                 if (e.getClickCount() == 2 && columna!=3) {
-                    CtrlPresentacio.mostraViewEditar((String)documents.getValueAt(documents.getSelectedRow(), 1), (String)documents.getValueAt(documents.getSelectedRow(), 0));
+                    String titol = (String)documents.getValueAt(documents.getSelectedRow(), 1);
+                    String autor = (String)documents.getValueAt(documents.getSelectedRow(), 0);
+                    CtrlPresentacio.mostraViewEditar(titol, autor);
+                    //CtrlPresentacio.ocultaViewPrincipal();
                 }
             }
         });
@@ -902,6 +909,51 @@ public class ViewPrincipal extends JFrame {
         CtrlPresentacio.esborrarDocuments(docsBorrarList);
     }
 
+    public void actualitzaTitol(String newT) {
+       //System.out.println("EMPIEZO");
+        //System.out.println(documents.getSelectedRowCount());
+        //documents.getSelectedRowCount();
+        String autor = (String) documents.getValueAt(documents.getSelectedRow(), 1);
+        tableModel.addRow(new Object[]{newT, documents.getValueAt(documents.getSelectedRow(), 1), documents.getValueAt(documents.getSelectedRow(), 2)});
+        tableModel.removeRow(documents.getSelectedRow());
+        documents.repaint();
+        int row = 0;
+        for(int i = 0; i < documents.getRowCount() && row == 0; ++i) {
+            if(((String) documents.getValueAt(i, 0)).equals(newT) && ((String) documents.getValueAt(i, 1)).equals(autor)) {
+                row = i;
+            }
+        }
+        documents.clearSelection();
+        documents.addRowSelectionInterval(row, row);
+    }
+
+    public void actualitzaAutor(String newA) {
+        //System.out.println("EMPIEZO");
+        //System.out.println(documents.getSelectedRowCount());
+        //documents.getSelectedRowCount();
+        String titol = (String) documents.getValueAt(documents.getSelectedRow(), 0);
+        tableModel.addRow(new Object[]{titol, newA, documents.getValueAt(documents.getSelectedRow(), 2)});
+        tableModel.removeRow(documents.getSelectedRow());
+        documents.repaint();
+        int row = 0;
+        for(int i = 0; i < documents.getRowCount() && row == 0; ++i) {
+            if(((String) documents.getValueAt(i, 0)).equals(titol) && ((String) documents.getValueAt(i, 1)).equals(newA)) {
+                row = i;
+            }
+        }
+        documents.clearSelection();
+        documents.addRowSelectionInterval(row, row);
+        //System.out.println("ACABO");
+    }
+
+    public String getTitolDocObert() {
+        return (String)documents.getValueAt(documents.getSelectedRow(), 0);
+    }
+
+    public String getAutorDocObert() {
+        return (String)documents.getValueAt(documents.getSelectedRow(), 1);
+    }
+
     private void hideLabelNoDocs(JTable documents) {
         CapLabel0.setVisible(false);
         CapButton1.setVisible(false);
@@ -920,7 +972,7 @@ public class ViewPrincipal extends JFrame {
 
 
     public static void main(String[] args) {
-        JFrame mainView = new ViewPrincipal("Editor de textos");
+        CtrlPresentacio.mostraViewPrincipal();
 
         /* keyboard listeners */
         /*mainView.addKeyListener(new KeyAdapter() {

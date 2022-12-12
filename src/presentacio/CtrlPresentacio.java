@@ -9,10 +9,14 @@ import java.util.List;
 
 public class CtrlPresentacio {
     private static ViewPrincipal Main;
-    private static CtrlDomini cd = new CtrlDomini();
+    private static CtrlDomini cd;
 
     public static void mostraViewPrincipal(){
-        if(Main == null) Main = new ViewPrincipal("Documentator");
+        if(Main == null) {
+            Main = new ViewPrincipal("Documentator");
+            cd = new CtrlDomini();
+            //cd.init();
+        }
         else Main.setVisible(true);
     }
 
@@ -60,8 +64,14 @@ public class CtrlPresentacio {
     }
 
     /*Crides a domini*/
-    public List<String> getAutors() {
-        return cd.getAutors();
+    public static List<String> getAutors() {
+        //return cd.getAutors();
+        List<String> autors = new ArrayList<>();
+        autors.add("Pepe");
+        autors.add("Joan");
+        autors.add("Ana");
+        autors.add("Carlos");
+        return autors;
     }
 
     public static List<Pair<String, String>> getTitolsAutors() {

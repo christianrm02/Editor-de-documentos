@@ -26,26 +26,30 @@ public class Tree {
         Stack<TreeNode> st = new Stack<>();
         TreeNode t1 = null;
         TreeNode t2, node;
+        try {
+            for (String s : postfix) {
+                if (!isOperator(s)) {
+                    node = new TreeNode(s);
+                    st.push(node);
+                } else {
+                    node = new TreeNode(s);
 
-        for (String s : postfix) {
-            if (!isOperator(s)){
-                node = new TreeNode(s);
-                st.push(node);
+                    if (!s.equals("!")) t1 = st.pop();
+                    t2 = st.pop();
+
+                    node.leftNode = t2;
+                    if (!s.equals("!")) node.rightNode = t1;
+
+                    st.push(node);
+                }
             }
-            else {
-                node = new TreeNode(s);
-
-                if (!s.equals("!")) t1 = st.pop();
-                t2 = st.pop();
-
-                node.leftNode = t2;
-                if (!s.equals("!")) node.rightNode = t1;
-
-                st.push(node);
-            }
+            node = st.pop();
+            return node;
         }
-        node = st.pop();
-        return node;
+        catch (EmptyStackException e) {
+            System.out.println( "Expressio booleana incorrecte" );
+        }
+        return null;
     }
 
     //Retorna la prioritat de l'operador

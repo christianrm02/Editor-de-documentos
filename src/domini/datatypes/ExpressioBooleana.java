@@ -12,20 +12,59 @@ public class ExpressioBooleana {
     private Tree expA;
 
     //Constructores
-    public ExpressioBooleana(String exp) {
-        this.exp = exp;
+    public ExpressioBooleana(String exp) throws Exception {
+        esCorrecte(exp);
 
+        this.exp = exp;
         List<String> llistaExp = crearLlista();
         this.expA = new Tree(llistaExp);
     }
 
-    public ExpressioBooleana(String nom, String exp) {
+    public ExpressioBooleana(String nom, String exp) throws Exception {
+        esCorrecte(exp);
+
         this.nom = nom;
         this.exp = exp;
-
         List<String> llistaExp = crearLlista();
         this.expA = new Tree(llistaExp);
     }
+
+    void esCorrecte(String exp) throws Exception {
+        if (exp.length() == 0) throw new Exception("expressió buida");
+        int i = 0;
+        boolean espai = false;
+        boolean espai_necessari = false;
+        int parentesis_oberts = 0;
+        while (i < exp.length()) {
+            if (exp.charAt(i) == ' ') {
+                if (espai) throw new Exception("dos espais seguits");
+                else espai = true;
+                if (espai_necessari) espai_necessari = false;
+            }
+            else {
+                if (espai_necessari) throw new Exception("operadors mal col·locats");
+                else if (exp.charAt(i) == '(') ++parentesis_oberts;
+                else if (exp.charAt(i) == ')') {
+                    if (parentesis_oberts == 0) throw new Exception("mal parentitzat");
+                    else --parentesis_oberts;
+                }
+                else if (exp.charAt(i) == '&' || exp.charAt(i) == '|') {
+                    if (!espai) throw new Exception("operadors mal col·locats");
+                    espai_necessari = true;
+                }
+                espai = false;
+            }
+            ++i;
+        }
+        if (parentesis_oberts > 0) throw new Exception("mal parentitzat");
+    }
+
+    private boolean es_operador (char c) {
+        if (c == '&' || c == '|' || c == '!' || c == '(' || c == '{' || c == ')') return true;
+        return false;
+    }
+
+
 
     //Es crida en el cas que a la transformació de string a llista hi hi hagin cometes
     private int casCometes(List<String> llista, int index) {
@@ -109,4 +148,19 @@ public class ExpressioBooleana {
 
     //Setters
     //public void setNom(String nom) { this.nom = nom; }
+
+    public static void InOrder(TreeNode arrel) {
+        if (arrel == null) return;
+        else {
+            InOrder(arrel.leftNode);
+            System.out.print(arrel.data+", ");
+            InOrder(arrel.rightNode);
+        }
+    }
+    public static void main (String [] args) throws Exception {
+        Scanner leer = new Scanner(System.in);
+        String s = leer.nextLine();
+        ExpressioBooleana exp = new ExpressioBooleana(s);
+        InOrder(exp.getExpA().root);
+    }
 }

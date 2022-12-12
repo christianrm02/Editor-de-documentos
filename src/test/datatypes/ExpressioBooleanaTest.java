@@ -24,7 +24,7 @@ public class ExpressioBooleanaTest {
      * Operativa: Executar el jUnit test.
      */
     @Test
-    public void testConstructores() {
+    public void testConstructores() throws Exception {
         ExpressioBooleana expTest = new ExpressioBooleana("{p1 p2 p3} & (\"hola adéu\" | pep) & !joan");
         assertEquals("{p1 p2 p3} & (\"hola adéu\" | pep) & !joan", expTest.getExp());
         ExpressioBooleana expTest2 = new ExpressioBooleana("Expressió 1","!((hola & adéu))");
@@ -41,7 +41,7 @@ public class ExpressioBooleanaTest {
      * Operativa: Executar el jUnit test.
      */
     @Test
-    public void getNom() {
+    public void getNom() throws Exception {
         ExpressioBooleana expTest = new ExpressioBooleana("Expressió 2", "{p1 p2 p3} & (\"hola adéu\" | pep) & !joan");
         assertEquals("Expressió 2", expTest.getNom());
     }
@@ -55,7 +55,7 @@ public class ExpressioBooleanaTest {
      * Operativa: Executar el jUnit test.
      */
     @Test
-    public void getExp() {
+    public void getExp() throws Exception {
         ExpressioBooleana expTest = new ExpressioBooleana("Expressió 3", "{p1 p2 p3} & (\"hola adéu\" | pep) & !joan");
         assertEquals("{p1 p2 p3} & (\"hola adéu\" | pep) & !joan", expTest.getExp());
     }
@@ -69,7 +69,7 @@ public class ExpressioBooleanaTest {
      * Operativa: Executar el jUnit test.
      */
     @Test
-    public void getExpA() {
+    public void getExpA() throws Exception {
         ExpressioBooleana expTest = new ExpressioBooleana("Expressió 4", "{p1 p2 p3} & (\"hola adéu\" | pep) & !joan");
         Tree arbre = expTest.getExpA();
 

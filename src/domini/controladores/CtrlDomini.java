@@ -62,13 +62,13 @@ public class CtrlDomini {
     }
 
     public String getContingut(String autor, String titol) {
-        return /*cp.getContingut(autor, titol)*/null;
+        return cp.getContingut(autor, titol);
     }
 
-    public String obrirDocument(String autor, String titol) { // s'haura de mirar
+    public String obrirDocument(String autor, String titol) {
         titolAct = titol;
         autorAct = autor;
-        //contAct = cp.getContingut(autor, titol);
+        contAct = cp.getContingut(autor, titol);
         return contAct;
     }
 
@@ -105,7 +105,7 @@ public class CtrlDomini {
         return !ed;
     }
 
-    public void modificarContingut(String cont) { //s'ha de mirar q mes ha de fer
+    public void modificarContingut(String cont) {
         contAct = cont;
         ci.ActualitzarContingut(autorAct, titolAct, converteix_a_frases(cont));
     }

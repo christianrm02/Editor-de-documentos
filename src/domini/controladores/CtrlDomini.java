@@ -39,7 +39,7 @@ public class CtrlDomini {
         //cp.guardarExpB(cp.GuardarExpB);
     }
 
-    public List<Pair<String,String>> carregarDocuments(List<String> locs) throws EDocumentException {
+    public List<Pair<String,String>> importarDocuments(List<String> locs) throws EDocumentException, IOException {
         List<Pair<String,String>> l = new ArrayList<>();
         for (String loc: locs) {
             String[] doc = cp.carregaDocument(loc, FileFormat.txt);
@@ -50,9 +50,8 @@ public class CtrlDomini {
         return l;
     }
 
-    public boolean exportarDocument(String autor, String titol, String loc, FileFormat format) {
+    public void exportarDocument(String autor, String titol, String loc, FileFormat format) throws IOException {
         cp.exportaDocument(autor, titol, loc, format);
-        return false;
     }
 
     // Getters de document

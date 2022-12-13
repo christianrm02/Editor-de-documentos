@@ -39,14 +39,14 @@ public class GestorDocuments {
         if(f == FileFormat.txt) doc = loadTXT(path);
         else if(f == FileFormat.xml) doc = loadXML(path);
 
-        //Desem el fitxer a disc local
-        DesaDocument(doc[0], doc[1], doc[2]);
+        //Desem el contingut a disc local
+        DesaContingut(doc[0], doc[1], doc[2]);
         return doc;
     }
 
     public void ExportaDocument(String autor, String titol, String path, FileFormat f) {
-        //Obtenim el fitxer de disc local
-        String contingut = ObrirDocument(autor, titol);
+        //Obtenim el contingut de disc local
+        String contingut = GetContingut(autor, titol);
         if(contingut == null) return;
         
         //Exportem el fitxer
@@ -54,7 +54,7 @@ public class GestorDocuments {
         else if(f == FileFormat.xml) writeXML(autor, titol, contingut, path);
     }
 
-    public String ObrirDocument(String autor, String titol) {
+    public String GetContingut(String autor, String titol) {
         try {
             String dirPath = "./appdata/docs/";
             Files.createDirectories(Paths.get(dirPath));
@@ -71,7 +71,7 @@ public class GestorDocuments {
         return null;
     }
 
-    public void DesaDocument(String autor, String titol, String contingut) {
+    public void DesaContingut(String autor, String titol, String contingut) {
         try {
             String dirPath = "./appdata/docs/";
             Files.createDirectories(Paths.get(dirPath));

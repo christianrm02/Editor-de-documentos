@@ -17,8 +17,8 @@ public class GestorDocumentsTest {
         String contingut = "Manolo se aburre en la playa.\nManolo vuelve a casa";
         GestorDocuments gd = new GestorDocuments();
 
-        gd.DesaDocument(autor, titol, contingut);
-        String result = gd.ObrirDocument(autor, titol);
+        gd.DesaContingut(autor, titol, contingut);
+        String result = gd.GetContingut(autor, titol);
 
         assertEquals(contingut, result);
     }
@@ -32,7 +32,7 @@ public class GestorDocumentsTest {
         String path = "D:\\Documents\\Eric\\Universitat\\Quad5\\testProp\\test.txt";
         String[] expected = new String[]{autor, titol, contingut};
 
-        gd.DesaDocument(autor, titol, contingut);
+        gd.DesaContingut(autor, titol, contingut);
         gd.ExportaDocument(autor, titol, path, FileFormat.txt);
         String[] result = gd.CarregaDocument(path, FileFormat.txt);
 
@@ -48,7 +48,7 @@ public class GestorDocumentsTest {
         String path = "D:\\Documents\\Eric\\Universitat\\Quad5\\testProp\\test.xml";
         String[] expected = new String[]{autor, titol, contingut};
 
-        gd.DesaDocument(autor, titol, contingut);
+        gd.DesaContingut(autor, titol, contingut);
         gd.ExportaDocument(autor, titol, path, FileFormat.xml);
         String[] result = gd.CarregaDocument(path, FileFormat.xml);
 

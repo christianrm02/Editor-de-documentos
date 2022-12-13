@@ -2,49 +2,48 @@ package persistencia;
 
 import controladores.CtrlExpressioBooleana;
 import controladores.CtrlIndex;
+import datatypes.ExpressioBooleana;
 import transversal.FileFormat;
+import transversal.Pair;
 
 import java.io.IOException;
+import java.util.List;
 
 public class CtrlPersistencia {
-    private GestorDocuments gD;
-    private GestorIndexs gI;
-    private GestorExpBooleanes gEB;
 
     // Constructora
     public CtrlPersistencia() {
 
     }
     public String[] importaDocument(String path) throws IOException {
-        return gD.ImportaDocument(path);
+        return GestorDocuments.ImportaDocument(path);
     }
 
-    public void exportaDocument(String autor, String titol, String path, FileFormat f) throws IOException {
-        gD.ExportaDocument(autor, titol, path, f);
+    public void exportaDocument(String autor, String titol, String path) throws IOException {
+        GestorDocuments.ExportaDocument(autor, titol, path);
     }
 
-    public void getContingut(String autor, String titol) throws IOException {
-        gD.GetContingut(autor, titol);
+    public String getContingut(String autor, String titol) throws IOException {
+        GestorDocuments.GetContingut(autor, titol);
     }
 
     public void desaContingut(String autor, String titol, String contingut) throws IOException {
-        gD.DesaContingut(autor, titol, contingut);
+        GestorDocuments.DesaContingut(autor, titol, contingut);
     }
 
-    public byte[] ImportarIndexs() throws IOException {
-        return gI.ImportarIndexs();
+    public byte[] importarIndexs() throws IOException {
+        return GestorIndexs.ImportarIndexs();
     }
 
-    public void ExportarIndexs(byte[] info) throws IOException {
-        gI.ExportarIndexs(info);
+    public void exportarIndexs(byte[] info) throws IOException {
+        GestorIndexs.ExportarIndexs(info);
     }
 
-    public String[] CarregarExpB(String path) throws IOException {
-        return gEB.CarregarExpB(path);
+    public List<Pair<String, String>> carregarExpB() throws IOException {
+        return GestorExpBooleanes.CarregarExpB();
     }
 
-    public void GuardarExpB(String nom, String exp) throws IOException {
-        gEB.GuardarExpB(nom, exp);
+    public void guardarExpB(List<Pair<String, String>> exps) throws IOException {
+        GestorExpBooleanes.GuardarExpB(exps);
     }
-
 }

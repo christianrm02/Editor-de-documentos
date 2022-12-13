@@ -83,6 +83,14 @@ public class GestorDocuments {
         objectOutputStream.close();
     }
 
+    public void EsborrarDoc(String autor, String titol) throws IOException {
+        String dirPath = "./appdata/docs/";
+        Files.createDirectories(Paths.get(dirPath));
+        String fileName = Integer.toString(Objects.hash(autor, titol));
+        File fileToDelete = new File(dirPath.concat(fileName).concat(".prop"));
+        fileToDelete.delete();
+    }
+
     private String[] loadTXT(String path) throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(path));
         String autor = reader.readLine();

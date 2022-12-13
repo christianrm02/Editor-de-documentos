@@ -1,5 +1,6 @@
 package controladores;
 import datatypes.*;
+import excepcions.ExpBoolNoValidaException;
 import transversal.*;
 
 import java.util.*;
@@ -72,7 +73,7 @@ public class CtrlExpressioBooleana {
     }
 
     //Retorna una llista dels documents que contenen les frases que compleixen l'expressió booleana exp
-    public List<Pair<String, String>> cercarExpressioBooleana(String exp, CtrlIndex ci) throws Exception {
+    public List<Pair<String, String>> cercarExpressioBooleana(String exp, CtrlIndex ci) throws ExpBoolNoValidaException {
         ExpressioBooleana expB = new ExpressioBooleana(exp);
         Tree expTree = expB.getExpA();
         Set<Integer> frases = cercaExpBol(expTree.root, ci);

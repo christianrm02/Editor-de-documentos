@@ -1,5 +1,6 @@
 package test.datatypes;
 
+import excepcions.ExpBoolNoValidaException;
 import org.junit.Test;
 
 import datatypes.Tree;
@@ -26,7 +27,7 @@ public class TreeTest {
      * Operativa: Executar el jUnit test.
      */
     @Test
-    public void testConstructora() {
+    public void testConstructora() throws ExpBoolNoValidaException {
         List<String> exp = new ArrayList<>();
         exp.add("(");
         exp.add("p1");

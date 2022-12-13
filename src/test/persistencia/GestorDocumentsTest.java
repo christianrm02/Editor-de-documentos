@@ -36,7 +36,7 @@ public class GestorDocumentsTest {
 
         gd.DesaContingut(autor, titol, contingut);
         gd.ExportaDocument(autor, titol, path, FileFormat.txt);
-        String[] result = gd.CarregaDocument(path);
+        String[] result = gd.ImportaDocument(path);
 
         assertArrayEquals(expected, result);
     }
@@ -52,7 +52,7 @@ public class GestorDocumentsTest {
 
         gd.DesaContingut(autor, titol, contingut);
         gd.ExportaDocument(autor, titol, path, FileFormat.xml);
-        String[] result = gd.CarregaDocument(path);
+        String[] result = gd.ImportaDocument(path);
 
         assertArrayEquals(expected, result);
     }

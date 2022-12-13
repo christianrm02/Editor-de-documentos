@@ -33,11 +33,9 @@ import transversal.FileFormat;
 public class GestorDocuments {
     
     //Retorna autor, titol i contingut del document carregat i desa el contingut a l'espai de disc del programa
-    public String[] CarregaDocument(String path) throws IOException {
+    public String[] ImportaDocument(String path) throws IOException {
         String[] doc = new String[3];
-        String[] folders = path.split("\\");
-        String[] file = folders[folders.length-1].split(".");
-        String format = file[file.length-1];
+        String format = getFormat(path);
 
         if(format == "txt") doc = loadTXT(path);
         else if(format == "xml") doc = loadXML(path);
@@ -160,5 +158,12 @@ public class GestorDocuments {
         } catch (ParserConfigurationException | TransformerException e) {
             e.printStackTrace();
         }
+    }
+
+    private String getFormat(String path) {
+        String[] folders = path.split("\\");
+        String[] file = folders[folders.length-1].split(".");
+        String format = file[file.length-1];
+        return format;
     }
 }

@@ -1,247 +1,281 @@
 package presentacio;
 
 import controladores.CtrlDomini;
+import excepcions.*;
 import transversal.Pair;
 
 import javax.swing.*;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CtrlPresentacio {
     private static ViewPrincipal Main;
-    private static ViewGestioExpBool ViewExps;
+    private ViewGestioExpBool ViewExps;
     private static CtrlDomini cd;
 
     public static void mostraViewPrincipal(){
         if(Main == null) {
-            Main = new ViewPrincipal("Documentator");
+            Main = new ViewPrincipal("Documentator"); //si paso instancia este metodo tiene q no puede ser static pero como el main es static, y esta func es llama desde ahi, esta también tiene q ser static, por lo q no puedo pasar this
             cd = new CtrlDomini();
-            List<Pair<String, String>> docs = new ArrayList<>(); //cd.init();
-            //return cd.getTitolsAutors();
-            Pair<String, String> p1 = new Pair<>();
-            Pair<String, String> p2 = new Pair<>();
-            Pair<String, String> p3 = new Pair<>();
-            Pair<String, String> p4 = new Pair<>();
-            Pair<String, String> p5 = new Pair<>();
-            Pair<String, String> p6 = new Pair<>();
-            p1.x = "Ana"; p1.y = "Historia de una escalera";
-            p2.x = "Ana"; p2.y = "La venganza de Don Tenorio";
-            p3.x = "Carlos"; p3.y = "La divina comedia";
-            p4.x = "Joan"; p4.y = "La divina comedia";
-            p5.x = "Pepe"; p5.y = "La ceguera";
-            p6.x = "Pepe"; p6.y = "Lo que el viento se llevó";
-            docs.add(p1);
-            docs.add(p2);
-            docs.add(p3);
-            docs.add(p4);
-            docs.add(p5);
-            docs.add(p6);
-
+            List<Pair<String, String>> docs = cd.getTitolsAutors();
             Main.initDocs(docs);
         }
         else Main.setVisible(true);
     }
 
-    public static void ocultaViewPrincipal() {Main.setVisible(false);}
-
-    public static void mostraVistaGestioExpBool(JTable documents){
-        ViewExps = new ViewGestioExpBool(documents);
-        //List<Pair<String, String>> expsList = getAllExpressionsBooleanes();
-
-        List<Pair<String, String>> expsList = new ArrayList<>();
-        /*//{"Dia", "Pep", LocalDate.now() + " " + LocalTime.now().truncatedTo(ChronoUnit.SECONDS)},
-        {"1Kimetsu", "{p1 pp2 p3} & !joan", },
-        {"2Kimetsu", "{ap1 p2 p3} & !joan", },
-        {"3Kimetsu", "{p1 p2g p3} & !joan", },
-        {"4Kimetsu", "{p1 p2 hp3} & !joan", },
-        {"5Kimetsu", "{p1 p2 dp3} & !joan", },
-        {"6Kimetsu", "{p1y p2 p3} & !joan", },
-        {"Exp2", "{p1 p2 p3 p4} & !joan", }*/
-        Pair p1 = new Pair(); p1.x="1Kimetsu"; p1.y="{p1 p2 p3} & !josaan"; expsList.add(p1);
-        Pair p2 = new Pair(); p2.x="2Kimetsu"; p2.y="{psa1 pp2 p3} & !jsaoan"; expsList.add(p2);
-        Pair p3 = new Pair(); p3.x="3Kimetsu"; p3.y="{p1 pp2 p3sd} & !jodan"; expsList.add(p3);
-        Pair p4 = new Pair(); p4.x="4Kimetsu"; p4.y="{p1 pasp2 p3} & !joan"; expsList.add(p4);
-        Pair p5 = new Pair(); p5.x="5Kimetsu"; p5.y="{pss1 aspp2 p3} & !joadn"; expsList.add(p5);
-
-        ViewExps.initExp(expsList);
-
+    public void ocultaViewPrincipal() {
+        Main.setVisible(false);
     }
 
-    public static void mostraViewMostrarCont(String titol, String autor){
+    public void mostraVistaGestioExpBool(JTable documents){
+        ViewExps = new ViewGestioExpBool(documents);
+        List<Pair<String, String>> expsList = getAllExpressionsBooleanes();
+
+        ViewExps.initExp(expsList);
+    }
+
+    public void mostraViewMostrarCont(String titol, String autor){
         String cont = getContingut(autor, titol);
         new ViewMostrarCont(titol, autor, cont);
     }
 
-    public static void mostraViewEditar(String titol, String autor){
+    public void mostraViewEditar(String titol, String autor){
         String cont = obrirDocument(autor, titol);
         new ViewEditar(titol, autor, cont);
         actualitzaTitol("Test");
         actualitzaAutor("Autor");
     }
 
-    public static void actualitzaTitol(String newT) { //se tiene q comprobarantes si se puede crear
+    public void tancarAplicació() {
+        try {
+            cd.tancar();
+        }
+        catch(IOException e) {
+            JOptionPane.showMessageDialog(null, "No s'ha pogut tancar l'aplicació.",
+                    "Error tancar", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public void actualitzaTitol(String newT) { //se tiene q comprobarantes si se puede crear
         String titol = Main.getTitolDocObert();
         String autor = Main.getAutorDocObert();
         boolean valid = modificarTitol(titol, autor, newT);
 
-        if(valid) Main.actualitzaTitol(newT);
-        else {//pop up error;
-
-        }
-
-        //Main.dispose();
-        //mostraViewPrincipal();
+        if(valid) Main.actualitzaTitol(newT); // no hace falta else con pop up error, ya se lanza en la otra
     }
 
-    public static void actualitzaAutor(String newA) { //se tiene q comprobarantes si se puede crear
+    public void actualitzaAutor(String newA) { //se tiene q comprobarantes si se puede crear
         String titol = Main.getTitolDocObert();
         String autor = Main.getAutorDocObert();
         boolean valid = modificarTitol(titol, autor, newA);
 
-        if(valid) Main.actualitzaAutor(newA);
-        else {//pop up error;
-
-        }
+        if(valid) Main.actualitzaAutor(newA); // no hace falta else con pop up error, ya se lanza en la otra
     }
 
     /*Crides a domini*/
-    public static List<String> getAutors() {
-        //return cd.getAutors();
-        List<String> autors = new ArrayList<>();
-        autors.add("Pepe");
-        autors.add("Joan");
-        autors.add("Ana");
-        autors.add("Carlos");
-        return autors;
+    public List<String> getAutors() {
+        return cd.getAutors();
     }
 
-    /*public static List<Pair<String, String>> getTitolsAutors() { //BORRAR??
+    /*public List<Pair<String, String>> getTitolsAutors() { //BORRAR??
 
     }*/
 
-    public static String getContingut(String autor, String titol) {
-        //return cd.getContingut(autor, titol);
-        return "Casa";
+    public String getContingut(String autor, String titol) {
+        String cont = null;
+        try {
+            cont = cd.getContingut(autor, titol);
+        }
+        catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "No s'ha pogut obtenir el contingut del document.",
+                    "Error obtenció contingut", JOptionPane.ERROR_MESSAGE);
+        }
+        return cont;
     }
 
-    public static String obrirDocument(String autor, String titol) { //QUE STRING DEVUELVE ESTA FUNC? FALTA PONER Q SE LLAME CUANDO SE ABRA DOC
+    public String obrirDocument(String autor, String titol) { //QUE STRING DEVUELVE ESTA FUNC? FALTA PONER Q SE LLAME CUANDO SE ABRA DOC
+        String cont = null;
+        try {
+            cont = cd.obrirDocument(autor, titol);
+        }
+        catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "No s'ha pogut obrir el document.",
+                    "Error obrir document", JOptionPane.ERROR_MESSAGE);
+        }
+        return cont;
         //return cd.obrirDocument(autor, titol);
-        return "HOLA";
+        //return "HOLA";
     }
 
-    public static boolean crearDocument(String autor, String titol, String cont) {
-        return true;
-        //return cd.crearDocument(autor, titol, cont);
-    }
-
-    public static List<String> importaDocument(String path) {
-        /*List<String> docImp = cd.importaDocument(path); //devuelve autor, titulo, contenido
-          if(!cd.crearDocument(docImp[0], docImp[1], docImp[2])) docImp[2] = "null"; //para saber si ya existe el titulo + autor marco el contenido con esa key
-          return docImp;
-        */
-        List<String> docImp = List.of(new String[]{"Pepe", "Dia", "null"});
-        return docImp;
-    }
-
-    public static boolean exportaDocument(String autor, String titol, String nomDoc, String path) { //seria mejor bool y q sea true si todo ok o false si ya existe ese doc?
-        //cd.exportaDocument(autor, titol, nomDoc, path); //el ctrl de persistencia tendria q conseguir el contenido del doc tambien
-        return false;
-    }
-
-    public static void esborrarDocuments(List<Pair<String, String>> docs) {
-        //cd.esborrarDocuments(docs);
-    }
-
-    public static boolean modificarTitol(String autor, String titol, String newT) {
-        return true;
-        //Main.actualitzaTitol(autor, titol, newT);
-        //return cd.modificarTitol(autor, titol, newT);
-    }
-
-    public static boolean modificarAutor(String autor, String titol, String newA) {
+    public boolean crearDocument(String autor, String titol){
         boolean valid = true;
+        try {
+            cd.crearDocument(autor, titol);
+        }
+        catch (EDocumentException | IOException e){
+            if(e instanceof EDocumentException) {
+                JOptionPane.showMessageDialog(null, "Ya existeix un document amb aquell títol i autor.",
+                        "Error creació document", JOptionPane.ERROR_MESSAGE);
+            }
+            else {
+                JOptionPane.showMessageDialog(null, "Hi ha hagut un error en la creació del document.",
+                        "Error creació document", JOptionPane.ERROR_MESSAGE);
+            }
+            valid = false;
+        }
         return valid;
-        //if(valid)
-        //return cd.modificarTitol(autor, titol, newA);
     }
 
-    public static void modificarContingut(String autor, String titol, String cont) { //vieweditar
-        //cd.modificarContingut(autor, titol, cont);
+    public void desarDocument() {
+        try {
+            cd.desarDocument();
+        }
+        catch (IOException e){
+            JOptionPane.showMessageDialog(null, "Hi ha hagut un error al desar el document.",
+                    "Error desar document", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
-    public static List<String> llistarTitolsdAutors(String autor) {
-        //return cd.llistarTitolsdAutors(autor);
-        List<String> titols = List.of(new String[]{"Historia de una escalera", "Ana"});
-        return titols;
+    public List<Pair<String, String>> importaDocuments(List<String> path) { //path = path+nom+.format
+        List<Pair<String, String>> docsImp = null;
+        try {
+            docsImp = cd.importarDocuments(path);
+        }
+        catch (EDocumentException | IOException e){
+
+        }
+        return docsImp;
     }
 
-    public static List<String> llistarAutorsPrefix(String prefix) {
-        //return cd.llistarAutorsPrefix(prefix);
-        List<String> autors = List.of(new String[]{"Pepe", "Laura"});
-        return autors;
+    public void exportaDocument(String autor, String titol, String path) { //seria mejor bool y q sea true si todo ok o false si ya existe ese doc?
+        try {
+            cd.exportarDocument(autor, titol, path);
+        }
+        catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Hi ha hagut un error, no s'ha pogut exportar.",
+                    "Error exportació", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
-    public static List<Pair<String, String>> llistarKDocumentsS(String autor, String titol, int K, boolean estrategia) {
-        //return cd.llistarKDocumentsS(autor, titol, K, estrategia);
-        List<Pair<String, String>> docs = new ArrayList<>();
-        Pair p = new Pair();
-        p.x = "Ana";
-        p.y = "Historia de una escalera";
-        docs.add(p);
-        Pair p2 = new Pair();
-        p2.x = "Laura";
-        p2.y = "Escaleras";
-        docs.add(p2);
-        return docs;
+    public boolean esborrarDocument(String autor, String titol) {
+        boolean esborrat = true;
+        try {
+            cd.esborrarDocument(autor, titol);
+        }
+        catch(DeleteDocumentException | IOException e) { //MIRAR SI SON ESTAS LAS Q LANZA
+            if(e instanceof DeleteDocumentException) {
+                JOptionPane.showMessageDialog(null, "No s'ha pogut esborrar el document.",
+                        "Error esborrar document", JOptionPane.ERROR_MESSAGE);
+            }
+            else {
+                JOptionPane.showMessageDialog(null, "No s'ha pogut esborrar el document.",
+                        "Error esborrar document", JOptionPane.ERROR_MESSAGE);
+            }
+            esborrat = false;
+        }
+        return esborrat;
     }
 
-    public static List<Pair<String, String>> cercarPerRellevancia(String paraules, int K, boolean estrategia) {
-        //return cd.cercarPerRellevancia(paraules, K, estrategia);
-        List<Pair<String, String>> docs = new ArrayList<>();
-        Pair p = new Pair();
-        p.x = "Ana";
-        p.y = "Historia de una escalera";
-        docs.add(p);
-        Pair p2 = new Pair();
-        p2.x = "Laura";
-        p2.y = "Escaleras";
-        docs.add(p2);
-        return docs;
+    public boolean modificarTitol(String autor, String titol, String newT) {
+        boolean valid = true;
+        try {
+            cd.modificarTitol(autor, titol, newT);
+            Main.actualitzaTitol(autor, titol, newT); //??
+        }
+        catch (EDocumentException e){
+            JOptionPane.showMessageDialog(null, "Ja existeix un document amb el nou títol i l'autor.",
+                    "Error modificació títol", JOptionPane.ERROR_MESSAGE);
+            valid = false;
+        }
+        return valid;
     }
 
-    public static List<Pair<String, String>> getAllExpressionsBooleanes() {
+    public boolean modificarAutor(String autor, String titol, String newA) {
+        boolean valid = true;
+        try {
+            cd.modificarAutor(autor, titol, newA);
+            Main.actualitzaTitol(autor, titol, newA); //??
+        }
+        catch (EDocumentException e){
+            JOptionPane.showMessageDialog(null, "Ja existeix un document amb el títol i el nou autor.",
+                    "Error modificació autor", JOptionPane.ERROR_MESSAGE);
+            valid = false;
+        }
+        return valid;
+    }
+
+    public void modificarContingut(String cont) { //vieweditar
+        cd.modificarContingut(cont);
+    }
+
+    public List<String> llistarTitolsdAutors(String autor) {
+        return cd.llistarTitolsdAutors(autor);
+    }
+
+    public List<String> llistarAutorsPrefix(String prefix) {
+        return cd.llistarAutorsPrefix(prefix);
+    }
+
+    public List<Pair<String, String>> llistarKDocumentsS(String autor, String titol, int K, boolean estrategia) {
+        return cd.llistarKDocumentsS(autor, titol, K, estrategia);
+    }
+
+    public List<Pair<String, String>> cercarPerRellevancia(String paraules, int K, boolean estrategia) {
+        return cd.cercarPerRellevancia(paraules, K, estrategia);
+    }
+
+    public List<Pair<String, String>> getAllExpressionsBooleanes() {
         //return cd.getAllExpressionsBooleanes();
         List<Pair<String, String>> exps = new ArrayList<>();
         return exps;
     }
 
-    public static boolean creaExpressioBooleana(String nom, String exp) {
-        //return cd.setExpressioBooleana(nom, exp);
-        return true;
+    public boolean creaExpressioBooleana(String nom, String exp) {
+        boolean valida = true;
+        try {
+            cd.setExpressioBooleana(nom, exp);
+        }
+        catch (EExpBoolException | ExpBoolNoValidaException e) {
+            if(e instanceof EExpBoolException) {
+                JOptionPane.showMessageDialog(null, "Ja existeix una expressió booleana amb aquell nom.",
+                        "Error creació expressió", JOptionPane.ERROR_MESSAGE);
+            }
+            else {
+                JOptionPane.showMessageDialog(null, "La expressió booleana introduïda no és vàlida.",
+                        "Error creació expressió", JOptionPane.ERROR_MESSAGE);
+            }
+            valida = false;
+        }
+        return valida;
     }
 
-    public static List<Pair<String, String>> cercarExpressioBooleana(String exp) {
-        //return cd.cercarExpressioBooleana(exp);
+    public List<Pair<String, String>> cercarExpressioBooleana(String exp) {
         List<Pair<String, String>> docs = new ArrayList<>();
-        Pair p = new Pair();
-        p.x = "Ana";
-        p.y = "Historia de una escalera";
-        docs.add(p);
-        Pair p2 = new Pair();
-        p2.x = "Laura";
-        p2.y = "Escaleras";
-        docs.add(p2);
+        try {
+            docs = cd.cercarExpressioBooleana(exp);
+        }
+        catch(ExpBoolNoValidaException e) {
+            JOptionPane.showMessageDialog(null, "Hi ha hagut un error, no s'ha pogut exportar.",
+                    "Error exportació", JOptionPane.ERROR_MESSAGE);
+        }
         return docs;
     }
 
-    public static void modExpressioBooleana(String nom, String nExp) {
-        //cd.modExpressioBooleana(nom, nExp);
+    public void modExpressioBooleana(String nom, String nExp) {
+        try {
+            cd.modExpressioBooleana(nom, nExp);
+        }
+        catch(ExpBoolNoValidaException e) {
+
+        }
     }
 
-    public static void deleteExpressioBooleana(String nom) {
-        //cd.deleteExpressioBooleana(nom);
+    public void deleteExpressioBooleana(String nom) {
+        cd.deleteExpressioBooleana(nom);
     }
 
-
-
+    public static void main(String[] args) {
+        CtrlPresentacio.mostraViewPrincipal();
+    }
 }

@@ -40,9 +40,11 @@ public class ViewPrincipal extends JFrame {
     List<RowSorter.SortKey> sortKeys;
     DefaultTableModel tableModel;
     JTable documents;
+    CtrlPresentacio cp;
 
 
     public ViewPrincipal(String title) {
+        cp = new CtrlPresentacio();
         columnRepetida = -1;
         anteriorColumnPuls = -1;
         setContentPane(panel1);
@@ -54,7 +56,7 @@ public class ViewPrincipal extends JFrame {
 
         String[] colums = {"Titols", "Autors", "Darrera modificació", " "};
         List<Pair<String, String>> documentsList = new ArrayList<>();
-        //documentsList = CtrlPresentacio.getTitolsAutors();
+        //documentsList = cp.getTitolsAutors();
         Object[][] documentsObj = new Object[documentsList.size()][2];
         for(int i = 0; i < documentsList.size(); ++i) {
             Object[] document = {documentsList.get(i).y, documentsList.get(i).x};
@@ -67,17 +69,13 @@ public class ViewPrincipal extends JFrame {
                 return false;
             }
         };
-        //JTable Jdocuments = new JTable(tableModel);
         documents = new JTable(tableModel);
-
-        //documents.setAutoResizeMode(5);
 
         documents.setAutoCreateRowSorter(true);
         sorter = new TableRowSorter<>(documents.getModel());
         documents.setRowSorter(sorter);
         sortKeys = new ArrayList<>();
         sorter.setSortKeys(sortKeys);
-        //documents.setSelectionMode(ListSelectionModel.);
 
         JTableHeader header = documents.getTableHeader();
         header.addMouseListener(new MouseAdapter() {
@@ -105,8 +103,6 @@ public class ViewPrincipal extends JFrame {
         documents.getColumnModel().getColumn(3).setPreferredWidth(10);
         documents.getTableHeader().setReorderingAllowed(false);
 
-        numRows = documents.getRowCount();
-
         /* popup busqueda */
         JMenuItem llistarTdeA = new JMenuItem("Llistar títols autor");
         JMenuItem llistarAperP = new JMenuItem("Llistar autors prefix");
@@ -133,6 +129,11 @@ public class ViewPrincipal extends JFrame {
         popOptDoc.add(mostrarD);
         popOptDoc.add(borrarD);
 
+        /* popup boton derecho sobre seleccion -> borrar */
+        JMenuItem borrarDocsSeleccionats = new JMenuItem("Esborrar documents seleccionats");
+        JPopupMenu popBorrarDocs = new JPopupMenu();
+        popBorrarDocs.add(borrarDocsSeleccionats);
+
         /*Desplegable cerca*/
         busquedaButton.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
@@ -140,10 +141,7 @@ public class ViewPrincipal extends JFrame {
             }
         });
 
-        JMenuItem borrarDocsSeleccionats = new JMenuItem("Esborrar documents seleccionats");
-        JPopupMenu popBorrarDocs = new JPopupMenu();
-        popBorrarDocs.add(borrarDocsSeleccionats);
-
+        /*eventos sobre la tabla*/
         documents.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -167,8 +165,8 @@ public class ViewPrincipal extends JFrame {
                     if (e.getClickCount() == 2 && columna!=3) {
                         String titol = (String)documents.getValueAt(documents.getSelectedRow(), 1);
                         String autor = (String)documents.getValueAt(documents.getSelectedRow(), 0);
-                        CtrlPresentacio.mostraViewEditar(titol, autor);
-                        CtrlPresentacio.ocultaViewPrincipal();
+                        cp.mostraViewEditar(titol, autor);
+                        cp.ocultaViewPrincipal();
                     }
                     else if (columna == 3) {
                         popOptDoc.show(e.getComponent(), e.getX(), e.getY());
@@ -177,7 +175,7 @@ public class ViewPrincipal extends JFrame {
             }
         });
 
-        /* Se puede borrar desde el boton o con boton derecho sobre selección */
+        /* borrardocs seleccionados */
         ActionListener esborrarDocsSeleccionatsAction = new ActionListener() {
             @Override
             public void actionPerformed (ActionEvent e){
@@ -201,31 +199,20 @@ public class ViewPrincipal extends JFrame {
                             return false;
                         }
                     };
-                    /*JTable docsBorrar = new JTable(tm);
-                    docsBorrar.setAutoCreateRowSorter(true);
-                    docsBorrar.getTableHeader().setReorderingAllowed(false);
-                    docsBorrar.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-                    docsBorrar.getColumnModel().getColumn(0).setCellRenderer(new GestioCell("text"));
-                    docsBorrar.getColumnModel().getColumn(1).setCellRenderer(new GestioCell("text"));
-                    JPanel panelBorrar = new JPanel();
-                    panelBorrar.setLayout(new BorderLayout());
-                    JScrollPane tableAutsScroll = new JScrollPane(docsBorrar);*/
                     JPanel panelBorrar = new showingDocsTable(tm, documents);
                     panelBorrar.add(new JLabel("S'esborraran els següents documents:"), BorderLayout.NORTH);
-                    //panelBorrar.add(tableAutsScroll, BorderLayout.CENTER);
                     panelBorrar.add(new JLabel("Estàs d'acord?"), BorderLayout.SOUTH);
-                    //docsBorrar.setFillsViewportHeight(true);
 
                     /*Mostramos tabla*/
                     int opt = JOptionPane.showOptionDialog(null, panelBorrar, "Esborrar documents seleccionats",
                             JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, JOptionPane.NO_OPTION);
                     if (opt == 0) { //s'esborren + missatge
-                        borrarDocs(documentsBorrar);
                         for (int i = selectedRow.length; i > 0; --i) {
-                            tableModel.removeRow(documents.getSelectedRow());
+                            String titol = (String)tableModel.getValueAt(i, 0);
+                            String autor = (String)tableModel.getValueAt(i, 0);
+                            if(cp.esborrarDocument(autor, titol)) tableModel.removeRow(documents.getSelectedRow());
                         }
                         JOptionPane.showMessageDialog(null, "S'han esborrat correctament els documents", "Esborrar documents seleccionats", JOptionPane.DEFAULT_OPTION);
-                        numRows = documents.getRowCount();
                     } else { //misstage no s'han borrat
                         JOptionPane.showMessageDialog(null, "No s'han esborrat cap document", "Esborrar documents seleccionats", JOptionPane.DEFAULT_OPTION);
                     }
@@ -235,9 +222,11 @@ public class ViewPrincipal extends JFrame {
             }
         };
 
+        /* Se puede borrar desde el boton o con boton derecho sobre selección */
         borrarDocsSeleccionats.addActionListener(esborrarDocsSeleccionatsAction);
         esborrarDocsButton.addActionListener(esborrarDocsSeleccionatsAction);
 
+        /*modificar titulo*/
         modT.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -256,7 +245,7 @@ public class ViewPrincipal extends JFrame {
                     int opt2 = JOptionPane.showConfirmDialog(null, "Segur que vols modificar el títol del document " +
                             titol + " de " + autor + " a " + newT.getText() + " ?", "Modificar títol", JOptionPane.YES_NO_OPTION);
                     if(opt2 == 0) {
-                        boolean modificat = CtrlPresentacio.modificarTitol(autor, titol, newT.getText()); //autor, titol, newT
+                        boolean modificat = cp.modificarTitol(autor, titol, newT.getText()); //autor, titol, newT
                         if(modificat) {
                             //System.out.println(documents.getSelectedRow());
                             //tableModel.removeRow(documents.getSelectedRow());
@@ -280,6 +269,7 @@ public class ViewPrincipal extends JFrame {
             }
         });
 
+        /*modificar autor*/
         modA.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -298,11 +288,8 @@ public class ViewPrincipal extends JFrame {
                     int opt2 = JOptionPane.showConfirmDialog(null, "Segur que vols modificar l'autor del document " +
                             titol + " de " + autor + " a " + newA.getText() + " ?", "Modificar autor", JOptionPane.YES_NO_OPTION);
                     if (opt2 == 0) {
-                        boolean modificat = CtrlPresentacio.modificarAutor(autor, titol, newA.getText()); //autor, titol, newA
+                        boolean modificat = cp.modificarAutor(autor, titol, newA.getText()); //autor, titol, newA
                         if (modificat) {
-                            //System.out.println(documents.getSelectedRow());
-                            //tableModel.removeRow(documents.getSelectedRow());
-                            //tableModel.addRow(new Object[]{newT, autor, "nop"});
                             documents.setValueAt(newA.getText(), documents.getSelectedRow(), 1);
                             newOrder(anteriorColumnPuls);
                             newOrder(anteriorColumnPuls);
@@ -318,22 +305,25 @@ public class ViewPrincipal extends JFrame {
             }
         });
 
+        /*borrar único doc*/
         borrarD.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int opt = JOptionPane.showConfirmDialog(null, "Segur que vols borrar el document " + documents.getValueAt(documents.getSelectedRow(), 0) + " de " + documents.getValueAt(documents.getSelectedRow(), 1) + " permanentment?", "Esborrar document", JOptionPane.YES_NO_OPTION);
                 if (opt == 0) {
-                    Object[][] documentBorrar = {{documents.getValueAt(documents.getSelectedRow(), 0), documents.getValueAt(documents.getSelectedRow(), 1)}};
-                    borrarDocs(documentBorrar);
-                    tableModel.removeRow(documents.getSelectedRow());
-                    JOptionPane.showMessageDialog(null, "S'ha esborrat el document correctament");
-                    numRows = documents.getRowCount();
+                    String titol = (String) documents.getValueAt(documents.getSelectedRow(), 0);
+                    String autor = (String) documents.getValueAt(documents.getSelectedRow(), 1);
+                    if(cp.esborrarDocument(autor, titol)) {
+                        tableModel.removeRow(documents.getSelectedRow());
+                        JOptionPane.showMessageDialog(null, "S'ha esborrat el document correctament");
+                    }
                 } else {
                     JOptionPane.showMessageDialog(null, "No s'ha esborrat el document");
                 }
             }
         });
 
+        /*crear doc*/
         creaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -357,11 +347,10 @@ public class ViewPrincipal extends JFrame {
                         JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opts, opts[0]);
 
                 if(opt == 0 && !newT.getText().equals("") && !newA.getText().equals("")) {
-                    boolean creat = CtrlPresentacio.crearDocument(newA.getText(), newT.getText(), "");
+                    boolean creat = cp.crearDocument(newA.getText(), newT.getText());
                     if(creat) {
                         tableModel.addRow(new Object[]{newT.getText(), newA.getText(), LocalDate.now()
                                 + " " + LocalTime.now().truncatedTo(ChronoUnit.SECONDS)});
-                        numRows = documents.getRowCount();
                     }
                     else {
                         JOptionPane.showMessageDialog(null, "El document amb títol " + newT.getText() + " i autor " + newA.getText() + " ja existeix.");
@@ -371,12 +360,10 @@ public class ViewPrincipal extends JFrame {
                     JOptionPane.showMessageDialog(null, "Indica un títol i autor vàlids, no deixis camps buits.",
                             "Error exportació", JOptionPane.ERROR_MESSAGE);
                 }
-                /*else if(newA.getText() != null && newT.getText() != null && (newT.getText().equals("") || newA.getText().equals(""))){ //FALTA PONER UN MENSAJE EN CASO DE Q SE DEJEN LOS 2 EN BLANCO Y SE CLIQ ACEPTAR
-                    JOptionPane.showMessageDialog(null, "Introdueix un autor i un títol vàlid");
-                }*/
             }
         });
 
+        /*importar docs, maximo 10, tipo txt o xml*/
         importaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -384,7 +371,6 @@ public class ViewPrincipal extends JFrame {
                 chooser.setFileFilter(new FileNameExtensionFilter("Compatibles amb l'aplicació, màxim 10", "txt", "xml"));
                 chooser.setDialogTitle("Selecciona fitxers, màxim 10");
                 chooser.setMultiSelectionEnabled(true);
-                //chooser.setCurrentDirectory(new File(System.getProperty("user.dir") + "/data/dades"));
                 int result = chooser.showOpenDialog(null);
                 if (result == JFileChooser.APPROVE_OPTION) {
                     File[] arxius = chooser.getSelectedFiles();
@@ -394,27 +380,20 @@ public class ViewPrincipal extends JFrame {
                     }
                     int min = 10;
                     if(arxius.length < 10) min = arxius.length;
+                    List<String> paths = new ArrayList<>();
                     for(int i = 0; i < min; ++i) {
-                        //System.out.println(arxius[i].getAbsolutePath());
-                        List<String> docImp = CtrlPresentacio.importaDocument(arxius[i].getAbsolutePath());
-                        if(docImp.get(2).equals("null")) { //ya existe
-                            JOptionPane.showMessageDialog(null,
-                                    "El document amb path " + arxius[i].getAbsolutePath() +
-                                            " no es pot importar perqué ya existeix un document amb títol " +
-                                            docImp.get(1) + " i autor " + docImp.get(0) + ".");
-                        }
-                        else{
-                            numRows = documents.getRowCount();
-                        }
-                        //System.out.println(docImp.get(1) + docImp.get(0) + docImp.get(2));
+                        paths.add(arxius[i].getAbsolutePath());
+                    }
+                    List<Pair<String, String>> newDocs = cp.importaDocuments(paths);
+                    for(int i = 0; i < newDocs.size(); ++i) {
+                        Pair p = newDocs.get(i);
+                        tableModel.addRow(new Object[]{p.y, p.x});
                     }
                 }
-                /*else { //MIRAR SI ESTE ELSE VA BIEN AHÍ
-                    JOptionPane.showMessageDialog(null, "Alguna cosa ha sortit malament, torna a intentar-ho.");
-                }*/
             }
         });
 
+        /*exporta único doc*/
         exportarD.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -422,11 +401,8 @@ public class ViewPrincipal extends JFrame {
                 chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
                 chooser.setDialogTitle("Selecciona una carpeta on guardar el document");
                 chooser.setMultiSelectionEnabled(false);
-                //chooser.setCurrentDirectory(new File(System.getProperty("user.dir") + "/data/dades"));
                 int result = chooser.showOpenDialog(null);
-                //int result = chooser.showSaveDialog(this);
                 if (result == chooser.APPROVE_OPTION) {
-                    //System.out.println(chooser.getSelectedFile().getAbsolutePath());
                     JPanel panelExportacio = new JPanel();
                     JTextField newNom = new JTextField("",20);
                     JPanel insertNom = new JPanel();
@@ -446,47 +422,40 @@ public class ViewPrincipal extends JFrame {
                     panelExportacio.setLayout(new BorderLayout());
                     panelExportacio.add(insertNom, BorderLayout.NORTH);
                     panelExportacio.add(insertTipus, BorderLayout.SOUTH);
-                    //JPanel insertTitol = new JPanel();
-                    //insertTitol.add(new JLabel("Escriu el titol:"));
-                    //insertTitol.add(newT);
 
                     String[] opts = {"Sí", "Cancel·la"};
                     int opt = JOptionPane.showOptionDialog(null, panelExportacio, "Exportació document",
                             JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opts, opts[0]);
 
-                    if(opt == 0 && newNom.getText() != null && !newNom.getText().equals("") && !((String)tipus.getSelectedItem()).equals("")) {
+                    if(opt == 0 && !newNom.getText().equals("") && !((String)tipus.getSelectedItem()).equals("")) {
                         String titol = (String)tableModel.getValueAt(documents.getSelectedRow(), 0);
                         String autor = (String)tableModel.getValueAt(documents.getSelectedRow(), 1);
                         String path = chooser.getSelectedFile().getAbsolutePath();
-                        boolean totOk = CtrlPresentacio.exportaDocument(autor, titol, newNom.getText(), path);
-                        if(!totOk) {
-                            JOptionPane.showMessageDialog(null, "El document no s'ha pogut exportar",
-                                    "Error exportació", JOptionPane.ERROR_MESSAGE);
-                        }
-                        //System.out.println(titol + " " + autor + " " + newNom.getText() + " " + chooser.getSelectedFile().getAbsolutePath());
+                        String loc = path + "\\" + newNom.getText() + "." + (String)tipus.getSelectedItem(); //COMPROBAR Q SE HACE BIEN EL PATH
+                        System.out.println(loc);
+                        cp.exportaDocument(autor, titol, loc);
                     }
                     else if(opt == 0 && (newNom.getText().equals("") || ((String)tipus.getSelectedItem()).equals(""))) {
                         JOptionPane.showMessageDialog(null, "Indica un nom i un format vàlids, no deixis camps buits.",
                                 "Error exportació", JOptionPane.ERROR_MESSAGE);
                     }
                 }
-                /*else { //MIRAR SI ESTE ELSE VA BIEN AHÍ
-                    JOptionPane.showMessageDialog(null, "Alguna cosa ha sortit malament, torna a intentar-ho.");
-                }*/
             }
         });
 
+        /*abre vista de gestión de exp booleanas*/
         gestioExpBoolButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                CtrlPresentacio.mostraVistaGestioExpBool(documents);
+                cp.mostraVistaGestioExpBool(documents);
             }
         });
 
+        /*abrir contenido del doc, solo lectura*/
         mostrarD.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                CtrlPresentacio.mostraViewMostrarCont((String)documents.getValueAt(documents.getSelectedRow(), 0), (String)documents.getValueAt(documents.getSelectedRow(), 1));
+                cp.mostraViewMostrarCont((String)documents.getValueAt(documents.getSelectedRow(), 0), (String)documents.getValueAt(documents.getSelectedRow(), 1));
             }
         });
 
@@ -497,41 +466,13 @@ public class ViewPrincipal extends JFrame {
                 if (e.getClickCount() == 2 && columna!=3) {
                     String titol = (String)documents.getValueAt(documents.getSelectedRow(), 1);
                     String autor = (String)documents.getValueAt(documents.getSelectedRow(), 0);
-                    CtrlPresentacio.mostraViewEditar(titol, autor);
-                    CtrlPresentacio.ocultaViewPrincipal();
+                    cp.mostraViewEditar(titol, autor);
+                    cp.ocultaViewPrincipal();
                 }
             }
         });*/
 
-        ajudaButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int count = 0; //0 primera vez, -1 se cierra ventana
-                int opt = JOptionPane.showOptionDialog(null,"Amb el botó Crea es crea un nou document amb contingut buit.", "Panell d'ajuda", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[] {"Següent"}, "Següent");
-                //while(opt == -2);
-                String message = "";
-                while(count < 6 && opt != -1) {
-                    if(opt == 0 && count != 0) --count;
-                    else ++count;
-                    if(count == 0) message = "Amb el botó Crea es crea un nou document amb contingut buit.";
-                    else if(count == 1) message = "Amb el botó Importa es crea un nou document amb el contingut del document seleccionat. " +
-                            "\nNomés es pot importar documents de tipus .txt o .xml, amb màxim 10 documents a l'hora. Si es seleccionen més " +
-                            "\nnomés s'importaran els 10 primers en ordre alfabètic.";
-                    else if(count == 2) message = "Amb el botó Esborrar documents seleccionats s'esborren els documents que estiguin seleccionats a la taula. " +
-                            "\nEs pot seleccionar arrastrant amb el ratolí o clicant amb Ctrl+Clic.";
-                    else if(count == 3) message = "Amb el botó Gestió expressions booleanes s'obre una vista per gestionar les expressions guardades.";
-                    else if(count == 4) message = "El botó de Cerca mostra un desplegable amb 3 opcions de filtratge dels documents.";
-                    else if(count == 5) message = "Amb els 3 punts verticals de cada document s'obre un panell d'opcions pel document.";
-                    else if(count == 6) message = "També hi ha les funcionalitats de poder fer clic dret sobre un document per mostrar les seves opcions " +
-                            "\n(equival als 3 punts verticals). I la funcionalitat de fer clic dret sobre un dels documents seleccionats i es mostrarà " +
-                            "\nun botó per borrar tots els documents seleccionats.";
-                    else if(count == 7) message = "Es pot tancar el programa en qualsevol moment clicant al botó amb la X de la cantonada superior dreta";
-                    if(count == 0) opt = JOptionPane.showOptionDialog(null,message, "Panell d'ajuda", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[] {"Següent"}, "Següent");
-                    else if(count < 7) opt = JOptionPane.showOptionDialog(null,message, "Panell d'ajuda", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[] { "Anterior", "Següent"}, "Següent");
-                    else opt = JOptionPane.showOptionDialog(null,message, "Panell d'ajuda", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[] { "Anterior", "Acaba"}, "Acaba");
-                }
-            }
-        });
+        /*CERQUES*/
 
         /*Llistar titols d'autor*/
         llistarTdeA.addActionListener(new ActionListener() {
@@ -539,7 +480,7 @@ public class ViewPrincipal extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 //String[] auts = cp.getAutors().toArray(new String[0]);
                 //String[] auts = {"Ana", "Carlos", "Joan", "Pepe"};
-                List<String> autorsList = CtrlPresentacio.getAutors();
+                List<String> autorsList = cp.getAutors();
                 String[] autorsArray = autorsList.toArray(new String[0]);
                 JComboBox jca = new JComboBox(autorsArray);
                 jca.setEditable(false);
@@ -550,7 +491,7 @@ public class ViewPrincipal extends JFrame {
                             JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
                 if (opt == 0) {
                     String autorSelec = (String)jca.getSelectedItem();
-                    List<String> titols = CtrlPresentacio.llistarTitolsdAutors(autorSelec);
+                    List<String> titols = cp.llistarTitolsdAutors(autorSelec);
                     Object[][] titolsdAutor = new Object[titols.size()][1];
                     for(int i = 0; i < titols.size(); ++i) {
                         Object[] titol = {titols.get(i)};
@@ -563,25 +504,13 @@ public class ViewPrincipal extends JFrame {
                             return false;
                         }
                     };
-                    /*JTable tits = new JTable(tm);
-
-                    tits.setAutoCreateRowSorter(true);
-                    tits.getTableHeader().setReorderingAllowed(false);
-                    tits.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-                    tits.getColumnModel().getColumn(0).setCellRenderer(new GestioCell("text"));
-                    JPanel panelTits = new JPanel();
-                    panelTits.setLayout(new BorderLayout());
-                    JScrollPane tableAutsScroll = new JScrollPane(tits);
-                    panelTits.add(tableAutsScroll);*/
-                    //panelTits.setBounds(200, 200, 50, 50);
-
                     JPanel panelTits = new showingDocsTable(tm, documents);
-
                     JOptionPane.showMessageDialog(null, panelTits, "Títols de l'autor " + autorSelec, JOptionPane.DEFAULT_OPTION);
                 }
             }
         });
 
+        /*llistar autors per prefix*/
         llistarAperP.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -595,8 +524,7 @@ public class ViewPrincipal extends JFrame {
                         JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opts, opts[0]);
 
                 if (opt == 0) {
-                    //String[] tda = cp.llistarAutorsPrefix("A").toArray(new String[0]); //ns com, pero agafar la opcio del jcombo q s'hagi escollit
-                    List<String> autors = CtrlPresentacio.llistarAutorsPrefix(pref.getText());
+                    List<String> autors = cp.llistarAutorsPrefix(pref.getText());
                     Object[][] autorsObj = new Object[autors.size()][1];
                     for(int i = 0; i < autors.size(); ++i) {
                         Object[] autor = {autors.get(i)};
@@ -609,25 +537,14 @@ public class ViewPrincipal extends JFrame {
                             return false;
                         }
                     };
-
-                    /*JTable auts = new JTable(tm);
-                    auts.setAutoCreateRowSorter(true);
-                    auts.getTableHeader().setReorderingAllowed(false);
-                    auts.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-                    auts.getColumnModel().getColumn(0).setCellRenderer(new GestioCell("text"));
-                    JPanel panelAuts = new JPanel();
-                    panelAuts.setLayout(new BorderLayout());
-                    JScrollPane tableAutsScroll = new JScrollPane(auts);
-                    panelAuts.add(tableAutsScroll);*/
-
                     JPanel panelAuts = new showingDocsTable(tm, documents);
-
                     JOptionPane.showMessageDialog(null, panelAuts, "Autors amb el prefix " + pref.getText(),
                             JOptionPane.DEFAULT_OPTION);
                 }
             }
         });
 
+        /*cerca per rellevància*/
         cercaR.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -651,7 +568,7 @@ public class ViewPrincipal extends JFrame {
                     if (opt2 == 0 || opt2 == 1) {
                         boolean estrategia = false;
                         if(opt2 == 1) estrategia = true;
-                        List<Pair<String, String>> docsCondicio = CtrlPresentacio.cercarPerRellevancia(paraules, (int) num.getValue(), estrategia);
+                        List<Pair<String, String>> docsCondicio = cp.cercarPerRellevancia(paraules, (int) num.getValue(), estrategia);
 
                         Object[][] docsCondicioObj = new Object[docsCondicio.size()][2];
                         for(int i = 0; i < docsCondicio.size(); ++i) {
@@ -666,18 +583,6 @@ public class ViewPrincipal extends JFrame {
                                 return false;
                             }
                         };
-
-                        /*JTable docs = new JTable(tm);
-                        docs.setAutoCreateRowSorter(true);
-                        docs.getTableHeader().setReorderingAllowed(false);
-                        docs.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-                        docs.getColumnModel().getColumn(0).setCellRenderer(new GestioCell("text"));
-                        docs.getColumnModel().getColumn(1).setCellRenderer(new GestioCell("text"));
-                        JPanel panelDocs = new JPanel();
-                        panelDocs.setLayout(new BorderLayout());
-                        JScrollPane tableAutsScroll = new JScrollPane(docs);
-                        panelDocs.add(tableAutsScroll, BorderLayout.CENTER);*/
-
                         JPanel panelDocs = new showingDocsTable(tm, documents);
 
                         String estrat = "TF-IDF";
@@ -692,12 +597,12 @@ public class ViewPrincipal extends JFrame {
             }
         });
 
+        /*llistar K documents semblants*/
         llistarSemblants.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String autor = (String) documents.getValueAt(documents.getSelectedRow(), 1);
                 String titol = (String) documents.getValueAt(documents.getSelectedRow(), 0);
-                //System.out.println(titol + autor);
                 JPanel message = new JPanel();
                 SpinnerModel value = new SpinnerNumberModel(1, 1, documents.getRowCount(), 1);
                 JSpinner num = new JSpinner(value);
@@ -710,15 +615,13 @@ public class ViewPrincipal extends JFrame {
                 int opt1 = JOptionPane.showOptionDialog(null, message, "Llistar documents semblants",
                         JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, JOptionPane.NO_OPTION);
                 if(opt1 == 0) {
-                    //System.out.println(num.getValue());
                     String[] tox = {"TF-IDF", "TF"};
                     int opt2 = JOptionPane.showOptionDialog(null, "Escull l'estratègia amb la que vols cercar:",
                             "Llistar documents semblants", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, tox, tox[0]);
                     if (opt2 == 0 || opt2 == 1) {
-                        //List<Pair<String, String>> rell = cp.llistarKDocumentsS("Jose", "Hola", Integer.parseInt(k), opt != 0);
                         boolean estrategia = false;
                         if(opt2 == 1) estrategia = true;
-                        List<Pair<String, String>> docsSemblants = CtrlPresentacio.llistarKDocumentsS(autor, titol, (int) num.getValue(), estrategia);
+                        List<Pair<String, String>> docsSemblants = cp.llistarKDocumentsS(autor, titol, (int) num.getValue(), estrategia);
 
                         Object[][] docsSemblantsObj = new Object[docsSemblants.size()][2];
                         for(int i = 0; i < docsSemblants.size(); ++i) {
@@ -733,20 +636,7 @@ public class ViewPrincipal extends JFrame {
                                 return false;
                             }
                         };
-
-                        /*JTable docs = new JTable(tm);
-                        docs.setAutoCreateRowSorter(true);
-                        docs.getTableHeader().setReorderingAllowed(false);
-                        docs.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-                        docs.getColumnModel().getColumn(0).setCellRenderer(new GestioCell("text"));
-                        docs.getColumnModel().getColumn(1).setCellRenderer(new GestioCell("text"));
-                        JPanel panelDocs = new JPanel();
-                        panelDocs.setLayout(new BorderLayout());
-                        JScrollPane tableAutsScroll = new JScrollPane(docs);
-                        panelDocs.add(tableAutsScroll, BorderLayout.CENTER);*/
-
                         JPanel panelDocs = new showingDocsTable(tm, documents);
-
                         String estrat = "TF-IDF";
                         if(estrategia) estrat = "TF";
                         JLabel label = new JLabel( "Aquests són els " + num.getValue() +
@@ -759,6 +649,7 @@ public class ViewPrincipal extends JFrame {
             }
         });
 
+        /*cerca x expressió booleana*/
         cercaExp.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -775,7 +666,7 @@ public class ViewPrincipal extends JFrame {
                         "Cercar per expressió booleana", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE,
                         null, tox, tox[0]);
                 if (opt1 == 0 && !newExp.getText().equals("")) {
-                    List<Pair<String, String>> docsXExp = CtrlPresentacio.cercarExpressioBooleana(newExp.getText());
+                    List<Pair<String, String>> docsXExp = cp.cercarExpressioBooleana(newExp.getText());
 
                     Object[][] docsSemblantsObj = new Object[docsXExp.size()][2];
                     for(int i = 0; i < docsXExp.size(); ++i) {
@@ -815,7 +706,7 @@ public class ViewPrincipal extends JFrame {
                                 JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opts, opts[0]);
 
                         if(!newNom.getText().equals("") && opt3 == 0) {
-                            boolean creat = CtrlPresentacio.creaExpressioBooleana(newNom.getText(), newExp.getText());
+                            boolean creat = cp.creaExpressioBooleana(newNom.getText(), newExp.getText());
                             if(creat) {
                                 JOptionPane.showMessageDialog(null, "S'ha guardat l'expressió booleana " +
                                         newExp.getText() + " amb nom " + newNom.getText() + ".", "Guardar nova expressió booleana",
@@ -838,10 +729,41 @@ public class ViewPrincipal extends JFrame {
             }
         });
 
+        /*indicaciones de los botones*/
+        ajudaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int count = 0; //0 primera vez, -1 se cierra ventana
+                int opt = JOptionPane.showOptionDialog(null,"Amb el botó Crea es crea un nou document amb contingut buit.", "Panell d'ajuda", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[] {"Següent"}, "Següent");
+                //while(opt == -2);
+                String message = "";
+                while(count < 6 && opt != -1) {
+                    if(opt == 0 && count != 0) --count;
+                    else ++count;
+                    if(count == 0) message = "Amb el botó Crea es crea un nou document amb contingut buit.";
+                    else if(count == 1) message = "Amb el botó Importa es crea un nou document amb el contingut del document seleccionat. " +
+                            "\nNomés es pot importar documents de tipus .txt o .xml, amb màxim 10 documents a l'hora. Si es seleccionen més " +
+                            "\nnomés s'importaran els 10 primers en ordre alfabètic.";
+                    else if(count == 2) message = "Amb el botó Esborrar documents seleccionats s'esborren els documents que estiguin seleccionats a la taula. " +
+                            "\nEs pot seleccionar arrastrant amb el ratolí o clicant amb Ctrl+Clic.";
+                    else if(count == 3) message = "Amb el botó Gestió expressions booleanes s'obre una vista per gestionar les expressions guardades.";
+                    else if(count == 4) message = "El botó de Cerca mostra un desplegable amb 3 opcions de filtratge dels documents.";
+                    else if(count == 5) message = "Amb els 3 punts verticals de cada document s'obre un panell d'opcions pel document.";
+                    else if(count == 6) message = "També hi ha les funcionalitats de poder fer clic dret sobre un document per mostrar les seves opcions " +
+                            "\n(equival als 3 punts verticals). I la funcionalitat de fer clic dret sobre un dels documents seleccionats i es mostrarà " +
+                            "\nun botó per borrar tots els documents seleccionats.";
+                    else if(count == 7) message = "Es pot tancar el programa en qualsevol moment clicant al botó amb la X de la cantonada superior dreta";
+                    if(count == 0) opt = JOptionPane.showOptionDialog(null,message, "Panell d'ajuda", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[] {"Següent"}, "Següent");
+                    else if(count < 7) opt = JOptionPane.showOptionDialog(null,message, "Panell d'ajuda", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[] { "Anterior", "Següent"}, "Següent");
+                    else opt = JOptionPane.showOptionDialog(null,message, "Panell d'ajuda", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[] { "Anterior", "Acaba"}, "Acaba");
+                }
+            }
+        });
+
         validate();
     }
 
-    private void borrarDocs(Object[][] documentsBorrar) {
+    /*private void borrarDocs(Object[][] documentsBorrar) {
         List<Pair<String, String>> docsBorrarList = new ArrayList<>();
         Pair<String,String> p = new Pair();
         for(int i = 0; i < documentsBorrar.length; ++i) {
@@ -850,13 +772,10 @@ public class ViewPrincipal extends JFrame {
             //System.out.println(p.x + p.y);
             docsBorrarList.add(p);
         }
-        CtrlPresentacio.esborrarDocuments(docsBorrarList);
-    }
+        cp.esborrarDocuments(docsBorrarList);
+    }*/
 
     public void actualitzaTitol(String newT) {
-       //System.out.println("EMPIEZO");
-        //System.out.println(documents.getSelectedRowCount());
-        //documents.getSelectedRowCount();
         String autor = (String) documents.getValueAt(documents.getSelectedRow(), 1);
         tableModel.addRow(new Object[]{newT, documents.getValueAt(documents.getSelectedRow(), 1), documents.getValueAt(documents.getSelectedRow(), 2)});
         tableModel.removeRow(documents.getSelectedRow());
@@ -872,9 +791,6 @@ public class ViewPrincipal extends JFrame {
     }
 
     public void actualitzaAutor(String newA) {
-        //System.out.println("EMPIEZO");
-        //System.out.println(documents.getSelectedRowCount());
-        //documents.getSelectedRowCount();
         String titol = (String) documents.getValueAt(documents.getSelectedRow(), 0);
         tableModel.addRow(new Object[]{titol, newA, documents.getValueAt(documents.getSelectedRow(), 2)});
         tableModel.removeRow(documents.getSelectedRow());
@@ -887,7 +803,6 @@ public class ViewPrincipal extends JFrame {
         }
         documents.clearSelection();
         documents.addRowSelectionInterval(row, row);
-        //System.out.println("ACABO");
     }
 
     public String getTitolDocObert() {
@@ -926,9 +841,7 @@ public class ViewPrincipal extends JFrame {
             tableModel.addRow(new Object[]{p.y, p.x});
         }
     }
-
-    public static void main(String[] args) {
-        CtrlPresentacio.mostraViewPrincipal();
+}
 
         /* keyboard listeners */
         /*mainView.addKeyListener(new KeyAdapter() {
@@ -943,29 +856,7 @@ public class ViewPrincipal extends JFrame {
                 }
             }
         });*/
-    }
-}
 
-/*
-String[] colums = {"Titols", "Autors", "Darrera modificació"};
-        Object[][] titols = {
-                {"Dia", "Pep", LocalDateTime.now()},
-                {"Day", "Pepe"},
-                {"Rio", "Romero"},
-                {"Camino", "Alex"},
-                {"Dia", "Zacarias"},
-                {"SD", "Juan"},
-                {"La hostia", "JAGGER"},
-                {"Illo no veas", "Illojuan"},
-                {"Siempre tipo fuego", "Oak"},
-                {"Adelante Pikachu", "Ash"},
-                {"Tornado de fuego", "Axel"},
-                {"Mano mágica", "Marc"},
-                {"Lo tengo!", "Layton"},
-                {"Ay ay ay", "Luke"},
-                {"Roooar", "Luxray"},
-                {"Yo q sé", "Yo"},
-                {"Lápiz", "Boli"},
-                {"Vida", "Alex"}};
-*/
+
+
 

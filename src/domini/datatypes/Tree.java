@@ -1,5 +1,6 @@
 package datatypes;
 import java.util.*;
+import excepcions.*;
 
 /**
  * @author Pol Fradera
@@ -10,7 +11,7 @@ public class Tree {
     public TreeNode root;
 
     //Constructora
-    public Tree(List<String> exp) {
+    public Tree(List<String> exp) throws ExpBoolNoValidaException {
         List<String> llista;
         llista = infixToPost(exp);
         root = expressionTree(llista);
@@ -22,7 +23,7 @@ public class Tree {
     }
 
     //Retorna l'arrel de l'arbre que es crea a partir de la llista en notació postfix
-    private TreeNode expressionTree(List<String> postfix){
+    private TreeNode expressionTree(List<String> postfix) throws ExpBoolNoValidaException {
         Stack<TreeNode> st = new Stack<>();
         TreeNode t1 = null;
         TreeNode t2, node;
@@ -47,9 +48,8 @@ public class Tree {
             return node;
         }
         catch (EmptyStackException e) {
-            System.out.println( "Expressio booleana incorrecte" );
+            throw new ExpBoolNoValidaException();
         }
-        return null;
     }
 
     //Retorna la prioritat de l'operador

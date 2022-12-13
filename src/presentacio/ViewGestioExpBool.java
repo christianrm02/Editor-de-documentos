@@ -13,34 +13,26 @@ import java.util.List;
 
 import static javax.swing.SwingUtilities.isRightMouseButton;
 
-public class VistaGestioExpBool extends JFrame{
+public class ViewGestioExpBool extends JFrame{
     private JPanel panel1;
     private JPanel tablePanel;
     private JButton novaExpressióBooleanaButton;
     private JButton ajudaButton;
     private JButton esborrarExpressionsSeleccionadesButton;
     private JButton enrereButton;
+    DefaultTableModel tableModel;
 
-    public VistaGestioExpBool(JTable documents) {
+    public ViewGestioExpBool(JTable documents) {
         setContentPane(panel1);
-        //setResizable(true);
-        setSize(500, 500);
+        setSize(800, 500);
+        setMinimumSize(new Dimension(500, 300));
         setTitle("Gestió expressions booleanes");
-        setMinimumSize(new Dimension(200, 200));
 
         /*Creacion tabla*/
         String[] colums = {"Nom", "Expressió Booleana", " "};
-        Object[][] titols = {
-                //{"Dia", "Pep", LocalDate.now() + " " + LocalTime.now().truncatedTo(ChronoUnit.SECONDS)},
-                {"1Kimetsu", "{p1 pp2 p3} & !joan", },
-                {"2Kimetsu", "{ap1 p2 p3} & !joan", },
-                {"3Kimetsu", "{p1 p2g p3} & !joan", },
-                {"4Kimetsu", "{p1 p2 hp3} & !joan", },
-                {"5Kimetsu", "{p1 p2 dp3} & !joan", },
-                {"6Kimetsu", "{p1y p2 p3} & !joan", },
-                {"Exp2", "{p1 p2 p3 p4} & !joan", }};
+        Object[][] titols = {};
 
-        DefaultTableModel tableModel = new DefaultTableModel(titols, colums){
+        tableModel = new DefaultTableModel(titols, colums){
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
@@ -332,6 +324,13 @@ public class VistaGestioExpBool extends JFrame{
             expBorrarList.add(p);
         }
         CtrlPresentacio.esborrarDocuments(expBorrarList);
+    }
+
+    public void initExp(List<Pair<String, String>> expList){
+        for(int i = 0; i < expList.size(); ++i) {
+            Pair p = expList.get(i);
+            tableModel.addRow(new Object[]{p.y, p.x});
+        }
     }
 
     public static void main(String[] args) {

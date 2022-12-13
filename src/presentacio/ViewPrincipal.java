@@ -54,7 +54,7 @@ public class ViewPrincipal extends JFrame {
 
         String[] colums = {"Titols", "Autors", "Darrera modificació", " "};
         List<Pair<String, String>> documentsList = new ArrayList<>();
-        documentsList = CtrlPresentacio.getTitolsAutors();
+        //documentsList = CtrlPresentacio.getTitolsAutors();
         Object[][] documentsObj = new Object[documentsList.size()][2];
         for(int i = 0; i < documentsList.size(); ++i) {
             Object[] document = {documentsList.get(i).y, documentsList.get(i).x};
@@ -458,9 +458,10 @@ public class ViewPrincipal extends JFrame {
                         String titol = (String)tableModel.getValueAt(documents.getSelectedRow(), 0);
                         String autor = (String)tableModel.getValueAt(documents.getSelectedRow(), 1);
                         String path = chooser.getSelectedFile().getAbsolutePath();
-                        boolean totOk = CtrlPresentacio.exportaDocument(titol, autor, newNom.getText(), path);
+                        boolean totOk = CtrlPresentacio.exportaDocument(autor, titol, newNom.getText(), path);
                         if(!totOk) {
-                            JOptionPane.showMessageDialog(null, "El document no s'ha pogut exportar", "Error exportació", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "El document no s'ha pogut exportar",
+                                    "Error exportació", JOptionPane.ERROR_MESSAGE);
                         }
                         //System.out.println(titol + " " + autor + " " + newNom.getText() + " " + chooser.getSelectedFile().getAbsolutePath());
                     }
@@ -919,6 +920,12 @@ public class ViewPrincipal extends JFrame {
         sorter.setSortKeys(sortKeys);
     }
 
+    public void initDocs(List<Pair<String, String>> docsList){
+        for(int i = 0; i < docsList.size(); ++i) {
+            Pair p = docsList.get(i);
+            tableModel.addRow(new Object[]{p.y, p.x});
+        }
+    }
 
     public static void main(String[] args) {
         CtrlPresentacio.mostraViewPrincipal();

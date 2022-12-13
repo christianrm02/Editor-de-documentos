@@ -105,12 +105,6 @@
               <text value="Cerca &gt;"/>
             </properties>
           </component>
-          <vspacer id="bbc8a">
-            <constraints>
-              <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
-              <forms defaultalign-vert="false"/>
-            </constraints>
-          </vspacer>
           <component id="78b7a" class="javax.swing.JButton" binding="esborrarDocsButton">
             <constraints>
               <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
@@ -121,6 +115,12 @@
               <text value="&amp;Esborrar documents seleccionats"/>
             </properties>
           </component>
+          <vspacer id="150a6">
+            <constraints>
+              <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+              <forms defaultalign-vert="false"/>
+            </constraints>
+          </vspacer>
         </children>
       </grid>
       <grid id="d0998" binding="tablePanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">

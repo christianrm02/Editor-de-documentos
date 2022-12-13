@@ -9,13 +9,35 @@ import java.util.List;
 
 public class CtrlPresentacio {
     private static ViewPrincipal Main;
+    private static ViewGestioExpBool ViewExps;
     private static CtrlDomini cd;
 
     public static void mostraViewPrincipal(){
         if(Main == null) {
             Main = new ViewPrincipal("Documentator");
             cd = new CtrlDomini();
-            //cd.init();
+            List<Pair<String, String>> docs = new ArrayList<>(); //cd.init();
+            //return cd.getTitolsAutors();
+            Pair<String, String> p1 = new Pair<>();
+            Pair<String, String> p2 = new Pair<>();
+            Pair<String, String> p3 = new Pair<>();
+            Pair<String, String> p4 = new Pair<>();
+            Pair<String, String> p5 = new Pair<>();
+            Pair<String, String> p6 = new Pair<>();
+            p1.x = "Ana"; p1.y = "Historia de una escalera";
+            p2.x = "Ana"; p2.y = "La venganza de Don Tenorio";
+            p3.x = "Carlos"; p3.y = "La divina comedia";
+            p4.x = "Joan"; p4.y = "La divina comedia";
+            p5.x = "Pepe"; p5.y = "La ceguera";
+            p6.x = "Pepe"; p6.y = "Lo que el viento se llevó";
+            docs.add(p1);
+            docs.add(p2);
+            docs.add(p3);
+            docs.add(p4);
+            docs.add(p5);
+            docs.add(p6);
+
+            Main.initDocs(docs);
         }
         else Main.setVisible(true);
     }
@@ -23,7 +45,26 @@ public class CtrlPresentacio {
     public static void ocultaViewPrincipal() {Main.setVisible(false);}
 
     public static void mostraVistaGestioExpBool(JTable documents){
-        new VistaGestioExpBool(documents);
+        ViewExps = new ViewGestioExpBool(documents);
+        //List<Pair<String, String>> expsList = getAllExpressionsBooleanes();
+
+        List<Pair<String, String>> expsList = new ArrayList<>();
+        /*//{"Dia", "Pep", LocalDate.now() + " " + LocalTime.now().truncatedTo(ChronoUnit.SECONDS)},
+        {"1Kimetsu", "{p1 pp2 p3} & !joan", },
+        {"2Kimetsu", "{ap1 p2 p3} & !joan", },
+        {"3Kimetsu", "{p1 p2g p3} & !joan", },
+        {"4Kimetsu", "{p1 p2 hp3} & !joan", },
+        {"5Kimetsu", "{p1 p2 dp3} & !joan", },
+        {"6Kimetsu", "{p1y p2 p3} & !joan", },
+        {"Exp2", "{p1 p2 p3 p4} & !joan", }*/
+        Pair p1 = new Pair(); p1.x="1Kimetsu"; p1.y="{p1 p2 p3} & !josaan"; expsList.add(p1);
+        Pair p2 = new Pair(); p2.x="2Kimetsu"; p2.y="{psa1 pp2 p3} & !jsaoan"; expsList.add(p2);
+        Pair p3 = new Pair(); p3.x="3Kimetsu"; p3.y="{p1 pp2 p3sd} & !jodan"; expsList.add(p3);
+        Pair p4 = new Pair(); p4.x="4Kimetsu"; p4.y="{p1 pasp2 p3} & !joan"; expsList.add(p4);
+        Pair p5 = new Pair(); p5.x="5Kimetsu"; p5.y="{pss1 aspp2 p3} & !joadn"; expsList.add(p5);
+
+        ViewExps.initExp(expsList);
+
     }
 
     public static void mostraViewMostrarCont(String titol, String autor){
@@ -74,30 +115,9 @@ public class CtrlPresentacio {
         return autors;
     }
 
-    public static List<Pair<String, String>> getTitolsAutors() {
-        //return cd.getTitolsAutors();
-        Pair<String, String> p1 = new Pair<>();
-        Pair<String, String> p2 = new Pair<>();
-        Pair<String, String> p3 = new Pair<>();
-        Pair<String, String> p4 = new Pair<>();
-        Pair<String, String> p5 = new Pair<>();
-        Pair<String, String> p6 = new Pair<>();
-        p1.x = "Ana"; p1.y = "Historia de una escalera";
-        p2.x = "Ana"; p2.y = "La venganza de Don Tenorio";
-        p3.x = "Carlos"; p3.y = "La divina comedia";
-        p4.x = "Joan"; p4.y = "La divina comedia";
-        p5.x = "Pepe"; p5.y = "La ceguera";
-        p6.x = "Pepe"; p6.y = "Lo que el viento se llevó";
-        List<Pair<String, String>> docs = new ArrayList<>();
-        docs.add(p1);
-        docs.add(p2);
-        docs.add(p3);
-        docs.add(p4);
-        docs.add(p5);
-        docs.add(p6);
+    /*public static List<Pair<String, String>> getTitolsAutors() { //BORRAR??
 
-        return docs;
-    }
+    }*/
 
     public static String getContingut(String autor, String titol) {
         //return cd.getContingut(autor, titol);
@@ -123,8 +143,8 @@ public class CtrlPresentacio {
         return docImp;
     }
 
-    public static boolean exportaDocument(String titol, String autor, String nomDoc, String path) { //seria mejor bool y q sea true si todo ok o false si ya existe ese doc?
-        //cd.exportaDocument(titol, autor, nomDoc, path); //el ctrl de persistencia tendria q conseguir el contenido del doc tambien
+    public static boolean exportaDocument(String autor, String titol, String nomDoc, String path) { //seria mejor bool y q sea true si todo ok o false si ya existe ese doc?
+        //cd.exportaDocument(autor, titol, nomDoc, path); //el ctrl de persistencia tendria q conseguir el contenido del doc tambien
         return false;
     }
 
@@ -189,8 +209,10 @@ public class CtrlPresentacio {
         return docs;
     }
 
-    public List<Pair<String, String>> getAllExpressionsBooleanes() {
-        return cd.getAllExpressionsBooleanes();
+    public static List<Pair<String, String>> getAllExpressionsBooleanes() {
+        //return cd.getAllExpressionsBooleanes();
+        List<Pair<String, String>> exps = new ArrayList<>();
+        return exps;
     }
 
     public static boolean creaExpressioBooleana(String nom, String exp) {

@@ -30,19 +30,20 @@ public class CtrlDomini {
 
     public List<Pair<String, String>> init() throws IOException {
         ci.ImportarIndexs(cp.ImportarIndexs());
-        //ce.carregarExpB(cp.CarregarExpB);
+        List<Pair<String, String>> ebs = cp.CarregarExpB();
+        for (Pair<String, String> eb : ebs) ce.setExpressioBooleana(eb.x, eb.y);
         return getTitolsAutors();
     }
 
     public void tancar() throws IOException {
         cp.ExportarIndexs(ci.ExportarIndexs());
-        //cp.guardarExpB(cp.GuardarExpB);
+        cp.guardarExpB(ce.getAll());
     }
 
     public List<Pair<String,String>> importarDocuments(List<String> locs) throws EDocumentException, IOException {
         List<Pair<String,String>> l = new ArrayList<>();
         for (String loc: locs) {
-            String[] doc = cp.importaDocument(loc, FileFormat.txt);
+            String[] doc = cp.importaDocument(loc);
             if (ci.FindDoc(doc[0], doc[1])) throw new EDocumentException();
             ci.AfegirDoc(doc[0], doc[1], converteix_a_frases(doc[2]));
             l.add(new Pair<>(doc[0], doc[1]));
@@ -50,8 +51,8 @@ public class CtrlDomini {
         return l;
     }
 
-    public void exportarDocument(String autor, String titol, String loc, FileFormat format) throws IOException {
-        cp.exportaDocument(autor, titol, loc, format);
+    public void exportarDocument(String autor, String titol, String loc) throws IOException {
+        cp.exportaDocument(autor, titol, loc);
     }
 
     // Getters de document
@@ -64,13 +65,13 @@ public class CtrlDomini {
     }
 
     public String getContingut(String autor, String titol) {
-        return null /*cp.getContingut(autor, titol)*/;
+        return cp.getContingut(autor, titol);
     }
 
     public String obrirDocument(String autor, String titol) {
         titolAct = titol;
         autorAct = autor;
-        //contAct = cp.getContingut(autor, titol);
+        contAct = cp.getContingut(autor, titol);
         return contAct;
     }
 
@@ -85,6 +86,7 @@ public class CtrlDomini {
     public void esborrarDocuments(List<Pair<String, String>> docs) {
         for (Pair<String, String> p : docs) {
             ci.EsborrarDoc(p.x, p.y);
+            cp.deleteDocument(p.x, p.y);
         }
     }
 

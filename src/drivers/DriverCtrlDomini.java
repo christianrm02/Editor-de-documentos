@@ -1,4 +1,4 @@
-package drivers;
+/*package drivers;
 
 import controladores.*;
 import java.util.*;
@@ -9,7 +9,7 @@ import java.lang.Exception;
 /**
  * DriverCtrlDomini: Driver per provar totes les funcionalitats disponibles des de CtrlDomini.
  * @author Marc Roman
- */
+
 public class DriverCtrlDomini {
     public CtrlDomini cd;
     public Scanner entrada;
@@ -279,10 +279,10 @@ public class DriverCtrlDomini {
             else {
                 System.out.println("Escriu una expressio booleana:");
                 exp = entrada.nextLine();
-            }
-            List<Pair<String, String>> docs = cd.cercarExpressioBooleana(exp);
-            if (docs == null) System.out.println("L'expressio booleana no es correcta.");
-            else if (docs.size() == 0) System.out.println("No s'ha trobat cap document que compleixi l'expressio booleana.");
+            }*/
+            //List<Pair<String, String>> docs = cd.cercarExpressioBooleana(exp);
+            //if (docs == null) System.out.println("L'expressio booleana no es correcta.");
+            /*else if (docs.size() == 0) System.out.println("No s'ha trobat cap document que compleixi l'expressio booleana.");
             else {
                 System.out.println("Els documents que compleixen l'expressio booleana son:");
                 for (Pair<String,String> d : docs) System.out.println(d.y + ' ' + d.x);
@@ -461,4 +461,4 @@ public class DriverCtrlDomini {
         System.out.println("0-  Cancel·lar");
         System.out.println("Introdueix un numero:");
     }
-}
+}*/

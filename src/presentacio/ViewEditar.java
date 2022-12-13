@@ -34,10 +34,6 @@ public class ViewEditar extends JFrame {
         return opt;
     }
 
-    private void setCont(String cont, String contNou) {
-        cont = contNou;
-    }
-
     public ViewEditar(String t, String a, String c) {
         setContentPane(panel1);
         setMinimumSize(new Dimension(400, 200));
@@ -113,11 +109,12 @@ public class ViewEditar extends JFrame {
 
                     String[] opts = {"Sí", "Cancel·la"};
                     int opt = JOptionPane.showOptionDialog(null, panelExportacio, "Exportació document",
-                            JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opts, opts[0]);
+                            JOptionPane.DEFAULT_OPTION, JOptionPane.DEFAULT_OPTION, null, opts, opts[0]);
 
                     if (opt == 0 && newNom.getText() != null && !newNom.getText().equals("") && !((String) tipus.getSelectedItem()).equals("")) {
                         String path = chooser.getSelectedFile().getAbsolutePath();
-                        boolean totOk = CtrlPresentacio.exportaDocument(t, a, newNom.getText(), path);
+                        String au = autor.getText(), ti = titol.getText();
+                        boolean totOk = CtrlPresentacio.exportaDocument(au, ti, newNom.getText(), path);
                         if (!totOk) {
                             JOptionPane.showMessageDialog(null, "El document no s'ha pogut exportar", "Error exportació", JOptionPane.ERROR_MESSAGE);
                         }
@@ -126,58 +123,14 @@ public class ViewEditar extends JFrame {
                         JOptionPane.showMessageDialog(null, "Indica un nom i un format vàlids, no deixis camps buits.",
                                 "Error exportació", JOptionPane.ERROR_MESSAGE);
                     }
+                    else {
+                        JOptionPane.showMessageDialog(null, "No s'ha exportat el document.");
+                    }
                 }
-                /*else { //MIRAR SI ESTE ELSE VA BIEN AHÍ
+                else {
                     JOptionPane.showMessageDialog(null, "Alguna cosa ha sortit malament, torna a intentar-ho.");
-                }*/
+                }
             }
-                /*String doc;
-                do {
-                    doc = JOptionPane.showInputDialog(null, "Escriu el nom que li vols posar al document:", "Exportar document", -1);
-                } while (doc != null && doc.equals(""));
-                if (doc != null) {
-                    String[] tox = {"txt", "xml", "Cancel"};
-                    int opt = JOptionPane.showOptionDialog(null, "Escull el format que vols pel document " + doc + ".", "Escollir format", JOptionPane.DEFAULT_OPTION, JOptionPane.DEFAULT_OPTION, null, tox, tox[0]);
-                    if (opt == 0 || opt == 1) {
-                        //JFileChooser chooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-                        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-                        chooser.setDialogTitle("Selecciona on vols desar el fitxer.");
-                        //chooser.setCurrentDirectory(new File(System.getProperty("user.dir") + "/data/dades"));
-                        int returnValue = chooser.showOpenDialog(null);
-                        if (returnValue == JFileChooser.APPROVE_OPTION) {
-                            String contNou = textPane1.getText();
-                            String au = autor.getText(), ti = titol.getText();
-                            if (!cont.equals(contNou)) CtrlPresentacio.modificarContingut(au, ti, contNou);
-                            File arxiu = chooser.getSelectedFile();
-
-                            //CtrlPresentacio.importaDocument(arxiu.getAbsolutePath());
-                        /*byte[] bytes = new byte[0]; //mover esto al ctrl presentacion, a una uncion nueva
-                        try {
-                            bytes = Files.readAllBytes(Path.of(arxiu.getAbsolutePath()));
-                        } catch (IOException ex) {
-                            throw new RuntimeException(ex);
-                        }
-
-                        // Reading the file to String List
-                        try {
-                            @SuppressWarnings("unused")
-
-                            // Creating a List class object of string type
-                            // as data in file to be read is words
-                            List allLines = new List();
-                            allLines = (List) Files.readAllLines(Path.of(arxiu.getAbsolutePath()), StandardCharsets.UTF_8);
-                        } catch (IOException ex) {
-                            throw new RuntimeException(ex);
-                        }
-                        System.out.println(new String(bytes));
-
-
-                            System.out.println(arxiu.getAbsolutePath());
-                        }
-                        else JOptionPane.showMessageDialog(null, "No s'ha exportat el document.");
-                    } else JOptionPane.showMessageDialog(null, "No s'ha exportat el document.");
-                } else JOptionPane.showMessageDialog(null, "No s'ha exportat el document.");
-            }*/
         });
 
         addWindowListener(new WindowAdapter() {

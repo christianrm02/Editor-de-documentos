@@ -47,8 +47,9 @@ public class CtrlDomini {
         return l;
     }
 
-    public void exportarDocument(String autor, String titol, String loc, FileFormat format, String nom) {
-        cp.exportaDocument(autor, titol, loc, format/*, nom*/);
+    public boolean exportarDocument(String autor, String titol, String loc, FileFormat format) {
+        cp.exportaDocument(autor, titol, loc, format);
+        return false;
     }
 
     // Getters de document
@@ -127,7 +128,8 @@ public class CtrlDomini {
         return ci.GetKDocsSimilarS(autor, titol, K, estrategia);
     }
 
-    public List<Pair<String, String>> cercarExpressioBooleana(String exp) {
+    public List<Pair<String, String>> cercarExpressioBooleana(String exp) throws Exception {
+
         return ce.cercarExpressioBooleana(exp, ci);
     }
 
@@ -142,13 +144,13 @@ public class CtrlDomini {
     }
 
     // Creadora d'expressio booleana
-    public boolean setExpressioBooleana(String nom, String exp) {
+    public boolean setExpressioBooleana(String nom, String exp) throws Exception {
         boolean ee = ce.existsExpressioBooleana(nom);
         if (!ee) ce.setExpressioBooleana(nom, exp); // PRE: no existeix ExpressioBooleana
         return !ee;
     }
 
-    public void modExpressioBooleana(String nom, String nExp) {
+    public void modExpressioBooleana(String nom, String nExp) throws Exception {
         ce.setExpressioBooleana(nom, nExp);
     }
 

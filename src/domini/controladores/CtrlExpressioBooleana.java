@@ -52,7 +52,7 @@ public class CtrlExpressioBooleana {
     //Funció recursiva que fa les operacions lògiques descrites a l'arbre
     private Set<Integer> cercaExpBol(TreeNode node, CtrlIndex ci) {
         if (!isOperator(node.data)) {
-            String[] words = ParseFrase(node.data); //per la seqüècia
+            String[] words = ParseFrase(node.data); //per la seqüèciia
             Set<Integer> frases = ci.GetFrases(words[0]); //frases on apareix la primera paraula
             if (words.length == 1) return frases; //només és una paraula
             else { //es una sequencia
@@ -72,7 +72,7 @@ public class CtrlExpressioBooleana {
     }
 
     //Retorna una llista dels documents que contenen les frases que compleixen l'expressió booleana exp
-    public List<Pair<String, String>> cercarExpressioBooleana(String exp, CtrlIndex ci) {
+    public List<Pair<String, String>> cercarExpressioBooleana(String exp, CtrlIndex ci) throws Exception {
         ExpressioBooleana expB = new ExpressioBooleana(exp);
         Tree expTree = expB.getExpA();
         Set<Integer> frases = cercaExpBol(expTree.root, ci);
@@ -92,7 +92,7 @@ public class CtrlExpressioBooleana {
     }
 
     //Setter
-    public void setExpressioBooleana(String nom, String exp) {
+    public void setExpressioBooleana(String nom, String exp) throws Exception {
         ExpressioBooleana expB = new ExpressioBooleana(nom, exp);
         expressions.put(nom, expB);
     }

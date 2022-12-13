@@ -1,19 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="presentacio.ViewPrincipal">
   <grid id="27dc6" binding="panel1" layout-manager="FormLayout">
-    <rowspec value="center:28px:noGrow"/>
-    <rowspec value="top:0dlu:noGrow"/>
     <rowspec value="center:d:grow"/>
     <colspec value="left:214px:noGrow"/>
     <colspec value="fill:178px:grow"/>
-    <colspec value="fill:d:grow"/>
     <constraints>
       <xy x="20" y="20" width="745" height="546"/>
     </constraints>
     <properties>
       <background color="-4109001"/>
     </properties>
-    <border type="line">
+    <border type="none">
       <color color="-9346117"/>
     </border>
     <children>
@@ -33,7 +30,7 @@
         <rowspec value="center:max(d;4px):noGrow"/>
         <colspec value="fill:d:grow"/>
         <constraints>
-          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
             <preferred-size width="173" height="139"/>
           </grid>
           <forms defaultalign-horz="false" defaultalign-vert="false"/>
@@ -41,7 +38,7 @@
         <properties>
           <background color="-9273651"/>
         </properties>
-        <border type="line">
+        <border type="none">
           <color color="-9346117"/>
         </border>
         <children>
@@ -126,77 +123,15 @@
           </component>
         </children>
       </grid>
-      <component id="f9f5f" class="javax.swing.JButton" binding="xButton" default-binding="true">
-        <constraints>
-          <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
-          <forms defaultalign-horz="false"/>
-        </constraints>
-        <properties>
-          <text value="X"/>
-        </properties>
-      </component>
-      <grid id="d0998" binding="tablePanel" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="d0998" binding="tablePanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints>
-          <grid row="2" column="1" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
           <forms defaultalign-vert="false"/>
         </constraints>
         <properties/>
         <border type="none"/>
-        <children>
-          <grid id="4b0f4" layout-manager="GridLayoutManager" row-count="1" column-count="5" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-            <margin top="0" left="0" bottom="0" right="0"/>
-            <constraints>
-              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties/>
-            <border type="none"/>
-            <children>
-              <component id="8a49a" class="javax.swing.JLabel" binding="CapLabel0">
-                <constraints>
-                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <text value="No hi ha cap document, els pots"/>
-                </properties>
-              </component>
-              <hspacer id="d5740">
-                <constraints>
-                  <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                </constraints>
-              </hspacer>
-              <component id="7fb74" class="javax.swing.JLabel" binding="CapButton1">
-                <constraints>
-                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <text value="crear"/>
-                </properties>
-              </component>
-              <component id="27a8f" class="javax.swing.JLabel" binding="CapLabel2">
-                <constraints>
-                  <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <text value="o"/>
-                </properties>
-              </component>
-              <component id="fab0a" class="javax.swing.JLabel" binding="CapButton3">
-                <constraints>
-                  <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <text value="importar"/>
-                </properties>
-              </component>
-            </children>
-          </grid>
-          <vspacer id="bb68f">
-            <constraints>
-              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
-            </constraints>
-          </vspacer>
-        </children>
+        <children/>
       </grid>
     </children>
   </grid>

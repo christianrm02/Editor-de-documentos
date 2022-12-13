@@ -8,12 +8,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CtrlPresentacio {
-    private JFrame Main;
-    private static CtrlDomini cd = new CtrlDomini();
+    private static ViewPrincipal Main;
+    private static CtrlDomini cd;
 
     public static void mostraViewPrincipal(){
-        new ViewPrincipal("Documentator");
+        if(Main == null) {
+            Main = new ViewPrincipal("Documentator");
+            cd = new CtrlDomini();
+            //cd.init();
+        }
+        else Main.setVisible(true);
     }
+
+    public static void ocultaViewPrincipal() {Main.setVisible(false);}
 
     public static void mostraVistaGestioExpBool(JTable documents){
         new VistaGestioExpBool(documents);
@@ -25,13 +32,46 @@ public class CtrlPresentacio {
     }
 
     public static void mostraViewEditar(String titol, String autor){
-        String cont = getContingut(autor, titol);
+        String cont = obrirDocument(autor, titol);
         new ViewEditar(titol, autor, cont);
+        actualitzaTitol("Test");
+        actualitzaAutor("Autor");
+    }
+
+    public static void actualitzaTitol(String newT) { //se tiene q comprobarantes si se puede crear
+        String titol = Main.getTitolDocObert();
+        String autor = Main.getAutorDocObert();
+        boolean valid = modificarTitol(titol, autor, newT);
+
+        if(valid) Main.actualitzaTitol(newT);
+        else {//pop up error;
+
+        }
+
+        //Main.dispose();
+        //mostraViewPrincipal();
+    }
+
+    public static void actualitzaAutor(String newA) { //se tiene q comprobarantes si se puede crear
+        String titol = Main.getTitolDocObert();
+        String autor = Main.getAutorDocObert();
+        boolean valid = modificarTitol(titol, autor, newA);
+
+        if(valid) Main.actualitzaAutor(newA);
+        else {//pop up error;
+
+        }
     }
 
     /*Crides a domini*/
-    public List<String> getAutors() {
-        return cd.getAutors();
+    public static List<String> getAutors() {
+        //return cd.getAutors();
+        List<String> autors = new ArrayList<>();
+        autors.add("Pepe");
+        autors.add("Joan");
+        autors.add("Ana");
+        autors.add("Carlos");
+        return autors;
     }
 
     public static List<Pair<String, String>> getTitolsAutors() {
@@ -94,11 +134,14 @@ public class CtrlPresentacio {
 
     public static boolean modificarTitol(String autor, String titol, String newT) {
         return true;
+        //Main.actualitzaTitol(autor, titol, newT);
         //return cd.modificarTitol(autor, titol, newT);
     }
 
     public static boolean modificarAutor(String autor, String titol, String newA) {
-        return false;
+        boolean valid = true;
+        return valid;
+        //if(valid)
         //return cd.modificarTitol(autor, titol, newA);
     }
 
@@ -169,7 +212,7 @@ public class CtrlPresentacio {
         return docs;
     }
 
-    public static  void modExpressioBooleana(String nom, String nExp) {
+    public static void modExpressioBooleana(String nom, String nExp) {
         //cd.modExpressioBooleana(nom, nExp);
     }
 

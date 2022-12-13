@@ -1,7 +1,7 @@
 package controladores;
 
 import persistencia.CtrlPersistencia;
-import transversal.Pair;
+import transversal.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,20 +28,28 @@ public class CtrlDomini {
 
     public List<Pair<String, String>> init() {
         ci.ImportarIndexs(cp.ImportarIndexs());
+        //ce.carregarExpB(cp.CarregarExpB);
         return getTitolsAutors();
     }
 
     public void tancar() {
         cp.ExportarIndexs(ci.ExportarIndexs());
+        //cp.guardarExpB(cp.GuardarExpB);
     }
 
-/*    public void carregaFitxers(List<String> locs) {
-
+    public List<Pair<String,String>> carregaFitxers(List<String> locs) {
+        List<Pair<String,String>> l = new ArrayList<>();
+        for (String loc: locs) {
+            String[] doc = cp.carregaDocument(loc, FileFormat.txt);
+            ci.AfegirDoc(doc[0], doc[1], converteix_a_frases(doc[2]));
+            l.add(new Pair<>(doc[0], doc[1]));
+        }
+        return l;
     }
 
-    public void exportarDocument(String autor, String titol, String loc, Format format) {
-        cp.ExportaDocument(loc);
-    }*/
+    public void exportarDocument(String autor, String titol, String loc, FileFormat format, String nom) {
+        cp.exportaDocument(autor, titol, loc, format/*, nom*/);
+    }
 
     // Getters de document
     public List<String> getAutors() {
@@ -53,13 +61,13 @@ public class CtrlDomini {
     }
 
     public String getContingut(String autor, String titol) {
-        return null;
+        return /*cp.getContingut(autor, titol)*/null;
     }
 
     public String obrirDocument(String autor, String titol) { // s'haura de mirar
         titolAct = titol;
         autorAct = autor;
-        //contAct = cp.obrirDocument(autor, titol);
+        //contAct = cp.getContingut(autor, titol);
         return contAct;
     }
 
@@ -96,8 +104,13 @@ public class CtrlDomini {
         return !ed;
     }
 
-    public void modificarContingut(String autor, String titol, String cont) { //s'ha de mirar q mes ha de fer
-        ci.ActualitzarContingut(autor, titol, converteix_a_frases(cont));
+    public void modificarContingut(String cont) { //s'ha de mirar q mes ha de fer
+        contAct = cont;
+        ci.ActualitzarContingut(autorAct, titolAct, converteix_a_frases(cont));
+    }
+
+    public void desarDocument() {
+        cp.desaDocument(autorAct, titolAct, contAct);
     }
 
     // Cerques
@@ -111,7 +124,6 @@ public class CtrlDomini {
     }
 
     public List<Pair<String, String>> llistarKDocumentsS(String autor, String titol, int K, boolean estrategia) {
-        if (K < 1) return null;
         return ci.GetKDocsSimilarS(autor, titol, K, estrategia);
     }
 

@@ -18,8 +18,6 @@ public class VistaGestioExpBool extends JFrame{
     private JPanel tablePanel;
     private JButton novaExpressióBooleanaButton;
     private JButton ajudaButton;
-    private JButton xButton;
-    private JLabel CapDocLabel;
     private JButton esborrarExpressionsSeleccionadesButton;
     private JButton enrereButton;
 
@@ -81,17 +79,6 @@ public class VistaGestioExpBool extends JFrame{
         JMenuItem eliminaExpsSelected=new JMenuItem("Elimina expressions seleccionades");
         popBorrarExp.add(eliminaExpsSelected);
 
-        /* Muestra popup de opciones*/
-        expressions.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                int columna = expressions.columnAtPoint(e.getPoint());
-                if (columna==2) {
-                    popOptExp.show(e.getComponent(), e.getX(), e.getY());
-                }
-            }
-        });
-
         expressions.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -107,6 +94,12 @@ public class VistaGestioExpBool extends JFrame{
                     } else { //abrir popups opciones en un doc
                         expressions.clearSelection();
                         expressions.addRowSelectionInterval(row, row);
+                        popOptExp.show(e.getComponent(), e.getX(), e.getY());
+                    }
+                }
+                else {
+                    int columna = expressions.columnAtPoint(e.getPoint());
+                    if (columna==2) {
                         popOptExp.show(e.getComponent(), e.getX(), e.getY());
                     }
                 }
@@ -157,22 +150,18 @@ public class VistaGestioExpBool extends JFrame{
                 } else {
                     JOptionPane.showMessageDialog(null, "No hi ha cap expressió seleccionada", "Esborrar expressions seleccionades", JOptionPane.DEFAULT_OPTION);
                 }
-
-                //no quedan documents
-                if(expressions.getRowCount() == 0) {
-
-                }
             }
         };
 
         eliminaE.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int opt = JOptionPane.showConfirmDialog(null, "Segur que vols borrar l'expressió booleana " + expressions.getValueAt(expressions.getSelectedRow(), 0) + " permanentment?", "Esborrar expressió booleana", JOptionPane.YES_NO_OPTION);
+                int opt = JOptionPane.showConfirmDialog(null, "Segur que vols borrar l'expressió booleana " +
+                        expressions.getValueAt(expressions.getSelectedRow(), 0) + " permanentment?", "Esborrar expressió booleana",
+                        JOptionPane.YES_NO_OPTION);
                 if (opt == 0) {
                     CtrlPresentacio.deleteExpressioBooleana((String)expressions.getValueAt(expressions.getSelectedRow(), 0));
                     tableModel.removeRow(expressions.getSelectedRow());
-                    /////////faltaria lo del label q te indiq q no tienes ninguna
                     JOptionPane.showMessageDialog(null, "S'ha esborrat l'expressió booleana correctament");
                 } else {
                     JOptionPane.showMessageDialog(null, "No s'ha esborrat l'expressió booleana");
@@ -187,13 +176,22 @@ public class VistaGestioExpBool extends JFrame{
         modificaE.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String newExp = JOptionPane.showInputDialog("Escriu la nova expressió booleana:");
-                if(newExp != null) {
-                    int opt = JOptionPane.showConfirmDialog(null, "Segur que vols modificar l'expressió booleana amb nom " + expressions.getValueAt(expressions.getSelectedRow(), 0)  + " a " + newExp + " ?", "Modificar expressió booleana", JOptionPane.YES_NO_OPTION);
-                    if (opt == 0) {
-                        CtrlPresentacio.modExpressioBooleana((String)expressions.getValueAt(expressions.getSelectedRow(), 0), newExp);
+                JTextField newExp = new JTextField("",20);
+                JPanel insertExp = new JPanel();
+                insertExp.add(new JLabel("Escriu la nova expressió booleana: "));
+                insertExp.add(newExp);
+
+                String[] opts = {"Sí", "Cancel·la"};
+                int opt = JOptionPane.showOptionDialog(null, insertExp, "Modificar expressió booleana",
+                        JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opts, opts[0]);
+                if(opt == 0 && !newExp.getText().equals("")) {
+                    int opt2 = JOptionPane.showConfirmDialog(null, "Segur que vols modificar l'expressió booleana amb nom " +
+                            expressions.getValueAt(expressions.getSelectedRow(), 0)  + " a " + newExp.getText() + " ?",
+                            "Modificar expressió booleana", JOptionPane.YES_NO_OPTION);
+                    if (opt2 == 0) {
+                        CtrlPresentacio.modExpressioBooleana((String)expressions.getValueAt(expressions.getSelectedRow(), 0), newExp.getText());
                         //expressions.setValueAt(newExp, expressions.getSelectedRow(), 1);
-                        tableModel.addRow(new Object[]{expressions.getValueAt(expressions.getSelectedRow(), 0), newExp});
+                        tableModel.addRow(new Object[]{expressions.getValueAt(expressions.getSelectedRow(), 0), newExp.getText()});
                         tableModel.removeRow(expressions.getSelectedRow());
                         JOptionPane.showMessageDialog(null, "S'ha modificat correctament l'expressió");
                     }
@@ -201,8 +199,9 @@ public class VistaGestioExpBool extends JFrame{
                         JOptionPane.showMessageDialog(null, "No s'ha modificat l'expressió.");
                     }
                 }
-                else {
-                    JOptionPane.showMessageDialog(null, "No s'ha modificat l'expressió.");
+                else if (opt == 0){ //camp buit
+                    JOptionPane.showMessageDialog(null, "Indica una expressió vàlida, no deixis camps buits.",
+                            "Error modificació", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
@@ -252,9 +251,13 @@ public class VistaGestioExpBool extends JFrame{
                 panelCreacio.add(insertNom, BorderLayout.NORTH);
                 panelCreacio.add(insertExp, BorderLayout.SOUTH);
 
+                String[] opts = {"Sí", "Cancel·la"};
+                int opt = JOptionPane.showOptionDialog(null, panelCreacio, "Creació expressió booleana",
+                        JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opts, opts[0]);
+
                 JOptionPane.showMessageDialog(null, panelCreacio, "Creació", JOptionPane.QUESTION_MESSAGE);
 
-                if(newNom.getText() != null && newExp.getText() != null && !newNom.getText().equals("") && !newNom.getText().equals("")) {
+                if(opt == 0 && !newNom.getText().equals("") && !newNom.getText().equals("")) {
                     boolean creat = CtrlPresentacio.creaExpressioBooleana(newNom.getText(), newExp.getText());
                     if(creat) {
                         tableModel.addRow(new Object[]{newNom.getText(), newExp.getText()});
@@ -263,16 +266,17 @@ public class VistaGestioExpBool extends JFrame{
                         JOptionPane.showMessageDialog(null, "L'expressió booleana ja existia."); ///YA EXISTE SU NOMBRE O SU EXPRESIÓN?
                     }
                 }
-                /*else if(newA.getText() != null && newT.getText() != null && (newT.getText().equals("") || newA.getText().equals(""))){ //FALTA PONER UN MENSAJE EN CASO DE Q SE DEJEN LOS 2 EN BLANCO Y SE CLIQ ACEPTAR
-                    JOptionPane.showMessageDialog(null, "Introdueix un autor i un títol vàlid");
-                }*/
+                else if(opt == 0 && (newNom.getText().equals("") || newNom.getText().equals(""))){
+                    JOptionPane.showMessageDialog(null, "Indica un nom i una expressió vàlides, no deixis camps buits.",
+                            "Error creació expressió booleana", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
 
         enrereButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                setVisible(false);
+                setVisible(false); //HACE FALTA??
                 dispose();
                 //CtrlPresentacio.mostraViewPrincipal();
             }
@@ -283,6 +287,32 @@ public class VistaGestioExpBool extends JFrame{
                 setVisible(false);
                 dispose();
                 //CtrlPresentacio.mostraViewPrincipal();
+            }
+        });
+
+        ajudaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int count = 0; //0 primera vez, -1 se cierra ventana
+                int opt = JOptionPane.showOptionDialog(null,"Amb el botó Crea es crea un nou document amb contingut buit.", "Panell d'ajuda", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[] {"Següent"}, "Següent");
+                //while(opt == -2);
+                String message = "";
+                while(count < 6 && opt != -1) {
+                    if(opt == 0 && count != 0) --count;
+                    else ++count;
+                    if(count == 0) message = "Amb el botó Nova expressió booleana es crea una nova expressió.";
+                    else if(count == 1) message = "Amb el botó Enrere es torna a la pantalla d'edició de documents";
+                    else if(count == 2) message = "Amb el botó Esborrar expressions seleccionades s'esborren les expressions que estiguin seleccionades a la taula. " +
+                            "\nEs pot seleccionar arrastrant amb el ratolí o clicant amb Ctrl+Clic.";
+                    else if(count == 3) message = "Amb els 3 punts verticals de cada expressió s'obre un panell d'opcions per l'expressió.";
+                    else if(count == 4) message = "També hi ha les funcionalitats de poder fer clic dret sobre una expressió per mostrar les seves opcions " +
+                            "\n(equival als 3 punts verticals). I la funcionalitat de fer clic dret sobre una de les expressions seleccionades i es mostrarà " +
+                            "\nun botó per borrar totes les expressions seleccionades.";
+                    else if(count == 5) message = "Es pot tancar el programa en qualsevol moment clicant al botó amb la X de la cantonada superior dreta";
+                    if(count == 0) opt = JOptionPane.showOptionDialog(null,message, "Panell d'ajuda", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[] {"Següent"}, "Següent");
+                    else if(count < 5) opt = JOptionPane.showOptionDialog(null,message, "Panell d'ajuda", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[] { "Anterior", "Següent"}, "Següent");
+                    else opt = JOptionPane.showOptionDialog(null,message, "Panell d'ajuda", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[] { "Anterior", "Acaba"}, "Acaba");
+                }
             }
         });
 

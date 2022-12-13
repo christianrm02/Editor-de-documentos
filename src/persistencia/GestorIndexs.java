@@ -13,7 +13,7 @@ public class GestorIndexs {
     public byte[] ImportarIndexs() throws IOException {
         try {
             //System.out.println("Working Directory = " + System.getProperty("user.dir"));
-            FileInputStream fileInputStream = new FileInputStream("./appdata/indexs/index");
+            FileInputStream fileInputStream = new FileInputStream("./appdata/indexs.idx");
             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
             byte[] info = (byte[]) objectInputStream.readObject();
             objectInputStream.close();
@@ -28,7 +28,7 @@ public class GestorIndexs {
     public void ExportarIndexs(byte[] info) throws IOException {
         //System.out.println("Working Directory = " + System.getProperty("user.dir"));
         Files.createDirectories(Paths.get("./appdata/indexs/"));
-        FileOutputStream fileOutputStream = new FileOutputStream("./appdata/indexs/index");
+        FileOutputStream fileOutputStream = new FileOutputStream("./appdata/indexs.idx");
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
         objectOutputStream.writeObject(info);
         objectOutputStream.flush();

@@ -33,11 +33,14 @@ import transversal.FileFormat;
 public class GestorDocuments {
     
     //Retorna autor, titol i contingut del document carregat i desa el contingut a l'espai de disc del programa
-    public String[] CarregaDocument(String path, FileFormat f) throws IOException {
+    public String[] CarregaDocument(String path) throws IOException {
         String[] doc = new String[3];
+        String[] folders = path.split("\\");
+        String[] file = folders[folders.length-1].split(".");
+        String format = file[file.length-1];
 
-        if(f == FileFormat.txt) doc = loadTXT(path);
-        else if(f == FileFormat.xml) doc = loadXML(path);
+        if(format == "txt") doc = loadTXT(path);
+        else if(format == "xml") doc = loadXML(path);
 
         //Desem el contingut a disc local
         DesaContingut(doc[0], doc[1], doc[2]);
@@ -59,7 +62,7 @@ public class GestorDocuments {
             String dirPath = "./appdata/docs/";
             Files.createDirectories(Paths.get(dirPath));
             String fileName = Integer.toString(Objects.hash(autor, titol));
-            FileInputStream fileInputStream = new FileInputStream(dirPath.concat(fileName));
+            FileInputStream fileInputStream = new FileInputStream(dirPath.concat(fileName).concat(".prop"));
             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
             String contingut = (String) objectInputStream.readObject();
             objectInputStream.close();
@@ -75,7 +78,7 @@ public class GestorDocuments {
         String dirPath = "./appdata/docs/";
         Files.createDirectories(Paths.get(dirPath));
         String fileName = Integer.toString(Objects.hash(autor, titol));
-        FileOutputStream fileOutputStream = new FileOutputStream(dirPath.concat(fileName));
+        FileOutputStream fileOutputStream = new FileOutputStream(dirPath.concat(fileName).concat(".prop"));
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
         objectOutputStream.writeObject(contingut);
         objectOutputStream.flush();

@@ -79,7 +79,7 @@ public class CtrlDomini {
     public void crearDocument(String autor, String titol) throws EDocumentException {
         if (ci.FindDoc(autor, titol)) throw new EDocumentException();
         ci.AfegirDoc(autor, titol, new ArrayList<String>());
-        cp.desaDocument(autor, titol, "");
+        cp.desaContingut(autor, titol, "");
     }
 
     // Destruccio de documents
@@ -107,7 +107,7 @@ public class CtrlDomini {
     }
 
     public void desarDocument() {
-        cp.desaDocument(autorAct, titolAct, contAct);
+        cp.desaContingut(autorAct, titolAct, contAct);
     }
 
     // Cerques

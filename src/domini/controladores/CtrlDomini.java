@@ -2,6 +2,7 @@ package controladores;
 
 import persistencia.CtrlPersistencia;
 import transversal.*;
+import excepcions.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +38,7 @@ public class CtrlDomini {
         //cp.guardarExpB(cp.GuardarExpB);
     }
 
-    public List<Pair<String,String>> carregaFitxers(List<String> locs) {
+    public List<Pair<String,String>> carregaFitxers(List<String> locs) throws EDocumentException {
         List<Pair<String,String>> l = new ArrayList<>();
         for (String loc: locs) {
             String[] doc = cp.carregaDocument(loc, FileFormat.txt);
@@ -73,7 +74,7 @@ public class CtrlDomini {
     }
 
     // Creacio de document
-    public boolean crearDocument(String autor, String titol, String cont) {
+    public boolean crearDocument(String autor, String titol, String cont) throws EDocumentException {
         boolean ed = ci.FindDoc(autor, titol);
         if (!ed) {
             ci.AfegirDoc(autor, titol, converteix_a_frases(cont));
@@ -89,7 +90,7 @@ public class CtrlDomini {
     }
 
     // Modificadores de document
-    public boolean modificarTitol(String autor, String titol, String newT) {
+    public boolean modificarTitol(String autor, String titol, String newT) throws EDocumentException {
         boolean ed = ci.FindDoc(autor, newT);
         if (!ed) {
             ci.ActualitzarTitol(autor, titol, newT);
@@ -97,7 +98,7 @@ public class CtrlDomini {
         return !ed;
     }
 
-    public boolean modificarAutor(String autor, String titol, String newA) {
+    public boolean modificarAutor(String autor, String titol, String newA) throws EDocumentException {
         boolean ed = ci.FindDoc(newA, titol);
         if (!ed) {
             ci.ActualitzarAutor(autor, titol, newA);
@@ -128,8 +129,7 @@ public class CtrlDomini {
         return ci.GetKDocsSimilarS(autor, titol, K, estrategia);
     }
 
-    public List<Pair<String, String>> cercarExpressioBooleana(String exp) throws Exception {
-
+    public List<Pair<String, String>> cercarExpressioBooleana(String exp) throws ExpBoolNoValidaException {
         return ce.cercarExpressioBooleana(exp, ci);
     }
 
@@ -144,13 +144,13 @@ public class CtrlDomini {
     }
 
     // Creadora d'expressio booleana
-    public boolean setExpressioBooleana(String nom, String exp) throws Exception {
+    public boolean setExpressioBooleana(String nom, String exp) throws EExpBoolException, ExpBoolNoValidaException {
         boolean ee = ce.existsExpressioBooleana(nom);
         if (!ee) ce.setExpressioBooleana(nom, exp); // PRE: no existeix ExpressioBooleana
         return !ee;
     }
 
-    public void modExpressioBooleana(String nom, String nExp) throws Exception {
+    public void modExpressioBooleana(String nom, String nExp) throws ExpBoolNoValidaException {
         ce.setExpressioBooleana(nom, nExp);
     }
 

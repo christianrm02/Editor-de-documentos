@@ -28,7 +28,7 @@ public class CtrlDomini {
         cp = new CtrlPersistencia();
     }
 
-    public List<Pair<String, String>> init() throws IOException {
+    public List<Pair<String, String>> init() throws IOException, ExpBoolNoValidaException {
         ci.ImportarIndexs(cp.ImportarIndexs());
         List<Pair<String, String>> ebs = cp.CarregarExpB();
         for (Pair<String, String> eb : ebs) ce.setExpressioBooleana(eb.x, eb.y);

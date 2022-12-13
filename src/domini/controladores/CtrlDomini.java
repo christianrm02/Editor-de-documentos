@@ -4,6 +4,7 @@ import persistencia.CtrlPersistencia;
 import transversal.*;
 import excepcions.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -27,13 +28,13 @@ public class CtrlDomini {
         cp = new CtrlPersistencia();
     }
 
-    public List<Pair<String, String>> init() {
+    public List<Pair<String, String>> init() throws IOException {
         ci.ImportarIndexs(cp.ImportarIndexs());
         //ce.carregarExpB(cp.CarregarExpB);
         return getTitolsAutors();
     }
 
-    public void tancar() {
+    public void tancar() throws IOException {
         cp.ExportarIndexs(ci.ExportarIndexs());
         //cp.guardarExpB(cp.GuardarExpB);
     }
@@ -64,13 +65,13 @@ public class CtrlDomini {
     }
 
     public String getContingut(String autor, String titol) {
-        return cp.getContingut(autor, titol);
+        return null /*cp.getContingut(autor, titol)*/;
     }
 
     public String obrirDocument(String autor, String titol) {
         titolAct = titol;
         autorAct = autor;
-        contAct = cp.getContingut(autor, titol);
+        //contAct = cp.getContingut(autor, titol);
         return contAct;
     }
 

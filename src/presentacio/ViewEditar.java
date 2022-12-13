@@ -141,7 +141,7 @@ public class ViewEditar extends JFrame {
                 String au = autor.getText(), ti = titol.getText();
                 if (!cont.equals(contNou)) opt = desarAbansDeTancar(au, ti, contNou, false);
                 if (opt == 0 || opt == 1) {
-                    //afegir tot el tractament per guardar tot a persistencia
+                    //CtrlPresentacio.tancar();
                     System.exit(0);
                 }
             }
@@ -153,7 +153,7 @@ public class ViewEditar extends JFrame {
                 String newT;
                 do {
                     newT = JOptionPane.showInputDialog(null, "Escriu el nou títol:", "Modificar títol", JOptionPane.DEFAULT_OPTION);
-                } while (newT == "");
+                } while (newT.equals(""));
                 if(newT != null) { // diria q no pot passar a no ser q tanquis
                     String au = autor.getText(), ti = titol.getText();
                     int opt = JOptionPane.showConfirmDialog(null, "Segur que vols modificar el títol del document " + ti + " " + au + " de " + ti + " a " + newT + " ?", "Modificar títol", JOptionPane.YES_NO_OPTION);
@@ -179,8 +179,7 @@ public class ViewEditar extends JFrame {
                 String newA;
                 do {
                     newA = JOptionPane.showInputDialog(null, "Escriu el nou autor:", "Modificar autor", JOptionPane.DEFAULT_OPTION);
-
-                } while (newA == "");
+                } while (newA.equals(""));
                 if(newA != null) {
                     String au = autor.getText(), ti = titol.getText();
                     int opt = JOptionPane.showConfirmDialog(null, "Segur que vols modificar l'autor del document " + ti + " " + au + " de " + au + " a " + newA + " ?", "Modificar autor", JOptionPane.YES_NO_OPTION);

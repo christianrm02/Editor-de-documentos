@@ -16,10 +16,9 @@ public class GestorDocumentsTest {
         String autor = "Manolo";
         String titol = "Manolo se va a la playa";
         String contingut = "Manolo se aburre en la playa.\nManolo vuelve a casa";
-        GestorDocuments gd = new GestorDocuments();
 
-        gd.DesaContingut(autor, titol, contingut);
-        String result = gd.GetContingut(autor, titol);
+        GestorDocuments.DesaContingut(autor, titol, contingut);
+        String result = GestorDocuments.GetContingut(autor, titol);
 
         assertEquals(contingut, result);
     }
@@ -29,13 +28,12 @@ public class GestorDocumentsTest {
         String autor = "Manolo";
         String titol = "Manolo se va a la playa";
         String contingut = "Manolo se aburre en la playa.\nManolo vuelve a casa.\n";
-        GestorDocuments gd = new GestorDocuments();
         String path = "D:\\Documents\\Eric\\Universitat\\Quad5\\testProp\\test.txt";
         String[] expected = new String[]{autor, titol, contingut};
 
-        gd.DesaContingut(autor, titol, contingut);
-        gd.ExportaDocument(autor, titol, path);
-        String[] result = gd.ImportaDocument(path);
+        GestorDocuments.DesaContingut(autor, titol, contingut);
+        GestorDocuments.ExportaDocument(autor, titol, path);
+        String[] result = GestorDocuments.ImportaDocument(path);
 
         assertArrayEquals(expected, result);
     }
@@ -45,13 +43,12 @@ public class GestorDocumentsTest {
         String autor = "Manolo";
         String titol = "Manolo se va a la playa";
         String contingut = "Manolo se aburre en la playa.\nManolo vuelve a casa.\n";
-        GestorDocuments gd = new GestorDocuments();
         String path = "D:\\Documents\\Eric\\Universitat\\Quad5\\testProp\\test.xml";
         String[] expected = new String[]{autor, titol, contingut};
 
-        gd.DesaContingut(autor, titol, contingut);
-        gd.ExportaDocument(autor, titol, path);
-        String[] result = gd.ImportaDocument(path);
+        GestorDocuments.DesaContingut(autor, titol, contingut);
+        GestorDocuments.ExportaDocument(autor, titol, path);
+        String[] result = GestorDocuments.ImportaDocument(path);
 
         assertArrayEquals(expected, result);
     }

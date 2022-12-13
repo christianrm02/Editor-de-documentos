@@ -28,8 +28,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
-import transversal.FileFormat;
-
 public class GestorDocuments {
     
     //Retorna autor, titol i contingut del document carregat i desa el contingut a l'espai de disc del programa
@@ -45,14 +43,16 @@ public class GestorDocuments {
         return doc;
     }
 
-    public void ExportaDocument(String autor, String titol, String path, FileFormat f) throws IOException {
+    public void ExportaDocument(String autor, String titol, String path) throws IOException {
         //Obtenim el contingut de disc local
         String contingut = GetContingut(autor, titol);
         if(contingut == null) return;
+
+        String format = getFormat(path);
         
         //Exportem el fitxer
-        if(f == FileFormat.txt) writeTXT(autor, titol, contingut, path);
-        else if(f == FileFormat.xml) writeXML(autor, titol, contingut, path);
+        if(format == "txt") writeTXT(autor, titol, contingut, path);
+        else if(format == "xml") writeXML(autor, titol, contingut, path);
     }
 
     public String GetContingut(String autor, String titol) throws IOException {

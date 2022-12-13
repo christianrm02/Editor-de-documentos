@@ -8,7 +8,6 @@ import java.io.IOException;
 import org.junit.Test;
 
 import persistencia.GestorDocuments;
-import transversal.FileFormat;
 
 public class GestorDocumentsTest {
 
@@ -35,7 +34,7 @@ public class GestorDocumentsTest {
         String[] expected = new String[]{autor, titol, contingut};
 
         gd.DesaContingut(autor, titol, contingut);
-        gd.ExportaDocument(autor, titol, path, FileFormat.txt);
+        gd.ExportaDocument(autor, titol, path);
         String[] result = gd.ImportaDocument(path);
 
         assertArrayEquals(expected, result);
@@ -51,7 +50,7 @@ public class GestorDocumentsTest {
         String[] expected = new String[]{autor, titol, contingut};
 
         gd.DesaContingut(autor, titol, contingut);
-        gd.ExportaDocument(autor, titol, path, FileFormat.xml);
+        gd.ExportaDocument(autor, titol, path);
         String[] result = gd.ImportaDocument(path);
 
         assertArrayEquals(expected, result);

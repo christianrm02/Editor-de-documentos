@@ -21,12 +21,12 @@ public class CtrlPersistencia {
         gD.ExportaDocument(autor, titol, path, f);
     }
 
-    public void obrirDocument(String autor, String titol) {
-        gD.ObrirDocument(autor, titol);
+    public void getContingut(String autor, String titol) {
+        gD.GetContingut(autor, titol);
     }
 
-    public void desaDocument(String autor, String titol, String contingut) {
-        gD.DesaDocument(autor, titol, contingut);
+    public void desaContingut(String autor, String titol, String contingut) {
+        gD.DesaContingut(autor, titol, contingut);
     }
 
     public byte[] ImportarIndexs() {

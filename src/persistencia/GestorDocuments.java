@@ -31,7 +31,7 @@ import org.xml.sax.SAXException;
 public class GestorDocuments {
     
     //Retorna autor, titol i contingut del document carregat i desa el contingut a l'espai de disc del programa
-    public String[] ImportaDocument(String path) throws IOException {
+    public static String[] ImportaDocument(String path) throws IOException {
         String[] doc = new String[3];
         String format = getFormat(path);
 
@@ -43,7 +43,7 @@ public class GestorDocuments {
         return doc;
     }
 
-    public void ExportaDocument(String autor, String titol, String path) throws IOException {
+    public static void ExportaDocument(String autor, String titol, String path) throws IOException {
         //Obtenim el contingut de disc local
         String contingut = GetContingut(autor, titol);
         if(contingut == null) return;
@@ -55,7 +55,7 @@ public class GestorDocuments {
         else if(format == "xml") writeXML(autor, titol, contingut, path);
     }
 
-    public String GetContingut(String autor, String titol) throws IOException {
+    public static String GetContingut(String autor, String titol) throws IOException {
         try {
             String dirPath = "./appdata/docs/";
             Files.createDirectories(Paths.get(dirPath));
@@ -72,7 +72,7 @@ public class GestorDocuments {
         return null;
     }
 
-    public void DesaContingut(String autor, String titol, String contingut) throws IOException {
+    public static void DesaContingut(String autor, String titol, String contingut) throws IOException {
         String dirPath = "./appdata/docs/";
         Files.createDirectories(Paths.get(dirPath));
         String fileName = Integer.toString(Objects.hash(autor, titol));
@@ -83,7 +83,7 @@ public class GestorDocuments {
         objectOutputStream.close();
     }
 
-    public void EsborrarDoc(String autor, String titol) throws IOException {
+    public static void EsborrarDoc(String autor, String titol) throws IOException {
         String dirPath = "./appdata/docs/";
         Files.createDirectories(Paths.get(dirPath));
         String fileName = Integer.toString(Objects.hash(autor, titol));
@@ -91,7 +91,7 @@ public class GestorDocuments {
         fileToDelete.delete();
     }
 
-    private String[] loadTXT(String path) throws IOException {
+    private static String[] loadTXT(String path) throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(path));
         String autor = reader.readLine();
         String titol = reader.readLine();
@@ -107,7 +107,7 @@ public class GestorDocuments {
         return new String[]{autor, titol, contingut};
     }
 
-    private void writeTXT(String autor, String titol, String contingut, String path) throws IOException {
+    private static void writeTXT(String autor, String titol, String contingut, String path) throws IOException {
         //Exportem el fitxer
         FileOutputStream fos = new FileOutputStream(path);
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
@@ -119,7 +119,7 @@ public class GestorDocuments {
         bw.close();
     }
 
-    private String[] loadXML(String path) throws IOException {
+    private static String[] loadXML(String path) throws IOException {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         try {
             DocumentBuilder db = dbf.newDocumentBuilder();
@@ -135,7 +135,7 @@ public class GestorDocuments {
         return null;
     }
 
-    private void writeXML(String autor, String titol, String contingut, String path) throws IOException {
+    private static void writeXML(String autor, String titol, String contingut, String path) throws IOException {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         try {
             DocumentBuilder db = dbf.newDocumentBuilder();
@@ -168,7 +168,7 @@ public class GestorDocuments {
         }
     }
 
-    private String getFormat(String path) {
+    private static String getFormat(String path) {
         String[] folders = path.split("\\");
         String[] file = folders[folders.length-1].split(".");
         String format = file[file.length-1];

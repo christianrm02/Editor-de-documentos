@@ -10,7 +10,7 @@ import java.nio.file.Paths;
 
 public class GestorIndexs {
     
-    public byte[] ImportarIndexs() throws IOException {
+    public static byte[] ImportarIndexs() throws IOException {
         try {
             //System.out.println("Working Directory = " + System.getProperty("user.dir"));
             FileInputStream fileInputStream = new FileInputStream("./appdata/indexs.idx");
@@ -25,7 +25,7 @@ public class GestorIndexs {
         return null;
     }
 
-    public void ExportarIndexs(byte[] info) throws IOException {
+    public static void ExportarIndexs(byte[] info) throws IOException {
         //System.out.println("Working Directory = " + System.getProperty("user.dir"));
         Files.createDirectories(Paths.get("./appdata/indexs/"));
         FileOutputStream fileOutputStream = new FileOutputStream("./appdata/indexs.idx");

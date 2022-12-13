@@ -42,6 +42,7 @@ public class CtrlDomini {
         List<Pair<String,String>> l = new ArrayList<>();
         for (String loc: locs) {
             String[] doc = cp.carregaDocument(loc, FileFormat.txt);
+            if (ci.FindDoc(doc[0], doc[1])) throw new EDocumentException();
             ci.AfegirDoc(doc[0], doc[1], converteix_a_frases(doc[2]));
             l.add(new Pair<>(doc[0], doc[1]));
         }
@@ -75,11 +76,9 @@ public class CtrlDomini {
 
     // Creacio de document
     public void crearDocument(String autor, String titol) throws EDocumentException {
-        boolean ed = ci.FindDoc(autor, titol);
-        if (!ed) {
-            ci.AfegirDoc(autor, titol, new ArrayList<String>());
-            cp.desaDocument(autor, titol, "");
-        }
+        if (ci.FindDoc(autor, titol)) throw new EDocumentException();
+        ci.AfegirDoc(autor, titol, new ArrayList<String>());
+        cp.desaDocument(autor, titol, "");
     }
 
     // Destruccio de documents
@@ -90,20 +89,14 @@ public class CtrlDomini {
     }
 
     // Modificadores de document
-    public boolean modificarTitol(String autor, String titol, String newT) throws EDocumentException {
-        boolean ed = ci.FindDoc(autor, newT);
-        if (!ed) {
-            ci.ActualitzarTitol(autor, titol, newT);
-        }
-        return !ed;
+    public void modificarTitol(String autor, String titol, String newT) throws EDocumentException {
+        if (ci.FindDoc(autor, newT)) throw new EDocumentException();
+        ci.ActualitzarTitol(autor, titol, newT);
     }
 
-    public boolean modificarAutor(String autor, String titol, String newA) throws EDocumentException {
-        boolean ed = ci.FindDoc(newA, titol);
-        if (!ed) {
-            ci.ActualitzarAutor(autor, titol, newA);
-        }
-        return !ed;
+    public void modificarAutor(String autor, String titol, String newA) throws EDocumentException {
+        if (ci.FindDoc(newA, titol)) throw new EDocumentException();
+        ci.ActualitzarAutor(autor, titol, newA);
     }
 
     public void modificarContingut(String cont) {
@@ -144,10 +137,9 @@ public class CtrlDomini {
     }
 
     // Creadora d'expressio booleana
-    public boolean setExpressioBooleana(String nom, String exp) throws EExpBoolException, ExpBoolNoValidaException {
-        boolean ee = ce.existsExpressioBooleana(nom);
-        if (!ee) ce.setExpressioBooleana(nom, exp); // PRE: no existeix ExpressioBooleana
-        return !ee;
+    public void setExpressioBooleana(String nom, String exp) throws EExpBoolException, ExpBoolNoValidaException {
+        if (ce.existsExpressioBooleana(nom)) throw new EExpBoolException();
+        ce.setExpressioBooleana(nom, exp); // PRE: no existeix ExpressioBooleana
     }
 
     public void modExpressioBooleana(String nom, String nExp) throws ExpBoolNoValidaException {

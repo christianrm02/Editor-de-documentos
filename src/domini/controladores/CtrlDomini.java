@@ -64,11 +64,11 @@ public class CtrlDomini {
         return new ArrayList<>(ci.GetKeys());
     }
 
-    public String getContingut(String autor, String titol) {
+    public String getContingut(String autor, String titol) throws IOException {
         return cp.getContingut(autor, titol);
     }
 
-    public String obrirDocument(String autor, String titol) {
+    public String obrirDocument(String autor, String titol) throws IOException {
         titolAct = titol;
         autorAct = autor;
         contAct = cp.getContingut(autor, titol);
@@ -76,7 +76,7 @@ public class CtrlDomini {
     }
 
     // Creacio de document
-    public void crearDocument(String autor, String titol) throws EDocumentException {
+    public void crearDocument(String autor, String titol) throws EDocumentException, IOException {
         if (ci.FindDoc(autor, titol)) throw new EDocumentException();
         ci.AfegirDoc(autor, titol, new ArrayList<String>());
         cp.desaContingut(autor, titol, "");
@@ -84,8 +84,8 @@ public class CtrlDomini {
 
     // Destruccio de documents
     public void esborrarDocument(String autor, String titol) throws IOException {
-        ci.EsborrarDoc(p.x, p.y);
-        cp.deleteDocument(p.x, p.y);
+        ci.EsborrarDoc(autor, titol);
+        cp.deleteDocument(autor, titol);
     }
 
     // Modificadores de document
@@ -104,7 +104,7 @@ public class CtrlDomini {
         ci.ActualitzarContingut(autorAct, titolAct, converteix_a_frases(cont));
     }
 
-    public void desarDocument() {
+    public void desarDocument() throws IOException {
         cp.desaContingut(autorAct, titolAct, contAct);
     }
 

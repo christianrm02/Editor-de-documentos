@@ -33,7 +33,7 @@ import transversal.FileFormat;
 public class GestorDocuments {
     
     //Retorna autor, titol i contingut del document carregat i desa el contingut a l'espai de disc del programa
-    public String[] CarregaDocument(String path, FileFormat f) {
+    public String[] CarregaDocument(String path, FileFormat f) throws IOException {
         String[] doc = new String[3];
 
         if(f == FileFormat.txt) doc = loadTXT(path);
@@ -44,7 +44,7 @@ public class GestorDocuments {
         return doc;
     }
 
-    public void ExportaDocument(String autor, String titol, String path, FileFormat f) {
+    public void ExportaDocument(String autor, String titol, String path, FileFormat f) throws IOException {
         //Obtenim el contingut de disc local
         String contingut = GetContingut(autor, titol);
         if(contingut == null) return;
@@ -54,7 +54,7 @@ public class GestorDocuments {
         else if(f == FileFormat.xml) writeXML(autor, titol, contingut, path);
     }
 
-    public String GetContingut(String autor, String titol) {
+    public String GetContingut(String autor, String titol) throws IOException {
         try {
             String dirPath = "./appdata/docs/";
             Files.createDirectories(Paths.get(dirPath));
@@ -64,66 +64,53 @@ public class GestorDocuments {
             String contingut = (String) objectInputStream.readObject();
             objectInputStream.close();
             return contingut;
-        } catch (ClassNotFoundException | IOException e) {
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
         //Si no troba el fitxer simplement retorna null
         return null;
     }
 
-    public void DesaContingut(String autor, String titol, String contingut) {
-        try {
-            String dirPath = "./appdata/docs/";
-            Files.createDirectories(Paths.get(dirPath));
-            String fileName = Integer.toString(Objects.hash(autor, titol));
-            FileOutputStream fileOutputStream = new FileOutputStream(dirPath.concat(fileName));
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-            objectOutputStream.writeObject(contingut);
-            objectOutputStream.flush();
-            objectOutputStream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void DesaContingut(String autor, String titol, String contingut) throws IOException {
+        String dirPath = "./appdata/docs/";
+        Files.createDirectories(Paths.get(dirPath));
+        String fileName = Integer.toString(Objects.hash(autor, titol));
+        FileOutputStream fileOutputStream = new FileOutputStream(dirPath.concat(fileName));
+        ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+        objectOutputStream.writeObject(contingut);
+        objectOutputStream.flush();
+        objectOutputStream.close();
     }
 
-    private String[] loadTXT(String path) {
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader(path));
-            String autor = reader.readLine();
-            String titol = reader.readLine();
-            String line = reader.readLine();
-            StringBuilder aux = new StringBuilder();
-            while(line != null) {
-                aux.append(line);
-                aux.append('\n');
-                line = reader.readLine();
-            }
-            reader.close();
-            String contingut = aux.toString();
-            return new String[]{autor, titol, contingut};
-        } catch (IOException e) {
-            e.printStackTrace();
+    private String[] loadTXT(String path) throws IOException {
+        BufferedReader reader = new BufferedReader(new FileReader(path));
+        String autor = reader.readLine();
+        String titol = reader.readLine();
+        String line = reader.readLine();
+        StringBuilder aux = new StringBuilder();
+        while(line != null) {
+            aux.append(line);
+            aux.append('\n');
+            line = reader.readLine();
         }
-        return null;
+        reader.close();
+        String contingut = aux.toString();
+        return new String[]{autor, titol, contingut};
     }
 
-    private void writeTXT(String autor, String titol, String contingut, String path) {
+    private void writeTXT(String autor, String titol, String contingut, String path) throws IOException {
         //Exportem el fitxer
-        try {
-            FileOutputStream fos = new FileOutputStream(path);
-            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
-            bw.write(autor);
-            bw.newLine();
-            bw.write(titol);
-            bw.newLine();
-            bw.write(contingut);
-            bw.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        FileOutputStream fos = new FileOutputStream(path);
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
+        bw.write(autor);
+        bw.newLine();
+        bw.write(titol);
+        bw.newLine();
+        bw.write(contingut);
+        bw.close();
     }
 
-    private String[] loadXML(String path){
+    private String[] loadXML(String path) throws IOException {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         try {
             DocumentBuilder db = dbf.newDocumentBuilder();
@@ -132,14 +119,14 @@ public class GestorDocuments {
             String titol = root.getElementsByTagName("titol").item(0).getTextContent();
             String contingut = root.getElementsByTagName("contingut").item(0).getTextContent();
             return new String[]{autor, titol, contingut};
-        } catch (IOException | ParserConfigurationException | SAXException e) {
+        } catch (ParserConfigurationException | SAXException e) {
             e.printStackTrace();
         }
 
         return null;
     }
 
-    private void writeXML(String autor, String titol, String contingut, String path) {
+    private void writeXML(String autor, String titol, String contingut, String path) throws IOException {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         try {
             DocumentBuilder db = dbf.newDocumentBuilder();
@@ -167,7 +154,7 @@ public class GestorDocuments {
             StreamResult res = new StreamResult(fos);
 
             t.transform(source, res);
-        } catch (ParserConfigurationException | IOException | TransformerException e) {
+        } catch (ParserConfigurationException | TransformerException e) {
             e.printStackTrace();
         }
     }

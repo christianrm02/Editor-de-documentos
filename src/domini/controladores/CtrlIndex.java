@@ -26,17 +26,15 @@ public class CtrlIndex {
         indexParaulaTFIDF = new IndexParaulaTFIDF();
     }
 
+    //PRE: NO EXISTEIX
     public void AfegirDoc(String autor, String titol, List<String> contingut) {
-        if(indexDocuments.FindDoc(autor, titol)) return;
-
         indexDocuments.AfegirDoc(autor, titol);
         indexExpBooleana.AfegirDoc(autor, titol, contingut);
         indexParaulaTFIDF.AfegirDoc(autor, titol, contingut);
     }
 
+    //PRE: EXISTEIX
     public void EsborrarDoc(String autor, String titol) {
-        if(!indexDocuments.FindDoc(autor, titol)) return;
-
         indexDocuments.EsborrarDoc(autor, titol);
         indexExpBooleana.EsborrarDoc(autor, titol);
         indexParaulaTFIDF.EsborrarDoc(autor, titol);
@@ -46,25 +44,22 @@ public class CtrlIndex {
         return indexDocuments.FindDoc(autor, titol);
     }
 
+    //PRE: EXISTEIX
     public void ActualitzarTitol(String autor, String titol, String newTitol) {
-        if(!indexDocuments.FindDoc(autor, titol)) return;
-
         indexDocuments.ActualitzarTitol(autor, titol, newTitol);
         indexExpBooleana.ActualitzarTitol(autor, titol, newTitol);
         indexParaulaTFIDF.ActualitzarTitol(autor, titol, newTitol);
     }
 
+    //PRE: EXISTEIX
     public void ActualitzarAutor(String autor, String titol, String newAutor) {
-        if(!indexDocuments.FindDoc(autor, titol)) return;
-
         indexDocuments.ActualitzarAutor(autor, titol, newAutor);
         indexExpBooleana.ActualitzarAutor(autor, titol, newAutor);
         indexParaulaTFIDF.ActualitzarAutor(autor, titol, newAutor);
     }
 
+    //PRE: EXISTEIX
     public void ActualitzarContingut(String autor, String titol, List<String> contingut) {
-        if(!indexDocuments.FindDoc(autor, titol)) return;
-
         indexExpBooleana.ActualitzarContingut(autor, titol, contingut);
         indexParaulaTFIDF.ActualitzarContingut(autor, titol, contingut);
     }
@@ -107,7 +102,7 @@ public class CtrlIndex {
         return indexExpBooleana.GetDocuments(indexs);
     }
 
-    public void ImportarIndexs(byte[] info) {
+    public void ImportarIndexs(byte[] info) throws IOException {
         try {
             //Si no existia el fitxer (programa obert per primer cop) no es fa res
             if(info == null) return;
@@ -118,23 +113,18 @@ public class CtrlIndex {
             indexDocuments = (Trie) indexs[0];
             indexExpBooleana = (IndexExpBooleana) indexs[1];
             indexParaulaTFIDF = (IndexParaulaTFIDF) indexs[2];
-        } catch (IOException | ClassNotFoundException e) {
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
 
-    public byte[] ExportarIndexs() {
-        try {
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ObjectOutputStream oos = new ObjectOutputStream(baos);
-            Object[] indexs = new Object[] {indexDocuments, indexExpBooleana, indexParaulaTFIDF};
-            oos.writeObject(indexs);
-            oos.close();
-            return baos.toByteArray();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
+    public byte[] ExportarIndexs() throws IOException {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ObjectOutputStream oos = new ObjectOutputStream(baos);
+        Object[] indexs = new Object[] {indexDocuments, indexExpBooleana, indexParaulaTFIDF};
+        oos.writeObject(indexs);
+        oos.close();
+        return baos.toByteArray();
     }
 
 }

@@ -3,6 +3,8 @@ package test.persistencia;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
+import java.io.IOException;
+
 import org.junit.Test;
 
 import persistencia.GestorDocuments;
@@ -11,7 +13,7 @@ import transversal.FileFormat;
 public class GestorDocumentsTest {
 
     @Test
-    public void testObrirDesar() {
+    public void testObrirDesar() throws IOException {
         String autor = "Manolo";
         String titol = "Manolo se va a la playa";
         String contingut = "Manolo se aburre en la playa.\nManolo vuelve a casa";
@@ -24,7 +26,7 @@ public class GestorDocumentsTest {
     }
 
     @Test
-    public void testTXT() {
+    public void testTXT() throws IOException {
         String autor = "Manolo";
         String titol = "Manolo se va a la playa";
         String contingut = "Manolo se aburre en la playa.\nManolo vuelve a casa.\n";
@@ -40,7 +42,7 @@ public class GestorDocumentsTest {
     }
 
     @Test
-    public void testXML() {
+    public void testXML() throws IOException {
         String autor = "Manolo";
         String titol = "Manolo se va a la playa";
         String contingut = "Manolo se aburre en la playa.\nManolo vuelve a casa.\n";

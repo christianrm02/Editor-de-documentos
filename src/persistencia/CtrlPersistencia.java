@@ -39,11 +39,11 @@ public class CtrlPersistencia {
         gI.ExportarIndexs(info);
     }
 
-    public String[] CarregarExpB(String path) {
+    public String[] CarregarExpB(String path) throws IOException {
         return gEB.CarregarExpB(path);
     }
 
-    public void GuardarExpB(String nom, String exp) {
+    public void GuardarExpB(String nom, String exp) throws IOException {
         gEB.GuardarExpB(nom, exp);
     }
 

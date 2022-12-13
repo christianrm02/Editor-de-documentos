@@ -28,6 +28,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
+import excepcions.DeleteDocumentException;
+
 public class GestorDocuments {
     
     //Retorna autor, titol i contingut del document carregat i desa el contingut a l'espai de disc del programa
@@ -83,12 +85,12 @@ public class GestorDocuments {
         objectOutputStream.close();
     }
 
-    public static void EsborrarDoc(String autor, String titol) throws IOException {
+    public static void EsborrarDoc(String autor, String titol) throws IOException, Exception {
         String dirPath = "./appdata/docs/";
         Files.createDirectories(Paths.get(dirPath));
         String fileName = Integer.toString(Objects.hash(autor, titol));
         File fileToDelete = new File(dirPath.concat(fileName).concat(".prop"));
-        fileToDelete.delete();
+        if(!fileToDelete.delete()) throw new DeleteDocumentException();
     }
 
     private static String[] loadTXT(String path) throws IOException {

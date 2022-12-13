@@ -42,7 +42,7 @@ public class CtrlDomini {
     public List<Pair<String,String>> importarDocuments(List<String> locs) throws EDocumentException, IOException {
         List<Pair<String,String>> l = new ArrayList<>();
         for (String loc: locs) {
-            String[] doc = cp.carregaDocument(loc, FileFormat.txt);
+            String[] doc = cp.importaDocument(loc, FileFormat.txt);
             if (ci.FindDoc(doc[0], doc[1])) throw new EDocumentException();
             ci.AfegirDoc(doc[0], doc[1], converteix_a_frases(doc[2]));
             l.add(new Pair<>(doc[0], doc[1]));

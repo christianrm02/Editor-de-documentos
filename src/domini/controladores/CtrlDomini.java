@@ -38,7 +38,7 @@ public class CtrlDomini {
         //cp.guardarExpB(cp.GuardarExpB);
     }
 
-    public List<Pair<String,String>> carregaFitxers(List<String> locs) throws EDocumentException {
+    public List<Pair<String,String>> carregarDocuments(List<String> locs) throws EDocumentException {
         List<Pair<String,String>> l = new ArrayList<>();
         for (String loc: locs) {
             String[] doc = cp.carregaDocument(loc, FileFormat.txt);
@@ -74,12 +74,12 @@ public class CtrlDomini {
     }
 
     // Creacio de document
-    public boolean crearDocument(String autor, String titol, String cont) throws EDocumentException {
+    public void crearDocument(String autor, String titol) throws EDocumentException {
         boolean ed = ci.FindDoc(autor, titol);
         if (!ed) {
-            ci.AfegirDoc(autor, titol, converteix_a_frases(cont));
+            ci.AfegirDoc(autor, titol, new ArrayList<String>());
+            cp.desaDocument(autor, titol, "");
         }
-        return !ed;
     }
 
     // Destruccio de documents

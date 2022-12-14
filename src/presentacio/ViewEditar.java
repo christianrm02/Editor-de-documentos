@@ -115,6 +115,8 @@ public class ViewEditar extends JFrame {
                         String path = chooser.getSelectedFile().getAbsolutePath();
                         String au = autor.getText(), ti = titol.getText();
                         String loc = path + "\\" + newNom.getText() + "." + (String)tipus.getSelectedItem(); //COMPROBAR Q SE HACE BIEN EL PATH
+                        cp.modificarContingut(textPane1.getText());
+                        cp.desarDocument();
                         cp.exportaDocument(au, ti, loc);
                         //System.out.println(titol + " " + autor + " " + newNom.getText() + " " + chooser.getSelectedFile().getAbsolutePath());
                     } else if (opt == 0 && (newNom.getText().equals("") || ((String) tipus.getSelectedItem()).equals(""))) {

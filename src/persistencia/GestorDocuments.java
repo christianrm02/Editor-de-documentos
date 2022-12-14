@@ -39,11 +39,16 @@ public class GestorDocuments {
         String[] doc = new String[3];
         String format = getFormat(path);
 
-        if(format.equals("txt")) doc = loadTXT(path);
-        else if(format.equals("xml")) doc = loadXML(path);
-
-        //Desem el contingut a disc local
-        DesaContingut(doc[0], doc[1], doc[2]);
+        if(format.equals("txt")) {
+            doc = loadTXT(path);
+            //Desem el contingut a disc local
+            DesaContingut(doc[0], doc[1], doc[2]);
+        }
+        else if(format.equals("xml")) {
+            doc = loadXML(path);
+            //Desem el contingut a disc local
+            DesaContingut(doc[0], doc[1], doc[2]);
+        }
         return doc;
     }
 

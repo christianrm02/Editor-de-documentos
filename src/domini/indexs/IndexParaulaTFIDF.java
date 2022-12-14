@@ -276,9 +276,9 @@ public class IndexParaulaTFIDF implements Serializable{
         stopWords = new HashSet<>();
         
         //Add stop words
-        String[] caStopWords = ca.split("\n");
-        String[] spStopWords = sp.split("\n");
-        String[] engStopWords = eng.split("\n");
+        String[] caStopWords = ca.split(" ");
+        String[] spStopWords = sp.split(" ");
+        String[] engStopWords = eng.split(" ");
 
         for (String caStopWord : caStopWords) stopWords.add(caStopWord);
         for (String spStopWord : spStopWords) stopWords.add(spStopWord);

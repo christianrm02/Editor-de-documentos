@@ -113,6 +113,7 @@ public class CtrlIndex {
             indexDocuments = (Trie) indexs[0];
             indexExpBooleana = (IndexExpBooleana) indexs[1];
             indexParaulaTFIDF = (IndexParaulaTFIDF) indexs[2];
+            ois.close();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }

@@ -12,8 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class showingDocsTable extends JPanel {
-    //private JPanel tablePanel;
-    private JTable table;
     private int anteriorColumn;
 
     public showingDocsTable(DefaultTableModel tm, JTable documents) {
@@ -45,7 +43,6 @@ public class showingDocsTable extends JPanel {
             table.setRowSorter(sorter);
             List<RowSorter.SortKey> sortKeys = new ArrayList<>();
             sorter.setSortKeys(sortKeys);
-            //table.setSelectionMode(ListSelectionModel.);
 
             JTableHeader header = table.getTableHeader();
             header.addMouseListener(new MouseAdapter() {
@@ -82,15 +79,12 @@ public class showingDocsTable extends JPanel {
                     if (e.getClickCount() == 2) {
                         String titol = (String) table.getValueAt(table.getSelectedRow(), 0);
                         String autor = (String) table.getValueAt(table.getSelectedRow(), 1);
-                        //System.out.println(titol + autor);
                         int row = -1;
                         for (int i = 0; i < documents.getRowCount() && row == -1; ++i) {
                             String titolDocs = (String) documents.getValueAt(i, 0);
                             String autorDocs = (String) documents.getValueAt(i, 1);
                             if(titol.equals(titolDocs) && autor.equals(autorDocs)) row = i;
-                            //System.out.println("BUCLE "+i + titolDocs + autorDocs);
                         }
-                        //System.out.println("ACABO " + row);
                         documents.clearSelection();
                         documents.addRowSelectionInterval(row, row);
                     }

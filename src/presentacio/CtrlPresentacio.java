@@ -10,24 +10,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CtrlPresentacio {
-    private ViewPrincipal Main;
+    private ViewPrincipal viewPrincipal;
     private ViewGestioExpBool ViewExps;
     private CtrlDomini cd;
 
     public CtrlPresentacio() {}
 
     public void mostraViewPrincipal(){
-        if(Main == null) {
-            Main = new ViewPrincipal("Documentator", this); //si paso instancia este metodo tiene q no puede ser static pero como el main es static, y esta func es llama desde ahi, esta también tiene q ser static, por lo q no puedo pasar this
+        if(viewPrincipal == null) {
+            viewPrincipal = new ViewPrincipal("Documentator", this); //si paso instancia este metodo tiene q no puede ser static pero como el viewPrincipal es static, y esta func es llama desde ahi, esta también tiene q ser static, por lo q no puedo pasar this
             cd = new CtrlDomini();
             List<Pair<String, String>> docs = cd.getTitolsAutors();
-            Main.initDocs(docs);
+            viewPrincipal.initDocs(docs);
         }
-        else Main.setVisible(true);
+        else viewPrincipal.setVisible(true);
     }
 
     public void ocultaViewPrincipal() {
-        Main.setVisible(false);
+        viewPrincipal.setVisible(false);
     }
 
     public void mostraVistaGestioExpBool(JTable documents){
@@ -37,13 +37,12 @@ public class CtrlPresentacio {
         ViewExps.initExp(expsList);
     }
 
-    public void mostraViewMostrarCont(String titol, String autor){
+    public void mostraViewMostrarCont(String titol, String autor){ //Conseguir el cont con el getContingut, y q este llame a esta y así la main view como q no conoce las otras views?
         String cont = getContingut(autor, titol);
         new ViewMostrarCont(this, titol, autor, cont);
     }
 
-    public void mostraViewEditar(String titol, String autor){
-        String cont = obrirDocument(autor, titol);
+    public void mostraViewEditar(String titol, String autor, String cont){
         new ViewEditar(this, titol, autor, cont);
     }
 
@@ -59,19 +58,19 @@ public class CtrlPresentacio {
     }
 
     public void actualitzaTitol(String newT) { //se tiene q comprobarantes si se puede crear
-        String titol = Main.getTitolDocObert();
-        String autor = Main.getAutorDocObert();
+        String titol = viewPrincipal.getTitolDocObert();
+        String autor = viewPrincipal.getAutorDocObert();
         boolean valid = modificarTitol(titol, autor, newT);
 
-        if(valid) Main.actualitzaTitol(newT); // no hace falta else con pop up error, ya se lanza en la otra
+        if(valid) viewPrincipal.actualitzaTitol(newT); // no hace falta else con pop up error, ya se lanza en la otra
     }
 
     public void actualitzaAutor(String newA) { //se tiene q comprobarantes si se puede crear
-        String titol = Main.getTitolDocObert();
-        String autor = Main.getAutorDocObert();
+        String titol = viewPrincipal.getTitolDocObert();
+        String autor = viewPrincipal.getAutorDocObert();
         boolean valid = modificarAutor(titol, autor, newA);
 
-        if(valid) Main.actualitzaAutor(newA); // no hace falta else con pop up error, ya se lanza en la otra
+        if(valid) viewPrincipal.actualitzaAutor(newA); // no hace falta else con pop up error, ya se lanza en la otra
     }
 
     /*Crides a domini*/
@@ -95,10 +94,11 @@ public class CtrlPresentacio {
         return cont;
     }
 
-    public String obrirDocument(String autor, String titol) { //QUE STRING DEVUELVE ESTA FUNC? FALTA PONER Q SE LLAME CUANDO SE ABRA DOC
+    public String obrirDocument(String autor, String titol) { //DEVUELVE EL CONTENIDO, SE TIENE Q LLAMAR DESDE LA MAIN VIEW
         String cont = null;
         try {
             cont = cd.obrirDocument(autor, titol);
+            mostraViewEditar(titol, autor, cont);
         }
         catch (IOException e) {
             JOptionPane.showMessageDialog(null, "No s'ha pogut obrir el document.",
@@ -136,10 +136,10 @@ public class CtrlPresentacio {
         }
     }
 
-    public List<Pair<String, String>> importaDocuments(List<String> path) { //path = path+nom+.format
-        List<Pair<String, String>> docsImp = null;
+    public Pair<String, String> importaDocument(String path) { //path = path+nom+.format
+        Pair<String, String> docImp = new Pair<>();
         try {
-            docsImp = cd.importarDocuments(path);
+            docImp = cd.importarDocument(path);
         }
         catch (EDocumentException | IOException e){
             if(e instanceof EDocumentException) {
@@ -149,9 +149,10 @@ public class CtrlPresentacio {
             else {
                 JOptionPane.showMessageDialog(null, "Hi ha hagut un error al importar el document.",
                         "Error importar document", JOptionPane.ERROR_MESSAGE);
+                docImp = null;
             }
         }
-        return docsImp;
+        return docImp;
     }
 
     public void exportaDocument(String autor, String titol, String path) { //seria mejor bool y q sea true si todo ok o false si ya existe ese doc?
@@ -187,7 +188,7 @@ public class CtrlPresentacio {
         boolean valid = true;
         try {
             cd.modificarTitol(autor, titol, newT);
-            //Main.actualitzaTitol(newT); //??
+            //viewPrincipal.actualitzaTitol(newT); //??
         }
         catch (EDocumentException e){
             JOptionPane.showMessageDialog(null, "Ja existeix un document amb el nou títol i l'autor.",
@@ -201,7 +202,7 @@ public class CtrlPresentacio {
         boolean valid = true;
         try {
             cd.modificarAutor(autor, titol, newA);
-            //Main.actualitzaTitol(newA); //??
+            //viewPrincipal.actualitzaTitol(newA); //??
         }
         catch (EDocumentException e){
             JOptionPane.showMessageDialog(null, "Ja existeix un document amb el títol i el nou autor.",
@@ -266,14 +267,17 @@ public class CtrlPresentacio {
         return docs;
     }
 
-    public void modExpressioBooleana(String nom, String nExp) {
+    public boolean modExpressioBooleana(String nom, String nExp) {
+        boolean valida = true;
         try {
             cd.modExpressioBooleana(nom, nExp);
         }
         catch(ExpBoolNoValidaException e) {
             JOptionPane.showMessageDialog(null, "L'expressió booleana introduïda no és vàlida.",
                     "Error modificar expressió", JOptionPane.ERROR_MESSAGE);
+            valida = false;
         }
+        return valida;
     }
 
     public void deleteExpressioBooleana(String nom) {

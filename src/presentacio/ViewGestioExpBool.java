@@ -19,7 +19,7 @@ public class ViewGestioExpBool extends JFrame{
     private JButton ajudaButton;
     private JButton esborrarExpressionsSeleccionadesButton;
     private JButton enrereButton;
-    DefaultTableModel tableModel;
+    private DefaultTableModel tableModel;
 
     public ViewGestioExpBool(JTable documents, CtrlPresentacio cp) {
         setContentPane(panel1);
@@ -190,11 +190,13 @@ public class ViewGestioExpBool extends JFrame{
                             expressions.getValueAt(expressions.getSelectedRow(), 0)  + " a " + newExp.getText() + " ?",
                             "Modificar expressió booleana", JOptionPane.YES_NO_OPTION);
                     if (opt2 == 0) {
-                        cp.modExpressioBooleana((String)expressions.getValueAt(expressions.getSelectedRow(), 0), newExp.getText());
-                        //expressions.setValueAt(newExp, expressions.getSelectedRow(), 1);
-                        tableModel.addRow(new Object[]{expressions.getValueAt(expressions.getSelectedRow(), 0), newExp.getText()});
-                        tableModel.removeRow(expressions.getSelectedRow());
-                        JOptionPane.showMessageDialog(null, "S'ha modificat correctament l'expressió");
+                        boolean valida = cp.modExpressioBooleana((String)expressions.getValueAt(expressions.getSelectedRow(), 0), newExp.getText());
+                        if(valida) {
+                            //expressions.setValueAt(newExp, expressions.getSelectedRow(), 1);
+                            tableModel.addRow(new Object[]{expressions.getValueAt(expressions.getSelectedRow(), 0), newExp.getText()});
+                            tableModel.removeRow(expressions.getSelectedRow());
+                            JOptionPane.showMessageDialog(null, "S'ha modificat correctament l'expressió");
+                        }
                     }
                     else {
                         JOptionPane.showMessageDialog(null, "No s'ha modificat l'expressió.");

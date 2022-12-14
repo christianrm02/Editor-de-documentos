@@ -85,7 +85,7 @@ public class CtrlDomini {
     // Destruccio de documents
     public void esborrarDocument(String autor, String titol) throws IOException, DeleteDocumentException {
         ci.EsborrarDoc(autor, titol);
-        cp.deleteDocument(autor, titol);
+        cp.esborrarDocument(autor, titol);
     }
 
     // Modificadores de document

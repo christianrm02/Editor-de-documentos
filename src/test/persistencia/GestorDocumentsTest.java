@@ -28,7 +28,7 @@ public class GestorDocumentsTest {
         String autor = "Manolo";
         String titol = "Manolo se va a la playa";
         String contingut = "Manolo se aburre en la playa.\nManolo vuelve a casa.\n";
-        String path = "D:\\Documents\\Eric\\Universitat\\Quad5\\testProp\\test.txt";
+        String path = "D:\\Documents\\Universitat\\Quad5\\PROP\\Projecte\\testProp\\test.txt";
         String[] expected = new String[]{autor, titol, contingut};
 
         GestorDocuments.DesaContingut(autor, titol, contingut);
@@ -43,7 +43,7 @@ public class GestorDocumentsTest {
         String autor = "Manolo";
         String titol = "Manolo se va a la playa";
         String contingut = "Manolo se aburre en la playa.\nManolo vuelve a casa.\n";
-        String path = "D:\\Documents\\Eric\\Universitat\\Quad5\\testProp\\test.xml";
+        String path = "D:\\Documents\\Universitat\\Quad5\\PROP\\Projecte\\testProp\\test.xml";
         String[] expected = new String[]{autor, titol, contingut};
 
         GestorDocuments.DesaContingut(autor, titol, contingut);

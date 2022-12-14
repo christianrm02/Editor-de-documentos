@@ -93,7 +93,7 @@ public class CtrlExpressioBooleana {
     }
 
     //Setter
-    public void setExpressioBooleana(String nom, String exp) throws Exception {
+    public void setExpressioBooleana(String nom, String exp) throws ExpBoolNoValidaException {
         ExpressioBooleana expB = new ExpressioBooleana(nom, exp);
         expressions.put(nom, expB);
     }

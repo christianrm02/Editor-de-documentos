@@ -25,7 +25,6 @@ public class ViewEditar extends JFrame {
             opt = JOptionPane.showConfirmDialog(null, frase, "Desar document", JOptionPane.YES_NO_OPTION);
             if (opt == 0) {
                 cp.modificarContingut(contNou);
-                cp.desarDocument();
             }
             else if (opt == 1) {
                 opt2 = JOptionPane.showConfirmDialog(null, "Estàs segur que no vols desar el document?", "Desar document", JOptionPane.YES_NO_OPTION);
@@ -56,6 +55,7 @@ public class ViewEditar extends JFrame {
                     String au = autor.getText(), ti = titol.getText();
                     desarAbansDeTancar(au, ti, contNou, true);
                 }
+                cp.desarDocument();
                 cp.mostraViewPrincipal();
                 dispose();
             }
@@ -139,6 +139,7 @@ public class ViewEditar extends JFrame {
                 String au = autor.getText(), ti = titol.getText();
                 if (!cont.equals(contNou)) opt = desarAbansDeTancar(au, ti, contNou, false);
                 if (opt == 0 || opt == 1) {
+                    cp.desarDocument();
                     cp.tancarAplicacio();
                 }
             }
@@ -197,8 +198,8 @@ public class ViewEditar extends JFrame {
         });
     }
 
-    public static void main(String[] args) {
+/*    public static void main(String[] args) {
         JFrame view = new ViewEditar(new CtrlPresentacio(), "Hola q tal", "Paco", "Hola q tal, com estàs?");
-    }
+    }*/
 }
 

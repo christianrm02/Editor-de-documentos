@@ -28,19 +28,16 @@ public class ViewPrincipal extends JFrame {
     private JButton creaButton;
     private JButton importaButton;
     private JButton ajudaButton;
-    private JButton xButton;
     private JPanel tablePanel;
     private JButton gestioExpBoolButton;
     private JButton busquedaButton;
     private JButton esborrarDocsButton;
-    int columnRepetida; //els seguents 5 atributs son necessaris per poder modificar el titol i autor i es mantenguin en ordre
-    int anteriorColumnPuls;
-    int numRows;
-    TableRowSorter<TableModel> sorter;
-    List<RowSorter.SortKey> sortKeys;
-    DefaultTableModel tableModel;
-    JTable documents;
-    //CtrlPresentacio cp;
+    private int columnRepetida; //els seguents 6 atributs son necessaris per poder modificar el titol i autor i es mantenguin en ordre
+    private int anteriorColumnPuls;
+    private TableRowSorter<TableModel> sorter;
+    private List<RowSorter.SortKey> sortKeys;
+    private DefaultTableModel tableModel;
+    private JTable documents;
 
 
     public ViewPrincipal(String title, CtrlPresentacio cp) {
@@ -88,7 +85,6 @@ public class ViewPrincipal extends JFrame {
 
         tablePanel.setLayout(new BorderLayout());
         JScrollPane tableScroll = new JScrollPane(documents);
-        //documents.setFillsViewportHeight(true);
         tablePanel.add(tableScroll, BorderLayout.CENTER);
 
         documents.getColumnModel().getColumn(0).setCellRenderer(new GestioCell("text"));
@@ -165,7 +161,7 @@ public class ViewPrincipal extends JFrame {
                         if (e.getClickCount() == 2 && columna!=3) {
                             String titol = (String)documents.getValueAt(documents.getSelectedRow(), 1);
                             String autor = (String)documents.getValueAt(documents.getSelectedRow(), 0);
-                            cp.mostraViewEditar(titol, autor);
+                            cp.obrirDocument(autor, titol);
                             cp.ocultaViewPrincipal();
                         }
                         else if (columna == 3) {
@@ -381,15 +377,18 @@ public class ViewPrincipal extends JFrame {
                     }
                     int min = 10;
                     if(arxius.length < 10) min = arxius.length;
-                    List<String> paths = new ArrayList<>();
+                    //List<String> paths = new ArrayList<>();
                     for(int i = 0; i < min; ++i) {
-                        paths.add(arxius[i].getAbsolutePath());
+                        Pair docImp = cp.importaDocument(arxius[i].getAbsolutePath());
+                        if(docImp != null) {
+                            tableModel.addRow(new Object[]{docImp.y, docImp.x});
+                        }
                     }
-                    List<Pair<String, String>> newDocs = cp.importaDocuments(paths);
+                    /*List<Pair<String, String>> newDocs = cp.importaDocuments(paths);
                     for(int i = 0; i < newDocs.size(); ++i) {
                         Pair p = newDocs.get(i);
                         tableModel.addRow(new Object[]{p.y, p.x});
-                    }
+                    }*/
                 }
             }
         });
@@ -616,7 +615,7 @@ public class ViewPrincipal extends JFrame {
                     paraules = JOptionPane.showInputDialog(null, "Escriu les paraules que vols cercar per rellevància, separades per un espai:", "Llistar documents rellevants", -1);
 
                     JPanel message = new JPanel();
-                    SpinnerModel value = new SpinnerNumberModel(1, 1, documents.getRowCount(), 1);
+                    SpinnerModel value = new SpinnerNumberModel(1, 1, documents.getRowCount()-1, 1);
                     JSpinner num = new JSpinner(value);
                     JFormattedTextField tf = ((JSpinner.DefaultEditor)num.getEditor()).getTextField();
                     tf.setEditable(false);

@@ -18,8 +18,8 @@ public class GestorExpBooleanes {
             String dirPath = "./appdata/expressions/";
             File carpeta = new File(dirPath);
             File[] llistaFitxers = carpeta.listFiles();
-            for (int i = 0; i < llistaFitxers.length; ++i) {
-                String nom = llistaFitxers[i].getName();
+            for (File fitxer : llistaFitxers) {
+                String nom = fitxer.getName();
                 FileInputStream fileInputStream = new FileInputStream(dirPath.concat(nom));
                 ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
                 String exp = (String) objectInputStream.readObject();
@@ -28,6 +28,7 @@ public class GestorExpBooleanes {
                 p.x = nom;
                 p.y = exp;
                 exps.add(p);
+                fitxer.delete();
             }
             return exps;
         }
@@ -76,3 +77,31 @@ public class GestorExpBooleanes {
         return exps;
     }*/
 
+/*public static List<Pair<String, String>> CarregarExpB() throws IOException {
+        try {
+            List<Pair<String, String>> exps = new ArrayList<>();
+
+            String dirPath = "./appdata/expressions/";
+            File carpeta = new File(dirPath);
+            File[] llistaFitxers = carpeta.listFiles();
+            for (int i = 0; i < llistaFitxers.length; ++i) {
+                String nom = llistaFitxers[i].getName();
+                FileInputStream fileInputStream = new FileInputStream(dirPath.concat(nom));
+                ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+                String exp = (String) objectInputStream.readObject();
+                objectInputStream.close();
+                Pair<String, String> p = new Pair<>();
+                p.x = nom;
+                p.y = exp;
+                exps.add(p);
+            }
+            for (File fitxer: llistaFitxers) {
+                fitxer.delete();
+            }
+            return exps;
+        }
+        catch (ClassNotFoundException e){
+            e.printStackTrace();
+        }
+        return null;
+    }*/

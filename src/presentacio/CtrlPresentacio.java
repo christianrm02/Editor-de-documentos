@@ -190,9 +190,15 @@ public class CtrlPresentacio {
             cd.modificarTitol(autor, titol, newT);
             //viewPrincipal.actualitzaTitol(newT); //??
         }
-        catch (EDocumentException e){
-            JOptionPane.showMessageDialog(null, "Ja existeix un document amb el nou títol i l'autor.",
-                    "Error modificació títol", JOptionPane.ERROR_MESSAGE);
+        catch (EDocumentException | IOException e){
+            if(e instanceof EDocumentException) {
+                JOptionPane.showMessageDialog(null, "Ja existeix un document amb el nou títol i l'autor.",
+                        "Error modificació títol", JOptionPane.ERROR_MESSAGE);
+            }
+            else {
+                JOptionPane.showMessageDialog(null, "No s'ha pogut modificar el títol.",
+                        "Error modificació títol", JOptionPane.ERROR_MESSAGE);
+            }
             valid = false;
         }
         return valid;
@@ -204,9 +210,15 @@ public class CtrlPresentacio {
             cd.modificarAutor(autor, titol, newA);
             //viewPrincipal.actualitzaTitol(newA); //??
         }
-        catch (EDocumentException e){
-            JOptionPane.showMessageDialog(null, "Ja existeix un document amb el títol i el nou autor.",
-                    "Error modificació autor", JOptionPane.ERROR_MESSAGE);
+        catch (EDocumentException | IOException e){
+            if(e instanceof EDocumentException) {
+                JOptionPane.showMessageDialog(null, "Ja existeix un document amb el títol i el nou autor.",
+                        "Error modificació autor", JOptionPane.ERROR_MESSAGE);
+            }
+            else {
+                JOptionPane.showMessageDialog(null, "No s'ha pogut modificar l'autor.",
+                        "Error modificació autor", JOptionPane.ERROR_MESSAGE);
+            }
             valid = false;
         }
         return valid;

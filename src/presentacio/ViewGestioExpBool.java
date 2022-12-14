@@ -258,15 +258,10 @@ public class ViewGestioExpBool extends JFrame{
                 int opt = JOptionPane.showOptionDialog(null, panelCreacio, "Creació expressió booleana",
                         JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opts, opts[0]);
 
-                JOptionPane.showMessageDialog(null, panelCreacio, "Creació", JOptionPane.QUESTION_MESSAGE);
-
                 if(opt == 0 && !newNom.getText().equals("") && !newNom.getText().equals("")) {
                     boolean creat = cp.creaExpressioBooleana(newNom.getText(), newExp.getText());
                     if(creat) {
                         tableModel.addRow(new Object[]{newNom.getText(), newExp.getText()});
-                    }
-                    else {
-                        JOptionPane.showMessageDialog(null, "L'expressió booleana ja existia."); ///YA EXISTE SU NOMBRE O SU EXPRESIÓN?
                     }
                 }
                 else if(opt == 0 && (newNom.getText().equals("") || newNom.getText().equals(""))){

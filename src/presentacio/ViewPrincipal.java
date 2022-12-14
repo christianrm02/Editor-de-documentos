@@ -159,8 +159,8 @@ public class ViewPrincipal extends JFrame {
                     else {
                         int columna = documents.columnAtPoint(e.getPoint());
                         if (e.getClickCount() == 2 && columna!=3) {
-                            String titol = (String)documents.getValueAt(documents.getSelectedRow(), 1);
-                            String autor = (String)documents.getValueAt(documents.getSelectedRow(), 0);
+                            String titol = (String)documents.getValueAt(documents.getSelectedRow(), 0);
+                            String autor = (String)documents.getValueAt(documents.getSelectedRow(), 1);
                             cp.obrirDocument(autor, titol);
                             cp.ocultaViewPrincipal();
                         }
@@ -255,9 +255,6 @@ public class ViewPrincipal extends JFrame {
                             newOrder(anteriorColumnPuls);
                             JOptionPane.showMessageDialog(null, "S'ha modificat el títol a " + newT.getText() + ".");
                         }
-                        else {
-                            JOptionPane.showMessageDialog(null, "El document amb títol " + newT.getText() + " i autor " + autor + " ja existeix.");
-                        }
                     }
                 }
                 else if(opt == 0) { //es titol buit
@@ -294,9 +291,6 @@ public class ViewPrincipal extends JFrame {
                             newOrder(anteriorColumnPuls);
                             newOrder(anteriorColumnPuls);
                             JOptionPane.showMessageDialog(null, "S'ha modificat l'autor a " + newA.getText() + ".");
-                        } else {
-                            JOptionPane.showMessageDialog(null, "El document amb títol " + newA.getText() + " i autor " +
-                                    autor + " ja existeix.");
                         }
                     }
                 } else if (opt == 0) { //es autor buit
@@ -393,7 +387,7 @@ public class ViewPrincipal extends JFrame {
             }
         });
 
-        /*exporta único doc*/
+        /* único doc*/
         exportarD.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -426,6 +420,13 @@ public class ViewPrincipal extends JFrame {
                     String[] opts = {"Sí", "Cancel·la"};
                     int opt = JOptionPane.showOptionDialog(null, panelExportacio, "Exportació document",
                             JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opts, opts[0]);
+                    while(opt == 0 && newNom.getText().matches(".*[\\/:*?\"<>|]*.")) { //hacer el bucle mientras ponga chars invalidos
+                        JOptionPane.showMessageDialog(null,
+                                "No es permeten noms d'arxiu amb \\ / : * ? \" < > |.");
+                        opt = JOptionPane.showOptionDialog(null, panelExportacio, "Exportació document",
+                                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opts, opts[0]);
+                        System.out.println(newNom.getText());
+                    }
 
                     if(opt == 0 && !newNom.getText().equals("") && !((String)tipus.getSelectedItem()).equals("")) {
                         String titol = (String)tableModel.getValueAt(documents.getSelectedRow(), 0);

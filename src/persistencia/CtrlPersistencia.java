@@ -1,9 +1,4 @@
 package persistencia;
-
-import controladores.CtrlExpressioBooleana;
-import controladores.CtrlIndex;
-import datatypes.ExpressioBooleana;
-import transversal.FileFormat;
 import transversal.Pair;
 
 import java.io.IOException;
@@ -29,6 +24,10 @@ public class CtrlPersistencia {
 
     public void desaContingut(String autor, String titol, String contingut) throws IOException {
         GestorDocuments.DesaContingut(autor, titol, contingut);
+    }
+
+    public void esborrarDoc(String autor, String titol) throws IOException, Exception {
+        GestorDocuments.EsborrarDoc(autor, titol);
     }
 
     public byte[] importarIndexs() throws IOException {

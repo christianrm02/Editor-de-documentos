@@ -8,7 +8,6 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
 import java.util.List;
 
 import static javax.swing.SwingUtilities.isRightMouseButton;
@@ -22,7 +21,7 @@ public class ViewGestioExpBool extends JFrame{
     private JButton enrereButton;
     DefaultTableModel tableModel;
 
-    public ViewGestioExpBool(JTable documents) {
+    public ViewGestioExpBool(JTable documents, CtrlPresentacio cp) {
         setContentPane(panel1);
         setSize(800, 500);
         setMinimumSize(new Dimension(500, 300));
@@ -131,8 +130,8 @@ public class ViewGestioExpBool extends JFrame{
                     int opt = JOptionPane.showOptionDialog(null, panelBorrar, "Esborrar expressions seleccionades",
                             JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, JOptionPane.NO_OPTION);
                     if (opt == 0) { //s'esborren + missatge
-                        borrarExps(expressionsBorrar);
                         for (int i = selectedRow.length; i > 0; --i) {
+                            cp.deleteExpressioBooleana((String)expressions.getValueAt(expressions.getSelectedRow(), 0));
                             tableModel.removeRow(expressions.getSelectedRow());
                         }
                         JOptionPane.showMessageDialog(null, "S'han esborrat correctament les expressions", "Esborrar expressions seleccionades", JOptionPane.DEFAULT_OPTION);
@@ -152,7 +151,7 @@ public class ViewGestioExpBool extends JFrame{
                         expressions.getValueAt(expressions.getSelectedRow(), 0) + " permanentment?", "Esborrar expressió booleana",
                         JOptionPane.YES_NO_OPTION);
                 if (opt == 0) {
-                    CtrlPresentacio.deleteExpressioBooleana((String)expressions.getValueAt(expressions.getSelectedRow(), 0));
+                    cp.deleteExpressioBooleana((String)expressions.getValueAt(expressions.getSelectedRow(), 0));
                     tableModel.removeRow(expressions.getSelectedRow());
                     JOptionPane.showMessageDialog(null, "S'ha esborrat l'expressió booleana correctament");
                 } else {
@@ -181,7 +180,7 @@ public class ViewGestioExpBool extends JFrame{
                             expressions.getValueAt(expressions.getSelectedRow(), 0)  + " a " + newExp.getText() + " ?",
                             "Modificar expressió booleana", JOptionPane.YES_NO_OPTION);
                     if (opt2 == 0) {
-                        CtrlPresentacio.modExpressioBooleana((String)expressions.getValueAt(expressions.getSelectedRow(), 0), newExp.getText());
+                        cp.modExpressioBooleana((String)expressions.getValueAt(expressions.getSelectedRow(), 0), newExp.getText());
                         //expressions.setValueAt(newExp, expressions.getSelectedRow(), 1);
                         tableModel.addRow(new Object[]{expressions.getValueAt(expressions.getSelectedRow(), 0), newExp.getText()});
                         tableModel.removeRow(expressions.getSelectedRow());
@@ -203,7 +202,7 @@ public class ViewGestioExpBool extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 setVisible(false); //se oculta y aparece al final para q se pueda ver como se selecciona en la main view
-                List<Pair<String, String>> docsXExp = CtrlPresentacio.cercarExpressioBooleana((String)expressions.getValueAt(expressions.getSelectedRow(), 1));
+                List<Pair<String, String>> docsXExp = cp.cercarExpressioBooleana((String)expressions.getValueAt(expressions.getSelectedRow(), 1));
 
                 Object[][] docsSemblantsObj = new Object[docsXExp.size()][2];
                 for(int i = 0; i < docsXExp.size(); ++i) {
@@ -250,7 +249,7 @@ public class ViewGestioExpBool extends JFrame{
                 JOptionPane.showMessageDialog(null, panelCreacio, "Creació", JOptionPane.QUESTION_MESSAGE);
 
                 if(opt == 0 && !newNom.getText().equals("") && !newNom.getText().equals("")) {
-                    boolean creat = CtrlPresentacio.creaExpressioBooleana(newNom.getText(), newExp.getText());
+                    boolean creat = cp.creaExpressioBooleana(newNom.getText(), newExp.getText());
                     if(creat) {
                         tableModel.addRow(new Object[]{newNom.getText(), newExp.getText()});
                     }
@@ -270,7 +269,7 @@ public class ViewGestioExpBool extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 setVisible(false); //HACE FALTA??
                 dispose();
-                //CtrlPresentacio.mostraViewPrincipal();
+                //cp.mostraViewPrincipal();
             }
         });
 
@@ -278,7 +277,7 @@ public class ViewGestioExpBool extends JFrame{
             public void windowClosing(WindowEvent e) {
                 setVisible(false);
                 dispose();
-                //CtrlPresentacio.mostraViewPrincipal();
+                //cp.mostraViewPrincipal();
             }
         });
 
@@ -314,7 +313,7 @@ public class ViewGestioExpBool extends JFrame{
         validate();
     }
 
-    private void borrarExps(Object[][] expBorrar) {
+    /*private void borrarExps(Object[][] expBorrar) {
         List<Pair<String, String>> expBorrarList = new ArrayList<>();
         Pair<String,String> p = new Pair();
         for(int i = 0; i < expBorrar.length; ++i) {
@@ -323,8 +322,8 @@ public class ViewGestioExpBool extends JFrame{
             //System.out.println(p.x + p.y);
             expBorrarList.add(p);
         }
-        CtrlPresentacio.esborrarDocuments(expBorrarList);
-    }
+        cp.esborrarDocuments(expBorrarList);
+    }*/
 
     public void initExp(List<Pair<String, String>> expList){
         for(int i = 0; i < expList.size(); ++i) {

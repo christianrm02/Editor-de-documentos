@@ -31,7 +31,7 @@ public class CtrlPresentacio {
     }
 
     public void mostraVistaGestioExpBool(JTable documents){
-        ViewExps = new ViewGestioExpBool(documents);
+        ViewExps = new ViewGestioExpBool(documents, this);
         List<Pair<String, String>> expsList = getAllExpressionsBooleanes();
 
         ViewExps.initExp(expsList);
@@ -39,12 +39,12 @@ public class CtrlPresentacio {
 
     public void mostraViewMostrarCont(String titol, String autor){
         String cont = getContingut(autor, titol);
-        new ViewMostrarCont(titol, autor, cont);
+        new ViewMostrarCont(this, titol, autor, cont);
     }
 
     public void mostraViewEditar(String titol, String autor){
         String cont = obrirDocument(autor, titol);
-        new ViewEditar(titol, autor, cont);
+        new ViewEditar(this, titol, autor, cont);
         actualitzaTitol("Test");
         actualitzaAutor("Autor");
     }
@@ -107,8 +107,6 @@ public class CtrlPresentacio {
                     "Error obrir document", JOptionPane.ERROR_MESSAGE);
         }
         return cont;
-        //return cd.obrirDocument(autor, titol);
-        //return "HOLA";
     }
 
     public boolean crearDocument(String autor, String titol){
@@ -173,7 +171,7 @@ public class CtrlPresentacio {
         try {
             cd.esborrarDocument(autor, titol);
         }
-        catch(DeleteDocumentException | IOException e) { //MIRAR SI SON ESTAS LAS Q LANZA
+        catch(DeleteDocumentException | IOException e) {
             if(e instanceof DeleteDocumentException) {
                 JOptionPane.showMessageDialog(null, "No s'ha pogut esborrar el document.",
                         "Error esborrar document", JOptionPane.ERROR_MESSAGE);
@@ -191,7 +189,7 @@ public class CtrlPresentacio {
         boolean valid = true;
         try {
             cd.modificarTitol(autor, titol, newT);
-            Main.actualitzaTitol(autor, titol, newT); //??
+            //Main.actualitzaTitol(newT); //??
         }
         catch (EDocumentException e){
             JOptionPane.showMessageDialog(null, "Ja existeix un document amb el nou títol i l'autor.",
@@ -205,7 +203,7 @@ public class CtrlPresentacio {
         boolean valid = true;
         try {
             cd.modificarAutor(autor, titol, newA);
-            Main.actualitzaTitol(autor, titol, newA); //??
+            //Main.actualitzaTitol(newA); //??
         }
         catch (EDocumentException e){
             JOptionPane.showMessageDialog(null, "Ja existeix un document amb el títol i el nou autor.",

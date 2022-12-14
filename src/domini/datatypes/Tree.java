@@ -45,10 +45,11 @@ public class Tree {
                 }
             }
             node = st.pop();
+            if (!st.empty()) throw new ExpBoolNoValidaException(); //falten operadors
             return node;
         }
         catch (EmptyStackException e) {
-            throw new ExpBoolNoValidaException();
+            throw new ExpBoolNoValidaException(); //falten operands
         }
     }
 

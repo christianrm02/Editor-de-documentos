@@ -19,6 +19,8 @@ public class ExpressioBooleana {
 
         this.exp = exp;
         List<String> llistaExp = crearLlista();
+
+
         this.expA = new Tree(llistaExp);
     }
 
@@ -29,6 +31,23 @@ public class ExpressioBooleana {
         this.exp = exp;
         List<String> llistaExp = crearLlista();
         this.expA = new Tree(llistaExp);
+    }
+    private int comprovacio_cometes_i_clau(int index, String exp, char c_final) throws ExpBoolNoValidaException {
+        ++index;
+        boolean espai_disponible = false;
+        boolean paraules = false; //true si hi ha més d'una paraula
+        while (index < exp.length() && exp.charAt(index) != c_final) {
+            if (es_operador(exp.charAt(index))) throw new ExpBoolNoValidaException();
+            else if (exp.charAt(index) == ' ') {
+                if (!espai_disponible) throw new ExpBoolNoValidaException();
+                else espai_disponible = false;
+                paraules = true;
+            }
+            else espai_disponible = true;
+            ++index;
+        }
+        if (index >= exp.length() || !espai_disponible || !paraules) throw new ExpBoolNoValidaException();
+        return index;
     }
 
     void esCorrecte(String exp) throws ExpBoolNoValidaException {
@@ -54,6 +73,9 @@ public class ExpressioBooleana {
                     if (!espai) throw new ExpBoolNoValidaException(); //operadors mal col·locats
                     espai_necessari = true;
                 }
+                else if (exp.charAt(i) == '"') i = comprovacio_cometes_i_clau(i, exp, '"');
+                else if (exp.charAt(i) == '{') i = comprovacio_cometes_i_clau(i, exp, '}');
+                else if (exp.charAt(i) == '}') throw new ExpBoolNoValidaException(); //claus incorrectes
                 espai = false;
             }
             ++i;

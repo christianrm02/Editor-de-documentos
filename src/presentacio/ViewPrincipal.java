@@ -40,11 +40,10 @@ public class ViewPrincipal extends JFrame {
     List<RowSorter.SortKey> sortKeys;
     DefaultTableModel tableModel;
     JTable documents;
-    CtrlPresentacio cp;
+    //CtrlPresentacio cp;
 
 
-    public ViewPrincipal(String title) {
-        cp = new CtrlPresentacio();
+    public ViewPrincipal(String title, CtrlPresentacio cp) {
         columnRepetida = -1;
         anteriorColumnPuls = -1;
         setContentPane(panel1);
@@ -358,7 +357,7 @@ public class ViewPrincipal extends JFrame {
                 }
                 else if(opt == 0 && (newT.getText().equals("") || newA.getText().equals(""))) {
                     JOptionPane.showMessageDialog(null, "Indica un títol i autor vàlids, no deixis camps buits.",
-                            "Error exportació", JOptionPane.ERROR_MESSAGE);
+                            "Error crear", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
@@ -604,7 +603,7 @@ public class ViewPrincipal extends JFrame {
                 String autor = (String) documents.getValueAt(documents.getSelectedRow(), 1);
                 String titol = (String) documents.getValueAt(documents.getSelectedRow(), 0);
                 JPanel message = new JPanel();
-                SpinnerModel value = new SpinnerNumberModel(1, 1, documents.getRowCount(), 1);
+                SpinnerModel value = new SpinnerNumberModel(1, 1, documents.getRowCount()-1, 1);
                 JSpinner num = new JSpinner(value);
                 JFormattedTextField tf = ((JSpinner.DefaultEditor)num.getEditor()).getTextField(); //para evitar modificar por texto
                 tf.setEditable(false);

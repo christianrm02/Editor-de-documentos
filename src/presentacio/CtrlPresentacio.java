@@ -10,13 +10,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CtrlPresentacio {
-    private static ViewPrincipal Main;
+    private ViewPrincipal Main;
     private ViewGestioExpBool ViewExps;
-    private static CtrlDomini cd;
+    private CtrlDomini cd;
 
-    public static void mostraViewPrincipal(){
+    public CtrlPresentacio() {}
+
+    public void mostraViewPrincipal(){
         if(Main == null) {
-            Main = new ViewPrincipal("Documentator"); //si paso instancia este metodo tiene q no puede ser static pero como el main es static, y esta func es llama desde ahi, esta también tiene q ser static, por lo q no puedo pasar this
+            Main = new ViewPrincipal("Documentator", this); //si paso instancia este metodo tiene q no puede ser static pero como el main es static, y esta func es llama desde ahi, esta también tiene q ser static, por lo q no puedo pasar this
             cd = new CtrlDomini();
             List<Pair<String, String>> docs = cd.getTitolsAutors();
             Main.initDocs(docs);
@@ -47,8 +49,9 @@ public class CtrlPresentacio {
         actualitzaAutor("Autor");
     }
 
-    public void tancarAplicació() {
+    public void tancarAplicacio() {
         try {
+            System.exit(0); //dudas
             cd.tancar();
         }
         catch(IOException e) {
@@ -143,7 +146,14 @@ public class CtrlPresentacio {
             docsImp = cd.importarDocuments(path);
         }
         catch (EDocumentException | IOException e){
-
+            if(e instanceof EDocumentException) {
+                JOptionPane.showMessageDialog(null, "Ya existeix un document amb aquell títol i autor.",
+                        "Error importar document", JOptionPane.ERROR_MESSAGE);
+            }
+            else {
+                JOptionPane.showMessageDialog(null, "Hi ha hagut un error al importar el document.",
+                        "Error importar document", JOptionPane.ERROR_MESSAGE);
+            }
         }
         return docsImp;
     }
@@ -267,7 +277,8 @@ public class CtrlPresentacio {
             cd.modExpressioBooleana(nom, nExp);
         }
         catch(ExpBoolNoValidaException e) {
-
+            JOptionPane.showMessageDialog(null, "L'expressió booleana introduïda no és vàlida.",
+                    "Error modificar expressió", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -276,6 +287,7 @@ public class CtrlPresentacio {
     }
 
     public static void main(String[] args) {
-        CtrlPresentacio.mostraViewPrincipal();
+        CtrlPresentacio cp = new CtrlPresentacio();
+        cp.mostraViewPrincipal();
     }
 }

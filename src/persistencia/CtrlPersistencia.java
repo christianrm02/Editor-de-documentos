@@ -24,7 +24,7 @@ public class CtrlPersistencia {
     }
 
     public String getContingut(String autor, String titol) throws IOException {
-        GestorDocuments.GetContingut(autor, titol);
+        return GestorDocuments.GetContingut(autor, titol);
     }
 
     public void desaContingut(String autor, String titol, String contingut) throws IOException {

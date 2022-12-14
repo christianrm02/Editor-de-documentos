@@ -11,7 +11,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStreamWriter;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.Objects;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -37,8 +39,8 @@ public class GestorDocuments {
         String[] doc = new String[3];
         String format = getFormat(path);
 
-        if(format == "txt") doc = loadTXT(path);
-        else if(format == "xml") doc = loadXML(path);
+        if(format.equals("txt")) doc = loadTXT(path);
+        else if(format.equals("xml")) doc = loadXML(path);
 
         //Desem el contingut a disc local
         DesaContingut(doc[0], doc[1], doc[2]);
@@ -53,8 +55,8 @@ public class GestorDocuments {
         String format = getFormat(path);
         
         //Exportem el fitxer
-        if(format == "txt") writeTXT(autor, titol, contingut, path);
-        else if(format == "xml") writeXML(autor, titol, contingut, path);
+        if(format.equals("txt")) writeTXT(autor, titol, contingut, path);
+        else if(format.equals("xml")) writeXML(autor, titol, contingut, path);
     }
 
     public static String GetContingut(String autor, String titol) throws IOException {
@@ -85,12 +87,34 @@ public class GestorDocuments {
         objectOutputStream.close();
     }
 
-    public static void EsborrarDoc(String autor, String titol) throws IOException, Exception {
+    public static void EsborrarDoc(String autor, String titol) throws IOException, DeleteDocumentException {
         String dirPath = "./appdata/docs/";
         Files.createDirectories(Paths.get(dirPath));
         String fileName = Integer.toString(Objects.hash(autor, titol));
         File fileToDelete = new File(dirPath.concat(fileName).concat(".prop"));
         if(!fileToDelete.delete()) throw new DeleteDocumentException();
+    }
+
+    public static void ActualitzarAutor(String autor, String titol, String newAutor) throws IOException {
+        String dirPath = "./appdata/docs/";
+        Files.createDirectories(Paths.get(dirPath));
+        String oldFileName = Integer.toString(Objects.hash(autor, titol));
+        String newFileName = Integer.toString(Objects.hash(newAutor, titol));
+        Path oldPath = Paths.get(dirPath.concat(oldFileName).concat(".prop"));
+        Path newPath = Paths.get(dirPath.concat(newFileName).concat(".prop"));
+
+        Files.move(oldPath, newPath, StandardCopyOption.REPLACE_EXISTING);
+    }
+
+    public static void ActualitzarTitol(String autor, String titol, String newTitol) throws IOException {
+        String dirPath = "./appdata/docs/";
+        Files.createDirectories(Paths.get(dirPath));
+        String oldFileName = Integer.toString(Objects.hash(autor, titol));
+        String newFileName = Integer.toString(Objects.hash(autor, newTitol));
+        Path oldPath = Paths.get(dirPath.concat(oldFileName).concat(".prop"));
+        Path newPath = Paths.get(dirPath.concat(newFileName).concat(".prop"));
+
+        Files.move(oldPath, newPath, StandardCopyOption.REPLACE_EXISTING);
     }
 
     private static String[] loadTXT(String path) throws IOException {
@@ -171,9 +195,10 @@ public class GestorDocuments {
     }
 
     private static String getFormat(String path) {
-        String[] folders = path.split("\\");
-        String[] file = folders[folders.length-1].split(".");
-        String format = file[file.length-1];
-        return format;
+        int index = path.lastIndexOf('.');
+        if(index > 0) {
+            return path.substring(index + 1);
+        }
+        return null;
     }
 }

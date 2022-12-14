@@ -19,8 +19,6 @@ public class ExpressioBooleana {
 
         this.exp = exp;
         List<String> llistaExp = crearLlista();
-
-
         this.expA = new Tree(llistaExp);
     }
 
@@ -50,7 +48,7 @@ public class ExpressioBooleana {
         return index;
     }
 
-    void esCorrecte(String exp) throws ExpBoolNoValidaException {
+    private void esCorrecte(String exp) throws ExpBoolNoValidaException {
         if (exp.length() == 0) throw new ExpBoolNoValidaException(); //expressió buida
         int i = 0;
         boolean espai = false;
@@ -87,7 +85,6 @@ public class ExpressioBooleana {
         if (c == '&' || c == '|' || c == '!' || c == '(' || c == '{' || c == ')') return true;
         return false;
     }
-
 
     //Es crida en el cas que a la transformació de string a llista hi hi hagin cometes
     private int casCometes(List<String> llista, int index) {

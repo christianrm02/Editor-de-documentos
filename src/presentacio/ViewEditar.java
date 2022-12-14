@@ -14,6 +14,7 @@ public class ViewEditar extends JFrame {
     private JLabel autor;
     protected JTextPane textPane1;
     private String cont;
+    private CtrlPresentacio cp;
 
     private int desarAbansDeTancar(String t, String a, String contNou, boolean sortir) {
         String frase = "No has desat el document. El vols desar abans de ";
@@ -23,9 +24,8 @@ public class ViewEditar extends JFrame {
         do {
             opt = JOptionPane.showConfirmDialog(null, frase, "Desar document", JOptionPane.YES_NO_OPTION);
             if (opt == 0) {
-                String au = autor.getText(), ti = titol.getText();
-                CtrlPresentacio.modificarContingut(au, ti, contNou);
-                //CtrlPresentacio.desarContingut();
+                cp.modificarContingut(contNou);
+                cp.desarDocument();
             }
             else if (opt == 1) {
                 opt2 = JOptionPane.showConfirmDialog(null, "Estàs segur que no vols desar el document?", "Desar document", JOptionPane.YES_NO_OPTION);
@@ -34,7 +34,7 @@ public class ViewEditar extends JFrame {
         return opt;
     }
 
-    public ViewEditar(String t, String a, String c) {
+    public ViewEditar(CtrlPresentacio ctrlp, String t, String a, String c) {
         setContentPane(panel1);
         setMinimumSize(new Dimension(400, 200));
         setTitle("Editor de textos " + t + ", " + a);
@@ -42,6 +42,7 @@ public class ViewEditar extends JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
 
+        cp = ctrlp;
         titol.setText(t);
         autor.setText(a);
         textPane1.setText(c);
@@ -55,8 +56,7 @@ public class ViewEditar extends JFrame {
                     String au = autor.getText(), ti = titol.getText();
                     desarAbansDeTancar(au, ti, contNou, true);
                 }
-                //CtrlPresentacio.tancarDocument();
-                CtrlPresentacio.mostraViewPrincipal();
+                cp.mostraViewPrincipal();
                 dispose();
             }
         });
@@ -66,7 +66,7 @@ public class ViewEditar extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String contNou = textPane1.getText();
                 if (!cont.equals(contNou)) {
-                    CtrlPresentacio.modificarContingut(t, a, contNou);
+                    cp.modificarContingut(contNou);
                     cont = contNou;
                     JOptionPane.showMessageDialog(null, "El document s'ha desat correctament.");
                 }
@@ -114,10 +114,8 @@ public class ViewEditar extends JFrame {
                     if (opt == 0 && newNom.getText() != null && !newNom.getText().equals("") && !((String) tipus.getSelectedItem()).equals("")) {
                         String path = chooser.getSelectedFile().getAbsolutePath();
                         String au = autor.getText(), ti = titol.getText();
-                        boolean totOk = CtrlPresentacio.exportaDocument(au, ti, newNom.getText(), path);
-                        if (!totOk) {
-                            JOptionPane.showMessageDialog(null, "El document no s'ha pogut exportar", "Error exportació", JOptionPane.ERROR_MESSAGE);
-                        }
+                        String loc = path + "\\" + newNom.getText() + "." + (String)tipus.getSelectedItem(); //COMPROBAR Q SE HACE BIEN EL PATH
+                        cp.exportaDocument(au, ti, loc);
                         //System.out.println(titol + " " + autor + " " + newNom.getText() + " " + chooser.getSelectedFile().getAbsolutePath());
                     } else if (opt == 0 && (newNom.getText().equals("") || ((String) tipus.getSelectedItem()).equals(""))) {
                         JOptionPane.showMessageDialog(null, "Indica un nom i un format vàlids, no deixis camps buits.",
@@ -141,8 +139,7 @@ public class ViewEditar extends JFrame {
                 String au = autor.getText(), ti = titol.getText();
                 if (!cont.equals(contNou)) opt = desarAbansDeTancar(au, ti, contNou, false);
                 if (opt == 0 || opt == 1) {
-                    //CtrlPresentacio.tancar();
-                    System.exit(0);
+                    cp.tancarAplicacio();
                 }
             }
         });
@@ -158,8 +155,8 @@ public class ViewEditar extends JFrame {
                     String au = autor.getText(), ti = titol.getText();
                     int opt = JOptionPane.showConfirmDialog(null, "Segur que vols modificar el títol del document " + ti + " " + au + " de " + ti + " a " + newT + " ?", "Modificar títol", JOptionPane.YES_NO_OPTION);
                     if (opt == 0) {
-                        CtrlPresentacio.actualitzaTitol(newT);
-                        CtrlPresentacio.modificarTitol(au, ti, newT);
+                        cp.actualitzaTitol(newT);
+                        cp.modificarTitol(au, ti, newT);
                         titol.setText(newT);
                         JOptionPane.showMessageDialog(null, "S'ha modificat el títol a " + newT + ".");
                     }
@@ -184,8 +181,8 @@ public class ViewEditar extends JFrame {
                     String au = autor.getText(), ti = titol.getText();
                     int opt = JOptionPane.showConfirmDialog(null, "Segur que vols modificar l'autor del document " + ti + " " + au + " de " + au + " a " + newA + " ?", "Modificar autor", JOptionPane.YES_NO_OPTION);
                     if (opt == 0) {
-                        CtrlPresentacio.actualitzaAutor(newA);
-                        CtrlPresentacio.modificarAutor(au, ti, newA);
+                        cp.actualitzaAutor(newA);
+                        cp.modificarAutor(au, ti, newA);
                         autor.setText(newA);
                         JOptionPane.showMessageDialog(null, "S'ha modificat l'autor a " + newA + ".");
                     }
@@ -201,7 +198,7 @@ public class ViewEditar extends JFrame {
     }
 
     public static void main(String[] args) {
-        JFrame view = new ViewEditar("Hola q tal", "Paco", "Hola q tal, com estàs?");
+        JFrame view = new ViewEditar(new CtrlPresentacio(), "Hola q tal", "Paco", "Hola q tal, com estàs?");
     }
 }
 

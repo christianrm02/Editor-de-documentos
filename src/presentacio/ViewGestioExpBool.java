@@ -73,26 +73,31 @@ public class ViewGestioExpBool extends JFrame{
         expressions.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (isRightMouseButton(e)) {
-                    int row = expressions.rowAtPoint(e.getPoint());
-                    boolean botoDretSeleccionat = false;
-                    int[] selection = expressions.getSelectedRows();
-                    for (int i = 0; i < selection.length && !botoDretSeleccionat; ++i) { ////MEJORABLE? SE PUEDE METER EN UN SET?
-                        if (selection[i] == row) botoDretSeleccionat = true;
+                if(expressions.getRowCount() > 0) {
+                    if (isRightMouseButton(e)) {
+                        int row = expressions.rowAtPoint(e.getPoint());
+                        boolean botoDretSeleccionat = false;
+                        int[] selection = expressions.getSelectedRows();
+                        for (int i = 0; i < selection.length && !botoDretSeleccionat; ++i) { ////MEJORABLE? SE PUEDE METER EN UN SET?
+                            if (selection[i] == row) botoDretSeleccionat = true;
+                        }
+                        if (botoDretSeleccionat) { //si está seleccionada previamente -> borrarDocs
+                            popBorrarExp.show(e.getComponent(), e.getX(), e.getY());
+                        } else { //abrir popups opciones en un doc
+                            expressions.clearSelection();
+                            expressions.addRowSelectionInterval(row, row);
+                            popOptExp.show(e.getComponent(), e.getX(), e.getY());
+                        }
                     }
-                    if (botoDretSeleccionat) { //si está seleccionada previamente -> borrarDocs
-                        popBorrarExp.show(e.getComponent(), e.getX(), e.getY());
-                    } else { //abrir popups opciones en un doc
-                        expressions.clearSelection();
-                        expressions.addRowSelectionInterval(row, row);
-                        popOptExp.show(e.getComponent(), e.getX(), e.getY());
+                    else {
+                        int columna = expressions.columnAtPoint(e.getPoint());
+                        if (columna==2) {
+                            popOptExp.show(e.getComponent(), e.getX(), e.getY());
+                        }
                     }
                 }
-                else {
-                    int columna = expressions.columnAtPoint(e.getPoint());
-                    if (columna==2) {
-                        popOptExp.show(e.getComponent(), e.getX(), e.getY());
-                    }
+                else if(expressions.getRowCount() == 0 && e.getClickCount() == 0) {
+                    JOptionPane.showMessageDialog(null, "No hi ha cap expressió encara, les pots crear.", "Error cap expressió.", JOptionPane.DEFAULT_OPTION);
                 }
             }
         });
@@ -101,45 +106,50 @@ public class ViewGestioExpBool extends JFrame{
         ActionListener esborrarExpSeleccionatsAction = new ActionListener() {
             @Override
             public void actionPerformed (ActionEvent e){
-                /*Creamos la tabla*/
-                if (expressions.getSelectedRowCount() > 0) {
-                    Object[][] expressionsBorrar = new Object[expressions.getSelectedRowCount()][2];
-                    Object[] columnsBorrar = {"Títols", "Autors"};
+                if(expressions.getRowCount() > 0) {
+                    /*Creamos la tabla*/
+                    if (expressions.getSelectedRowCount() > 0) {
+                        Object[][] expressionsBorrar = new Object[expressions.getSelectedRowCount()][2];
+                        Object[] columnsBorrar = {"Títols", "Autors"};
 
-                    int index = 0;
-                    int selectedRow[] = expressions.getSelectedRows();
-                    for (int i : selectedRow) {
-                        Object[] docBorrar = {expressions.getValueAt(i, 0), expressions.getValueAt(i, 1)};
-                        expressionsBorrar[index] = docBorrar;
-                        ++index;
-                        //System.out.println(selectedRow[i]);
-                    }
-
-                    DefaultTableModel tm = new DefaultTableModel(expressionsBorrar, columnsBorrar) {
-                        @Override
-                        public boolean isCellEditable(int row, int column) {
-                            return false;
+                        int index = 0;
+                        int selectedRow[] = expressions.getSelectedRows();
+                        for (int i : selectedRow) {
+                            Object[] docBorrar = {expressions.getValueAt(i, 0), expressions.getValueAt(i, 1)};
+                            expressionsBorrar[index] = docBorrar;
+                            ++index;
+                            //System.out.println(selectedRow[i]);
                         }
-                    };
-                    JPanel panelBorrar = new showingDocsTable(tm, expressions);
-                    panelBorrar.add(new JLabel("S'esborraran les següents expressions booleanes:"), BorderLayout.NORTH);
-                    panelBorrar.add(new JLabel("Estàs d'acord?"), BorderLayout.SOUTH);
-                    //panelBorrar.setFillsViewportHeight(true);
 
-                    /*Mostramos tabla*/
-                    int opt = JOptionPane.showOptionDialog(null, panelBorrar, "Esborrar expressions seleccionades",
-                            JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, JOptionPane.NO_OPTION);
-                    if (opt == 0) { //s'esborren + missatge
-                        for (int i = selectedRow.length; i > 0; --i) {
-                            cp.deleteExpressioBooleana((String)expressions.getValueAt(expressions.getSelectedRow(), 0));
-                            tableModel.removeRow(expressions.getSelectedRow());
+                        DefaultTableModel tm = new DefaultTableModel(expressionsBorrar, columnsBorrar) {
+                            @Override
+                            public boolean isCellEditable(int row, int column) {
+                                return false;
+                            }
+                        };
+                        JPanel panelBorrar = new showingDocsTable(tm, expressions);
+                        panelBorrar.add(new JLabel("S'esborraran les següents expressions booleanes:"), BorderLayout.NORTH);
+                        panelBorrar.add(new JLabel("Estàs d'acord?"), BorderLayout.SOUTH);
+                        //panelBorrar.setFillsViewportHeight(true);
+
+                        /*Mostramos tabla*/
+                        int opt = JOptionPane.showOptionDialog(null, panelBorrar, "Esborrar expressions seleccionades",
+                                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, JOptionPane.NO_OPTION);
+                        if (opt == 0) { //s'esborren + missatge
+                            for (int i = selectedRow.length; i > 0; --i) {
+                                cp.deleteExpressioBooleana((String)expressions.getValueAt(expressions.getSelectedRow(), 0));
+                                tableModel.removeRow(expressions.getSelectedRow());
+                            }
+                            JOptionPane.showMessageDialog(null, "S'han esborrat correctament les expressions", "Esborrar expressions seleccionades", JOptionPane.DEFAULT_OPTION);
+                        } else { //misstage no s'han borrat
+                            JOptionPane.showMessageDialog(null, "No s'han esborrat cap expressió", "Esborrar expressions seleccionades", JOptionPane.DEFAULT_OPTION);
                         }
-                        JOptionPane.showMessageDialog(null, "S'han esborrat correctament les expressions", "Esborrar expressions seleccionades", JOptionPane.DEFAULT_OPTION);
-                    } else { //misstage no s'han borrat
-                        JOptionPane.showMessageDialog(null, "No s'han esborrat cap expressió", "Esborrar expressions seleccionades", JOptionPane.DEFAULT_OPTION);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "No hi ha cap expressió seleccionada", "Error esborrar expressions seleccionades", JOptionPane.DEFAULT_OPTION);
                     }
-                } else {
-                    JOptionPane.showMessageDialog(null, "No hi ha cap expressió seleccionada", "Esborrar expressions seleccionades", JOptionPane.DEFAULT_OPTION);
+                }
+                else {
+                    JOptionPane.showMessageDialog(null, "No hi ha cap expressió creada.", "Cap expressió", JOptionPane.DEFAULT_OPTION);
                 }
             }
         };
@@ -153,9 +163,9 @@ public class ViewGestioExpBool extends JFrame{
                 if (opt == 0) {
                     cp.deleteExpressioBooleana((String)expressions.getValueAt(expressions.getSelectedRow(), 0));
                     tableModel.removeRow(expressions.getSelectedRow());
-                    JOptionPane.showMessageDialog(null, "S'ha esborrat l'expressió booleana correctament");
+                    JOptionPane.showMessageDialog(null, "S'ha esborrat l'expressió booleana correctament.");
                 } else {
-                    JOptionPane.showMessageDialog(null, "No s'ha esborrat l'expressió booleana");
+                    JOptionPane.showMessageDialog(null, "No s'ha esborrat l'expressió booleana.");
                 }
             }
         });
@@ -275,7 +285,7 @@ public class ViewGestioExpBool extends JFrame{
 
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
-                setVisible(false);
+                setVisible(false); //HACE FALTA??
                 dispose();
                 //cp.mostraViewPrincipal();
             }

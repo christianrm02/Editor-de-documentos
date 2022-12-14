@@ -114,7 +114,7 @@ public class CtrlPresentacio {
         }
         catch (EDocumentException | IOException e){
             if(e instanceof EDocumentException) {
-                JOptionPane.showMessageDialog(null, "Ya existeix un document amb aquell títol i autor.",
+                JOptionPane.showMessageDialog(null, "Ja existeix un document amb aquell títol i autor.",
                         "Error creació document", JOptionPane.ERROR_MESSAGE);
             }
             else {
@@ -143,7 +143,7 @@ public class CtrlPresentacio {
         }
         catch (EDocumentException | IOException e){
             if(e instanceof EDocumentException) {
-                JOptionPane.showMessageDialog(null, "Ya existeix un document amb aquell títol i autor.",
+                JOptionPane.showMessageDialog(null, "Ja existeix un document amb aquell títol i autor.",
                         "Error importar document", JOptionPane.ERROR_MESSAGE);
             }
             else {

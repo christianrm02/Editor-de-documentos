@@ -40,15 +40,11 @@ public class CtrlDomini {
         cp.guardarExpB(ce.getAll());
     }
 
-    public List<Pair<String,String>> importarDocuments(List<String> locs) throws EDocumentException, IOException {
-        List<Pair<String,String>> l = new ArrayList<>();
-        for (String loc: locs) {
+    public Pair<String,String> importarDocument(String loc) throws EDocumentException, IOException {
             String[] doc = cp.importaDocument(loc);
             if (ci.FindDoc(doc[0], doc[1])) throw new EDocumentException();
             ci.AfegirDoc(doc[0], doc[1], converteix_a_frases(doc[2]));
-            l.add(new Pair<>(doc[0], doc[1]));
-        }
-        return l;
+        return new Pair<>(doc[0], doc[1]);
     }
 
     public void exportarDocument(String autor, String titol, String loc) throws IOException {

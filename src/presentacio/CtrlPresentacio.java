@@ -45,8 +45,6 @@ public class CtrlPresentacio {
     public void mostraViewEditar(String titol, String autor){
         String cont = obrirDocument(autor, titol);
         new ViewEditar(this, titol, autor, cont);
-        actualitzaTitol("Test");
-        actualitzaAutor("Autor");
     }
 
     public void tancarAplicacio() {
@@ -71,7 +69,7 @@ public class CtrlPresentacio {
     public void actualitzaAutor(String newA) { //se tiene q comprobarantes si se puede crear
         String titol = Main.getTitolDocObert();
         String autor = Main.getAutorDocObert();
-        boolean valid = modificarTitol(titol, autor, newA);
+        boolean valid = modificarAutor(titol, autor, newA);
 
         if(valid) Main.actualitzaAutor(newA); // no hace falta else con pop up error, ya se lanza en la otra
     }
@@ -234,9 +232,7 @@ public class CtrlPresentacio {
     }
 
     public List<Pair<String, String>> getAllExpressionsBooleanes() {
-        //return cd.getAllExpressionsBooleanes();
-        List<Pair<String, String>> exps = new ArrayList<>();
-        return exps;
+        return cd.getAllExpressionsBooleanes();
     }
 
     public boolean creaExpressioBooleana(String nom, String exp) {

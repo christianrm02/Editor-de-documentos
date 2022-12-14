@@ -144,32 +144,37 @@ public class ViewPrincipal extends JFrame {
         documents.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (isRightMouseButton(e)) {
-                    int row = documents.rowAtPoint(e.getPoint());
-                    boolean botoDretSeleccionat = false;
-                    int[] selection = documents.getSelectedRows();
-                    for (int i = 0; i < selection.length && !botoDretSeleccionat; ++i) { ////MEJORABLE? SE PUEDE METER EN UN SET?
-                        if (selection[i] == row) botoDretSeleccionat = true;
+                if(documents.getRowCount() > 0) {
+                    if (isRightMouseButton(e)) {
+                        int row = documents.rowAtPoint(e.getPoint());
+                        boolean botoDretSeleccionat = false;
+                        int[] selection = documents.getSelectedRows();
+                        for (int i = 0; i < selection.length && !botoDretSeleccionat; ++i) { ////MEJORABLE? SE PUEDE METER EN UN SET?
+                            if (selection[i] == row) botoDretSeleccionat = true;
+                        }
+                        if (botoDretSeleccionat) { //si está seleccionada previamente -> borrarDocs
+                            popBorrarDocs.show(e.getComponent(), e.getX(), e.getY());
+                        } else { //abrir popups opciones en un doc
+                            documents.clearSelection();
+                            documents.addRowSelectionInterval(row, row);
+                            popOptDoc.show(e.getComponent(), e.getX(), e.getY());
+                        }
                     }
-                    if (botoDretSeleccionat) { //si está seleccionada previamente -> borrarDocs
-                        popBorrarDocs.show(e.getComponent(), e.getX(), e.getY());
-                    } else { //abrir popups opciones en un doc
-                        documents.clearSelection();
-                        documents.addRowSelectionInterval(row, row);
-                        popOptDoc.show(e.getComponent(), e.getX(), e.getY());
+                    else {
+                        int columna = documents.columnAtPoint(e.getPoint());
+                        if (e.getClickCount() == 2 && columna!=3) {
+                            String titol = (String)documents.getValueAt(documents.getSelectedRow(), 1);
+                            String autor = (String)documents.getValueAt(documents.getSelectedRow(), 0);
+                            cp.mostraViewEditar(titol, autor);
+                            cp.ocultaViewPrincipal();
+                        }
+                        else if (columna == 3) {
+                            popOptDoc.show(e.getComponent(), e.getX(), e.getY());
+                        }
                     }
                 }
-                else {
-                    int columna = documents.columnAtPoint(e.getPoint());
-                    if (e.getClickCount() == 2 && columna!=3) {
-                        String titol = (String)documents.getValueAt(documents.getSelectedRow(), 1);
-                        String autor = (String)documents.getValueAt(documents.getSelectedRow(), 0);
-                        cp.mostraViewEditar(titol, autor);
-                        cp.ocultaViewPrincipal();
-                    }
-                    else if (columna == 3) {
-                        popOptDoc.show(e.getComponent(), e.getX(), e.getY());
-                    }
+                else if(documents.getRowCount() == 0 && e.getClickCount() == 2) {
+                    JOptionPane.showMessageDialog(null, "No hi ha cap autor encara, crea o importa un document.", "Error cap document.", JOptionPane.DEFAULT_OPTION);
                 }
             }
         });
@@ -477,34 +482,39 @@ public class ViewPrincipal extends JFrame {
         llistarTdeA.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //String[] auts = cp.getAutors().toArray(new String[0]);
-                //String[] auts = {"Ana", "Carlos", "Joan", "Pepe"};
-                List<String> autorsList = cp.getAutors();
-                String[] autorsArray = autorsList.toArray(new String[0]);
-                JComboBox jca = new JComboBox(autorsArray);
-                jca.setEditable(false);
+                if(documents.getRowCount() > 0) {
+                    //String[] auts = cp.getAutors().toArray(new String[0]);
+                    //String[] auts = {"Ana", "Carlos", "Joan", "Pepe"};
+                    List<String> autorsList = cp.getAutors();
+                    String[] autorsArray = autorsList.toArray(new String[0]);
+                    JComboBox jca = new JComboBox(autorsArray);
+                    jca.setEditable(false);
 
-                Object[] options = new Object[]{"Tria un autor: ", jca};
+                    Object[] options = new Object[]{"Tria un autor: ", jca};
 
-                int opt = JOptionPane.showOptionDialog(null, options, "Llistar títols d'autor",
+                    int opt = JOptionPane.showOptionDialog(null, options, "Llistar títols d'autor",
                             JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
-                if (opt == 0) {
-                    String autorSelec = (String)jca.getSelectedItem();
-                    List<String> titols = cp.llistarTitolsdAutors(autorSelec);
-                    Object[][] titolsdAutor = new Object[titols.size()][1];
-                    for(int i = 0; i < titols.size(); ++i) {
-                        Object[] titol = {titols.get(i)};
-                        titolsdAutor[i] = titol;
-                    }
-                    String[] cols = {"Títols"};
-                    DefaultTableModel tm = new DefaultTableModel(titolsdAutor, cols) {
-                        @Override
-                        public boolean isCellEditable(int row, int column) {
-                            return false;
+                    if (opt == 0) {
+                        String autorSelec = (String)jca.getSelectedItem();
+                        List<String> titols = cp.llistarTitolsdAutors(autorSelec);
+                        Object[][] titolsdAutor = new Object[titols.size()][1];
+                        for(int i = 0; i < titols.size(); ++i) {
+                            Object[] titol = {titols.get(i)};
+                            titolsdAutor[i] = titol;
                         }
-                    };
-                    JPanel panelTits = new showingDocsTable(tm, documents);
-                    JOptionPane.showMessageDialog(null, panelTits, "Títols de l'autor " + autorSelec, JOptionPane.DEFAULT_OPTION);
+                        String[] cols = {"Títols"};
+                        DefaultTableModel tm = new DefaultTableModel(titolsdAutor, cols) {
+                            @Override
+                            public boolean isCellEditable(int row, int column) {
+                                return false;
+                            }
+                        };
+                        JPanel panelTits = new showingDocsTable(tm, documents);
+                        JOptionPane.showMessageDialog(null, panelTits, "Títols de l'autor " + autorSelec, JOptionPane.DEFAULT_OPTION);
+                    }
+                }
+                else {
+                    JOptionPane.showMessageDialog(null, "No hi ha cap autor encara, crea o importa un document.", "Error cap document.", JOptionPane.DEFAULT_OPTION);
                 }
             }
         });
@@ -513,32 +523,37 @@ public class ViewPrincipal extends JFrame {
         llistarAperP.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JPanel insertPref = new JPanel();
-                JTextField pref = new JTextField("",20);
-                insertPref.add(new JLabel("Prefix de l'autor a llistar: "));
-                insertPref.add(pref);
+                if(documents.getRowCount() > 0) {
+                    JPanel insertPref = new JPanel();
+                    JTextField pref = new JTextField("",20);
+                    insertPref.add(new JLabel("Prefix de l'autor a llistar: "));
+                    insertPref.add(pref);
 
-                String[] opts = {"Sí", "Cancel·la"};
-                int opt = JOptionPane.showOptionDialog(null, insertPref, "Llistar autors per prefix",
-                        JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opts, opts[0]);
+                    String[] opts = {"Sí", "Cancel·la"};
+                    int opt = JOptionPane.showOptionDialog(null, insertPref, "Llistar autors per prefix",
+                            JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opts, opts[0]);
 
-                if (opt == 0) {
-                    List<String> autors = cp.llistarAutorsPrefix(pref.getText());
-                    Object[][] autorsObj = new Object[autors.size()][1];
-                    for(int i = 0; i < autors.size(); ++i) {
-                        Object[] autor = {autors.get(i)};
-                        autorsObj[i] = autor;
-                    }
-                    String[] columns = {"Autors"};
-                    DefaultTableModel tm = new DefaultTableModel(autorsObj, columns) {
-                        @Override
-                        public boolean isCellEditable(int row, int column) {
-                            return false;
+                    if (opt == 0) {
+                        List<String> autors = cp.llistarAutorsPrefix(pref.getText());
+                        Object[][] autorsObj = new Object[autors.size()][1];
+                        for(int i = 0; i < autors.size(); ++i) {
+                            Object[] autor = {autors.get(i)};
+                            autorsObj[i] = autor;
                         }
-                    };
-                    JPanel panelAuts = new showingDocsTable(tm, documents);
-                    JOptionPane.showMessageDialog(null, panelAuts, "Autors amb el prefix " + pref.getText(),
-                            JOptionPane.DEFAULT_OPTION);
+                        String[] columns = {"Autors"};
+                        DefaultTableModel tm = new DefaultTableModel(autorsObj, columns) {
+                            @Override
+                            public boolean isCellEditable(int row, int column) {
+                                return false;
+                            }
+                        };
+                        JPanel panelAuts = new showingDocsTable(tm, documents);
+                        JOptionPane.showMessageDialog(null, panelAuts, "Autors amb el prefix " + pref.getText(),
+                                JOptionPane.DEFAULT_OPTION);
+                    }
+                }
+                else {
+                    JOptionPane.showMessageDialog(null, "No hi ha cap autor encara, crea o importa un document.", "Error cap document.", JOptionPane.DEFAULT_OPTION);
                 }
             }
         });
@@ -547,51 +562,56 @@ public class ViewPrincipal extends JFrame {
         cercaR.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String paraules;
-                paraules = JOptionPane.showInputDialog(null, "Escriu les paraules que vols cercar per rellevància, separades per un espai:", "Llistar documents rellevants", -1);
+                if(documents.getRowCount() > 0) {
+                    String paraules;
+                    paraules = JOptionPane.showInputDialog(null, "Escriu les paraules que vols cercar per rellevància, separades per un espai:", "Llistar documents rellevants", -1);
 
-                JPanel message = new JPanel();
-                SpinnerModel value = new SpinnerNumberModel(1, 1, documents.getRowCount(), 1);
-                JSpinner num = new JSpinner(value);
-                JFormattedTextField tf = ((JSpinner.DefaultEditor)num.getEditor()).getTextField();
-                tf.setEditable(false);
-                message.setLayout(new BorderLayout());
-                message.add(new Label("Escriu el nombre de documents que vols llistar: "), BorderLayout.NORTH);
-                message.add(num);
+                    JPanel message = new JPanel();
+                    SpinnerModel value = new SpinnerNumberModel(1, 1, documents.getRowCount(), 1);
+                    JSpinner num = new JSpinner(value);
+                    JFormattedTextField tf = ((JSpinner.DefaultEditor)num.getEditor()).getTextField();
+                    tf.setEditable(false);
+                    message.setLayout(new BorderLayout());
+                    message.add(new Label("Escriu el nombre de documents que vols llistar: "), BorderLayout.NORTH);
+                    message.add(num);
 
-                int opt1 = JOptionPane.showOptionDialog(null, message, "Llistar documents semblants",
-                        JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, JOptionPane.NO_OPTION);
-                if(opt1 == 0) {
-                    String[] tox = {"TF-IDF", "TF"};
-                    int opt2 = JOptionPane.showOptionDialog(null, "Escull l'estratègia amb la que vols cercar:", "Escollir estratègia", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, tox, tox[0]);
-                    if (opt2 == 0 || opt2 == 1) {
-                        boolean estrategia = false;
-                        if(opt2 == 1) estrategia = true;
-                        List<Pair<String, String>> docsCondicio = cp.cercarPerRellevancia(paraules, (int) num.getValue(), estrategia);
+                    int opt1 = JOptionPane.showOptionDialog(null, message, "Llistar documents semblants",
+                            JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, JOptionPane.NO_OPTION);
+                    if(opt1 == 0) {
+                        String[] tox = {"TF-IDF", "TF"};
+                        int opt2 = JOptionPane.showOptionDialog(null, "Escull l'estratègia amb la que vols cercar:", "Escollir estratègia", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, tox, tox[0]);
+                        if (opt2 == 0 || opt2 == 1) {
+                            boolean estrategia = false;
+                            if(opt2 == 1) estrategia = true;
+                            List<Pair<String, String>> docsCondicio = cp.cercarPerRellevancia(paraules, (int) num.getValue(), estrategia);
 
-                        Object[][] docsCondicioObj = new Object[docsCondicio.size()][2];
-                        for(int i = 0; i < docsCondicio.size(); ++i) {
-                            Object[] docCondicioObj = {docsCondicio.get(i).y, docsCondicio.get(i).x};
-                            System.out.println(docsCondicio.get(i).y + docsCondicio.get(i).x);
-                            docsCondicioObj[i] = docCondicioObj;
-                        }
-                        String[] columns = {"Títols", "Autors"};
-                        DefaultTableModel tm = new DefaultTableModel(docsCondicioObj, columns) {
-                            @Override
-                            public boolean isCellEditable(int row, int column) {
-                                return false;
+                            Object[][] docsCondicioObj = new Object[docsCondicio.size()][2];
+                            for(int i = 0; i < docsCondicio.size(); ++i) {
+                                Object[] docCondicioObj = {docsCondicio.get(i).y, docsCondicio.get(i).x};
+                                System.out.println(docsCondicio.get(i).y + docsCondicio.get(i).x);
+                                docsCondicioObj[i] = docCondicioObj;
                             }
-                        };
-                        JPanel panelDocs = new showingDocsTable(tm, documents);
+                            String[] columns = {"Títols", "Autors"};
+                            DefaultTableModel tm = new DefaultTableModel(docsCondicioObj, columns) {
+                                @Override
+                                public boolean isCellEditable(int row, int column) {
+                                    return false;
+                                }
+                            };
+                            JPanel panelDocs = new showingDocsTable(tm, documents);
 
-                        String estrat = "TF-IDF";
-                        if(estrategia) estrat = "TF";
-                        JLabel label = new JLabel( "Aquests són els " + num.getValue() +
-                                " documents més rellevants segons les paraules escollides" +
-                                " amb l'estratègia " + estrat + ".");
-                        panelDocs.add(label, BorderLayout.SOUTH);
-                        JOptionPane.showMessageDialog(null, panelDocs, "Documents segons la cerca per rellevància", JOptionPane.DEFAULT_OPTION);
+                            String estrat = "TF-IDF";
+                            if(estrategia) estrat = "TF";
+                            JLabel label = new JLabel( "Aquests són els " + num.getValue() +
+                                    " documents més rellevants segons les paraules escollides" +
+                                    " amb l'estratègia " + estrat + ".");
+                            panelDocs.add(label, BorderLayout.SOUTH);
+                            JOptionPane.showMessageDialog(null, panelDocs, "Documents segons la cerca per rellevància", JOptionPane.DEFAULT_OPTION);
+                        }
                     }
+                }
+                else {
+                    JOptionPane.showMessageDialog(null, "No hi ha cap autor encara, crea o importa un document.", "Error cap document.", JOptionPane.DEFAULT_OPTION);
                 }
             }
         });
@@ -652,78 +672,83 @@ public class ViewPrincipal extends JFrame {
         cercaExp.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JPanel panelBusquedaExp = new JPanel();
-                JTextField newExp = new JTextField("",20);
-                JPanel insertExp = new JPanel();
-                insertExp.add(new JLabel("Escriu l'expressió per cercar: "));
-                insertExp.add(newExp);
-                panelBusquedaExp.setLayout(new BorderLayout());
-                panelBusquedaExp.add(insertExp, BorderLayout.CENTER);
+                if(documents.getRowCount() > 0) {
+                    JPanel panelBusquedaExp = new JPanel();
+                    JTextField newExp = new JTextField("",20);
+                    JPanel insertExp = new JPanel();
+                    insertExp.add(new JLabel("Escriu l'expressió per cercar: "));
+                    insertExp.add(newExp);
+                    panelBusquedaExp.setLayout(new BorderLayout());
+                    panelBusquedaExp.add(insertExp, BorderLayout.CENTER);
 
-                String[] tox = {"Cerca", "Cancel·lar"};
-                int opt1 = JOptionPane.showOptionDialog(null, panelBusquedaExp,
-                        "Cercar per expressió booleana", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE,
-                        null, tox, tox[0]);
-                if (opt1 == 0 && !newExp.getText().equals("")) {
-                    List<Pair<String, String>> docsXExp = cp.cercarExpressioBooleana(newExp.getText());
+                    String[] tox = {"Cerca", "Cancel·lar"};
+                    int opt1 = JOptionPane.showOptionDialog(null, panelBusquedaExp,
+                            "Cercar per expressió booleana", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE,
+                            null, tox, tox[0]);
+                    if (opt1 == 0 && !newExp.getText().equals("")) {
+                        List<Pair<String, String>> docsXExp = cp.cercarExpressioBooleana(newExp.getText());
 
-                    Object[][] docsSemblantsObj = new Object[docsXExp.size()][2];
-                    for(int i = 0; i < docsXExp.size(); ++i) {
-                        Object[] docSemblantsObj = {docsXExp.get(i).y, docsXExp.get(i).x};
-                        docsSemblantsObj[i] = docSemblantsObj;
-                    }
-                    String[] columns = {"Títols", "Autors"};
-                    DefaultTableModel tm = new DefaultTableModel(docsSemblantsObj, columns) {
-                        @Override
-                        public boolean isCellEditable(int row, int column) {
-                            return false;
+                        Object[][] docsSemblantsObj = new Object[docsXExp.size()][2];
+                        for(int i = 0; i < docsXExp.size(); ++i) {
+                            Object[] docSemblantsObj = {docsXExp.get(i).y, docsXExp.get(i).x};
+                            docsSemblantsObj[i] = docSemblantsObj;
                         }
-                    };
-
-                    JPanel panelDocs = new showingDocsTable(tm, documents);
-
-                    String[] tox2 = {"Guardar expressió", "Cancel·lar"};
-                    int opt2 = JOptionPane.showOptionDialog(null, panelDocs,
-                            "Resultats de cerca per expressió", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE,
-                            null, tox2, tox2[1]);
-                    if (opt2 == 0) { //guardar l'expressió
-                        JPanel panelGuardarExp = new JPanel();
-                        JTextField newNom = new JTextField("",20);
-                        JPanel insertNom = new JPanel();
-                        insertNom.add(new JLabel("Escriu el nom de la nova expressió: "));
-                        insertNom.add(newNom);
-                        panelGuardarExp.setLayout(new BorderLayout());
-                        panelGuardarExp.add(insertNom, BorderLayout.SOUTH);
-                        JPanel expresioIntroduida = new JPanel();
-                        newExp.setEditable(false);
-                        expresioIntroduida.add(new JLabel("Expressió: "));
-                        expresioIntroduida.add(newExp);
-                        panelGuardarExp.add(expresioIntroduida, BorderLayout.NORTH);
-
-                        String[] opts = {"Sí", "Cancel·la"};
-                        int opt3 = JOptionPane.showOptionDialog(null, panelGuardarExp, "Guardar nova expressió booleana",
-                                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opts, opts[0]);
-
-                        if(!newNom.getText().equals("") && opt3 == 0) {
-                            boolean creat = cp.creaExpressioBooleana(newNom.getText(), newExp.getText());
-                            if(creat) {
-                                JOptionPane.showMessageDialog(null, "S'ha guardat l'expressió booleana " +
-                                        newExp.getText() + " amb nom " + newNom.getText() + ".", "Guardar nova expressió booleana",
-                                        JOptionPane.DEFAULT_OPTION);
+                        String[] columns = {"Títols", "Autors"};
+                        DefaultTableModel tm = new DefaultTableModel(docsSemblantsObj, columns) {
+                            @Override
+                            public boolean isCellEditable(int row, int column) {
+                                return false;
                             }
-                            else { ///EL MOTIVO ES ESTE??
-                                JOptionPane.showMessageDialog(null, "No s'ha creat l'expressió, el nom indicat ja existia.",
-                                        null, JOptionPane.DEFAULT_OPTION);
+                        };
+
+                        JPanel panelDocs = new showingDocsTable(tm, documents);
+
+                        String[] tox2 = {"Guardar expressió", "Cancel·lar"};
+                        int opt2 = JOptionPane.showOptionDialog(null, panelDocs,
+                                "Resultats de cerca per expressió", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE,
+                                null, tox2, tox2[1]);
+                        if (opt2 == 0) { //guardar l'expressió
+                            JPanel panelGuardarExp = new JPanel();
+                            JTextField newNom = new JTextField("",20);
+                            JPanel insertNom = new JPanel();
+                            insertNom.add(new JLabel("Escriu el nom de la nova expressió: "));
+                            insertNom.add(newNom);
+                            panelGuardarExp.setLayout(new BorderLayout());
+                            panelGuardarExp.add(insertNom, BorderLayout.SOUTH);
+                            JPanel expresioIntroduida = new JPanel();
+                            newExp.setEditable(false);
+                            expresioIntroduida.add(new JLabel("Expressió: "));
+                            expresioIntroduida.add(newExp);
+                            panelGuardarExp.add(expresioIntroduida, BorderLayout.NORTH);
+
+                            String[] opts = {"Sí", "Cancel·la"};
+                            int opt3 = JOptionPane.showOptionDialog(null, panelGuardarExp, "Guardar nova expressió booleana",
+                                    JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opts, opts[0]);
+
+                            if(!newNom.getText().equals("") && opt3 == 0) {
+                                boolean creat = cp.creaExpressioBooleana(newNom.getText(), newExp.getText());
+                                if(creat) {
+                                    JOptionPane.showMessageDialog(null, "S'ha guardat l'expressió booleana " +
+                                                    newExp.getText() + " amb nom " + newNom.getText() + ".", "Guardar nova expressió booleana",
+                                            JOptionPane.DEFAULT_OPTION);
+                                }
+                                else { ///EL MOTIVO ES ESTE??
+                                    JOptionPane.showMessageDialog(null, "No s'ha creat l'expressió, el nom indicat ja existia.",
+                                            null, JOptionPane.DEFAULT_OPTION);
+                                }
+                            }
+                            else if(opt3 == 0) {
+                                JOptionPane.showMessageDialog(null, "Indica un nom vàlid, no deixis camps buits.",
+                                        "Error guardar expressió", JOptionPane.ERROR_MESSAGE);
                             }
                         }
-                        else if(opt3 == 0) {
-                            JOptionPane.showMessageDialog(null, "Indica un nom vàlid, no deixis camps buits.",
-                                    "Error exportació", JOptionPane.ERROR_MESSAGE);
-                        }
                     }
+                    /*if(newExp.getText() != null && !newExp.getText().equals("")) { //SE PUEDE BUSCAR POR EXPRESION VACIA?
+
+                    }*/
                 }
-                if(newExp.getText() != null && !newExp.getText().equals("")) { //SE PUEDE BUSCAR POR EXPRESION VACIA?
-
+                else {
+                    JOptionPane.showMessageDialog(null, "No hi ha cap autor encara, crea o importa un document.", "Error cap document.", JOptionPane.DEFAULT_OPTION);
                 }
             }
         });

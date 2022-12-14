@@ -313,27 +313,10 @@ public class ViewGestioExpBool extends JFrame{
         validate();
     }
 
-    /*private void borrarExps(Object[][] expBorrar) {
-        List<Pair<String, String>> expBorrarList = new ArrayList<>();
-        Pair<String,String> p = new Pair();
-        for(int i = 0; i < expBorrar.length; ++i) {
-            p.x = (String) expBorrar[i][1];
-            p.y = (String) expBorrar[i][0];
-            //System.out.println(p.x + p.y);
-            expBorrarList.add(p);
-        }
-        cp.esborrarDocuments(expBorrarList);
-    }*/
-
     public void initExp(List<Pair<String, String>> expList){
         for(int i = 0; i < expList.size(); ++i) {
             Pair p = expList.get(i);
             tableModel.addRow(new Object[]{p.y, p.x});
         }
     }
-
-    public static void main(String[] args) {
-        //JFrame exp = new VistaGestioExpBool();
-    }
-
 }

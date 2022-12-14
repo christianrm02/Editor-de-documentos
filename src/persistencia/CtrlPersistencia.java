@@ -26,7 +26,7 @@ public class CtrlPersistencia {
         GestorDocuments.DesaContingut(autor, titol, contingut);
     }
 
-    public void esborrarDoc(String autor, String titol) throws IOException, Exception {
+    public void esborrarDocument(String autor, String titol) throws IOException, Exception {
         GestorDocuments.EsborrarDoc(autor, titol);
     }
 

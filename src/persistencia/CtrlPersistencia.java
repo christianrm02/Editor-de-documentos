@@ -1,4 +1,5 @@
 package persistencia;
+import excepcions.DeleteDocumentException;
 import transversal.Pair;
 
 import java.io.IOException;
@@ -26,7 +27,7 @@ public class CtrlPersistencia {
         GestorDocuments.DesaContingut(autor, titol, contingut);
     }
 
-    public void esborrarDocument(String autor, String titol) throws IOException, Exception {
+    public void esborrarDocument(String autor, String titol) throws IOException, DeleteDocumentException {
         GestorDocuments.EsborrarDoc(autor, titol);
     }
 

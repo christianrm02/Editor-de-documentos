@@ -31,6 +31,14 @@ public class CtrlPersistencia {
         GestorDocuments.EsborrarDoc(autor, titol);
     }
 
+    public void actualitzarAutor(String autor, String titol, String newAutor) throws IOException {
+        GestorDocuments.ActualitzarAutor(autor, titol, newAutor);
+    }
+
+    public void actualitzarTitol(String autor, String titol, String newTitol) throws IOException {
+        GestorDocuments.ActualitzarTitol(autor, titol, newTitol);
+    }
+
     public byte[] importarIndexs() throws IOException {
         return GestorIndexs.ImportarIndexs();
     }

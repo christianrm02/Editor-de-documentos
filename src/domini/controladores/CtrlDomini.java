@@ -92,11 +92,13 @@ public class CtrlDomini {
     public void modificarTitol(String autor, String titol, String newT) throws EDocumentException {
         if (ci.FindDoc(autor, newT)) throw new EDocumentException();
         ci.ActualitzarTitol(autor, titol, newT);
+        //cp.actualitzarTitol((autor, titol, newT);
     }
 
     public void modificarAutor(String autor, String titol, String newA) throws EDocumentException {
         if (ci.FindDoc(newA, titol)) throw new EDocumentException();
         ci.ActualitzarAutor(autor, titol, newA);
+        //cp.actualitzarAutor((autor, titol, newA);
     }
 
     public void modificarContingut(String cont) {
@@ -106,6 +108,9 @@ public class CtrlDomini {
 
     public void desarDocument() throws IOException {
         cp.desaContingut(autorAct, titolAct, contAct);
+        autorAct = "";
+        titolAct = "";
+        contAct = "";
     }
 
     // Cerques

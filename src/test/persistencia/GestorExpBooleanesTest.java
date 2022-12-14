@@ -12,7 +12,12 @@ import static org.junit.Assert.*;
 public class GestorExpBooleanesTest {
 
     @Test
-    public void carregarExpB() {
+    public void carregarExpB() throws IOException {
+        List<Pair<String, String>> exps;
+        exps = GestorExpBooleanes.CarregarExpB();
+        for (Pair<String,String> p : exps) {
+            System.out.println(p.x + "  " + p.y);
+        }
     }
 
     @Test

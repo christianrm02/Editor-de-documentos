@@ -29,14 +29,14 @@ public class CtrlDomini {
     }
 
     public List<Pair<String, String>> init() throws IOException, ExpBoolNoValidaException {
-        ci.ImportarIndexs(cp.ImportarIndexs());
-        List<Pair<String, String>> ebs = cp.CarregarExpB();
+        ci.ImportarIndexs(cp.importarIndexs());
+        List<Pair<String, String>> ebs = cp.carregarExpB();
         for (Pair<String, String> eb : ebs) ce.setExpressioBooleana(eb.x, eb.y);
         return getTitolsAutors();
     }
 
     public void tancar() throws IOException {
-        cp.ExportarIndexs(ci.ExportarIndexs());
+        cp.exportarIndexs(ci.ExportarIndexs());
         cp.guardarExpB(ce.getAll());
     }
 
@@ -83,7 +83,7 @@ public class CtrlDomini {
     }
 
     // Destruccio de documents
-    public void esborrarDocument(String autor, String titol) throws IOException {
+    public void esborrarDocument(String autor, String titol) throws IOException, DeleteDocumentException {
         ci.EsborrarDoc(autor, titol);
         cp.deleteDocument(autor, titol);
     }

@@ -89,16 +89,16 @@ public class CtrlDomini {
     }
 
     // Modificadores de document
-    public void modificarTitol(String autor, String titol, String newT) throws EDocumentException {
+    public void modificarTitol(String autor, String titol, String newT) throws EDocumentException, IOException {
         if (ci.FindDoc(autor, newT)) throw new EDocumentException();
         ci.ActualitzarTitol(autor, titol, newT);
-        //cp.actualitzarTitol((autor, titol, newT);
+        cp.actualitzarTitol(autor, titol, newT);
     }
 
-    public void modificarAutor(String autor, String titol, String newA) throws EDocumentException {
+    public void modificarAutor(String autor, String titol, String newA) throws EDocumentException, IOException {
         if (ci.FindDoc(newA, titol)) throw new EDocumentException();
         ci.ActualitzarAutor(autor, titol, newA);
-        //cp.actualitzarAutor((autor, titol, newA);
+        cp.actualitzarAutor(autor, titol, newA);
     }
 
     public void modificarContingut(String cont) {

@@ -420,7 +420,7 @@ public class ViewPrincipal extends JFrame {
                     String[] opts = {"Sí", "Cancel·la"};
                     int opt = JOptionPane.showOptionDialog(null, panelExportacio, "Exportació document",
                             JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opts, opts[0]);
-                    while(opt == 0 && newNom.getText().matches(".*[\\/:*?\"<>|]*.")) { //hacer el bucle mientras ponga chars invalidos
+                    while(opt == 0 && newNom.getText().matches(".*[\\/:*?\"<>|].*")) { //hacer el bucle mientras ponga chars invalidos, funcionan todos bien excepto el \, arreglar
                         JOptionPane.showMessageDialog(null,
                                 "No es permeten noms d'arxiu amb \\ / : * ? \" < > |.");
                         opt = JOptionPane.showOptionDialog(null, panelExportacio, "Exportació document",

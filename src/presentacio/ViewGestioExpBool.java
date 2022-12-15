@@ -127,7 +127,7 @@ public class ViewGestioExpBool extends JFrame{
                                 return false;
                             }
                         };
-                        JPanel panelBorrar = new showingDocsTable(tm, expressions, cp);
+                        JPanel panelBorrar = new showingDocsTable(tm, expressions, cp, false);
                         panelBorrar.add(new JLabel("S'esborraran les següents expressions booleanes:"), BorderLayout.NORTH);
                         panelBorrar.add(new JLabel("Estàs d'acord?"), BorderLayout.SOUTH);
                         //panelBorrar.setFillsViewportHeight(true);
@@ -136,9 +136,9 @@ public class ViewGestioExpBool extends JFrame{
                         int opt = JOptionPane.showOptionDialog(null, panelBorrar, "Esborrar expressions seleccionades",
                                 JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, JOptionPane.NO_OPTION);
                         if (opt == 0) { //s'esborren + missatge
-                            for (int i = selectedRow.length; i > 0; --i) {
-                                cp.deleteExpressioBooleana((String)expressions.getValueAt(expressions.getSelectedRow(), 0));
-                                tableModel.removeRow(expressions.getSelectedRow());
+                            for (int i = 0; i < selectedRow.length; ++i) {
+                                cp.deleteExpressioBooleana((String)expressions.getValueAt(selectedRow[i], 0));
+                                tableModel.removeRow(expressions.convertRowIndexToModel(selectedRow[i]));
                             }
                             JOptionPane.showMessageDialog(null, "S'han esborrat correctament les expressions", "Esborrar expressions seleccionades", JOptionPane.DEFAULT_OPTION);
                         } else { //misstage no s'han borrat
@@ -229,7 +229,7 @@ public class ViewGestioExpBool extends JFrame{
                     }
                 };
 
-                JPanel panelDocs = new showingDocsTable(tm, documents, cp);
+                JPanel panelDocs = new showingDocsTable(tm, documents, cp, true);
                 JOptionPane.showMessageDialog(null, panelDocs, "Resultats de cerca per expressió", JOptionPane.DEFAULT_OPTION);
                 setVisible(true);
             }
@@ -274,7 +274,8 @@ public class ViewGestioExpBool extends JFrame{
         enrereButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                setVisible(false); //HACE FALTA??
+                cp.ocultaViewPrincipal();
+                //setVisible(false); //HACE FALTA??
                 dispose();
                 //cp.mostraViewPrincipal();
             }
@@ -282,7 +283,7 @@ public class ViewGestioExpBool extends JFrame{
 
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
-                setVisible(false); //HACE FALTA??
+                //setVisible(false); //HACE FALTA??
                 dispose();
                 //cp.mostraViewPrincipal();
             }
@@ -323,7 +324,7 @@ public class ViewGestioExpBool extends JFrame{
     public void initExp(List<Pair<String, String>> expList){
         for(int i = 0; i < expList.size(); ++i) {
             Pair p = expList.get(i);
-            tableModel.addRow(new Object[]{p.y, p.x});
+            tableModel.addRow(new Object[]{p.x, p.y});
         }
     }
 }

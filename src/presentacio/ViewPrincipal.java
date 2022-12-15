@@ -198,7 +198,7 @@ public class ViewPrincipal extends JFrame {
                             return false;
                         }
                     };
-                    JPanel panelBorrar = new showingDocsTable(tm, documents, cp);
+                    JPanel panelBorrar = new showingDocsTable(tm, documents, cp, false);
                     panelBorrar.add(new JLabel("S'esborraran els següents documents:"), BorderLayout.NORTH);
                     panelBorrar.add(new JLabel("Estàs d'acord?"), BorderLayout.SOUTH);
 
@@ -207,8 +207,9 @@ public class ViewPrincipal extends JFrame {
                             JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, JOptionPane.NO_OPTION);
                     if (opt == 0) { //s'esborren + missatge
                         for (int i = selectedRow.length; i > 0; --i) {
-                            String titol = (String)tableModel.getValueAt(i, 0);
-                            String autor = (String)tableModel.getValueAt(i, 0);
+                            String titol = (String)documents.getValueAt(documents.getSelectedRow(), 0);
+                            String autor = (String)documents.getValueAt(documents.getSelectedRow(), 1);
+                            System.out.println(titol +autor);
                             if(cp.esborrarDocument(autor, titol)) tableModel.removeRow(documents.getSelectedRow());
                         }
                         JOptionPane.showMessageDialog(null, "S'han esborrat correctament els documents", "Esborrar documents seleccionats", JOptionPane.DEFAULT_OPTION);
@@ -454,6 +455,7 @@ public class ViewPrincipal extends JFrame {
         gestioExpBoolButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                cp.ocultaViewPrincipal();
                 cp.mostraVistaGestioExpBool(documents);
             }
         });
@@ -518,7 +520,7 @@ public class ViewPrincipal extends JFrame {
                                 return false;
                             }
                         };
-                        JPanel panelDocs = new showingDocsTable(tm, documents, cp);
+                        JPanel panelDocs = new showingDocsTable(tm, documents, cp, true);
                         String estrat = "TF-IDF";
                         if(estrategia) estrat = "TF";
                         JLabel label = new JLabel( "Aquests són els " + num.getValue() +
@@ -552,19 +554,19 @@ public class ViewPrincipal extends JFrame {
                     if (opt == 0) {
                         String autorSelec = (String)jca.getSelectedItem();
                         List<String> titols = cp.llistarTitolsdAutors(autorSelec);
-                        Object[][] titolsdAutor = new Object[titols.size()][1];
+                        Object[][] titolsdAutor = new Object[titols.size()][2];
                         for(int i = 0; i < titols.size(); ++i) {
-                            Object[] titol = {titols.get(i)};
+                            Object[] titol = {titols.get(i), autorSelec};
                             titolsdAutor[i] = titol;
                         }
-                        String[] cols = {"Títols"};
+                        String[] cols = {"Títols", "Autor"};
                         DefaultTableModel tm = new DefaultTableModel(titolsdAutor, cols) {
                             @Override
                             public boolean isCellEditable(int row, int column) {
                                 return false;
                             }
                         };
-                        JPanel panelTits = new showingDocsTable(tm, documents, cp);
+                        JPanel panelTits = new showingDocsTable(tm, documents, cp, true);
                         JOptionPane.showMessageDialog(null, panelTits, "Títols de l'autor " + autorSelec, JOptionPane.DEFAULT_OPTION);
                     }
                 }
@@ -602,7 +604,7 @@ public class ViewPrincipal extends JFrame {
                                 return false;
                             }
                         };
-                        JPanel panelAuts = new showingDocsTable(tm, documents, cp);
+                        JPanel panelAuts = new showingDocsTable(tm, documents, cp, false);
                         JOptionPane.showMessageDialog(null, panelAuts, "Autors amb el prefix " + pref.getText(),
                                 JOptionPane.DEFAULT_OPTION);
                     }
@@ -653,7 +655,7 @@ public class ViewPrincipal extends JFrame {
                                     return false;
                                 }
                             };
-                            JPanel panelDocs = new showingDocsTable(tm, documents, cp);
+                            JPanel panelDocs = new showingDocsTable(tm, documents, cp, true);
 
                             String estrat = "TF-IDF";
                             if(estrategia) estrat = "TF";
@@ -704,14 +706,14 @@ public class ViewPrincipal extends JFrame {
                             }
                         };
 
-                        JPanel panelDocs = new showingDocsTable(tm, documents, cp);
+                        JPanel panelDocs = new showingDocsTable(tm, documents, cp, true);
 
                         String[] tox2 = {"Guardar expressió", "Cancel·lar"};
                         int opt2 = JOptionPane.showOptionDialog(null, panelDocs,
                                 "Resultats de cerca per expressió", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE,
                                 null, tox2, tox2[1]);
                         if (opt2 == 0) { //guardar l'expressió
-                            JPanel panelGuardarExp = new JPanel(); //NO SE GUARDAN COMO TOCARIA, AL REVES NOMBRE Y EXP REPASAR
+                            JPanel panelGuardarExp = new JPanel();
                             JTextField newNom = new JTextField("",20);
                             JPanel insertNom = new JPanel();
                             insertNom.add(new JLabel("Escriu el nom de la nova expressió: "));

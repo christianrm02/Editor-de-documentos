@@ -14,7 +14,7 @@ import java.util.List;
 public class showingDocsTable extends JPanel {
     private int anteriorColumn;
 
-    public showingDocsTable(DefaultTableModel tm, JTable documents, CtrlPresentacio cp) {
+    public showingDocsTable(DefaultTableModel tm, JTable documents, CtrlPresentacio cp, boolean mostrarDoc) {
         anteriorColumn = -1;
         JTable table = new JTable(tm);
         table.getTableHeader().setReorderingAllowed(false);
@@ -72,7 +72,7 @@ public class showingDocsTable extends JPanel {
             });
         }
 
-        if(table.getColumnCount() > 1) {
+        if(mostrarDoc) {
             table.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
@@ -88,7 +88,7 @@ public class showingDocsTable extends JPanel {
                         documents.clearSelection();
                         documents.addRowSelectionInterval(row, row);
                     }*/
-                    if (e.getClickCount() == 2 && table.getRowCount()>1) {
+                    if (e.getClickCount() == 2) {
                         String titol = (String)table.getValueAt(table.getSelectedRow(), 0);
                         String autor = (String)table.getValueAt(table.getSelectedRow(), 1);
                         cp.obrirDocument(autor, titol);

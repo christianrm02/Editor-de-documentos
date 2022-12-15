@@ -15,7 +15,7 @@ import static javax.swing.SwingUtilities.isRightMouseButton;
 public class ViewGestioExpBool extends JFrame{
     private JPanel panel1;
     private JPanel tablePanel;
-    private JButton novaExpressióBooleanaButton;
+    private JButton novaExpressioBooleanaButton;
     private JButton ajudaButton;
     private JButton esborrarExpressionsSeleccionadesButton;
     private JButton enrereButton;
@@ -127,7 +127,7 @@ public class ViewGestioExpBool extends JFrame{
                                 return false;
                             }
                         };
-                        JPanel panelBorrar = new showingDocsTable(tm, expressions);
+                        JPanel panelBorrar = new showingDocsTable(tm, expressions, cp);
                         panelBorrar.add(new JLabel("S'esborraran les següents expressions booleanes:"), BorderLayout.NORTH);
                         panelBorrar.add(new JLabel("Estàs d'acord?"), BorderLayout.SOUTH);
                         //panelBorrar.setFillsViewportHeight(true);
@@ -229,14 +229,14 @@ public class ViewGestioExpBool extends JFrame{
                     }
                 };
 
-                JPanel panelDocs = new showingDocsTable(tm, documents);
+                JPanel panelDocs = new showingDocsTable(tm, documents, cp);
                 JOptionPane.showMessageDialog(null, panelDocs, "Resultats de cerca per expressió", JOptionPane.DEFAULT_OPTION);
                 setVisible(true);
             }
         });
 
         /*Nova exp bool*/
-        novaExpressióBooleanaButton.addActionListener(new ActionListener() {
+        novaExpressioBooleanaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JTextField newNom = new JTextField("",20);

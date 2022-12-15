@@ -12,13 +12,14 @@ import java.util.List;
 public class CtrlPresentacio {
     private ViewPrincipal viewPrincipal;
     private ViewGestioExpBool ViewExps;
+    private ViewEditar viewEditar;
     private CtrlDomini cd;
 
     public CtrlPresentacio() {}
 
     public void mostraViewPrincipal(){
         if(viewPrincipal == null) {
-            viewPrincipal = new ViewPrincipal("Documentator", this); //si paso instancia este metodo tiene q no puede ser static pero como el viewPrincipal es static, y esta func es llama desde ahi, esta también tiene q ser static, por lo q no puedo pasar this
+            viewPrincipal = new ViewPrincipal(this); //si paso instancia este metodo tiene q no puede ser static pero como el viewPrincipal es static, y esta func es llama desde ahi, esta también tiene q ser static, por lo q no puedo pasar this
             cd = new CtrlDomini();
             List<Pair<String, String>> docs = cd.getTitolsAutors();
             viewPrincipal.initDocs(docs);
@@ -43,7 +44,8 @@ public class CtrlPresentacio {
     }
 
     public void mostraViewEditar(String titol, String autor, String cont){
-        new ViewEditar(this, titol, autor, cont);
+        if(viewEditar != null) viewEditar.dispose();
+        viewEditar = new ViewEditar(this, titol, autor, cont);
     }
 
     public void tancarAplicacio() {

@@ -40,11 +40,11 @@ public class ViewPrincipal extends JFrame {
     private JTable documents;
 
 
-    public ViewPrincipal(String title, CtrlPresentacio cp) {
+    public ViewPrincipal(CtrlPresentacio cp) {
         columnRepetida = -1;
         anteriorColumnPuls = -1;
         setContentPane(panel1);
-        setTitle(title);
+        setTitle("Documentator");
         setSize(1000, 500);
         setMinimumSize(new Dimension(500, 300));
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -52,7 +52,6 @@ public class ViewPrincipal extends JFrame {
 
         String[] colums = {"Titols", "Autors", "Darrera modificació", " "};
         List<Pair<String, String>> documentsList = new ArrayList<>();
-        //documentsList = cp.getTitolsAutors();
         Object[][] documentsObj = new Object[documentsList.size()][2];
         for(int i = 0; i < documentsList.size(); ++i) {
             Object[] document = {documentsList.get(i).y, documentsList.get(i).x};
@@ -199,7 +198,7 @@ public class ViewPrincipal extends JFrame {
                             return false;
                         }
                     };
-                    JPanel panelBorrar = new showingDocsTable(tm, documents);
+                    JPanel panelBorrar = new showingDocsTable(tm, documents, cp);
                     panelBorrar.add(new JLabel("S'esborraran els següents documents:"), BorderLayout.NORTH);
                     panelBorrar.add(new JLabel("Estàs d'acord?"), BorderLayout.SOUTH);
 
@@ -519,7 +518,7 @@ public class ViewPrincipal extends JFrame {
                                 return false;
                             }
                         };
-                        JPanel panelDocs = new showingDocsTable(tm, documents);
+                        JPanel panelDocs = new showingDocsTable(tm, documents, cp);
                         String estrat = "TF-IDF";
                         if(estrategia) estrat = "TF";
                         JLabel label = new JLabel( "Aquests són els " + num.getValue() +
@@ -565,7 +564,7 @@ public class ViewPrincipal extends JFrame {
                                 return false;
                             }
                         };
-                        JPanel panelTits = new showingDocsTable(tm, documents);
+                        JPanel panelTits = new showingDocsTable(tm, documents, cp);
                         JOptionPane.showMessageDialog(null, panelTits, "Títols de l'autor " + autorSelec, JOptionPane.DEFAULT_OPTION);
                     }
                 }
@@ -603,7 +602,7 @@ public class ViewPrincipal extends JFrame {
                                 return false;
                             }
                         };
-                        JPanel panelAuts = new showingDocsTable(tm, documents);
+                        JPanel panelAuts = new showingDocsTable(tm, documents, cp);
                         JOptionPane.showMessageDialog(null, panelAuts, "Autors amb el prefix " + pref.getText(),
                                 JOptionPane.DEFAULT_OPTION);
                     }
@@ -623,7 +622,7 @@ public class ViewPrincipal extends JFrame {
                     paraules = JOptionPane.showInputDialog(null, "Escriu les paraules que vols cercar per rellevància, separades per un espai:", "Llistar documents rellevants", -1);
 
                     JPanel message = new JPanel();
-                    SpinnerModel value = new SpinnerNumberModel(1, 1, documents.getRowCount()-1, 1);
+                    SpinnerModel value = new SpinnerNumberModel(1, 1, documents.getRowCount(), 1);
                     JSpinner num = new JSpinner(value);
                     JFormattedTextField tf = ((JSpinner.DefaultEditor)num.getEditor()).getTextField();
                     tf.setEditable(false);
@@ -654,7 +653,7 @@ public class ViewPrincipal extends JFrame {
                                     return false;
                                 }
                             };
-                            JPanel panelDocs = new showingDocsTable(tm, documents);
+                            JPanel panelDocs = new showingDocsTable(tm, documents, cp);
 
                             String estrat = "TF-IDF";
                             if(estrategia) estrat = "TF";
@@ -705,14 +704,14 @@ public class ViewPrincipal extends JFrame {
                             }
                         };
 
-                        JPanel panelDocs = new showingDocsTable(tm, documents);
+                        JPanel panelDocs = new showingDocsTable(tm, documents, cp);
 
                         String[] tox2 = {"Guardar expressió", "Cancel·lar"};
                         int opt2 = JOptionPane.showOptionDialog(null, panelDocs,
                                 "Resultats de cerca per expressió", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE,
                                 null, tox2, tox2[1]);
                         if (opt2 == 0) { //guardar l'expressió
-                            JPanel panelGuardarExp = new JPanel();
+                            JPanel panelGuardarExp = new JPanel(); //NO SE GUARDAN COMO TOCARIA, AL REVES NOMBRE Y EXP REPASAR
                             JTextField newNom = new JTextField("",20);
                             JPanel insertNom = new JPanel();
                             insertNom.add(new JLabel("Escriu el nom de la nova expressió: "));

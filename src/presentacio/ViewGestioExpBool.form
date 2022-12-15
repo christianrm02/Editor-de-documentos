@@ -64,7 +64,7 @@
                   <text value="Enrere"/>
                 </properties>
               </component>
-              <component id="7094b" class="javax.swing.JButton" binding="novaExpressióBooleanaButton" default-binding="true">
+              <component id="7094b" class="javax.swing.JButton" binding="novaExpressioBooleanaButton">
                 <constraints>
                   <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false">
                     <preferred-size width="85" height="30"/>

@@ -44,7 +44,7 @@ public class ViewPrincipal extends JFrame {
         columnRepetida = -1;
         anteriorColumnPuls = -1;
         setContentPane(panel1);
-        setTitle("Editor de textos");
+        setTitle(title);
         setSize(1000, 500);
         setMinimumSize(new Dimension(500, 300));
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -372,12 +372,16 @@ public class ViewPrincipal extends JFrame {
                     int min = 10;
                     if(arxius.length < 10) min = arxius.length;
                     //List<String> paths = new ArrayList<>();
+                    int contDocsImp = 0; //comptador de documents importats correctaments
                     for(int i = 0; i < min; ++i) {
                         Pair docImp = cp.importaDocument(arxius[i].getAbsolutePath());
                         if(docImp != null) {
+                            ++contDocsImp;
                             tableModel.addRow(new Object[]{docImp.y, docImp.x});
                         }
                     }
+                    JOptionPane.showMessageDialog(null,
+                            "S'han importat correctament " + contDocsImp + " documents.");
                     /*List<Pair<String, String>> newDocs = cp.importaDocuments(paths);
                     for(int i = 0; i < newDocs.size(); ++i) {
                         Pair p = newDocs.get(i);
@@ -420,7 +424,7 @@ public class ViewPrincipal extends JFrame {
                     String[] opts = {"Sí", "Cancel·la"};
                     int opt = JOptionPane.showOptionDialog(null, panelExportacio, "Exportació document",
                             JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opts, opts[0]);
-                    while(opt == 0 && newNom.getText().matches(".*[\\/:*?\"<>|].*")) { //hacer el bucle mientras ponga chars invalidos, funcionan todos bien excepto el \, arreglar
+                    while(opt == 0 && newNom.getText().matches(".*[\\\\/:*?\"<>|].*")) { //hacer el bucle mientras ponga chars invalidos, funcionan todos bien excepto el \, arreglar
                         JOptionPane.showMessageDialog(null,
                                 "No es permeten noms d'arxiu amb \\ / : * ? \" < > |.");
                         opt = JOptionPane.showOptionDialog(null, panelExportacio, "Exportació document",
@@ -433,8 +437,11 @@ public class ViewPrincipal extends JFrame {
                         String autor = (String)tableModel.getValueAt(documents.getSelectedRow(), 1);
                         String path = chooser.getSelectedFile().getAbsolutePath();
                         String loc = path + "\\" + newNom.getText() + "." + (String)tipus.getSelectedItem(); //COMPROBAR Q SE HACE BIEN EL PATH
-                        System.out.println(loc);
-                        cp.exportaDocument(autor, titol, loc);
+                        //System.out.println(loc);
+                        if(cp.exportaDocument(autor, titol, loc)) {
+                            JOptionPane.showMessageDialog(null,
+                                    "S'ha exportat el document correctament.");
+                        }
                     }
                     else if(opt == 0 && (newNom.getText().equals("") || ((String)tipus.getSelectedItem()).equals(""))) {
                         JOptionPane.showMessageDialog(null, "Indica un nom i un format vàlids, no deixis camps buits.",

@@ -1,20 +1,9 @@
 package persistencia;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.OutputStreamWriter;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.util.Objects;
+import excepcions.DeleteDocumentException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -25,12 +14,12 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.xml.sax.SAXException;
-
-import excepcions.DeleteDocumentException;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.util.Objects;
 
 public class GestorDocuments {
     
@@ -39,12 +28,12 @@ public class GestorDocuments {
         String[] doc = new String[3];
         String format = getFormat(path);
 
-        if(format.equals("txt")) {
+        if(format.equals("txt") || format.equals("TXT")) {
             doc = loadTXT(path);
             //Desem el contingut a disc local
             DesaContingut(doc[0], doc[1], doc[2]);
         }
-        else if(format.equals("xml")) {
+        else if(format.equals("xml") || format.equals("XML")) {
             doc = loadXML(path);
             //Desem el contingut a disc local
             DesaContingut(doc[0], doc[1], doc[2]);

@@ -149,20 +149,23 @@ public class CtrlPresentacio {
             else {
                 JOptionPane.showMessageDialog(null, "Hi ha hagut un error al importar el document.",
                         "Error importar document", JOptionPane.ERROR_MESSAGE);
-                docImp = null;
             }
+            docImp = null;
         }
         return docImp;
     }
 
-    public void exportaDocument(String autor, String titol, String path) { //seria mejor bool y q sea true si todo ok o false si ya existe ese doc?
+    public boolean exportaDocument(String autor, String titol, String path) { //seria mejor bool y q sea true si todo ok o false si ya existe ese doc?
+        boolean expOk = true;
         try {
             cd.exportarDocument(autor, titol, path);
         }
         catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Hi ha hagut un error, no s'ha pogut exportar.",
                     "Error exportació", JOptionPane.ERROR_MESSAGE);
+            expOk = false;
         }
+        return expOk;
     }
 
     public boolean esborrarDocument(String autor, String titol) {

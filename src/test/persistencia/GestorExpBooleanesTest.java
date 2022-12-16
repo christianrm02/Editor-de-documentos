@@ -1,7 +1,9 @@
-package persistencia;
+package test.persistencia;
 
 import org.junit.Test;
+import persistencia.GestorExpBooleanes;
 import transversal.Pair;
+
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -25,7 +27,7 @@ public class GestorExpBooleanesTest {
         List<Pair<String, String>> exps = new ArrayList<>();
         Pair<String, String> p = new Pair<>();
         p.x = "primera";
-        p.y = "hola & adeu";
+        p.y = "\"'Kimetsu no Yaiba'\" & !(!(!(hola | !({una levanta} | \"cuenta oficial\"))))";
         exps.add(p);
 
         Pair<String, String> p2 = new Pair<>();

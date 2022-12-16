@@ -50,8 +50,8 @@ public class CtrlPresentacio {
 
     public void tancarAplicacio() {
         try {
-            System.exit(0); //dudas
             cd.tancar();
+            System.exit(0); //dudas
         }
         catch(IOException e) {
             JOptionPane.showMessageDialog(null, "No s'ha pogut tancar l'aplicació.",
@@ -59,20 +59,24 @@ public class CtrlPresentacio {
         }
     }
 
-    public void actualitzaTitol(String newT) { //se tiene q comprobarantes si se puede crear
+    public boolean actualitzaTitol(String newT) { //se tiene q comprobarantes si se puede crear
         String titol = viewPrincipal.getTitolDocObert();
         String autor = viewPrincipal.getAutorDocObert();
-        boolean valid = modificarTitol(titol, autor, newT);
+        boolean valid = modificarTitol(autor, titol, newT);
 
         if(valid) viewPrincipal.actualitzaTitol(newT); // no hace falta else con pop up error, ya se lanza en la otra
+
+        return valid;
     }
 
-    public void actualitzaAutor(String newA) { //se tiene q comprobarantes si se puede crear
+    public boolean actualitzaAutor(String newA) { //se tiene q comprobarantes si se puede crear
         String titol = viewPrincipal.getTitolDocObert();
         String autor = viewPrincipal.getAutorDocObert();
-        boolean valid = modificarAutor(titol, autor, newA);
+        boolean valid = modificarAutor(autor, titol, newA);
 
         if(valid) viewPrincipal.actualitzaAutor(newA); // no hace falta else con pop up error, ya se lanza en la otra
+
+        return valid;
     }
 
     /*Crides a domini*/

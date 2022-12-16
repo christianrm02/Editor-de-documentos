@@ -7,7 +7,10 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 
 import static javax.swing.SwingUtilities.isRightMouseButton;
@@ -19,6 +22,7 @@ public class ViewGestioExpBool extends JFrame{
     private JButton ajudaButton;
     private JButton esborrarExpressionsSeleccionadesButton;
     private JButton enrereButton;
+    private JLabel contadorExp;
     private DefaultTableModel tableModel;
 
     public ViewGestioExpBool(JTable documents, CtrlPresentacio cp) {
@@ -28,7 +32,7 @@ public class ViewGestioExpBool extends JFrame{
         setTitle("Gestió expressions booleanes");
 
         /*Creacion tabla*/
-        String[] colums = {"Nom", "Expressió Booleana", " "};
+        String[] colums = {"Nom", "Expressió Booleana", "Opcions"};
         Object[][] titols = {};
 
         tableModel = new DefaultTableModel(titols, colums){
@@ -40,8 +44,9 @@ public class ViewGestioExpBool extends JFrame{
         JTable expressions = new JTable(tableModel);
         expressions.setAutoCreateRowSorter(true);
         TableRowSorter<TableModel> sorter = new TableRowSorter<>(expressions.getModel());
-        //sorter.setSortable(1, false);
-        //sorter.setSortable(2, false);
+        sorter.setSortable(0, true);
+        sorter.setSortable(1, false);
+        sorter.setSortable(2, false);
         expressions.setRowSorter(sorter);
         //expressions.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         //expressions.setEnabled(false);///arreglar, necesito bloquear edicion tabla
@@ -97,7 +102,8 @@ public class ViewGestioExpBool extends JFrame{
                     }
                 }
                 else if(expressions.getRowCount() == 0 && e.getClickCount() == 0) {
-                    JOptionPane.showMessageDialog(null, "No hi ha cap expressió encara, les pots crear.", "Error cap expressió.", JOptionPane.DEFAULT_OPTION);
+                    JOptionPane.showMessageDialog(null, "No hi ha cap expressió encara, les pots crear.",
+                            "Error cap expressió.", JOptionPane.DEFAULT_OPTION);
                 }
             }
         });
@@ -136,13 +142,16 @@ public class ViewGestioExpBool extends JFrame{
                         int opt = JOptionPane.showOptionDialog(null, panelBorrar, "Esborrar expressions seleccionades",
                                 JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, JOptionPane.NO_OPTION);
                         if (opt == 0) { //s'esborren + missatge
-                            for (int i = 0; i < selectedRow.length; ++i) {
-                                cp.deleteExpressioBooleana((String)expressions.getValueAt(selectedRow[i], 0));
-                                tableModel.removeRow(expressions.convertRowIndexToModel(selectedRow[i]));
+                            while (selectedRow.length != 0) {
+                                cp.deleteExpressioBooleana((String)expressions.getValueAt(selectedRow[0], 0));
+                                tableModel.removeRow(expressions.convertRowIndexToModel(selectedRow[0]));
+                                //System.out.println(tableModel.getValueAt(expressions.convertRowIndexToModel(selectedRow[0]), 0));
+                                selectedRow = expressions.getSelectedRows();
                             }
                             JOptionPane.showMessageDialog(null, "S'han esborrat correctament les expressions", "Esborrar expressions seleccionades", JOptionPane.DEFAULT_OPTION);
+                            contadorExp.setText(Integer.toString(expressions.getRowCount()));
                         } else { //misstage no s'han borrat
-                            JOptionPane.showMessageDialog(null, "No s'han esborrat cap expressió", "Esborrar expressions seleccionades", JOptionPane.DEFAULT_OPTION);
+                            JOptionPane.showMessageDialog(null, "No s'ha esborrat cap expressió", "Esborrar expressions seleccionades", JOptionPane.DEFAULT_OPTION);
                         }
                     } else {
                         JOptionPane.showMessageDialog(null, "No hi ha cap expressió seleccionada", "Error esborrar expressions seleccionades", JOptionPane.DEFAULT_OPTION);
@@ -164,6 +173,7 @@ public class ViewGestioExpBool extends JFrame{
                     cp.deleteExpressioBooleana((String)expressions.getValueAt(expressions.getSelectedRow(), 0));
                     tableModel.removeRow(expressions.getSelectedRow());
                     JOptionPane.showMessageDialog(null, "S'ha esborrat l'expressió booleana correctament.");
+                    contadorExp.setText(Integer.toString(expressions.getRowCount()));
                 } else {
                     JOptionPane.showMessageDialog(null, "No s'ha esborrat l'expressió booleana.");
                 }
@@ -213,25 +223,30 @@ public class ViewGestioExpBool extends JFrame{
         buscaXE.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                setVisible(false); //se oculta y aparece al final para q se pueda ver como se selecciona en la main view
-                List<Pair<String, String>> docsXExp = cp.cercarExpressioBooleana((String)expressions.getValueAt(expressions.getSelectedRow(), 1));
+                if(documents.getRowCount() > 0) {
+                    setVisible(false); //se oculta y aparece al final para q se pueda ver como se selecciona en la main view
+                    List<Pair<String, String>> docsXExp = cp.cercarExpressioBooleana((String)expressions.getValueAt(expressions.getSelectedRow(), 1));
 
-                Object[][] docsSemblantsObj = new Object[docsXExp.size()][2];
-                for(int i = 0; i < docsXExp.size(); ++i) {
-                    Object[] docSemblantsObj = {docsXExp.get(i).y, docsXExp.get(i).x};
-                    docsSemblantsObj[i] = docSemblantsObj;
-                }
-                String[] columns = {"Títols", "Autors"};
-                DefaultTableModel tm = new DefaultTableModel(docsSemblantsObj, columns) {
-                    @Override
-                    public boolean isCellEditable(int row, int column) {
-                        return false;
+                    Object[][] docsSemblantsObj = new Object[docsXExp.size()][2];
+                    for(int i = 0; i < docsXExp.size(); ++i) {
+                        Object[] docSemblantsObj = {docsXExp.get(i).y, docsXExp.get(i).x};
+                        docsSemblantsObj[i] = docSemblantsObj;
                     }
-                };
+                    String[] columns = {"Títols", "Autors"};
+                    DefaultTableModel tm = new DefaultTableModel(docsSemblantsObj, columns) {
+                        @Override
+                        public boolean isCellEditable(int row, int column) {
+                            return false;
+                        }
+                    };
 
-                JPanel panelDocs = new showingDocsTable(tm, documents, cp, true);
-                JOptionPane.showMessageDialog(null, panelDocs, "Resultats de cerca per expressió", JOptionPane.DEFAULT_OPTION);
-                setVisible(true);
+                    JPanel panelDocs = new showingDocsTable(tm, documents, cp, true);
+                    JOptionPane.showMessageDialog(null, panelDocs, "Resultats de cerca per expressió", JOptionPane.DEFAULT_OPTION);
+                    setVisible(true);
+                }
+                else {
+                    JOptionPane.showMessageDialog(null, null, "Encara no hi ha cap document.", JOptionPane.DEFAULT_OPTION);
+                }
             }
         });
 
@@ -263,6 +278,7 @@ public class ViewGestioExpBool extends JFrame{
                     if(creat) {
                         tableModel.addRow(new Object[]{newNom.getText(), newExp.getText()});
                     }
+                    contadorExp.setText(Integer.toString(expressions.getRowCount()));
                 }
                 else if(opt == 0 && (newNom.getText().equals("") || newNom.getText().equals(""))){
                     JOptionPane.showMessageDialog(null, "Indica un nom i una expressió vàlides, no deixis camps buits.",
@@ -274,20 +290,20 @@ public class ViewGestioExpBool extends JFrame{
         enrereButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                cp.ocultaViewPrincipal();
+                cp.mostraViewPrincipal();
                 //setVisible(false); //HACE FALTA??
                 dispose();
                 //cp.mostraViewPrincipal();
             }
         });
 
-        addWindowListener(new WindowAdapter() {
+        /*addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
                 //setVisible(false); //HACE FALTA??
                 dispose();
                 //cp.mostraViewPrincipal();
             }
-        });
+        });*/
 
         ajudaButton.addActionListener(new ActionListener() {
             @Override
@@ -315,7 +331,8 @@ public class ViewGestioExpBool extends JFrame{
             }
         });
 
-        setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+        //setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
         pack();
         validate();
@@ -326,5 +343,6 @@ public class ViewGestioExpBool extends JFrame{
             Pair p = expList.get(i);
             tableModel.addRow(new Object[]{p.x, p.y});
         }
+        contadorExp.setText(Integer.toString(tableModel.getRowCount()));
     }
 }

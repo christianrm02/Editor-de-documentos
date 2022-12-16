@@ -32,6 +32,7 @@ public class ViewPrincipal extends JFrame {
     private JButton gestioExpBoolButton;
     private JButton busquedaButton;
     private JButton esborrarDocsButton;
+    private JLabel contadorDocs;
     private int columnRepetida; //els seguents 6 atributs son necessaris per poder modificar el titol i autor i es mantenguin en ordre
     private int anteriorColumnPuls;
     private TableRowSorter<TableModel> sorter;
@@ -50,7 +51,7 @@ public class ViewPrincipal extends JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
 
-        String[] colums = {"Titols", "Autors", "Darrera modificació", " "};
+        String[] colums = {"Titols", "Autors", "Darrera modificació", "Opcions"};
         List<Pair<String, String>> documentsList = new ArrayList<>();
         Object[][] documentsObj = new Object[documentsList.size()][2];
         for(int i = 0; i < documentsList.size(); ++i) {
@@ -161,7 +162,7 @@ public class ViewPrincipal extends JFrame {
                             String titol = (String)documents.getValueAt(documents.getSelectedRow(), 0);
                             String autor = (String)documents.getValueAt(documents.getSelectedRow(), 1);
                             cp.obrirDocument(autor, titol);
-                            cp.ocultaViewPrincipal();
+                            //cp.ocultaViewPrincipal();
                         }
                         else if (columna == 3) {
                             popOptDoc.show(e.getComponent(), e.getX(), e.getY());
@@ -186,7 +187,7 @@ public class ViewPrincipal extends JFrame {
                     int index = 0;
                     int selectedRow[] = documents.getSelectedRows();
                     for (int i : selectedRow) {
-                        Object[] docBorrar = {tableModel.getValueAt(i, 0), tableModel.getValueAt(i, 1)};
+                        Object[] docBorrar = {documents.getValueAt(i, 0), documents.getValueAt(i, 1)};
                         documentsBorrar[index] = docBorrar;
                         ++index;
                         //System.out.println(selectedRow[i]);
@@ -206,18 +207,31 @@ public class ViewPrincipal extends JFrame {
                     int opt = JOptionPane.showOptionDialog(null, panelBorrar, "Esborrar documents seleccionats",
                             JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, JOptionPane.NO_OPTION);
                     if (opt == 0) { //s'esborren + missatge
-                        for (int i = selectedRow.length; i > 0; --i) {
+                        /*for (int i = selectedRow.length; i > 0; --i) {
                             String titol = (String)documents.getValueAt(documents.getSelectedRow(), 0);
                             String autor = (String)documents.getValueAt(documents.getSelectedRow(), 1);
                             System.out.println(titol +autor);
                             if(cp.esborrarDocument(autor, titol)) tableModel.removeRow(documents.getSelectedRow());
+                        }*/
+
+                        int contDocsElimOk = 0;
+                        while (selectedRow.length != 0) {
+                            String titol = (String)documents.getValueAt(selectedRow[0], 0);
+                            String autor = (String)documents.getValueAt(selectedRow[0], 1);
+                            if(cp.esborrarDocument(autor, titol)) {
+                                tableModel.removeRow(documents.convertRowIndexToModel(selectedRow[0]));
+                                ++contDocsElimOk;
+                            }
+                            selectedRow = documents.getSelectedRows();
                         }
-                        JOptionPane.showMessageDialog(null, "S'han esborrat correctament els documents", "Esborrar documents seleccionats", JOptionPane.DEFAULT_OPTION);
+
+                        JOptionPane.showMessageDialog(null, "S'han esborrat correctament " + contDocsElimOk + " documents.", "Esborrar documents seleccionats", JOptionPane.DEFAULT_OPTION);
+                        contadorDocs.setText(Integer.toString(documents.getRowCount()));
                     } else { //misstage no s'han borrat
-                        JOptionPane.showMessageDialog(null, "No s'han esborrat cap document", "Esborrar documents seleccionats", JOptionPane.DEFAULT_OPTION);
+                        JOptionPane.showMessageDialog(null, "No s'ha esborrat cap document.", "Esborrar documents seleccionats", JOptionPane.DEFAULT_OPTION);
                     }
                 } else {
-                    JOptionPane.showMessageDialog(null, "No hi ha cap document seleccionat", "Esborrar documents seleccionats", JOptionPane.DEFAULT_OPTION);
+                    JOptionPane.showMessageDialog(null, "No hi ha cap document seleccionat.", "Esborrar documents seleccionats", JOptionPane.DEFAULT_OPTION);
                 }
             }
         };
@@ -248,12 +262,13 @@ public class ViewPrincipal extends JFrame {
                         boolean modificat = cp.modificarTitol(autor, titol, newT.getText()); //autor, titol, newT
                         if(modificat) {
                             //System.out.println(documents.getSelectedRow());
-                            //tableModel.removeRow(documents.getSelectedRow());
-                            //tableModel.addRow(new Object[]{newT, autor, "nop"});
-                            documents.setValueAt(newT.getText(), documents.getSelectedRow(), 0);
+                            //tableModel.removeRow(expressions.);
+                            tableModel.removeRow(documents.convertRowIndexToModel(documents.getSelectedRow()));
+                            tableModel.addRow(new Object[]{newT.getText(), autor, "nop"});
+                            /*documents.setValueAt(newT.getText(), documents.getSelectedRow(), 0);
                             newOrder(anteriorColumnPuls);
                             newOrder(anteriorColumnPuls);
-                            JOptionPane.showMessageDialog(null, "S'ha modificat el títol a " + newT.getText() + ".");
+                            JOptionPane.showMessageDialog(null, "S'ha modificat el títol a " + newT.getText() + ".");*/
                         }
                     }
                 }
@@ -287,10 +302,12 @@ public class ViewPrincipal extends JFrame {
                     if (opt2 == 0) {
                         boolean modificat = cp.modificarAutor(autor, titol, newA.getText()); //autor, titol, newA
                         if (modificat) {
-                            documents.setValueAt(newA.getText(), documents.getSelectedRow(), 1);
+                            tableModel.removeRow(documents.convertRowIndexToModel(documents.getSelectedRow()));
+                            tableModel.addRow(new Object[]{titol, newA.getText(), "nop"});
+                            /*documents.setValueAt(newA.getText(), documents.getSelectedRow(), 1);
                             newOrder(anteriorColumnPuls);
                             newOrder(anteriorColumnPuls);
-                            JOptionPane.showMessageDialog(null, "S'ha modificat l'autor a " + newA.getText() + ".");
+                            JOptionPane.showMessageDialog(null, "S'ha modificat l'autor a " + newA.getText() + ".");*/
                         }
                     }
                 } else if (opt == 0) { //es autor buit
@@ -310,6 +327,7 @@ public class ViewPrincipal extends JFrame {
                     if(cp.esborrarDocument(autor, titol)) {
                         tableModel.removeRow(documents.getSelectedRow());
                         JOptionPane.showMessageDialog(null, "S'ha esborrat el document correctament");
+                        contadorDocs.setText(Integer.toString(documents.getRowCount()));
                     }
                 } else {
                     JOptionPane.showMessageDialog(null, "No s'ha esborrat el document");
@@ -345,6 +363,7 @@ public class ViewPrincipal extends JFrame {
                     if(creat) {
                         tableModel.addRow(new Object[]{newT.getText(), newA.getText(), LocalDate.now()
                                 + " " + LocalTime.now().truncatedTo(ChronoUnit.SECONDS)});
+                        contadorDocs.setText(Integer.toString(documents.getRowCount()));
                     }
                 }
                 else if(opt == 0 && (newT.getText().equals("") || newA.getText().equals(""))) {
@@ -387,6 +406,7 @@ public class ViewPrincipal extends JFrame {
                         Pair p = newDocs.get(i);
                         tableModel.addRow(new Object[]{p.y, p.x});
                     }*/
+                    contadorDocs.setText(Integer.toString(documents.getRowCount()));
                 }
             }
         });
@@ -563,11 +583,11 @@ public class ViewPrincipal extends JFrame {
                         DefaultTableModel tm = new DefaultTableModel(titolsdAutor, cols) {
                             @Override
                             public boolean isCellEditable(int row, int column) {
-                                return false;
-                            }
+                                    return false;
+                                }
                         };
                         JPanel panelTits = new showingDocsTable(tm, documents, cp, true);
-                        JOptionPane.showMessageDialog(null, panelTits, "Títols de l'autor " + autorSelec, JOptionPane.DEFAULT_OPTION);
+                        JOptionPane.showMessageDialog(null, panelTits, "Títols d'autor", JOptionPane.DEFAULT_OPTION);
                     }
                 }
                 else {
@@ -592,21 +612,27 @@ public class ViewPrincipal extends JFrame {
 
                     if (opt == 0) {
                         List<String> autors = cp.llistarAutorsPrefix(pref.getText());
-                        Object[][] autorsObj = new Object[autors.size()][1];
-                        for(int i = 0; i < autors.size(); ++i) {
-                            Object[] autor = {autors.get(i)};
-                            autorsObj[i] = autor;
-                        }
-                        String[] columns = {"Autors"};
-                        DefaultTableModel tm = new DefaultTableModel(autorsObj, columns) {
-                            @Override
-                            public boolean isCellEditable(int row, int column) {
-                                return false;
+                        if(autors.size() > 0) {
+                            Object[][] autorsObj = new Object[autors.size()][1];
+                            for(int i = 0; i < autors.size(); ++i) {
+                                Object[] autor = {autors.get(i)};
+                                autorsObj[i] = autor;
                             }
-                        };
-                        JPanel panelAuts = new showingDocsTable(tm, documents, cp, false);
-                        JOptionPane.showMessageDialog(null, panelAuts, "Autors amb el prefix " + pref.getText(),
-                                JOptionPane.DEFAULT_OPTION);
+                            String[] columns = {"Autors"};
+                            DefaultTableModel tm = new DefaultTableModel(autorsObj, columns) {
+                                @Override
+                                public boolean isCellEditable(int row, int column) {
+                                    return false;
+                                }
+                            };
+                            JPanel panelAuts = new showingDocsTable(tm, documents, cp, false);
+                            JOptionPane.showMessageDialog(null, panelAuts, "Autors amb el prefix " + pref.getText(),
+                                    JOptionPane.DEFAULT_OPTION);
+                        }
+                        else {
+                            JOptionPane.showMessageDialog(null, "No hi ha cap autor amb el prefix " + pref.getText(),
+                                    "Autors donat prefix", JOptionPane.DEFAULT_OPTION);
+                        }
                     }
                 }
                 else {
@@ -642,6 +668,7 @@ public class ViewPrincipal extends JFrame {
                             if(opt2 == 1) estrategia = true;
                             List<Pair<String, String>> docsCondicio = cp.cercarPerRellevancia(paraules, (int) num.getValue(), estrategia);
 
+
                             Object[][] docsCondicioObj = new Object[docsCondicio.size()][2];
                             for(int i = 0; i < docsCondicio.size(); ++i) {
                                 Object[] docCondicioObj = {docsCondicio.get(i).y, docsCondicio.get(i).x};
@@ -652,18 +679,18 @@ public class ViewPrincipal extends JFrame {
                             DefaultTableModel tm = new DefaultTableModel(docsCondicioObj, columns) {
                                 @Override
                                 public boolean isCellEditable(int row, int column) {
-                                    return false;
-                                }
+                                        return false;
+                                    }
                             };
                             JPanel panelDocs = new showingDocsTable(tm, documents, cp, true);
-
                             String estrat = "TF-IDF";
                             if(estrategia) estrat = "TF";
                             JLabel label = new JLabel( "Aquests són els " + num.getValue() +
                                     " documents més rellevants segons les paraules escollides" +
                                     " amb l'estratègia " + estrat + ".");
                             panelDocs.add(label, BorderLayout.SOUTH);
-                            JOptionPane.showMessageDialog(null, panelDocs, "Documents segons la cerca per rellevància", JOptionPane.DEFAULT_OPTION);
+                            JOptionPane.showMessageDialog(null, panelDocs, "Documents segons la cerca per rellevància",
+                                    JOptionPane.DEFAULT_OPTION);
                         }
                     }
                 }
@@ -693,55 +720,62 @@ public class ViewPrincipal extends JFrame {
                     if (opt1 == 0 && !newExp.getText().equals("")) {
                         List<Pair<String, String>> docsXExp = cp.cercarExpressioBooleana(newExp.getText());
 
-                        Object[][] docsSemblantsObj = new Object[docsXExp.size()][2];
-                        for(int i = 0; i < docsXExp.size(); ++i) {
-                            Object[] docSemblantsObj = {docsXExp.get(i).y, docsXExp.get(i).x};
-                            docsSemblantsObj[i] = docSemblantsObj;
-                        }
-                        String[] columns = {"Títols", "Autors"};
-                        DefaultTableModel tm = new DefaultTableModel(docsSemblantsObj, columns) {
-                            @Override
-                            public boolean isCellEditable(int row, int column) {
-                                return false;
+                        if(docsXExp != null && docsXExp.size()>0) { //exp booleana és vàlida
+                            Object[][] docsSemblantsObj = new Object[docsXExp.size()][2];
+                            for(int i = 0; i < docsXExp.size(); ++i) {
+                                Object[] docSemblantsObj = {docsXExp.get(i).y, docsXExp.get(i).x};
+                                docsSemblantsObj[i] = docSemblantsObj;
                             }
-                        };
+                            String[] columns = {"Títols", "Autors"};
+                            DefaultTableModel tm = new DefaultTableModel(docsSemblantsObj, columns) {
+                                @Override
+                                public boolean isCellEditable(int row, int column) {
+                                    return false;
+                                }
+                            };
 
-                        JPanel panelDocs = new showingDocsTable(tm, documents, cp, true);
+                            JPanel panelDocs = new showingDocsTable(tm, documents, cp, true);
 
-                        String[] tox2 = {"Guardar expressió", "Cancel·lar"};
-                        int opt2 = JOptionPane.showOptionDialog(null, panelDocs,
-                                "Resultats de cerca per expressió", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE,
-                                null, tox2, tox2[1]);
-                        if (opt2 == 0) { //guardar l'expressió
-                            JPanel panelGuardarExp = new JPanel();
-                            JTextField newNom = new JTextField("",20);
-                            JPanel insertNom = new JPanel();
-                            insertNom.add(new JLabel("Escriu el nom de la nova expressió: "));
-                            insertNom.add(newNom);
-                            panelGuardarExp.setLayout(new BorderLayout());
-                            panelGuardarExp.add(insertNom, BorderLayout.SOUTH);
-                            JPanel expresioIntroduida = new JPanel();
-                            newExp.setEditable(false);
-                            expresioIntroduida.add(new JLabel("Expressió: "));
-                            expresioIntroduida.add(newExp);
-                            panelGuardarExp.add(expresioIntroduida, BorderLayout.NORTH);
+                            String[] tox2 = {"Guardar expressió", "Cancel·lar"};
+                            int opt2 = JOptionPane.showOptionDialog(null, panelDocs,
+                                    "Resultats de cerca per expressió", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE,
+                                    null, tox2, tox2[1]);
+                            if (opt2 == 0) { //guardar l'expressió
+                                JPanel panelGuardarExp = new JPanel();
+                                JTextField newNom = new JTextField("",20);
+                                JPanel insertNom = new JPanel();
+                                insertNom.add(new JLabel("Escriu el nom de la nova expressió: "));
+                                insertNom.add(newNom);
+                                panelGuardarExp.setLayout(new BorderLayout());
+                                panelGuardarExp.add(insertNom, BorderLayout.SOUTH);
+                                JPanel expresioIntroduida = new JPanel();
+                                newExp.setEditable(false);
+                                expresioIntroduida.add(new JLabel("Expressió: "));
+                                expresioIntroduida.add(newExp);
+                                panelGuardarExp.add(expresioIntroduida, BorderLayout.NORTH);
 
-                            String[] opts = {"Sí", "Cancel·la"};
-                            int opt3 = JOptionPane.showOptionDialog(null, panelGuardarExp, "Guardar nova expressió booleana",
-                                    JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opts, opts[0]);
+                                String[] opts = {"Sí", "Cancel·la"};
+                                int opt3 = JOptionPane.showOptionDialog(null, panelGuardarExp, "Guardar nova expressió booleana",
+                                        JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opts, opts[0]);
 
-                            if(!newNom.getText().equals("") && opt3 == 0) {
-                                boolean creat = cp.creaExpressioBooleana(newNom.getText(), newExp.getText());
-                                if(creat) {
-                                    JOptionPane.showMessageDialog(null, "S'ha guardat l'expressió booleana " +
-                                                    newExp.getText() + " amb nom " + newNom.getText() + ".", "Guardar nova expressió booleana",
-                                            JOptionPane.DEFAULT_OPTION);
+                                if(!newNom.getText().equals("") && opt3 == 0) {
+                                    boolean creat = cp.creaExpressioBooleana(newNom.getText(), newExp.getText());
+                                    if(creat) {
+                                        JOptionPane.showMessageDialog(null, "S'ha guardat l'expressió booleana " +
+                                                        newExp.getText() + " amb nom " + newNom.getText() + ".", "Guardar nova expressió booleana",
+                                                JOptionPane.DEFAULT_OPTION);
+                                    }
+                                }
+                                else if(opt3 == 0) {
+                                    JOptionPane.showMessageDialog(null, "Indica un nom vàlid, no deixis camps buits.",
+                                            "Error guardar expressió", JOptionPane.ERROR_MESSAGE);
                                 }
                             }
-                            else if(opt3 == 0) {
-                                JOptionPane.showMessageDialog(null, "Indica un nom vàlid, no deixis camps buits.",
-                                        "Error guardar expressió", JOptionPane.ERROR_MESSAGE);
-                            }
+                        }
+                        else {//no hi ha cap doc segons la cerca
+                            JOptionPane.showMessageDialog(null, "No hi ha cap document que satisfagui l'expressió.",
+                                    "Cerca per expressió booleana.",
+                                    JOptionPane.DEFAULT_OPTION);
                         }
                     }
                     /*if(newExp.getText() != null && !newExp.getText().equals("")) { //SE PUEDE BUSCAR POR EXPRESION VACIA?
@@ -802,11 +836,12 @@ public class ViewPrincipal extends JFrame {
 
     public void actualitzaTitol(String newT) {
         String autor = (String) documents.getValueAt(documents.getSelectedRow(), 1);
-        tableModel.addRow(new Object[]{newT, documents.getValueAt(documents.getSelectedRow(), 1), documents.getValueAt(documents.getSelectedRow(), 2)});
-        tableModel.removeRow(documents.getSelectedRow());
-        documents.repaint();
-        int row = 0;
-        for(int i = 0; i < documents.getRowCount() && row == 0; ++i) {
+        String data = (String) documents.getValueAt(documents.getSelectedRow(), 2);
+        tableModel.addRow(new Object[]{newT, autor, data});
+        tableModel.removeRow(documents.convertRowIndexToModel(documents.getSelectedRow()));
+        //documents.repaint();
+        int row = -1;
+        for(int i = 0; i < documents.getRowCount() && row == -1; ++i) {
             if(((String) documents.getValueAt(i, 0)).equals(newT) && ((String) documents.getValueAt(i, 1)).equals(autor)) {
                 row = i;
             }
@@ -817,11 +852,12 @@ public class ViewPrincipal extends JFrame {
 
     public void actualitzaAutor(String newA) {
         String titol = (String) documents.getValueAt(documents.getSelectedRow(), 0);
-        tableModel.addRow(new Object[]{titol, newA, documents.getValueAt(documents.getSelectedRow(), 2)});
-        tableModel.removeRow(documents.getSelectedRow());
-        documents.repaint();
-        int row = 0;
-        for(int i = 0; i < documents.getRowCount() && row == 0; ++i) {
+        String data = (String) documents.getValueAt(documents.getSelectedRow(), 2);
+        tableModel.addRow(new Object[]{titol, newA, data});
+        tableModel.removeRow(documents.convertRowIndexToModel(documents.getSelectedRow()));
+        //documents.repaint();
+        int row = -1;
+        for(int i = 0; i < documents.getRowCount() && row == -1; ++i) {
             if(((String) documents.getValueAt(i, 0)).equals(titol) && ((String) documents.getValueAt(i, 1)).equals(newA)) {
                 row = i;
             }
@@ -865,6 +901,7 @@ public class ViewPrincipal extends JFrame {
             Pair p = docsList.get(i);
             tableModel.addRow(new Object[]{p.y, p.x});
         }
+        contadorDocs.setText(Integer.toString(documents.getRowCount()));
     }
 }
 

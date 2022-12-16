@@ -42,7 +42,6 @@ public class showingDocsTable extends JPanel {
             TableRowSorter<TableModel> sorter = new TableRowSorter<>(table.getModel());
             table.setRowSorter(sorter);
             List<RowSorter.SortKey> sortKeys = new ArrayList<>();
-            sorter.setSortKeys(sortKeys);
 
             JTableHeader header = table.getTableHeader();
             header.addMouseListener(new MouseAdapter() {
@@ -76,9 +75,11 @@ public class showingDocsTable extends JPanel {
             table.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    /*if (e.getClickCount() == 2) {
-                        String titol = (String) table.getValueAt(table.getSelectedRow(), 0);
-                        String autor = (String) table.getValueAt(table.getSelectedRow(), 1);
+                    if (e.getClickCount() == 2) {
+                        String titol = (String)table.getValueAt(table.getSelectedRow(), 0);
+                        String autor = (String)table.getValueAt(table.getSelectedRow(), 1);
+
+                        //se selecciona en la tabla documentos por si le quiere modificar el titulo o autor, saber cual es
                         int row = -1;
                         for (int i = 0; i < documents.getRowCount() && row == -1; ++i) {
                             String titolDocs = (String) documents.getValueAt(i, 0);
@@ -87,12 +88,10 @@ public class showingDocsTable extends JPanel {
                         }
                         documents.clearSelection();
                         documents.addRowSelectionInterval(row, row);
-                    }*/
-                    if (e.getClickCount() == 2) {
-                        String titol = (String)table.getValueAt(table.getSelectedRow(), 0);
-                        String autor = (String)table.getValueAt(table.getSelectedRow(), 1);
+
+                        //abre el documento
                         cp.obrirDocument(autor, titol);
-                        cp.ocultaViewPrincipal();
+                        //cp.ocultaViewPrincipal();
                     }
                 }
             });

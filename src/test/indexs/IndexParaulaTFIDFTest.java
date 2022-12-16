@@ -10,7 +10,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-import indexs.IndexParaulaTFIDF;
+import domini.indexs.IndexParaulaTFIDF;
 import transversal.Pair;
 
 /**

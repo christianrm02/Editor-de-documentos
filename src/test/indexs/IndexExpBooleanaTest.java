@@ -11,7 +11,7 @@ import java.util.Set;
 
 import org.junit.Test;
 
-import indexs.IndexExpBooleana;
+import domini.indexs.IndexExpBooleana;
 import transversal.Pair;
 
 /**

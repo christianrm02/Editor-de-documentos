@@ -278,8 +278,9 @@ public class CtrlPresentacio {
             docs = cd.cercarExpressioBooleana(exp);
         }
         catch(ExpBoolNoValidaException e) {
-            JOptionPane.showMessageDialog(null, "Hi ha hagut un error, no s'ha pogut exportar.",
-                    "Error exportació", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, e.toString(),
+                    "Error cerca", JOptionPane.ERROR_MESSAGE);
+            docs = null;
         }
         return docs;
     }

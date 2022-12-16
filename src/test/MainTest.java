@@ -11,6 +11,6 @@ import test.transversal.*;
 
 @RunWith(value = Suite.class)
 @SuiteClasses(value = { 
-    ContingutTest.class, DocumentTest.class, ExpressioBooleanaTest.class, TrieTest.class, UtilityTest.class, IndexExpBooleanaTest.class, IndexParaulaTFIDFTest.class, PairTest.class
+    ExpressioBooleanaTest.class, TrieTest.class, UtilityTest.class, IndexExpBooleanaTest.class, IndexParaulaTFIDFTest.class, PairTest.class
 })
 public class MainTest {}

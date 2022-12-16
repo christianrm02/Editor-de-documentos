@@ -1,11 +1,11 @@
-package controladores;
-import datatypes.*;
+package domini.controladores;
+import domini.datatypes.*;
 import excepcions.ExpBoolNoValidaException;
 import transversal.*;
 
 import java.util.*;
 
-import static datatypes.Utility.ParseFrase;
+import static domini.datatypes.Utility.ParseFrase;
 
 /**
  * @author Pol Fradera

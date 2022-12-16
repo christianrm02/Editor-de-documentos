@@ -1,4 +1,4 @@
-package datatypes;
+package domini.datatypes;
 import excepcions.ExpBoolNoValidaException;
 
 import java.util.*;

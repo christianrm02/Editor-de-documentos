@@ -1,4 +1,4 @@
-package indexs;
+package domini.indexs;
 
 import java.util.PriorityQueue;
 import java.io.Serializable;
@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.Set;
 
 import transversal.Pair;
-import datatypes.Utility;
+import domini.datatypes.Utility;
 
 /**
  * IndexParaulaTFIDF: Index de semblança entre documents

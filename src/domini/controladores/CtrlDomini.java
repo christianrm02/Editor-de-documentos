@@ -1,4 +1,4 @@
-package controladores;
+package domini.controladores;
 
 import persistencia.CtrlPersistencia;
 import transversal.*;
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import static datatypes.Utility.converteix_a_frases;
+import static domini.datatypes.Utility.converteix_a_frases;
 
 /**
  *

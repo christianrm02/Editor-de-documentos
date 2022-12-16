@@ -1,4 +1,4 @@
-package controladores;
+package domini.controladores;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Set;
 
 import transversal.Pair;
-import datatypes.Trie;
-import indexs.*;
+import domini.datatypes.Trie;
+import domini.indexs.*;
 
 
 public class CtrlIndex {

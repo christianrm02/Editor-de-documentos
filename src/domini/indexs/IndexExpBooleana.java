@@ -1,4 +1,4 @@
-package indexs;
+package domini.indexs;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 import transversal.Pair;
-import datatypes.Utility;
+import domini.datatypes.Utility;
 
 
 /**

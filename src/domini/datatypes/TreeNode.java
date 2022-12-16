@@ -1,4 +1,4 @@
-package datatypes;
+package domini.datatypes;
 
 /**
  * @author Pol Fradera

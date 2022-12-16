@@ -1,8 +1,9 @@
 package transversal;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Pair<T1, T2> implements Comparable{
+public class Pair<T1, T2> implements Comparable, Serializable{
     public T1 x;
     public T2 y;
 

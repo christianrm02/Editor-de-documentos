@@ -3,8 +3,8 @@ package test.datatypes;
 import excepcions.ExpBoolNoValidaException;
 import org.junit.Test;
 
-import datatypes.Tree;
-import datatypes.TreeNode;
+import domini.datatypes.Tree;
+import domini.datatypes.TreeNode;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -2,9 +2,9 @@ package test.datatypes;
 
 import org.junit.Test;
 
-import datatypes.ExpressioBooleana;
-import datatypes.Tree;
-import datatypes.TreeNode;
+import domini.datatypes.ExpressioBooleana;
+import domini.datatypes.Tree;
+import domini.datatypes.TreeNode;
 
 import static org.junit.Assert.*;
 

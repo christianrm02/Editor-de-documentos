@@ -1,6 +1,6 @@
 package presentacio;
 
-import controladores.CtrlDomini;
+import domini.controladores.CtrlDomini;
 import excepcions.*;
 import transversal.Pair;
 

@@ -5,5 +5,5 @@ public class ExpBoolNoValidaException extends Exception {
         super("L'expressió booleana no és vàlida.");
     }
 
-    public String toString() { return "Exception: Expressió booleana no vàlida.";}
+    public String toString() { return "L'expressió booleana introduïda no és vàlida.";}
 }

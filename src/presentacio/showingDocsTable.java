@@ -14,7 +14,7 @@ import java.util.List;
 public class showingDocsTable extends JPanel {
     private int anteriorColumn;
 
-    public showingDocsTable(DefaultTableModel tm, JTable documents, CtrlPresentacio cp, boolean mostrarDoc) {
+    public showingDocsTable(DefaultTableModel tm, JTable documents, CtrlPresentacio cp, boolean mostrarDoc, JFrame vistaCaller) {
         anteriorColumn = -1;
         JTable table = new JTable(tm);
         table.getTableHeader().setReorderingAllowed(false);
@@ -92,6 +92,7 @@ public class showingDocsTable extends JPanel {
                         //abre el documento
                         cp.obrirDocument(autor, titol);
                         //cp.ocultaViewPrincipal();
+                        vistaCaller.setVisible(false);
                     }
                 }
             });

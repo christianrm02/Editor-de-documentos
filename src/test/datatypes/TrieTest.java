@@ -5,11 +5,12 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.junit.Test;
 
-import datatypes.Trie;
+import domini.datatypes.Trie;
 
 /**
  * TrieTest: Per fer el testing de la classe Trie
@@ -17,65 +18,73 @@ import datatypes.Trie;
  */
 public class TrieTest {
     @Test
-    public void testInsertFind() {
+    public void testAfegeixFind() {
         Trie trie = new Trie();
 
-        assertFalse("El trie no ha trobat la paraula", trie.FindDoc(""));
-        trie.InsertDoc("");
-        assertTrue("El trie ha trobat la paraula", trie.FindDoc(""));
-        
-        trie.InsertDoc("patata");
-        trie.InsertDoc("Cogombre");
-        assertFalse("El trie no ha trobat la paraula", trie.FindDoc("cogombre"));
-        assertTrue("El trie ha trobat la paraula", trie.FindDoc("patata"));
-        assertFalse("El trie no ha trobat la paraula", trie.FindDoc("Patata"));
-        assertFalse("El trie no ha trobat la paraula", trie.FindDoc("patatá"));
-        
-        trie.InsertDoc("patatá");
-        trie.InsertDoc("Patata");
-        assertTrue("El trie ha trobat la paraula", trie.FindDoc("patata"));
-        assertTrue("El trie ha trobat la paraula", trie.FindDoc("Patata"));
-        assertTrue("El trie ha trobat la paraula", trie.FindDoc("patatá"));
+        String autor = "Manolo";
+        String titol1 = "Manolo va a la playa";
+        String titol2 = "Manolo va a la montaña";
+
+        assertFalse("No trobat 1", trie.FindDoc(autor, titol1));
+        assertFalse("No trobat 2", trie.FindDoc(autor, titol2));
+
+        trie.AfegirDoc(autor, titol1);
+        trie.AfegirDoc(autor, titol2);
+
+        assertTrue("Trobat 1", trie.FindDoc(autor, titol1));
+        assertTrue("Trobat 2", trie.FindDoc(autor, titol2));
     }
-    
+
     @Test
     public void testDelete() {
         Trie trie = new Trie();
 
-        trie.InsertDoc("patata");
-        trie.InsertDoc("patatal");
-        trie.DeleteDoc("patata");
-        assertFalse("El trie no ha trobat la paraula", trie.FindDoc("patata"));
-        assertTrue("El trie ha trobat la paraula", trie.FindDoc("patatal"));
+        String autor = "Manolo";
+        String titol1 = "Manolo va a la playa";
+        String titol2 = "Manolo va a la montaña";
+
+        assertFalse("No trobat 1", trie.FindDoc(autor, titol1));
+        assertFalse("No trobat 2", trie.FindDoc(autor, titol2));
+
+        trie.AfegirDoc(autor, titol1);
+        trie.AfegirDoc(autor, titol2);
+
+        assertTrue("Trobat 1", trie.FindDoc(autor, titol1));
+        assertTrue("Trobat 2", trie.FindDoc(autor, titol2));
+
+        trie.EsborrarDoc(autor, titol1);
+
+        assertFalse("No trobat 1", trie.FindDoc(autor, titol1));
+        
+        trie.EsborrarDoc(autor, titol2);
+
+        assertFalse("No trobat 2", trie.FindDoc(autor, titol2));
     }
 
     @Test
-    public void testSearchWordsPrefix() {
+    public void testActualitzarAutor() {
         Trie trie = new Trie();
-        List<String> expected1 = Arrays.asList(new String[]{"manol", "manoló", "manolo"});
-        List<String> expected2 = Arrays.asList(new String[]{"Manoló", "Manolo"});
-        int expectedSize3 = 6;
 
-        trie.InsertDoc("manolo");
-        trie.InsertDoc("manol");
-        trie.InsertDoc("Manolo");
-        trie.InsertDoc("Manoló");
-        trie.InsertDoc("manoló");
-        trie.InsertDoc("patata");
+        String autor = "a";
+        String autor2 = "Po";
+        String titol1 = "a";
+        String titol2 = "b";
 
-        assertEquals(expected1, trie.SearchWordsPrefix("man"));
-        assertEquals(expected2, trie.SearchWordsPrefix("Man"));
-        assertEquals(expectedSize3, trie.SearchWordsPrefix("").size());
+        trie.AfegirDoc(autor, titol1);
+        trie.AfegirDoc(autor, titol2);
 
-        List<String> expectedd1 = Arrays.asList(new String[]{"manol", "manoló"});
-        List<String> expectedd2 = Arrays.asList(new String[]{"Manoló"});
-        int expecteddSize3 = 4;
+        Set<String> expected1 = new HashSet<String>(Arrays.asList(titol1, titol2));
+        Set<String> res1 = trie.GetTitolsAutor(autor);
+        assertEquals(expected1, res1);
 
-        trie.DeleteDoc("manolo");
-        trie.DeleteDoc("Manolo");
+        trie.ActualitzarAutor(autor, titol2, autor2);
 
-        assertEquals(expectedd1, trie.SearchWordsPrefix("man"));
-        assertEquals(expectedd2, trie.SearchWordsPrefix("Man"));
-        assertEquals(expecteddSize3, trie.SearchWordsPrefix("").size());
+        assertTrue("Trobat 1", trie.FindDoc(autor, titol1));
+        assertTrue("Trobat 2", trie.FindDoc(autor2, titol2));
+        assertFalse("No trobat 2", trie.FindDoc(autor, titol2));
+
+        Set<String> expected2 = new HashSet<String>(Arrays.asList(titol1));
+        Set<String> res2 = trie.GetTitolsAutor(autor);
+        assertEquals(expected2, res2);
     }
 }

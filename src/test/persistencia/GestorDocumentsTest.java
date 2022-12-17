@@ -27,7 +27,7 @@ public class GestorDocumentsTest {
     public void testTXT() throws IOException {
         String autor = "Manolo";
         String titol = "Manolo se va a la playa";
-        String contingut = "Manolo se aburre en la playa.\nManolo vuelve a casa.\n";
+        String contingut = "Manolo se aburre en la playa.\nManolo vuelve a casa.";
         String path = "D:\\Documents\\Universitat\\Quad5\\PROP\\Projecte\\testProp\\test.txt";
         String[] expected = new String[]{autor, titol, contingut};
 
@@ -42,7 +42,7 @@ public class GestorDocumentsTest {
     public void testXML() throws IOException {
         String autor = "Manolo";
         String titol = "Manolo se va a la playa";
-        String contingut = "Manolo se aburre en la playa.\nManolo vuelve a casa.\n";
+        String contingut = "Manolo se aburre en la playa.\nManolo vuelve a casa.";
         String path = "D:\\Documents\\Universitat\\Quad5\\PROP\\Projecte\\testProp\\test.xml";
         String[] expected = new String[]{autor, titol, contingut};
 

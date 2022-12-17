@@ -75,7 +75,21 @@ public class showingDocsTable extends JPanel {
             table.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    if (e.getClickCount() == 2) {
+                    if (e.getClickCount() == 1) { //solo se selecciona en la tabla
+                        String titol = (String)table.getValueAt(table.getSelectedRow(), 0);
+                        String autor = (String)table.getValueAt(table.getSelectedRow(), 1);
+
+                        //se selecciona en la tabla documentos por si le quiere modificar el titulo o autor, saber cual es
+                        int row = -1;
+                        for (int i = 0; i < documents.getRowCount() && row == -1; ++i) {
+                            String titolDocs = (String) documents.getValueAt(i, 0);
+                            String autorDocs = (String) documents.getValueAt(i, 1);
+                            if(titol.equals(titolDocs) && autor.equals(autorDocs)) row = i;
+                        }
+                        documents.clearSelection();
+                        documents.addRowSelectionInterval(row, row);
+                    }
+                    if (e.getClickCount() == 2) { //se selecciona en la tabla y se abre
                         String titol = (String)table.getValueAt(table.getSelectedRow(), 0);
                         String autor = (String)table.getValueAt(table.getSelectedRow(), 1);
 

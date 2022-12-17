@@ -694,7 +694,7 @@ public class ViewPrincipal extends JFrame {
                             if(estrategia) estrat = "TF";
                             JLabel label = new JLabel( "Aquests són els " + num.getValue() +
                                     " documents més rellevants segons les paraules escollides" +
-                                    "\namb l'estratègia " + estrat + ".");
+                                    " amb l'estratègia " + estrat + ".");
                             panelDocs.add(label, BorderLayout.SOUTH);
                             JOptionPane.showMessageDialog(null, panelDocs, "Documents segons la cerca per rellevància",
                                     JOptionPane.DEFAULT_OPTION);

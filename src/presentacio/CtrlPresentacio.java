@@ -11,7 +11,7 @@ import java.util.List;
 
 public class CtrlPresentacio {
     private ViewPrincipal viewPrincipal;
-    private ViewGestioExpBool ViewExps;
+    private ViewGestioExpBool viewExps;
     private ViewEditar viewEditar;
     private CtrlDomini cd;
 
@@ -32,10 +32,10 @@ public class CtrlPresentacio {
     }
 
     public void mostraVistaGestioExpBool(JTable documents){
-        ViewExps = new ViewGestioExpBool(documents, this);
+        viewExps = new ViewGestioExpBool(documents, this);
         List<Pair<String, String>> expsList = getAllExpressionsBooleanes();
 
-        ViewExps.initExp(expsList);
+        viewExps.initExp(expsList);
     }
 
     public void mostraViewMostrarCont(String titol, String autor){ //Conseguir el cont con el getContingut, y q este llame a esta y así la main view como q no conoce las otras views?

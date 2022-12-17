@@ -16,20 +16,23 @@ import static domini.datatypes.Utility.converteix_a_frases;
  * @author Marc Roman
  */
 public class CtrlDomini {
-    /** Controlador d'index.
+    /**
+     * Controlador d'index.
      */
     private CtrlIndex ci;
-    /** Controlador d'expressio booleana.
+    /**
+     * Controlador d'expressio booleana.
      */
     private CtrlExpressioBooleana ce;
-    /** Controlador de persistencia.
+    /**
+     * Controlador de persistencia.
      */
     private CtrlPersistencia cp;
-    /** Paràmetres del document obert actual. Si no hi ha cap document obert tots són igual a "".
+    /**
+     * Paràmetres del document obert actual. Si no hi ha cap document obert tots són igual a "".
      */
     private String titolAct, autorAct, contAct;
 
-    /*CONSTRUCTORA*/
     /**
      * Constructora del controlador de domini, que inicialitza els controladors d'index, expressio booleana i persistencia.
      */

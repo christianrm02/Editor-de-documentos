@@ -5,17 +5,56 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 
+/**
+ * Vista per editar, exportar i desar les modificacions del document seleccionat a la ViewPrincipal.
+ * @author Marc Roman
+ */
 public class ViewEditar extends JFrame {
+    /**
+     * Panell principal de la vista.
+     */
     private JPanel panel1;
+    /**
+     * Botó per desar les modificacions del contingut del document que està obert.
+     */
     protected JButton desarButton;
+    /**
+     * Botó per exportar el document que està obert.
+     */
     protected JButton exportarButton;
+    /**
+     * Botó per tornar enrere a ViewPrincipal.
+     */
     private JButton sortirButton;
+    /**
+     * Etiqueta amb el títol del document.
+     */
     private JLabel titol;
+    /**
+     * Etiqueta amb l’autor del document.
+     */
     private JLabel autor;
+    /**
+     * Panell per mostrar i modificar el contingut del document.
+     */
     protected JTextPane textPane1;
+    /**
+     * Contingut del document de l’última vegada que s’ha desat.
+     */
     private String cont;
+    /**
+     * Controlador de la capa de presentació.
+     */
     private CtrlPresentacio cp;
 
+    /**
+     * Pregunta a l’usuari si vol desar el document abans de sortir de la vista o tancar el programa. En cas que l’usuari accepti, es guarda el contingut del document a contAct a CtrlDomini, altrament no es guarda.
+     * @param t: String: títol del document.
+     * @param a: String: títol del document.
+     * @param contNou: String: contingut actual del document sense desar.
+     * @param sortir: boolean:
+     * @return int: Es retorna un enter, que si és 0, vol dir que s'ha guardat, altrament vol dir que no s'ha guardat.
+     */
     private int desarAbansDeTancar(String t, String a, String contNou, boolean sortir) {
         String frase = "No has desat el document. El vols desar abans de ";
         if (sortir) frase += "tornar a la pantalla d'inici?";
@@ -33,6 +72,13 @@ public class ViewEditar extends JFrame {
         return opt;
     }
 
+    /**
+     * Mostra un panell editable amb el contingut del document (a+t), amb el títol t i l’autor a a dalt del panell i un botó per desar el contingut del document, un altre per exportar el document i un tercer per tornar enrere, és a dir, anar a la ViewPrincipal.
+     * @param ctrlp: CtrlPresentacio: instància del controlador de presentació.
+     * @param t: String: títol del document.
+     * @param a: String: títol del document.
+     * @param c: String: contingut del document.
+     */
     public ViewEditar(CtrlPresentacio ctrlp, String t, String a, String c) {
         setContentPane(panel1);
         setMinimumSize(new Dimension(400, 200));

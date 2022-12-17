@@ -82,7 +82,7 @@ public class ViewEditar extends JFrame {
     public ViewEditar(CtrlPresentacio ctrlp, String t, String a, String c) {
         setContentPane(panel1);
         setMinimumSize(new Dimension(400, 200));
-        setTitle("Editor de textos " + t + ", " + a);
+        setTitle("Documenteitor " + t + ", " + a);
         setSize(1000, 500);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
@@ -196,25 +196,32 @@ public class ViewEditar extends JFrame {
         titol.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                String newT;
-                do {
-                    newT = JOptionPane.showInputDialog(null, "Escriu el nou títol:", "Modificar títol", JOptionPane.DEFAULT_OPTION);
-                } while (newT.equals(""));
-                if(newT != null) { // diria q no pot passar a no ser q tanquis
+                JPanel insertTitol = new JPanel();
+                JTextField newT = new JTextField("",20);
+                insertTitol.add(new JLabel("Escriu el nou títol: "));
+                insertTitol.add(newT);
+                String[] opts = {"Sí", "Cancel·la"};
+                int opt = JOptionPane.showOptionDialog(null, insertTitol, "Modificar títol",
+                        JOptionPane.DEFAULT_OPTION, JOptionPane.DEFAULT_OPTION, null, opts, opts[0]);
+
+                if(opt == 0) { // diria q no pot passar a no ser q tanquis
                     String au = autor.getText(), ti = titol.getText();
-                    int opt = JOptionPane.showConfirmDialog(null, "Segur que vols modificar el títol del document " + ti + " " + au + " de " + ti + " a " + newT + " ?", "Modificar títol", JOptionPane.YES_NO_OPTION);
-                    if (opt == 0) {
-                        cp.actualitzaTitol(newT);
-                        cp.modificarTitol(au, ti, newT);
-                        titol.setText(newT);
-                        JOptionPane.showMessageDialog(null, "S'ha modificat el títol a " + newT + ".");
+                    int opt2 = JOptionPane.showConfirmDialog(null, "Segur que vols modificar el títol del document " +
+                            ti + " de " + au + " a " + newT.getText() + " ?", "Modificar títol", JOptionPane.YES_NO_OPTION, JOptionPane.DEFAULT_OPTION);
+                    if (opt2 == 0) {
+                        boolean valid = cp.actualitzaTitol(newT.getText());
+                        cp.modificarTitol(au, ti, newT.getText());
+                        if(valid) {
+                            titol.setText(newT.getText());
+                            JOptionPane.showMessageDialog(null, "S'ha modificat el títol a " + newT.getText() + ".");
+                        }
                     }
                     else {
                         JOptionPane.showMessageDialog(null, "No s'ha modificat el títol.");
                     }
                 }
                 else {
-                    JOptionPane.showMessageDialog(null, "No s'ha modificat el títol.");
+                    JOptionPane.showMessageDialog(null, "No es permeten camps en buit.");
                 }
             }
         });
@@ -222,32 +229,35 @@ public class ViewEditar extends JFrame {
         autor.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                String newA;
-                do {
-                    newA = JOptionPane.showInputDialog(null, "Escriu el nou autor:", "Modificar autor", JOptionPane.DEFAULT_OPTION);
-                } while (newA.equals(""));
-                if(newA != null) {
+                JPanel insertAutor = new JPanel();
+                JTextField newA = new JTextField("", 20);
+                insertAutor.add(new JLabel("Escriu el nou autor: "));
+                insertAutor.add(newA);
+                String[] opts = {"Sí", "Cancel·la"};
+                int opt = JOptionPane.showOptionDialog(null, insertAutor, "Modificar autor",
+                        JOptionPane.DEFAULT_OPTION, JOptionPane.DEFAULT_OPTION, null, opts, opts[0]);
+
+                if(opt == 0) {
                     String au = autor.getText(), ti = titol.getText();
-                    int opt = JOptionPane.showConfirmDialog(null, "Segur que vols modificar l'autor del document " + ti + " " + au + " de " + au + " a " + newA + " ?", "Modificar autor", JOptionPane.YES_NO_OPTION);
-                    if (opt == 0) {
-                        cp.actualitzaAutor(newA);
-                        cp.modificarAutor(au, ti, newA);
-                        autor.setText(newA);
-                        JOptionPane.showMessageDialog(null, "S'ha modificat l'autor a " + newA + ".");
+                    int opt2 = JOptionPane.showConfirmDialog(null, "Segur que vols modificar l'autor del document " +
+                            ti + " de " + au + " a " + newA.getText() + " ?", "Modificar autor", JOptionPane.YES_NO_OPTION, JOptionPane.DEFAULT_OPTION);
+                    if (opt2 == 0) {
+                        boolean valid = cp.actualitzaAutor(newA.getText());
+                        cp.modificarAutor(au, ti, newA.getText());
+                        if(valid) {
+                            autor.setText(newA.getText());
+                            JOptionPane.showMessageDialog(null, "S'ha modificat l'autor a " + newA.getText() + ".");
+                        }
                     }
                     else {
                         JOptionPane.showMessageDialog(null, "No s'ha modificat l'autor.");
                     }
                 }
                 else {
-                    JOptionPane.showMessageDialog(null, "No s'ha modificat l'autor.");
+                    JOptionPane.showMessageDialog(null, "No es permeten camps buits.");
                 }
             }
         });
     }
-
-/*    public static void main(String[] args) {
-        JFrame view = new ViewEditar(new CtrlPresentacio(), "Hola q tal", "Paco", "Hola q tal, com estàs?");
-    }*/
 }
 

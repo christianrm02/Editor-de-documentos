@@ -92,9 +92,9 @@ public class ViewGestioExpBool extends JFrame{
         JScrollPane tableScroll = new JScrollPane(expressions);
         tablePanel.add(tableScroll, BorderLayout.CENTER);
 
-        expressions.getColumnModel().getColumn(0).setCellRenderer(new GestioCell());
-        expressions.getColumnModel().getColumn(1).setCellRenderer(new GestioCell());
-        expressions.getColumnModel().getColumn(2).setCellRenderer(new GestioCell());
+        expressions.getColumnModel().getColumn(0).setCellRenderer(new GestioCell("text"));
+        expressions.getColumnModel().getColumn(1).setCellRenderer(new GestioCell("text"));
+        expressions.getColumnModel().getColumn(2).setCellRenderer(new GestioCell("icon"));
         expressions.setRowHeight(25);
         expressions.getColumnModel().getColumn(0).setPreferredWidth(100);
         expressions.getColumnModel().getColumn(1).setPreferredWidth(100);
@@ -185,15 +185,15 @@ public class ViewGestioExpBool extends JFrame{
                                 //System.out.println(tableModel.getValueAt(expressions.convertRowIndexToModel(selectedRow[0]), 0));
                                 selectedRow = expressions.getSelectedRows();
                             }
-                            JOptionPane.showMessageDialog(null, "S'han esborrat correctament les expressions",
+                            JOptionPane.showMessageDialog(null, "S'han esborrat correctament les expressions.",
                                     "Esborrar expressions seleccionades", JOptionPane.DEFAULT_OPTION);
                             contadorExp.setText(Integer.toString(expressions.getRowCount()));
                         } else { //misstage no s'han borrat
-                            JOptionPane.showMessageDialog(null, "No s'ha esborrat cap expressió",
+                            JOptionPane.showMessageDialog(null, "No s'ha esborrat cap expressió.",
                                     "Esborrar expressions seleccionades", JOptionPane.DEFAULT_OPTION);
                         }
                     } else {
-                        JOptionPane.showMessageDialog(null, "No hi ha cap expressió seleccionada",
+                        JOptionPane.showMessageDialog(null, "No hi ha cap expressió seleccionada.",
                                 "Error esborrar expressions seleccionades", JOptionPane.DEFAULT_OPTION);
                     }
                 }
@@ -207,7 +207,7 @@ public class ViewGestioExpBool extends JFrame{
         eliminaE.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int opt = JOptionPane.showConfirmDialog(null, "Segur que vols borrar l'expressió booleana amb nom: " +
+                int opt = JOptionPane.showConfirmDialog(null, "Segur que vols esborrar l'expressió booleana amb nom: " +
                         expressions.getValueAt(expressions.getSelectedRow(), 0) + " permanentment?", "Esborrar expressió booleana",
                         JOptionPane.YES_NO_OPTION);
                 if (opt == 0) {

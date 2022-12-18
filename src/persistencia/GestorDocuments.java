@@ -119,8 +119,8 @@ public class GestorDocuments {
         StringBuilder aux = new StringBuilder();
         while(line != null) {
             aux.append(line);
-            aux.append('\n');
             line = reader.readLine();
+            if(line != null) aux.append('\n');
         }
         reader.close();
         String contingut = aux.toString();

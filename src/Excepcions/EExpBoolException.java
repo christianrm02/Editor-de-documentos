@@ -5,5 +5,5 @@ public class EExpBoolException extends Exception {
         super("El nom de l'expressió booleana existeix.");
     }
 
-    public String toString() { return "Exception: El nom de l'expressió booleana no ha d'existir.";}
+    public String toString() { return "El nom de l'expressió booleana ja existeix.";}
 }

@@ -12,15 +12,56 @@ import java.util.List;
 
 import static javax.swing.SwingUtilities.isRightMouseButton;
 
+/**
+ * Vista amb la qual es fan les gestions sobre les expressions booleanes.
+ * @author Christian Rivero
+ */
 public class ViewGestioExpBool extends JFrame{
+    /**
+     * Panell principal de la vista.
+     */
     private JPanel panel1;
+    /**
+     * Panell on s’ubica la JTable on es llisten les expressions booleanes hi ha al
+     * sistema (nomExpressió+expressió).
+     */
     private JPanel tablePanel;
+    /**
+     * Botó per afegir una nova expressió booleana al sistema.
+     */
     private JButton novaExpressioBooleanaButton;
+    /**
+     * Botó per mostrar una sèrie de popups amb indicacions de les funcions de cada botó i
+     * acció possible a la vista.
+     */
     private JButton ajudaButton;
+    /**
+     * Botó per esborrar el conjunt d’expressions seleccionades.
+     */
     private JButton esborrarExpressionsSeleccionadesButton;
+    /**
+     * Botó per tancar aquesta vista i tornar a la vista principal.
+     */
     private JButton enrereButton;
+    /**
+     * Label on indiquem el nombre d'expressions booleanes del sistema en tot moment.
+     */
+    private JLabel contadorExp;
+    /**
+     * DefaultTableModel necessaria per crear la JTable de les expressions.
+     */
     private DefaultTableModel tableModel;
+    /**
+     * Objecte this, necessari per poder passa-ho com a paràmetre als actionListeners.
+     */
+    private ViewGestioExpBool exp = this;
 
+    /**
+     * Creadora única
+     * @param documents: JTable: taula dels documents, per tal de poder clicar en la row pertinent
+     *                 si es fan les cerques per expressió.
+     * @param cp: CtrlPresentacio: instància del controlador de presentació.
+     */
     public ViewGestioExpBool(JTable documents, CtrlPresentacio cp) {
         setContentPane(panel1);
         setSize(800, 500);
@@ -28,7 +69,7 @@ public class ViewGestioExpBool extends JFrame{
         setTitle("Gestió expressions booleanes");
 
         /*Creacion tabla*/
-        String[] colums = {"Nom", "Expressió Booleana", " "};
+        String[] colums = {"Nom", "Expressió Booleana", "Opcions"};
         Object[][] titols = {};
 
         tableModel = new DefaultTableModel(titols, colums){
@@ -40,8 +81,9 @@ public class ViewGestioExpBool extends JFrame{
         JTable expressions = new JTable(tableModel);
         expressions.setAutoCreateRowSorter(true);
         TableRowSorter<TableModel> sorter = new TableRowSorter<>(expressions.getModel());
-        //sorter.setSortable(1, false);
-        //sorter.setSortable(2, false);
+        sorter.setSortable(0, true);
+        sorter.setSortable(1, false);
+        sorter.setSortable(2, false);
         expressions.setRowSorter(sorter);
         //expressions.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         //expressions.setEnabled(false);///arreglar, necesito bloquear edicion tabla
@@ -97,7 +139,8 @@ public class ViewGestioExpBool extends JFrame{
                     }
                 }
                 else if(expressions.getRowCount() == 0 && e.getClickCount() == 0) {
-                    JOptionPane.showMessageDialog(null, "No hi ha cap expressió encara, les pots crear.", "Error cap expressió.", JOptionPane.DEFAULT_OPTION);
+                    JOptionPane.showMessageDialog(null, "No hi ha cap expressió encara, les pots crear.",
+                            "Error cap expressió.", JOptionPane.DEFAULT_OPTION);
                 }
             }
         });
@@ -127,29 +170,36 @@ public class ViewGestioExpBool extends JFrame{
                                 return false;
                             }
                         };
-                        JPanel panelBorrar = new showingDocsTable(tm, expressions, cp, false);
+                        JPanel panelBorrar = new showingDocsTable(tm, expressions, cp, false, exp);
                         panelBorrar.add(new JLabel("S'esborraran les següents expressions booleanes:"), BorderLayout.NORTH);
                         panelBorrar.add(new JLabel("Estàs d'acord?"), BorderLayout.SOUTH);
                         //panelBorrar.setFillsViewportHeight(true);
 
                         /*Mostramos tabla*/
                         int opt = JOptionPane.showOptionDialog(null, panelBorrar, "Esborrar expressions seleccionades",
-                                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, JOptionPane.NO_OPTION);
+                                JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, JOptionPane.NO_OPTION);
                         if (opt == 0) { //s'esborren + missatge
-                            for (int i = 0; i < selectedRow.length; ++i) {
-                                cp.deleteExpressioBooleana((String)expressions.getValueAt(selectedRow[i], 0));
-                                tableModel.removeRow(expressions.convertRowIndexToModel(selectedRow[i]));
+                            while (selectedRow.length != 0) {
+                                cp.deleteExpressioBooleana((String)expressions.getValueAt(selectedRow[0], 0));
+                                tableModel.removeRow(expressions.convertRowIndexToModel(selectedRow[0]));
+                                //System.out.println(tableModel.getValueAt(expressions.convertRowIndexToModel(selectedRow[0]), 0));
+                                selectedRow = expressions.getSelectedRows();
                             }
-                            JOptionPane.showMessageDialog(null, "S'han esborrat correctament les expressions", "Esborrar expressions seleccionades", JOptionPane.DEFAULT_OPTION);
+                            JOptionPane.showMessageDialog(null, "S'han esborrat correctament les expressions.",
+                                    "Esborrar expressions seleccionades", JOptionPane.DEFAULT_OPTION);
+                            contadorExp.setText(Integer.toString(expressions.getRowCount()));
                         } else { //misstage no s'han borrat
-                            JOptionPane.showMessageDialog(null, "No s'han esborrat cap expressió", "Esborrar expressions seleccionades", JOptionPane.DEFAULT_OPTION);
+                            JOptionPane.showMessageDialog(null, "No s'ha esborrat cap expressió.",
+                                    "Esborrar expressions seleccionades", JOptionPane.DEFAULT_OPTION);
                         }
                     } else {
-                        JOptionPane.showMessageDialog(null, "No hi ha cap expressió seleccionada", "Error esborrar expressions seleccionades", JOptionPane.DEFAULT_OPTION);
+                        JOptionPane.showMessageDialog(null, "No hi ha cap expressió seleccionada.",
+                                "Error esborrar expressions seleccionades", JOptionPane.DEFAULT_OPTION);
                     }
                 }
                 else {
-                    JOptionPane.showMessageDialog(null, "No hi ha cap expressió creada.", "Cap expressió", JOptionPane.DEFAULT_OPTION);
+                    JOptionPane.showMessageDialog(null, "No hi ha cap expressió creada.",
+                            "Cap expressió", JOptionPane.DEFAULT_OPTION);
                 }
             }
         };
@@ -157,13 +207,14 @@ public class ViewGestioExpBool extends JFrame{
         eliminaE.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int opt = JOptionPane.showConfirmDialog(null, "Segur que vols borrar l'expressió booleana " +
+                int opt = JOptionPane.showConfirmDialog(null, "Segur que vols esborrar l'expressió booleana amb nom: " +
                         expressions.getValueAt(expressions.getSelectedRow(), 0) + " permanentment?", "Esborrar expressió booleana",
                         JOptionPane.YES_NO_OPTION);
                 if (opt == 0) {
                     cp.deleteExpressioBooleana((String)expressions.getValueAt(expressions.getSelectedRow(), 0));
                     tableModel.removeRow(expressions.getSelectedRow());
                     JOptionPane.showMessageDialog(null, "S'ha esborrat l'expressió booleana correctament.");
+                    contadorExp.setText(Integer.toString(expressions.getRowCount()));
                 } else {
                     JOptionPane.showMessageDialog(null, "No s'ha esborrat l'expressió booleana.");
                 }
@@ -184,10 +235,10 @@ public class ViewGestioExpBool extends JFrame{
 
                 String[] opts = {"Sí", "Cancel·la"};
                 int opt = JOptionPane.showOptionDialog(null, insertExp, "Modificar expressió booleana",
-                        JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opts, opts[0]);
+                        JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, opts, opts[0]);
                 if(opt == 0 && !newExp.getText().equals("")) {
-                    int opt2 = JOptionPane.showConfirmDialog(null, "Segur que vols modificar l'expressió booleana amb nom " +
-                            expressions.getValueAt(expressions.getSelectedRow(), 0)  + " a " + newExp.getText() + " ?",
+                    int opt2 = JOptionPane.showConfirmDialog(null, "Segur que vols modificar l'expressió booleana amb nom: " +
+                            expressions.getValueAt(expressions.getSelectedRow(), 0)  + " a \"" + newExp.getText() + "\" ?",
                             "Modificar expressió booleana", JOptionPane.YES_NO_OPTION);
                     if (opt2 == 0) {
                         boolean valida = cp.modExpressioBooleana((String)expressions.getValueAt(expressions.getSelectedRow(), 0), newExp.getText());
@@ -213,25 +264,35 @@ public class ViewGestioExpBool extends JFrame{
         buscaXE.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                setVisible(false); //se oculta y aparece al final para q se pueda ver como se selecciona en la main view
-                List<Pair<String, String>> docsXExp = cp.cercarExpressioBooleana((String)expressions.getValueAt(expressions.getSelectedRow(), 1));
+                if(documents.getRowCount() > 0) {
+                    List<Pair<String, String>> docsXExp = cp.cercarExpressioBooleana((String)expressions.getValueAt(expressions.getSelectedRow(), 1));
 
-                Object[][] docsSemblantsObj = new Object[docsXExp.size()][2];
-                for(int i = 0; i < docsXExp.size(); ++i) {
-                    Object[] docSemblantsObj = {docsXExp.get(i).y, docsXExp.get(i).x};
-                    docsSemblantsObj[i] = docSemblantsObj;
-                }
-                String[] columns = {"Títols", "Autors"};
-                DefaultTableModel tm = new DefaultTableModel(docsSemblantsObj, columns) {
-                    @Override
-                    public boolean isCellEditable(int row, int column) {
-                        return false;
+                    if(docsXExp.size() > 0) {
+                        Object[][] docsSemblantsObj = new Object[docsXExp.size()][2];
+                        for(int i = 0; i < docsXExp.size(); ++i) {
+                            Object[] docSemblantsObj = {docsXExp.get(i).y, docsXExp.get(i).x};
+                            docsSemblantsObj[i] = docSemblantsObj;
+                        }
+                        String[] columns = {"Títols", "Autors"};
+                        DefaultTableModel tm = new DefaultTableModel(docsSemblantsObj, columns) {
+                            @Override
+                            public boolean isCellEditable(int row, int column) {
+                                return false;
+                            }
+                        };
+
+                        JPanel panelDocs = new showingDocsTable(tm, documents, cp, true, exp);
+                        JOptionPane.showMessageDialog(null, panelDocs, "Resultats de cerca per expressió", JOptionPane.DEFAULT_OPTION);
                     }
-                };
-
-                JPanel panelDocs = new showingDocsTable(tm, documents, cp, true);
-                JOptionPane.showMessageDialog(null, panelDocs, "Resultats de cerca per expressió", JOptionPane.DEFAULT_OPTION);
-                setVisible(true);
+                    else {
+                        JOptionPane.showMessageDialog(null, "No hi ha cap document que satisfagui l'expressió.",
+                                "Cerca per expressió booleana.", JOptionPane.DEFAULT_OPTION);
+                    }
+                }
+                else {
+                    JOptionPane.showMessageDialog(null, "Encara no hi ha cap document.",
+                            "Error cerca", JOptionPane.DEFAULT_OPTION);
+                }
             }
         });
 
@@ -256,13 +317,14 @@ public class ViewGestioExpBool extends JFrame{
 
                 String[] opts = {"Sí", "Cancel·la"};
                 int opt = JOptionPane.showOptionDialog(null, panelCreacio, "Creació expressió booleana",
-                        JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opts, opts[0]);
+                        JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, opts, opts[0]);
 
                 if(opt == 0 && !newNom.getText().equals("") && !newNom.getText().equals("")) {
                     boolean creat = cp.creaExpressioBooleana(newNom.getText(), newExp.getText());
                     if(creat) {
                         tableModel.addRow(new Object[]{newNom.getText(), newExp.getText()});
                     }
+                    contadorExp.setText(Integer.toString(expressions.getRowCount()));
                 }
                 else if(opt == 0 && (newNom.getText().equals("") || newNom.getText().equals(""))){
                     JOptionPane.showMessageDialog(null, "Indica un nom i una expressió vàlides, no deixis camps buits.",
@@ -274,8 +336,7 @@ public class ViewGestioExpBool extends JFrame{
         enrereButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                cp.ocultaViewPrincipal();
-                //setVisible(false); //HACE FALTA??
+                cp.mostraViewPrincipal();
                 dispose();
                 //cp.mostraViewPrincipal();
             }
@@ -283,7 +344,7 @@ public class ViewGestioExpBool extends JFrame{
 
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
-                //setVisible(false); //HACE FALTA??
+                cp.tancarAplicacio();
                 dispose();
                 //cp.mostraViewPrincipal();
             }
@@ -292,39 +353,54 @@ public class ViewGestioExpBool extends JFrame{
         ajudaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int count = 0; //0 primera vez, -1 se cierra ventana
-                int opt = JOptionPane.showOptionDialog(null,"Amb el botó Crea es crea un nou document amb contingut buit.", "Panell d'ajuda", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[] {"Següent"}, "Següent");
+                int count = 1; //1 primera vez, -1 se cierra ventana
+                int opt = JOptionPane.showOptionDialog(null,
+                        "Amb el botó \"Nova expressió booleana\" es crea una nova expressió.", "Panell d'ajuda",
+                        JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, new Object[] {"Següent"}, "Següent");
                 //while(opt == -2);
                 String message = "";
                 while(count < 6 && opt != -1) {
+                    if(count == 0) message = "Amb el botó \"Nova expressió booleana\" es crea una nova expressió.";
+                    else if(count == 1) message =
+                            "Amb el botó \"Esborrar selecció\" s'esborren les expressions que estiguin seleccionades" +
+                                    "\n         a la taula. Es pot seleccionar arrastrant amb el ratolí o clicant amb Ctrl+Clic.";
+                    else if(count == 2) message = "Amb el botó \"Enrere\" es torna a la pantalla principal.";
+                    else if(count == 3) message = "Amb els 3 punts verticals de cada expressió s'obre un panell d'opcions per l'expressió.";
+                    else if(count == 4) message =
+                            "            També hi ha les funcionalitats de poder fer clic dret sobre una expressió per mostrar les seves opcions " +
+                            "\n(equival als 3 punts verticals). I la funcionalitat de fer clic dret sobre una de les expressions seleccionades i es mostrarà " +
+                            "\n                                                un botó per borrar totes les expressions seleccionades.";
+                    else if(count == 5) message = "Es pot tancar el programa en qualsevol moment clicant al botó amb la X de la cantonada superior dreta.";
+                    if(count == 0) opt = JOptionPane.showOptionDialog(null,message, "Panell d'ajuda",
+                            JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, new Object[] {"Següent"}, "Següent");
+                    else if(count < 5) opt = JOptionPane.showOptionDialog(null,message, "Panell d'ajuda",
+                            JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, new Object[] { "Anterior", "Següent"},
+                            "Següent");
+                    else opt = JOptionPane.showOptionDialog(null,message, "Panell d'ajuda",
+                                JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, new Object[] { "Anterior", "Acaba"},
+                                "Acaba");
                     if(opt == 0 && count != 0) --count;
                     else ++count;
-                    if(count == 0) message = "Amb el botó Nova expressió booleana es crea una nova expressió.";
-                    else if(count == 1) message = "Amb el botó Enrere es torna a la pantalla d'edició de documents";
-                    else if(count == 2) message = "Amb el botó Esborrar expressions seleccionades s'esborren les expressions que estiguin seleccionades a la taula. " +
-                            "\nEs pot seleccionar arrastrant amb el ratolí o clicant amb Ctrl+Clic.";
-                    else if(count == 3) message = "Amb els 3 punts verticals de cada expressió s'obre un panell d'opcions per l'expressió.";
-                    else if(count == 4) message = "També hi ha les funcionalitats de poder fer clic dret sobre una expressió per mostrar les seves opcions " +
-                            "\n(equival als 3 punts verticals). I la funcionalitat de fer clic dret sobre una de les expressions seleccionades i es mostrarà " +
-                            "\nun botó per borrar totes les expressions seleccionades.";
-                    else if(count == 5) message = "Es pot tancar el programa en qualsevol moment clicant al botó amb la X de la cantonada superior dreta";
-                    if(count == 0) opt = JOptionPane.showOptionDialog(null,message, "Panell d'ajuda", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[] {"Següent"}, "Següent");
-                    else if(count < 5) opt = JOptionPane.showOptionDialog(null,message, "Panell d'ajuda", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[] { "Anterior", "Següent"}, "Següent");
-                    else opt = JOptionPane.showOptionDialog(null,message, "Panell d'ajuda", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[] { "Anterior", "Acaba"}, "Acaba");
                 }
             }
         });
 
         setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+        //setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
         pack();
         validate();
     }
 
+    /**
+     * Mètode que incialitza la JTable expressions amb les expressions booleanes que hi ha guardades al sistema.
+     * @param expList: List<Pair<String, String>>: Llista de pairs (nomExp+expBool) de les expressions guardades.
+     */
     public void initExp(List<Pair<String, String>> expList){
         for(int i = 0; i < expList.size(); ++i) {
             Pair p = expList.get(i);
             tableModel.addRow(new Object[]{p.x, p.y});
         }
+        contadorExp.setText(Integer.toString(tableModel.getRowCount()));
     }
 }

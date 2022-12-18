@@ -5,5 +5,5 @@ public class EDocumentException extends Exception {
         super("El document existeix.");
     }
 
-    public String toString() { return "Exception: El document no ha d'existir.";}
+    public String toString() { return "El document ja existeix.";}
 }

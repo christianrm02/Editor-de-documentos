@@ -1,6 +1,8 @@
 package presentacio;
 
 import javax.swing.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -21,5 +23,14 @@ public class ViewMostrarCont extends ViewEditar {
         textPane1.setEditable(false);
         desarButton.setVisible(false);
         exportarButton.setVisible(false);
+    }
+
+    @Override
+    protected void modificarTitol() {
+
+    }
+
+
+    protected void modificarAutor() {
     }
 }

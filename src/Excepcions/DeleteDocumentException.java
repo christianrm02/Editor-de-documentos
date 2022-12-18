@@ -7,8 +7,4 @@ public class DeleteDocumentException extends Exception {
 
 
     public String toString() { return "El document no s'ha esborrat, intenta-ho de nou.";}
-
-
-
-
 }

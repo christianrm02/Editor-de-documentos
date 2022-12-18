@@ -167,7 +167,7 @@ public class CtrlDomini {
     }
 
     /**
-     * Mètode per modificar el títol del document amb clau (autor+titol).
+     * Mètode per modificar l'autor del document amb clau (autor+titol).
      * @param autor: String: autor del document.
      * @param titol: String: titol del document.
      * @param newA: String: nou autor que se li vol posar al document.
@@ -289,7 +289,7 @@ public class CtrlDomini {
     }
 
     /**
-     * Mètode per exborrar l'expressió booleana amb nom nom.
+     * Mètode per esborrar l'expressió booleana amb nom nom.
      * @param nom: String: nom de l'expressió booleana a esborrar.
      */
     public void deleteExpressioBooleana(String nom) {

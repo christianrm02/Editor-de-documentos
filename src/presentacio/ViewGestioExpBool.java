@@ -7,26 +7,61 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.util.List;
 
 import static javax.swing.SwingUtilities.isRightMouseButton;
 
+/**
+ * Vista amb la qual es fan les gestions sobre les expressions booleanes.
+ * @author Christian Rivero
+ */
 public class ViewGestioExpBool extends JFrame{
+    /**
+     * Panell principal de la vista.
+     */
     private JPanel panel1;
+    /**
+     * Panell on s’ubica la JTable on es llisten les expressions booleanes hi ha al
+     * sistema (nomExpressió+expressió).
+     */
     private JPanel tablePanel;
+    /**
+     * Botó per afegir una nova expressió booleana al sistema.
+     */
     private JButton novaExpressioBooleanaButton;
+    /**
+     * Botó per mostrar una sèrie de popups amb indicacions de les funcions de cada botó i
+     * acció possible a la vista.
+     */
     private JButton ajudaButton;
+    /**
+     * Botó per esborrar el conjunt d’expressions seleccionades.
+     */
     private JButton esborrarExpressionsSeleccionadesButton;
+    /**
+     * Botó per tancar aquesta vista i tornar a la vista principal.
+     */
     private JButton enrereButton;
+    /**
+     * Label on indiquem el nombre d'expressions booleanes del sistema en tot moment.
+     */
     private JLabel contadorExp;
+    /**
+     * DefaultTableModel necessaria per crear la JTable de les expressions.
+     */
     private DefaultTableModel tableModel;
-
+    /**
+     * Objecte this, necessari per poder passa-ho com a paràmetre als actionListeners.
+     */
     private ViewGestioExpBool exp = this;
 
+    /**
+     * Creadora única
+     * @param documents: JTable: taula dels documents, per tal de poder clicar en la row pertinent
+     *                 si es fan les cerques per expressió.
+     * @param cp: CtrlPresentacio: instància del controlador de presentació.
+     */
     public ViewGestioExpBool(JTable documents, CtrlPresentacio cp) {
         setContentPane(panel1);
         setSize(800, 500);
@@ -57,9 +92,9 @@ public class ViewGestioExpBool extends JFrame{
         JScrollPane tableScroll = new JScrollPane(expressions);
         tablePanel.add(tableScroll, BorderLayout.CENTER);
 
-        expressions.getColumnModel().getColumn(0).setCellRenderer(new GestioCell("text"));
-        expressions.getColumnModel().getColumn(1).setCellRenderer(new GestioCell("text"));
-        expressions.getColumnModel().getColumn(2).setCellRenderer(new GestioCell("icon"));
+        expressions.getColumnModel().getColumn(0).setCellRenderer(new GestioCell());
+        expressions.getColumnModel().getColumn(1).setCellRenderer(new GestioCell());
+        expressions.getColumnModel().getColumn(2).setCellRenderer(new GestioCell());
         expressions.setRowHeight(25);
         expressions.getColumnModel().getColumn(0).setPreferredWidth(100);
         expressions.getColumnModel().getColumn(1).setPreferredWidth(100);
@@ -307,13 +342,13 @@ public class ViewGestioExpBool extends JFrame{
             }
         });
 
-        /*addWindowListener(new WindowAdapter() {
+        addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
-                //setVisible(false); //HACE FALTA??
+                cp.tancarAplicacio();
                 dispose();
                 //cp.mostraViewPrincipal();
             }
-        });*/
+        });
 
         ajudaButton.addActionListener(new ActionListener() {
             @Override
@@ -350,13 +385,17 @@ public class ViewGestioExpBool extends JFrame{
             }
         });
 
-        //setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+        //setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
         pack();
         validate();
     }
 
+    /**
+     * Mètode que incialitza la JTable expressions amb les expressions booleanes que hi ha guardades al sistema.
+     * @param expList: List<Pair<String, String>>: Llista de pairs (nomExp+expBool) de les expressions guardades.
+     */
     public void initExp(List<Pair<String, String>> expList){
         for(int i = 0; i < expList.size(); ++i) {
             Pair p = expList.get(i);

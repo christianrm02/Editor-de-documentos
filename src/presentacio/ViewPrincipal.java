@@ -10,10 +10,7 @@ import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.io.File;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -23,23 +20,76 @@ import java.util.List;
 
 import static javax.swing.SwingUtilities.isRightMouseButton;
 
+/**
+ * És la vista principal del programa, la que apareix quan s’inicia l’aplicació.
+ * Mostra la llista dels documents (títols+autors) i et deixa obrir-los, filtrar-los, i
+ * altres opcions sobre ells. Des d’aquesta s’obren les altres vistes mitjançant crides
+ * al CtrlPresentacio.
+ * @author Christian Rivero
+ */
 public class ViewPrincipal extends JFrame {
+    /**
+     * Panell principal de la vista.
+     */
     private JPanel panel1;
+    /**
+     * Botó per crear un document i afegir-ho al sistema.
+     */
     private JButton creaButton;
+    /**
+     * Botó per importar un document de tipus txt o xml i afegir-ho al sistema.
+     */
     private JButton importaButton;
+    /**
+     * Botó per mostrar una sèrie de popups amb indicacions de les funcions de cada botó
+     * i acció possible a la vista.
+     */
     private JButton ajudaButton;
+    /**
+     * Panell on s’ubica la JTable on es llisten els documents que hi ha al sistema
+     * (autor+títol).
+     */
     private JPanel tablePanel;
+    /**
+     * Botó que obre la vista de ViewGestExpBool.
+     */
     private JButton gestioExpBoolButton;
+    /**
+     * Botó que mostra un popup amb els diferents tipus de cerca sobre documents que hi ha.
+     */
     private JButton busquedaButton;
+    /**
+     * Botó per esborrar un conjunt de documents seleccionats.
+     */
     private JButton esborrarDocsButton;
+    /**
+     * Label on indiquem el nombre de documents del sistema en tot moment.
+     */
     private JLabel contadorDocs;
+    /**
+     * Int que indica quina ha sigut l’anterior columna del header del JTable
+     * dels documents pulsada. Pot ser 0 o 1 (columnes que permeten l’ordenació) i si
+     * es prem dues vegades la mateixa columna seguida, es posa a -1.
+     */
     private int columnRepetida;
+    /**
+     * DefaultTableModel necessaria per crear la JTable dels documents.
+     */
     private DefaultTableModel tableModel;
+    /**
+     * JTable que mostra els documents a la vista (títols + autors).
+     */
     private JTable documents;
+    /**
+     * Objecte this, necessari per poder passa-ho com a paràmetre als actionListeners.
+     */
+    private ViewPrincipal viewPrin = this;
 
-    private ViewPrincipal prin = this;
 
-
+    /**
+     * Creadora única
+     * @param cp: CtrlPresentacio: instància del controlador de presentació.
+     */
     public ViewPrincipal(CtrlPresentacio cp) {
         columnRepetida = -1;
         setContentPane(panel1);
@@ -50,12 +100,11 @@ public class ViewPrincipal extends JFrame {
         setVisible(true);
 
         String[] colums = {"Títols", "Autors", "Darrera modificació", "Opcions"};
-        List<Pair<String, String>> documentsList = new ArrayList<>();
-        Object[][] documentsObj = new Object[documentsList.size()][2];
-        for(int i = 0; i < documentsList.size(); ++i) {
+        Object[][] documentsObj = new Object[0][3];
+        /*for(int i = 0; i < documentsList.size(); ++i) {
             Object[] document = {documentsList.get(i).y, documentsList.get(i).x};
             documentsObj[i] = document;
-        }
+        }*/
 
         tableModel = new DefaultTableModel(documentsObj, colums) {
             @Override
@@ -65,36 +114,50 @@ public class ViewPrincipal extends JFrame {
         };
         documents = new JTable(tableModel);
 
-        documents.setAutoCreateRowSorter(true);
+        //documents.setAutoCreateRowSorter(true);
         TableRowSorter<TableModel> sorter = new TableRowSorter<>(documents.getModel());
         documents.setRowSorter(sorter);
         List<RowSorter.SortKey> sortKeys = new ArrayList<>();
         sorter.setSortKeys(sortKeys);
+        sorter.setSortable(3, false);
 
         JTableHeader header = documents.getTableHeader();
         header.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 Point point = e.getPoint();
                 int column = documents.columnAtPoint(point);
-                sortKeys.clear();
-                if (columnRepetida != 1 && column == 1) {
-                    sortKeys.add(new RowSorter.SortKey(1, SortOrder.ASCENDING));
-                    sortKeys.add(new RowSorter.SortKey(0, SortOrder.ASCENDING));
-                    columnRepetida = column;
-                } else if (columnRepetida != -0 && column == 0) {
-                    sortKeys.add(new RowSorter.SortKey(0, SortOrder.ASCENDING));
-                    sortKeys.add(new RowSorter.SortKey(1, SortOrder.ASCENDING));
-                    columnRepetida = column;
-                } else if (columnRepetida == 1 && column == 1) {
-                    sortKeys.add(new RowSorter.SortKey(1, SortOrder.DESCENDING));
-                    sortKeys.add(new RowSorter.SortKey(0, SortOrder.DESCENDING)); //ASCENDING
-                    columnRepetida = -1;
-                } else if (columnRepetida == 0 && column == 0) {
-                    sortKeys.add(new RowSorter.SortKey(0, SortOrder.DESCENDING));
-                    sortKeys.add(new RowSorter.SortKey(1, SortOrder.DESCENDING)); //ASCENDING
-                    columnRepetida = -1;
+                if(column != 3) {
+                    sortKeys.clear();
+                    if (columnRepetida != 0 && column == 0) { //titulo, autor
+                        sortKeys.add(new RowSorter.SortKey(0, SortOrder.ASCENDING));
+                        sortKeys.add(new RowSorter.SortKey(1, SortOrder.ASCENDING));
+                        columnRepetida = column;
+                    }else if (columnRepetida != 1 && column == 1) { //autor, titulo
+                        sortKeys.add(new RowSorter.SortKey(1, SortOrder.ASCENDING));
+                        sortKeys.add(new RowSorter.SortKey(0, SortOrder.ASCENDING));
+                        columnRepetida = column;
+                    }  else if (columnRepetida != 2 && column == 2) { //data, autor, titulo
+                        sortKeys.add(new RowSorter.SortKey(2, SortOrder.ASCENDING));
+                        sortKeys.add(new RowSorter.SortKey(1, SortOrder.ASCENDING));
+                        sortKeys.add(new RowSorter.SortKey(0, SortOrder.ASCENDING));
+                        columnRepetida = column;
+                    } else if (columnRepetida == 0 && column == 0) { //titulo, autor
+                        sortKeys.add(new RowSorter.SortKey(0, SortOrder.DESCENDING));
+                        sortKeys.add(new RowSorter.SortKey(1, SortOrder.DESCENDING));
+                        columnRepetida = -1;
+                    }else if (columnRepetida == 1 && column == 1) { //autor, titulo
+                        sortKeys.add(new RowSorter.SortKey(1, SortOrder.DESCENDING));
+                        sortKeys.add(new RowSorter.SortKey(0, SortOrder.DESCENDING));
+                        columnRepetida = -1;
+                    }   else if (columnRepetida == 2 && column == 2) { //data, autor, titulo
+                        sortKeys.add(new RowSorter.SortKey(2, SortOrder.DESCENDING));
+                        sortKeys.add(new RowSorter.SortKey(1, SortOrder.DESCENDING));
+                        sortKeys.add(new RowSorter.SortKey(0, SortOrder.DESCENDING));
+                        columnRepetida = -1;
+                    }
+                    sorter.setSortable(3, false);
+                    sorter.setSortKeys(sortKeys);
                 }
-                sorter.setSortKeys(sortKeys);
             }
         });
 
@@ -102,10 +165,10 @@ public class ViewPrincipal extends JFrame {
         JScrollPane tableScroll = new JScrollPane(documents);
         tablePanel.add(tableScroll, BorderLayout.CENTER);
 
-        documents.getColumnModel().getColumn(0).setCellRenderer(new GestioCell("text"));
-        documents.getColumnModel().getColumn(1).setCellRenderer(new GestioCell("text"));
-        documents.getColumnModel().getColumn(2).setCellRenderer(new GestioCell("int"));
-        documents.getColumnModel().getColumn(3).setCellRenderer(new GestioCell("icon"));
+        documents.getColumnModel().getColumn(0).setCellRenderer(new GestioCell());
+        documents.getColumnModel().getColumn(1).setCellRenderer(new GestioCell());
+        documents.getColumnModel().getColumn(2).setCellRenderer(new GestioCell());
+        documents.getColumnModel().getColumn(3).setCellRenderer(new GestioCell());
         documents.setRowHeight(25);
         documents.getColumnModel().getColumn(0).setPreferredWidth(100);
         documents.getColumnModel().getColumn(1).setPreferredWidth(100);
@@ -214,7 +277,7 @@ public class ViewPrincipal extends JFrame {
                             return false;
                         }
                     };
-                    JPanel panelBorrar = new showingDocsTable(tm, documents, cp, false, prin);
+                    JPanel panelBorrar = new showingDocsTable(tm, documents, cp, false, viewPrin);
                     panelBorrar.add(new JLabel("S'esborraran els següents documents: "), BorderLayout.NORTH);
                     panelBorrar.add(new JLabel("Estàs d'acord?"), BorderLayout.SOUTH);
 
@@ -269,14 +332,9 @@ public class ViewPrincipal extends JFrame {
                     if(opt2 == 0) {
                         boolean modificat = cp.modificarTitol(autor, titol, newT.getText()); //autor, titol, newT
                         if(modificat) {
-                            //System.out.println(documents.getSelectedRow());
-                            //tableModel.removeRow(expressions.);
+                            String data = (String) documents.getValueAt(documents.getSelectedRow(), 2);
                             tableModel.removeRow(documents.convertRowIndexToModel(documents.getSelectedRow()));
-                            tableModel.addRow(new Object[]{newT.getText(), autor, "nop"});
-                            /*documents.setValueAt(newT.getText(), documents.getSelectedRow(), 0);
-                            newOrder(anteriorColumnPuls);
-                            newOrder(anteriorColumnPuls);
-                            JOptionPane.showMessageDialog(null, "S'ha modificat el títol a " + newT.getText() + ".");*/
+                            tableModel.addRow(new Object[]{newT.getText(), autor, data});
                         }
                     }
                 }
@@ -310,8 +368,9 @@ public class ViewPrincipal extends JFrame {
                     if (opt2 == 0) {
                         boolean modificat = cp.modificarAutor(autor, titol, newA.getText()); //autor, titol, newA
                         if (modificat) {
+                            String data = (String) documents.getValueAt(documents.getSelectedRow(), 2);
                             tableModel.removeRow(documents.convertRowIndexToModel(documents.getSelectedRow()));
-                            tableModel.addRow(new Object[]{titol, newA.getText(), "nop"});
+                            tableModel.addRow(new Object[]{titol, newA.getText(), data});
                         }
                     }
                 } else if (opt == 0) { //és autor buit
@@ -402,7 +461,7 @@ public class ViewPrincipal extends JFrame {
                         Pair docImp = cp.importaDocument(arxius[i].getAbsolutePath());
                         if(docImp != null) {
                             ++contDocsImp;
-                            tableModel.addRow(new Object[]{docImp.y, docImp.x});
+                            tableModel.addRow(new Object[]{docImp.y, docImp.x, LocalDate.now() + " " + LocalTime.now().truncatedTo(ChronoUnit.SECONDS)});
                         }
                     }
                     JOptionPane.showMessageDialog(null,
@@ -546,7 +605,7 @@ public class ViewPrincipal extends JFrame {
                                 return false;
                             }
                         };
-                        JPanel panelDocs = new showingDocsTable(tm, documents, cp, true, prin);
+                        JPanel panelDocs = new showingDocsTable(tm, documents, cp, true, viewPrin);
                         String estrat = "TF-IDF";
                         if(estrategia) estrat = "TF";
                         JLabel label = new JLabel( "Aquests són els " + num.getValue() +
@@ -592,7 +651,7 @@ public class ViewPrincipal extends JFrame {
                                     return false;
                                 }
                         };
-                        JPanel panelTits = new showingDocsTable(tm, documents, cp, true, prin);
+                        JPanel panelTits = new showingDocsTable(tm, documents, cp, true, viewPrin);
                         JOptionPane.showMessageDialog(null, panelTits, "Títols d'autor", JOptionPane.DEFAULT_OPTION);
                     }
                 }
@@ -631,7 +690,7 @@ public class ViewPrincipal extends JFrame {
                                     return false;
                                 }
                             };
-                            JPanel panelAuts = new showingDocsTable(tm, documents, cp, false, prin);
+                            JPanel panelAuts = new showingDocsTable(tm, documents, cp, false, viewPrin);
                             JOptionPane.showMessageDialog(null, panelAuts, "Autors donat prefix.",
                                     JOptionPane.DEFAULT_OPTION);
                         }
@@ -689,7 +748,7 @@ public class ViewPrincipal extends JFrame {
                                         return false;
                                     }
                             };
-                            JPanel panelDocs = new showingDocsTable(tm, documents, cp, true, prin);
+                            JPanel panelDocs = new showingDocsTable(tm, documents, cp, true, viewPrin);
                             String estrat = "TF-IDF";
                             if(estrategia) estrat = "TF";
                             JLabel label = new JLabel( "Aquests són els " + num.getValue() +
@@ -744,7 +803,7 @@ public class ViewPrincipal extends JFrame {
                                     }
                                 };
 
-                                JPanel panelDocs = new showingDocsTable(tm, documents, cp, true, prin);
+                                JPanel panelDocs = new showingDocsTable(tm, documents, cp, true, viewPrin);
 
                                 opt2 = JOptionPane.showOptionDialog(null, panelDocs,
                                         "Resultats de cerca per expressió", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE,
@@ -839,6 +898,15 @@ public class ViewPrincipal extends JFrame {
             }
         });
 
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                cp.tancarAplicacio();
+                dispose();
+                //cp.mostraViewPrincipal();
+            }
+        });
+
+        setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         validate();
     }
 
@@ -854,6 +922,11 @@ public class ViewPrincipal extends JFrame {
         cp.esborrarDocuments(docsBorrarList);
     }*/
 
+    /**
+     * Mètode per cambiar el títol d'un document obert.
+     * @param newT: String: Nou títol del document obert, el document obert està
+     *            seleccionat en la JTable documents.
+     */
     public void actualitzaTitol(String newT) {
         String autor = (String) documents.getValueAt(documents.getSelectedRow(), 1);
         String data = (String) documents.getValueAt(documents.getSelectedRow(), 2);
@@ -869,6 +942,11 @@ public class ViewPrincipal extends JFrame {
         documents.addRowSelectionInterval(row, row);
     }
 
+    /**
+     * Mètode per cambiar l'autor d'un document obert.
+     * @param newA: String: Nou autor del document obert, el document obert està
+     *            seleccionat en la JTable documents.
+     */
     public void actualitzaAutor(String newA) {
         String titol = (String) documents.getValueAt(documents.getSelectedRow(), 0);
         String data = (String) documents.getValueAt(documents.getSelectedRow(), 2);
@@ -884,36 +962,43 @@ public class ViewPrincipal extends JFrame {
         documents.addRowSelectionInterval(row, row);
     }
 
+    public void actualitzaDarreraModificacio(String date) {
+        String titol = (String) documents.getValueAt(documents.getSelectedRow(), 0);
+        String autor = (String) documents.getValueAt(documents.getSelectedRow(), 1);
+        tableModel.addRow(new Object[]{titol, autor, date});
+        tableModel.removeRow(documents.convertRowIndexToModel(documents.getSelectedRow()));
+        int row = -1;
+        for(int i = 0; i < documents.getRowCount() && row == -1; ++i) {
+            if(((String) documents.getValueAt(i, 0)).equals(titol) && ((String) documents.getValueAt(i, 1)).equals(autor)) {
+                row = i;
+            }
+        }
+        documents.clearSelection();
+        documents.addRowSelectionInterval(row, row);
+    }
+
+    /**
+     * Mètode que retorna el títol del document obert.
+     * @return String: Títol del document obert, el document obert està seleccionat
+     *          a la JTable documents.
+     */
     public String getTitolDocObert() {
         return (String)documents.getValueAt(documents.getSelectedRow(), 0);
     }
 
+    /**
+     * Mètode que retorna l'autor del document obert.
+     * @return String: Autor del document obert, el document obert està seleccionat
+     *          a la JTable documents.
+     */
     public String getAutorDocObert() {
         return (String)documents.getValueAt(documents.getSelectedRow(), 1);
     }
 
-    private void newOrder(int column) {
-        /*sortKeys.clear();
-        if (columnRepetida != 1 && column == 1) {
-            sortKeys.add(new RowSorter.SortKey(1, SortOrder.ASCENDING));
-            sortKeys.add(new RowSorter.SortKey(0, SortOrder.ASCENDING));
-            columnRepetida = column;
-        } else if (columnRepetida != -0 && column == 0) {
-            sortKeys.add(new RowSorter.SortKey(0, SortOrder.ASCENDING));
-            sortKeys.add(new RowSorter.SortKey(1, SortOrder.ASCENDING));
-            columnRepetida = column;
-        } else if (columnRepetida == 1 && column == 1) {
-            sortKeys.add(new RowSorter.SortKey(1, SortOrder.DESCENDING));
-            sortKeys.add(new RowSorter.SortKey(0, SortOrder.DESCENDING)); //ASCENDING
-            columnRepetida = -1;
-        } else if (columnRepetida == 0 && column == 0) {
-            sortKeys.add(new RowSorter.SortKey(0, SortOrder.DESCENDING));
-            sortKeys.add(new RowSorter.SortKey(1, SortOrder.DESCENDING)); //ASCENDING
-            columnRepetida = -1;
-        }
-        sorter.setSortKeys(sortKeys);*/
-    }
-
+    /**
+     * Mètode que incialitza la JTable documents amb els documents que hi ha guardats al sistema.
+     * @param docsList: List<Pair<String, String>>: Llista de pairs (autor+títol) dels documents guardats.
+     */
     public void initDocs(List<Pair<String, String>> docsList){
         for (Pair p : docsList) {
             tableModel.addRow(new Object[]{p.y, p.x});

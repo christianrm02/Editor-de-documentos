@@ -4,6 +4,9 @@ import javax.swing.filechooser.FileSystemView;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 
 /**
  * Vista per editar, exportar i desar les modificacions del document seleccionat a la ViewPrincipal.
@@ -49,13 +52,11 @@ public class ViewEditar extends JFrame {
 
     /**
      * Pregunta a l’usuari si vol desar el document abans de sortir de la vista o tancar el programa. En cas que l’usuari accepti, es guarda el contingut del document a contAct a CtrlDomini, altrament no es guarda.
-     * @param t: String: títol del document.
-     * @param a: String: títol del document.
      * @param contNou: String: contingut actual del document sense desar.
      * @param sortir: boolean:
      * @return int: Es retorna un enter, que si és 0, vol dir que s'ha guardat, altrament vol dir que no s'ha guardat.
      */
-    private int desarAbansDeTancar(String t, String a, String contNou, boolean sortir) {
+    private int desarAbansDeTancar(String contNou, boolean sortir) {
         String frase = "No has desat el document. El vols desar abans de ";
         if (sortir) frase += "tornar a la pantalla d'inici?";
         else frase += "tancar el programa?";
@@ -64,6 +65,7 @@ public class ViewEditar extends JFrame {
             opt = JOptionPane.showConfirmDialog(null, frase, "Desar document", JOptionPane.YES_NO_OPTION, JOptionPane.DEFAULT_OPTION);
             if (opt == 0) {
                 cp.modificarContingut(contNou);
+                cp.actualitzaDarreraModificacio(LocalDate.now() + " " + LocalTime.now().truncatedTo(ChronoUnit.SECONDS));
             }
             else if (opt == 1) {
                 opt2 = JOptionPane.showConfirmDialog(null, "Estàs segur que no vols desar el document?", "Desar document", JOptionPane.YES_NO_OPTION, JOptionPane.DEFAULT_OPTION);
@@ -98,8 +100,7 @@ public class ViewEditar extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String contNou = textPane1.getText();
                 if (!cont.equals(contNou)) {
-                    String au = autor.getText(), ti = titol.getText();
-                    desarAbansDeTancar(au, ti, contNou, true);
+                    desarAbansDeTancar(contNou, true);
                 }
                 cp.desarDocument();
                 cp.tancarDocument();
@@ -116,6 +117,7 @@ public class ViewEditar extends JFrame {
                     cp.modificarContingut(contNou);
                     cont = contNou;
                     JOptionPane.showMessageDialog(null, "El document s'ha desat correctament.");
+                    cp.actualitzaDarreraModificacio(LocalDate.now() + " " + LocalTime.now().truncatedTo(ChronoUnit.SECONDS));
                 }
             }
         });
@@ -185,8 +187,7 @@ public class ViewEditar extends JFrame {
             public void windowClosing(WindowEvent e) {
                 String contNou = textPane1.getText();
                 int opt = 0;
-                String au = autor.getText(), ti = titol.getText();
-                if (!cont.equals(contNou)) opt = desarAbansDeTancar(au, ti, contNou, false);
+                if (!cont.equals(contNou)) opt = desarAbansDeTancar(contNou, false);
                 if (opt == 0 || opt == 1) {
                     cp.desarDocument();
                     cp.tancarAplicacio();
@@ -206,9 +207,9 @@ public class ViewEditar extends JFrame {
                         JOptionPane.DEFAULT_OPTION, JOptionPane.DEFAULT_OPTION, null, opts, opts[0]);
 
                 if(opt == 0 && !titol.getText().equals(newT.getText()) && !newT.getText().equals("")) { // diria q no pot passar a no ser q tanquis
-                    String au = autor.getText(), ti = titol.getText();
-                    int opt2 = JOptionPane.showConfirmDialog(null, "Segur que vols modificar el títol del document " +
-                            ti + " de " + au + " a " + newT.getText() + " ?", "Modificar títol", JOptionPane.YES_NO_OPTION, JOptionPane.DEFAULT_OPTION);
+                    String au = autor.getText();
+                    int opt2 = JOptionPane.showConfirmDialog(null, "El document tindrà el títol: " + newT.getText() +
+                            " i l'autor: " + au + ", estàs d'acord?",  "Modificar títol", JOptionPane.YES_NO_OPTION, JOptionPane.DEFAULT_OPTION);
                     if (opt2 == 0) {
                         boolean valid = cp.actualitzaTitol(newT.getText());
                         if (valid) {
@@ -239,9 +240,9 @@ public class ViewEditar extends JFrame {
                         JOptionPane.DEFAULT_OPTION, JOptionPane.DEFAULT_OPTION, null, opts, opts[0]);
 
                 if(opt == 0 && !autor.getText().equals(newA.getText()) && !newA.getText().equals("")) {
-                    String au = autor.getText(), ti = titol.getText();
-                    int opt2 = JOptionPane.showConfirmDialog(null, "Segur que vols modificar l'autor del document " +
-                            ti + " de " + au + " a " + newA.getText() + " ?", "Modificar autor", JOptionPane.YES_NO_OPTION, JOptionPane.DEFAULT_OPTION);
+                    String ti = titol.getText();
+                    int opt2 = JOptionPane.showConfirmDialog(null, "El document tindrà el títol: " + ti +
+                            " i l'autor: " + newA.getText() + ", estàs d'acord?", "Modificar autor", JOptionPane.YES_NO_OPTION, JOptionPane.DEFAULT_OPTION);
                     if (opt2 == 0) {
                         boolean valid = cp.actualitzaAutor(newA.getText());
                         if(valid) {

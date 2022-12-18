@@ -12,6 +12,7 @@ import java.awt.*;
  */
 public class GestioCell extends DefaultTableCellRenderer {
 
+    private String tipus;
     private Font normal = new Font("Roboto Light", Font.PLAIN, 12);
     private Font bold = new Font("Roboto Light", Font.BOLD, 12);
 
@@ -19,6 +20,10 @@ public class GestioCell extends DefaultTableCellRenderer {
      * Constructor bàsic de la classe
      */
     public GestioCell() {}
+
+    public GestioCell(String tipus) {
+        this.tipus = tipus;
+    }
 
     /**
      * Métode override que retorna el component amb l'estil desitjat.
@@ -39,7 +44,7 @@ public class GestioCell extends DefaultTableCellRenderer {
             this.setBackground(Color.white);
         }
 
-        if (column == 0 || column == 1) {
+        if (tipus.equals("text")) {
             this.setHorizontalAlignment(JLabel.LEFT);
             this.setText((String) value);
             this.setBackground((selected) ? colorFondo : Color.WHITE);
@@ -47,7 +52,7 @@ public class GestioCell extends DefaultTableCellRenderer {
             return this;
         }
 
-        else if (column == 2) {
+        else if (tipus.equals("int")) {
             this.setHorizontalAlignment(JLabel.CENTER);
             this.setText((String) value);
             this.setForeground((selected) ? new Color(255, 255, 255) : new Color(33, 116, 34));
@@ -56,7 +61,7 @@ public class GestioCell extends DefaultTableCellRenderer {
             return this;
         }
 
-        else if (column == 3) {
+        else if (tipus.equals("icon")) {
             JLabel label = new JLabel();
             label.setIcon(new ImageIcon(getClass().getResource("/presentacio/icons/moreOptions3.png")));
             label.setHorizontalAlignment(JLabel.CENTER);

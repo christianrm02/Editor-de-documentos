@@ -44,11 +44,11 @@ public class showingDocsTable extends JPanel {
         table.setAutoCreateRowSorter(true);
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         if (table.getColumnCount() >= 1) {
-            table.getColumnModel().getColumn(0).setCellRenderer(new GestioCell());
+            table.getColumnModel().getColumn(0).setCellRenderer(new GestioCell("text"));
             table.getColumnModel().getColumn(0).setPreferredWidth(100);
         }
         if (table.getColumnCount() >= 2) {
-            table.getColumnModel().getColumn(1).setCellRenderer(new GestioCell());
+            table.getColumnModel().getColumn(1).setCellRenderer(new GestioCell("text"));
             table.getColumnModel().getColumn(1).setPreferredWidth(100);
         }
         /*if (table.getColumnCount() >= 3) {

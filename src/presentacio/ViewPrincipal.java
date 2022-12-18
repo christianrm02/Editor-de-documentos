@@ -93,7 +93,7 @@ public class ViewPrincipal extends JFrame {
     public ViewPrincipal(CtrlPresentacio cp) {
         columnRepetida = -1;
         setContentPane(panel1);
-        setTitle("Documentator");
+        setTitle("Documenteitor");
         setSize(1000, 500);
         setMinimumSize(new Dimension(500, 300));
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -165,10 +165,10 @@ public class ViewPrincipal extends JFrame {
         JScrollPane tableScroll = new JScrollPane(documents);
         tablePanel.add(tableScroll, BorderLayout.CENTER);
 
-        documents.getColumnModel().getColumn(0).setCellRenderer(new GestioCell());
-        documents.getColumnModel().getColumn(1).setCellRenderer(new GestioCell());
-        documents.getColumnModel().getColumn(2).setCellRenderer(new GestioCell());
-        documents.getColumnModel().getColumn(3).setCellRenderer(new GestioCell());
+        documents.getColumnModel().getColumn(0).setCellRenderer(new GestioCell("text"));
+        documents.getColumnModel().getColumn(1).setCellRenderer(new GestioCell("text"));
+        documents.getColumnModel().getColumn(2).setCellRenderer(new GestioCell("int"));
+        documents.getColumnModel().getColumn(3).setCellRenderer(new GestioCell("icon"));
         documents.setRowHeight(25);
         documents.getColumnModel().getColumn(0).setPreferredWidth(100);
         documents.getColumnModel().getColumn(1).setPreferredWidth(100);
@@ -326,9 +326,9 @@ public class ViewPrincipal extends JFrame {
                 String titol = (String) documents.getValueAt(documents.getSelectedRow(), 0);
                 String autor = (String) documents.getValueAt(documents.getSelectedRow(), 1);
 
-                if(opt == 0 && !newT.getText().equals("")) {
+                if(opt == 0 && !newT.getText().equals("") && !newT.getText().equals(titol)) {
                     int opt2 = JOptionPane.showConfirmDialog(null, "El document tindrà el títol: " + newT.getText() +
-                            " i l'autor: " + autor + ", estàs d'acord?", "Modificar títol", JOptionPane.YES_NO_OPTION);
+                            " i l'autor: " + autor + ", estàs d'acord?", "Modificar títol", JOptionPane.YES_NO_OPTION, JOptionPane.DEFAULT_OPTION);
                     if(opt2 == 0) {
                         boolean modificat = cp.modificarTitol(autor, titol, newT.getText()); //autor, titol, newT
                         if(modificat) {
@@ -338,7 +338,9 @@ public class ViewPrincipal extends JFrame {
                         }
                     }
                 }
-                else if(opt == 0) { //es titol buit
+                else if (newT.getText().equals(titol)){
+                    JOptionPane.showMessageDialog(null, "Ya tenia aquell títol.");
+                } else if(opt == 0) { //es titol buit
                     JOptionPane.showMessageDialog(null, "Introdueix un títol vàlid, no es permeten deixar camps buits.");
                 }
                 /*else {
@@ -362,9 +364,9 @@ public class ViewPrincipal extends JFrame {
                 String titol = (String) documents.getValueAt(documents.getSelectedRow(), 0);
                 String autor = (String) documents.getValueAt(documents.getSelectedRow(), 1);
 
-                if (opt == 0 && !newA.getText().equals("")) {
+                if (opt == 0 && !newA.getText().equals("") && !newA.getText().equals(titol)) {
                     int opt2 = JOptionPane.showConfirmDialog(null, "El document tindrà el títol: " + titol +
-                            " i l'autor: " + newA.getText() + ", estàs d'acord?", "Modificar autor", JOptionPane.YES_NO_OPTION);
+                            " i l'autor: " + newA.getText() + ", estàs d'acord?", "Modificar autor", JOptionPane.YES_NO_OPTION, JOptionPane.DEFAULT_OPTION);
                     if (opt2 == 0) {
                         boolean modificat = cp.modificarAutor(autor, titol, newA.getText()); //autor, titol, newA
                         if (modificat) {
@@ -373,6 +375,8 @@ public class ViewPrincipal extends JFrame {
                             tableModel.addRow(new Object[]{titol, newA.getText(), data});
                         }
                     }
+                } else if (newA.getText().equals(titol)){
+                    JOptionPane.showMessageDialog(null, "Ya tenia aquell autor.");
                 } else if (opt == 0) { //és autor buit
                     JOptionPane.showMessageDialog(null, "Introdueix un autor vàlid, no es permeten deixar camps buits.");
                 }
@@ -385,7 +389,7 @@ public class ViewPrincipal extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 int opt = JOptionPane.showConfirmDialog(null, "Segur que vols borrar el document amb títol: " +
                         documents.getValueAt(documents.getSelectedRow(), 0) + " i autor: " +
-                        documents.getValueAt(documents.getSelectedRow(), 1) + " permanentment?", "Esborrar document", JOptionPane.YES_NO_OPTION);
+                        documents.getValueAt(documents.getSelectedRow(), 1) + " permanentment?", "Esborrar document", JOptionPane.YES_NO_OPTION, JOptionPane.DEFAULT_OPTION);
                 if (opt == 0) {
                     String titol = (String) documents.getValueAt(documents.getSelectedRow(), 0);
                     String autor = (String) documents.getValueAt(documents.getSelectedRow(), 1);

@@ -19,6 +19,10 @@ public class ExpressioBooleana {
 
         this.exp = exp;
         List<String> llistaExp = crearLlista();
+/*
+        for (String s:llistaExp) System.out.print(s + ", ");
+        System.out.println();*/
+
         this.expA = new Tree(llistaExp);
     }
 
@@ -79,6 +83,7 @@ public class ExpressioBooleana {
             ++i;
         }
         if (parentesis_oberts > 0) throw new ExpBoolNoValidaException(); //mal parentitzat
+        if (exp.charAt(i-1) == '!') throw new ExpBoolNoValidaException(); //! incorrecte
     }
 
     private boolean es_operador (char c) {
@@ -134,7 +139,14 @@ public class ExpressioBooleana {
                 llista.add("|");
                 ++i;
             }
-            else if (exp.charAt(i) == '!') llista.add("!");
+            else if (exp.charAt(i) == '!') {
+                if (paraula) {
+                    llista.add(s1);
+                    paraula = false;
+                }
+                llista.add("!");
+                s1 = "";
+            }
             else if (exp.charAt(i) == '(') llista.add("(");
             else if (exp.charAt(i) == ')') {
                 if (paraula) {

@@ -1,5 +1,6 @@
 package persistencia;
 import excepcions.DeleteDocumentException;
+import excepcions.FormatInvalid;
 import transversal.Pair;
 
 import java.io.IOException;
@@ -11,11 +12,11 @@ public class CtrlPersistencia {
     public CtrlPersistencia() {
 
     }
-    public String[] importaDocument(String path) throws IOException {
+    public String[] importaDocument(String path) throws IOException, FormatInvalid {
         return GestorDocuments.ImportaDocument(path);
     }
 
-    public void exportaDocument(String autor, String titol, String path) throws IOException {
+    public void exportaDocument(String autor, String titol, String path) throws IOException, FormatInvalid {
         GestorDocuments.ExportaDocument(autor, titol, path);
     }
 

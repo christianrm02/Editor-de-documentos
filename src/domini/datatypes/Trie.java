@@ -135,7 +135,7 @@ public class Trie implements Serializable{
             if (!current.isEndWord) {
                 return false;
             }
-            current.isEndWord = false;
+            if(current.titols.isEmpty()) current.isEndWord = false;
             return current.children.isEmpty() && current.titols.isEmpty();
         }
 

@@ -87,4 +87,28 @@ public class TrieTest {
         Set<String> res2 = trie.GetTitolsAutor(autor);
         assertEquals(expected2, res2);
     }
+
+    @Test
+    public void testActualitzarAutorGetAutors() {
+        Trie trie = new Trie();
+
+        String autor = "a";
+        String autor2 = "Po";
+        String titol1 = "a";
+        String titol2 = "b";
+
+        trie.AfegirDoc(autor, titol1);
+        trie.AfegirDoc(autor, titol2);
+        trie.AfegirDoc(autor2, titol1);
+
+        Set<String> expected1 = new HashSet<String>(Arrays.asList(autor, autor2));
+        Set<String> res1 = trie.SearchWordsPrefix("");
+        assertEquals(expected1, res1);
+
+        trie.ActualitzarAutor(autor, titol2, autor2);
+
+        Set<String> expected2 = new HashSet<String>(Arrays.asList(autor, autor2));
+        Set<String> res2 = trie.SearchWordsPrefix("");
+        assertEquals(expected2, res2);
+    }
 }

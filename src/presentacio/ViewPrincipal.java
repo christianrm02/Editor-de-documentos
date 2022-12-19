@@ -202,7 +202,7 @@ public class ViewPrincipal extends JFrame {
         popOptDoc.add(mostrarD);
         popOptDoc.add(borrarD);
 
-        /* popup boton derecho sobre seleccion -> borrar */
+        /* popup boton derecho sobre seleccion -> esborrar */
         JMenuItem borrarDocsSeleccionats = new JMenuItem("Esborrar documents seleccionats");
         JPopupMenu popBorrarDocs = new JPopupMenu();
         popBorrarDocs.add(borrarDocsSeleccionats);
@@ -295,9 +295,8 @@ public class ViewPrincipal extends JFrame {
                             }
                             selectedRow = documents.getSelectedRows();
                         }
-
-                        JOptionPane.showMessageDialog(null, "S'han esborrat correctament " + contDocsElimOk + " documents.", "Esborrar documents seleccionats", JOptionPane.DEFAULT_OPTION);
                         contadorDocs.setText(Integer.toString(documents.getRowCount()));
+                        JOptionPane.showMessageDialog(null, "S'han esborrat correctament " + contDocsElimOk + " documents.", "Esborrar documents seleccionats", JOptionPane.DEFAULT_OPTION);
                     } else { //misstage no s'han borrat
                         JOptionPane.showMessageDialog(null, "No s'ha esborrat cap document.", "Esborrar documents seleccionats", JOptionPane.DEFAULT_OPTION);
                     }
@@ -307,7 +306,7 @@ public class ViewPrincipal extends JFrame {
             }
         };
 
-        /* Se puede borrar desde el boton o con boton derecho sobre selección */
+        /* Se puede esborrar desde el boton o con boton derecho sobre selección */
         borrarDocsSeleccionats.addActionListener(esborrarDocsSeleccionatsAction);
         esborrarDocsButton.addActionListener(esborrarDocsSeleccionatsAction);
 
@@ -339,7 +338,7 @@ public class ViewPrincipal extends JFrame {
                     }
                 }
                 else if (newT.getText().equals(titol)){
-                    JOptionPane.showMessageDialog(null, "Ya tenia aquell títol.");
+                    JOptionPane.showMessageDialog(null, "Ja és el títol del document.");
                 } else if(opt == 0) { //es titol buit
                     JOptionPane.showMessageDialog(null, "Introdueix un títol vàlid, no es permeten deixar camps buits.");
                 }
@@ -376,18 +375,18 @@ public class ViewPrincipal extends JFrame {
                         }
                     }
                 } else if (newA.getText().equals(titol)){
-                    JOptionPane.showMessageDialog(null, "Ya tenia aquell autor.");
+                    JOptionPane.showMessageDialog(null, "Ja és l'autor del document.");
                 } else if (opt == 0) { //és autor buit
                     JOptionPane.showMessageDialog(null, "Introdueix un autor vàlid, no es permeten deixar camps buits.");
                 }
             }
         });
 
-        /*borrar único doc*/
+        /*esborrar único doc*/
         borrarD.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int opt = JOptionPane.showConfirmDialog(null, "Segur que vols borrar el document amb títol: " +
+                int opt = JOptionPane.showConfirmDialog(null, "Segur que vols esborrar el document amb títol: " +
                         documents.getValueAt(documents.getSelectedRow(), 0) + " i autor: " +
                         documents.getValueAt(documents.getSelectedRow(), 1) + " permanentment?", "Esborrar document", JOptionPane.YES_NO_OPTION, JOptionPane.DEFAULT_OPTION);
                 if (opt == 0) {
@@ -395,8 +394,8 @@ public class ViewPrincipal extends JFrame {
                     String autor = (String) documents.getValueAt(documents.getSelectedRow(), 1);
                     if(cp.esborrarDocument(autor, titol)) {
                         tableModel.removeRow(documents.getSelectedRow());
-                        JOptionPane.showMessageDialog(null, "S'ha esborrat el document correctament");
                         contadorDocs.setText(Integer.toString(documents.getRowCount()));
+                        JOptionPane.showMessageDialog(null, "S'ha esborrat el document correctament");
                     }
                 } else {
                     JOptionPane.showMessageDialog(null, "No s'ha esborrat el document");
@@ -468,14 +467,9 @@ public class ViewPrincipal extends JFrame {
                             tableModel.addRow(new Object[]{docImp.y, docImp.x, LocalDate.now() + " " + LocalTime.now().truncatedTo(ChronoUnit.SECONDS)});
                         }
                     }
+                    contadorDocs.setText(Integer.toString(documents.getRowCount()));
                     JOptionPane.showMessageDialog(null,
                             "S'han importat correctament " + contDocsImp + " documents.");
-                    /*List<Pair<String, String>> newDocs = cp.importaDocuments(paths);
-                    for(int i = 0; i < newDocs.size(); ++i) {
-                        Pair p = newDocs.get(i);
-                        tableModel.addRow(new Object[]{p.y, p.x});
-                    }*/
-                    contadorDocs.setText(Integer.toString(documents.getRowCount()));
                 }
             }
         });
@@ -885,7 +879,7 @@ public class ViewPrincipal extends JFrame {
                     else if(count == 5) message = "Amb els 3 punts verticals de cada document s'obre un panell d'opcions pel document.";
                     else if(count == 6) message = "           També hi ha les funcionalitats de poder fer clic dret sobre un document per mostrar les seves opcions " +
                             "\n(equival als 3 punts verticals). I la funcionalitat de fer clic dret sobre un dels documents seleccionats i es mostrarà " +
-                            "\n                                                         un botó per borrar tots els documents seleccionats.";
+                            "\n                                                         un botó per esborrar tots els documents seleccionats.";
                     else if(count == 7) message = "Es poden ordenar els documents clicant en els noms de les columnes de la taula (\"Títols\"," +
                             "\n                                                       \"Autors\" i \"Darrera modificació\").";
                     else if(count == 8) message = "Els documents mostrats a les cerques, es poden obrir per editar fent doble clic a sobre.";
@@ -1018,7 +1012,7 @@ public class ViewPrincipal extends JFrame {
                 if (keyCode == KeyEvent.VK_CLEAR) {
                     System.out.println("Up SUPR is pressed!");
                 } else if (keyCode == KeyEvent.VK_DELETE) {
-                    System.out.println("Up BORRAR is pressed!");
+                    System.out.println("Up esborrar is pressed!");
                 } else if (keyCode == KeyEvent.VK_A) {
                     System.out.println("Up A is pressed!");
                 }

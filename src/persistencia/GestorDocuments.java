@@ -1,6 +1,8 @@
 package persistencia;
 
 import excepcions.DeleteDocumentException;
+import excepcions.FormatInvalid;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
@@ -24,7 +26,7 @@ import java.util.Objects;
 public class GestorDocuments {
     
     //Retorna autor, titol i contingut del document carregat i desa el contingut a l'espai de disc del programa
-    public static String[] ImportaDocument(String path) throws IOException {
+    public static String[] ImportaDocument(String path) throws IOException, FormatInvalid {
         String[] doc = new String[3];
         String format = getFormat(path);
 
@@ -32,16 +34,15 @@ public class GestorDocuments {
             doc = loadTXT(path);
             //Desem el contingut a disc local
             DesaContingut(doc[0], doc[1], doc[2]);
-        }
-        else if(format.equals("xml") || format.equals("XML")) {
+        } else if(format.equals("xml") || format.equals("XML")) {
             doc = loadXML(path);
             //Desem el contingut a disc local
             DesaContingut(doc[0], doc[1], doc[2]);
-        }
+        } else throw new FormatInvalid();
         return doc;
     }
 
-    public static void ExportaDocument(String autor, String titol, String path) throws IOException {
+    public static void ExportaDocument(String autor, String titol, String path) throws IOException, FormatInvalid {
         //Obtenim el contingut de disc local
         String contingut = GetContingut(autor, titol);
         if(contingut == null) return;
@@ -51,6 +52,7 @@ public class GestorDocuments {
         //Exportem el fitxer
         if(format.equals("txt")) writeTXT(autor, titol, contingut, path);
         else if(format.equals("xml")) writeXML(autor, titol, contingut, path);
+        else throw new FormatInvalid();
     }
 
     public static String GetContingut(String autor, String titol) throws IOException {

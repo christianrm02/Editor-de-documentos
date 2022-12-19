@@ -8,7 +8,6 @@ import java.util.List;
 
 import org.junit.Test;
 
-import domini.controladores.CtrlDomini;
 import domini.controladores.CtrlIndex;
 import domini.datatypes.Utility;
 import persistencia.GestorIndexs;

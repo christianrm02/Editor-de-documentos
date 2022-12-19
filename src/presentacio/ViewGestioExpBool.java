@@ -245,7 +245,7 @@ public class ViewGestioExpBool extends JFrame{
                         if(valida) {
                             //expressions.setValueAt(newExp, expressions.getSelectedRow(), 1);
                             tableModel.addRow(new Object[]{expressions.getValueAt(expressions.getSelectedRow(), 0), newExp.getText()});
-                            tableModel.removeRow(expressions.getSelectedRow());
+                            tableModel.removeRow(expressions.convertRowIndexToModel(expressions.getSelectedRow()));
                             JOptionPane.showMessageDialog(null, "S'ha modificat correctament l'expressió");
                         }
                     }
@@ -388,7 +388,6 @@ public class ViewGestioExpBool extends JFrame{
         setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         //setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
-        pack();
         validate();
     }
 

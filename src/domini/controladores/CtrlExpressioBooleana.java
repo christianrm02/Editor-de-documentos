@@ -72,6 +72,15 @@ public class CtrlExpressioBooleana {
         }
     }
 
+    //Retorna una llista dels documents que contenen les frases que compleixen l'expressió booleana amb nom nom_exp
+    public List<Pair<String, String>> cercarExpressioBooleanaExistent(String nom_exp, CtrlIndex ci) {
+        ExpressioBooleana expB = expressions.get(nom_exp);
+        Tree expTree = expB.getExpA();
+        Set<Integer> frases = cercaExpBol(expTree.root, ci);
+        return ci.GetDocuments(frases);
+    }
+
+
     //Retorna una llista dels documents que contenen les frases que compleixen l'expressió booleana exp
     public List<Pair<String, String>> cercarExpressioBooleana(String exp, CtrlIndex ci) throws ExpBoolNoValidaException {
         ExpressioBooleana expB = new ExpressioBooleana(exp);

@@ -42,10 +42,22 @@ public class CtrlPresentacio {
      */
     public void mostraViewPrincipal(){
         if(viewPrincipal == null) {
-            viewPrincipal = new ViewPrincipal(this); //si paso instancia este metodo tiene q no puede ser static pero como el viewPrincipal es static, y esta func es llama desde ahi, esta también tiene q ser static, por lo q no puedo pasar this
+            viewPrincipal = new ViewPrincipal(this);
             cd = new CtrlDomini();
-            List<Pair<String, String>> docs = cd.getTitolsAutors();
-            viewPrincipal.initDocs(docs);
+            List<Pair<String, String>> docs = new ArrayList<>();
+            try {
+                docs = cd.init();
+            }
+            catch (IOException e) {
+                //JOptionPane.showMessageDialog(null, "No s'ha pogut obrir l'aplicació.", "Error obrir", JOptionPane.ERROR_MESSAGE);
+                popupException(e.toString(), "Error obrir programa");
+                docs = null;
+            }
+            catch (ExpBoolNoValidaException e) { //PORQUE THROWEA ESTA EXCEPCIÓN?
+                popupException(e.toString(), "Error obrir programa");
+                docs = null;
+            }
+            if(docs != null) viewPrincipal.initDocs(docs);
         }
         else viewPrincipal.setVisible(true);
     }
@@ -88,13 +100,13 @@ public class CtrlPresentacio {
      */
     public void tancarAplicacio() {
         try {
-            System.out.println("Tancant aplicació...Guardant documents i expressions...");
+            //System.out.println("Tancant aplicació...Guardant documents i expressions...");
             cd.tancar();
             System.exit(0); //dudas
         }
         catch(IOException e) {
-            JOptionPane.showMessageDialog(null, "No s'ha pogut tancar l'aplicació.",
-                    "Error tancar", JOptionPane.ERROR_MESSAGE);
+            //JOptionPane.showMessageDialog(null, "No s'ha pogut tancar l'aplicació.", "Error tancar", JOptionPane.ERROR_MESSAGE);
+            popupException(e.toString(), "Error tancar programa");
         }
     }
 
@@ -157,8 +169,8 @@ public class CtrlPresentacio {
             cont = cd.getContingut(autor, titol);
         }
         catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "No s'ha pogut obtenir el contingut del document.",
-                    "Error obtenció contingut", JOptionPane.ERROR_MESSAGE);
+            //JOptionPane.showMessageDialog(null, "No s'ha pogut obtenir el contingut del document.", "Error obtenció contingut", JOptionPane.ERROR_MESSAGE);
+            popupException(e.toString(), "Error obtenir contingut");
         }
         return cont;
     }
@@ -176,8 +188,8 @@ public class CtrlPresentacio {
             mostraViewEditar(titol, autor, cont);
         }
         catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "No s'ha pogut obrir el document.",
-                    "Error obrir document", JOptionPane.ERROR_MESSAGE);
+            //JOptionPane.showMessageDialog(null, "No s'ha pogut obrir el document.", "Error obrir document", JOptionPane.ERROR_MESSAGE);
+            popupException(e.toString(), "Error obrir document");
         }
         return cont;
     }
@@ -200,15 +212,14 @@ public class CtrlPresentacio {
         try {
             cd.crearDocument(autor, titol);
         }
-        catch (EDocumentException | IOException e){
-            if(e instanceof EDocumentException) {
-                JOptionPane.showMessageDialog(null, "Ja existeix un document amb aquell títol i autor.",
-                        "Error creació document", JOptionPane.ERROR_MESSAGE);
-            }
-            else {
-                JOptionPane.showMessageDialog(null, "Hi ha hagut un error en la creació del document.",
-                        "Error creació document", JOptionPane.ERROR_MESSAGE);
-            }
+        catch (EDocumentException e){
+            //JOptionPane.showMessageDialog(null, "Ja existeix un document amb aquell títol i autor.", "Error creació document", JOptionPane.ERROR_MESSAGE);
+            popupException(e.toString(), "Error crear document");
+            valid = false;
+        }
+        catch(IOException e) {
+            JOptionPane.showMessageDialog(null, "Hi ha hagut un error en la creació del document.", "Error creació document", JOptionPane.ERROR_MESSAGE);
+            popupException(e.toString(), "Error crear document");
             valid = false;
         }
         return valid;
@@ -222,8 +233,8 @@ public class CtrlPresentacio {
             cd.desarDocument();
         }
         catch (IOException e){
-            JOptionPane.showMessageDialog(null, "Hi ha hagut un error al desar el document.",
-                    "Error desar document", JOptionPane.ERROR_MESSAGE);
+            //JOptionPane.showMessageDialog(null, "Hi ha hagut un error al desar el document.", "Error desar document", JOptionPane.ERROR_MESSAGE);
+            popupException(e.toString(), "Error desar document");
         }
     }
 
@@ -238,15 +249,19 @@ public class CtrlPresentacio {
         try {
             docImp = cd.importarDocument(path);
         }
-        catch (EDocumentException | IOException e){
-            if(e instanceof EDocumentException) {
-                JOptionPane.showMessageDialog(null, "Ja existeix un document amb aquell títol i autor.",
-                        "Error importar document", JOptionPane.ERROR_MESSAGE);
-            }
-            else {
-                JOptionPane.showMessageDialog(null, "Hi ha hagut un error al importar el document.",
-                        "Error importar document", JOptionPane.ERROR_MESSAGE);
-            }
+        catch (EDocumentException e){
+            //JOptionPane.showMessageDialog(null, "Ja existeix un document amb aquell títol i autor.", "Error importar document", JOptionPane.ERROR_MESSAGE);
+            popupException(e.toString(), "Error importar document");
+            docImp = null;
+        }
+        catch(IOException e) {
+            //JOptionPane.showMessageDialog(null, "Hi ha hagut un error al importar el document.","Error importar document", JOptionPane.ERROR_MESSAGE);
+            popupException(e.toString(), "Error importar document");
+            docImp = null;
+        }
+        catch(FormatInvalid e) {
+            //JOptionPane.showMessageDialog(null, "S'ha seleccionat un format que no és vàlid, només txt i xml.", "Error importar document", JOptionPane.ERROR_MESSAGE);
+            popupException(e.toString(), "Error importar document");
             docImp = null;
         }
         return docImp;
@@ -265,9 +280,14 @@ public class CtrlPresentacio {
             cd.exportarDocument(autor, titol, path);
         }
         catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Hi ha hagut un error, no s'ha pogut exportar.",
-                    "Error exportació", JOptionPane.ERROR_MESSAGE);
+            //JOptionPane.showMessageDialog(null, "Hi ha hagut un error, no s'ha pogut exportar.","Error exportació", JOptionPane.ERROR_MESSAGE);
             expOk = false;
+            popupException(e.toString(), "Error exportar document");
+        }
+        catch (FormatInvalid e) { //ESTA CREO Q NO DEBERIA DE DAR ESTA EXCEPCION
+            //JOptionPane.showMessageDialog(null, "Hi ha hagut un error, no s'ha pogut exportar.","Error exportació", JOptionPane.ERROR_MESSAGE);
+            expOk = false;
+            popupException(e.toString(), "Error exportar document");
         }
         return expOk;
     }
@@ -283,16 +303,15 @@ public class CtrlPresentacio {
         try {
             cd.esborrarDocument(autor, titol);
         }
-        catch(DeleteDocumentException | IOException e) {
-            if(e instanceof DeleteDocumentException) {
-                JOptionPane.showMessageDialog(null, "No s'ha pogut esborrar el document.",
-                        "Error esborrar document", JOptionPane.ERROR_MESSAGE);
-            }
-            else {
-                JOptionPane.showMessageDialog(null, "No s'ha pogut esborrar el document.",
-                        "Error esborrar document", JOptionPane.ERROR_MESSAGE);
-            }
+        catch(DeleteDocumentException e) {
+            //JOptionPane.showMessageDialog(null, "No s'ha pogut esborrar el document.", "Error esborrar document", JOptionPane.ERROR_MESSAGE);
             esborrat = false;
+            popupException(e.toString(), "Error esborrar document");
+        }
+        catch(IOException e) {
+            //JOptionPane.showMessageDialog(null, "No s'ha pogut esborrar el document.","Error esborrar document", JOptionPane.ERROR_MESSAGE);
+            esborrat = false;
+            popupException(e.toString(), "Error esborrar document");
         }
         return esborrat;
     }
@@ -310,16 +329,15 @@ public class CtrlPresentacio {
             cd.modificarTitol(autor, titol, newT);
             //viewPrincipal.actualitzaTitol(newT); //??
         }
-        catch (EDocumentException | IOException e){
-            if(e instanceof EDocumentException) {
-                JOptionPane.showMessageDialog(null, "Ja existeix un document amb el nou títol i l'autor.",
-                        "Error modificació títol", JOptionPane.ERROR_MESSAGE);
-            }
-            else {
-                JOptionPane.showMessageDialog(null, "No s'ha pogut modificar el títol.",
-                        "Error modificació títol", JOptionPane.ERROR_MESSAGE);
-            }
+        catch (EDocumentException  e){
+            //JOptionPane.showMessageDialog(null, "Ja existeix un document amb el nou títol i l'autor.","Error modificació títol", JOptionPane.ERROR_MESSAGE);
             valid = false;
+            popupException(e.toString(), "Error modificar títol");
+        }
+        catch(IOException e) {
+            //JOptionPane.showMessageDialog(null, "No s'ha pogut modificar el títol.","Error modificació títol", JOptionPane.ERROR_MESSAGE);
+            valid = false;
+            popupException(e.toString(), "Error modificar títol");
         }
         return valid;
     }
@@ -337,16 +355,15 @@ public class CtrlPresentacio {
             cd.modificarAutor(autor, titol, newA);
             //viewPrincipal.actualitzaTitol(newA); //??
         }
-        catch (EDocumentException | IOException e){
-            if(e instanceof EDocumentException) {
-                JOptionPane.showMessageDialog(null, "Ja existeix un document amb el títol i el nou autor.",
-                        "Error modificació autor", JOptionPane.ERROR_MESSAGE);
-            }
-            else {
-                JOptionPane.showMessageDialog(null, "No s'ha pogut modificar l'autor.",
-                        "Error modificació autor", JOptionPane.ERROR_MESSAGE);
-            }
+        catch (EDocumentException e){
+            //JOptionPane.showMessageDialog(null, "Ja existeix un document amb el títol i el nou autor.", "Error modificació autor", JOptionPane.ERROR_MESSAGE);
             valid = false;
+            popupException(e.toString(), "Error modificar autor");
+        }
+        catch(IOException e) {
+            //JOptionPane.showMessageDialog(null, "No s'ha pogut modificar l'autor.","Error modificació autor", JOptionPane.ERROR_MESSAGE);
+            valid = false;
+            popupException(e.toString(), "Error modificar autor");
         }
         return valid;
     }
@@ -421,16 +438,15 @@ public class CtrlPresentacio {
         try {
             cd.setExpressioBooleana(nom, exp);
         }
-        catch (EExpBoolException | ExpBoolNoValidaException e) {
-            if(e instanceof EExpBoolException) {
-                JOptionPane.showMessageDialog(null, "Ja existeix una expressió booleana amb aquell nom.",
-                        "Error creació expressió", JOptionPane.ERROR_MESSAGE);
-            }
-            else {
-                JOptionPane.showMessageDialog(null, "La expressió booleana introduïda no és vàlida.",
-                        "Error creació expressió", JOptionPane.ERROR_MESSAGE);
-            }
+        catch (EExpBoolException e) {
+            //JOptionPane.showMessageDialog(null, "Ja existeix una expressió booleana amb aquell nom.", "Error creació expressió", JOptionPane.ERROR_MESSAGE);
             valida = false;
+            popupException(e.toString(), "Error crear expressió");
+        }
+        catch(ExpBoolNoValidaException e) {
+            //JOptionPane.showMessageDialog(null, "La expressió booleana introduïda no és vàlida.","Error creació expressió", JOptionPane.ERROR_MESSAGE);
+            valida = false;
+            popupException(e.toString(), "Error crear expressió");
         }
         return valida;
     }
@@ -439,7 +455,7 @@ public class CtrlPresentacio {
      * Mètode que dona les claus dels documents que cumpleixen l'expressió booleana exp.
      * @param exp: String: expressió booleana per fer la cerca.
      * @return List<Pair<String, String>>: Es retorna una llista amb les claus dels documents que compleixen l'expressió booleana exp,
-     *          la llista = null si no hi ha succeït algún error.
+     *          la llista = null si ha succeït algun error.
      */
     public List<Pair<String, String>> cercarExpressioBooleana(String exp) {
         List<Pair<String, String>> docs = new ArrayList<>();
@@ -447,10 +463,20 @@ public class CtrlPresentacio {
             docs = cd.cercarExpressioBooleana(exp);
         }
         catch(ExpBoolNoValidaException e) {
-            JOptionPane.showMessageDialog(null, e.toString(),
-                    "Error cerca", JOptionPane.ERROR_MESSAGE);
+            //JOptionPane.showMessageDialog(null, e.toString(), "Error cerca", JOptionPane.ERROR_MESSAGE);
             docs = null;
+            popupException(e.toString(), "Error cerca per expressió");
         }
+        return docs;
+    }
+
+    /**
+     * Mètode que dona les claus dels documents que cumpleixen l'expressió booleana amb nom nom.
+     * @param nom: String: nom de l'expressió booleana per fer la cerca.
+     * @return List<Pair<String, String>>: Es retorna una llista amb les claus dels documents que compleixen l'expressió booleana amb nom nom.
+     */
+    public List<Pair<String, String>> cercarExpressioBooleanaNom(String nom) {
+        List<Pair<String, String>> docs = cd.cercarExpressioBooleanaNom(nom);
         return docs;
     }
 
@@ -466,9 +492,9 @@ public class CtrlPresentacio {
             cd.modExpressioBooleana(nom, nExp);
         }
         catch(ExpBoolNoValidaException e) {
-            JOptionPane.showMessageDialog(null, "L'expressió booleana introduïda no és vàlida.",
-                    "Error modificar expressió", JOptionPane.ERROR_MESSAGE);
+            //JOptionPane.showMessageDialog(null, "L'expressió booleana introduïda no és vàlida.", "Error modificar expressió", JOptionPane.ERROR_MESSAGE);
             valida = false;
+            popupException(e.toString(), "Error modificar expressió");
         }
         return valida;
     }
@@ -487,5 +513,9 @@ public class CtrlPresentacio {
     public static void main(String[] args) {
         CtrlPresentacio cp = new CtrlPresentacio();
         cp.mostraViewPrincipal();
+    }
+
+    private void popupException(String message, String title) {
+        JOptionPane.showMessageDialog(null, message, title, JOptionPane.ERROR_MESSAGE);
     }
 }

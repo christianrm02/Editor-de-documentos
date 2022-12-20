@@ -38,7 +38,7 @@ public class CtrlExpressioBooleana {
      * Mètode que dona els identificadors de les frases complementàries a les indicades per set.
      * @param set: Set<Integer>: conjunt de frases en què es vol aplicar l'operació not.
      * @param ci: CtrlIndex: controlador d'índex necessari per realitzar l'operació del complementari.
-     * @return Set<Integer>: Es retorna un set amb els identificadors de les frases complementàries a les frases del set.
+     * @return Set<Integer>: Es retorna un Set amb els identificadors de les frases complementàries a les frases del Set set.
      */
     private Set<Integer> not(Set<Integer> set, CtrlIndex ci) {
         int n = ci.GetNumFrases();
@@ -74,7 +74,7 @@ public class CtrlExpressioBooleana {
     /**
      * Mètode per saber si un string és un operador lògic.
      * @param s: String: string qualsevol.
-     * @return boolean: Indica si l'String s és un operador lògic.
+     * @return boolean: Indica si l'string s és un operador lògic.
      */
     private boolean isOperator(String s) {
         return s.length() == 1 && (s.equals("&") || s.equals("|") || s.equals("!"));

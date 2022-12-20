@@ -28,9 +28,10 @@ public class GestorIndexsTest {
         CtrlIndex ci = new CtrlIndex();
         String autor = "Manolo";
         String titol = "Manolo se va a la playa";
+        String data = "dema";
         String contingut = "Manolo se aburre en la playa.\nManolo vuelve a casa";
         List<String> cont = Utility.converteix_a_frases(contingut);
-        ci.AfegirDoc(autor, titol, cont);
+        ci.AfegirDoc(autor, titol, data, cont);
 
         assertTrue("Doc trobat", ci.FindDoc(autor, titol));
 

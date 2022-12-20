@@ -47,10 +47,11 @@ public class CtrlIndex {
      * Mètode per insertar documents als índexs
      * @param autor - Autor del document
      * @param titol - Títol del document
+     * @param data - Data de modificacio del document
      * @param contingut - Contingut del document
      */
-    public void AfegirDoc(String autor, String titol, List<String> contingut) {
-        indexDocuments.AfegirDoc(autor, titol);
+    public void AfegirDoc(String autor, String titol, String data, List<String> contingut) {
+        indexDocuments.AfegirDoc(autor, titol, data);
         indexExpBooleana.AfegirDoc(autor, titol, contingut);
         indexParaulaTFIDF.AfegirDoc(autor, titol, contingut);
     }
@@ -120,9 +121,9 @@ public class CtrlIndex {
     
     /** 
      * Mètode per obtenir totes les claus dels documents dels índexs
-     * @return Set<Pair<String, String>> - Set amb tots els parells (autor, títol) dels índexs
+     * @return Set<Pair<Pair<String, String>, String>> - Set amb totes les tries ((autor, títol), data) del Trie
      */
-    public Set<Pair<String, String>> GetKeys() {
+    public Set<Pair<Pair<String, String>, String>> GetKeys() {
         return indexDocuments.GetKeys();
     }
 

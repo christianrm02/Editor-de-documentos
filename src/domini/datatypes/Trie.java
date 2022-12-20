@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.Map.Entry;
 
 import transversal.Pair;
 
@@ -26,7 +27,7 @@ public class Trie implements Serializable{
     private class TrieNode implements Serializable{
 
         /**
-         * Punter als fills d'aquest node
+         * Punter als fills d'aquest node per cada caracter
          */
         HashMap<Character, TrieNode> children;
 
@@ -36,16 +37,16 @@ public class Trie implements Serializable{
         boolean isEndWord = false;
 
         /**
-         * Set amb els títols de l'autor que té el final de paraula en aquest node
+         * Mapa amb els títols de l'autor que té el final de paraula en aquest node i les dates de modificacio
          */
-        Set<String> titols;
+        HashMap<String, String> titolsDates;
         
         /**
          * Constructora del TrieNode
          */
         TrieNode() {
             children = new HashMap<>();
-            titols = new HashSet<>();
+            titolsDates = new HashMap<>();
         }
     }
 
@@ -61,15 +62,16 @@ public class Trie implements Serializable{
      * Mètode per insertar documents al Trie
      * @param autor - Autor del document
      * @param titol - Títol del document
+     * @param data - Data de modificacio del document
      */
-    public void AfegirDoc(String autor, String titol) {
+    public void AfegirDoc(String autor, String titol, String data) {
         TrieNode current = root;
     
         for (char l: autor.toCharArray()) {
             current = current.children.computeIfAbsent(l, c -> new TrieNode());
         }
         current.isEndWord = true;
-        current.titols.add(titol);
+        current.titolsDates.put(titol, data);
     }
 
     
@@ -89,10 +91,29 @@ public class Trie implements Serializable{
             }
             current = node;
         }
-        return current.titols.contains(titol);
+        return current.titolsDates.containsKey(titol);
     }
 
     
+    /** 
+     * Mètode per obtenir la data d'un document
+     * @param autor - Autor del document
+     * @param titol - Títol del document
+     * @return String - Data del document. Null si no hi és al Trie
+     */
+    public String GetData(String autor, String titol) {
+        TrieNode current = root;
+        for (int i = 0; i < autor.length(); i++) {
+            char ch = autor.charAt(i);
+            TrieNode node = current.children.get(ch);
+            if (node == null) {
+                return null;
+            }
+            current = node;
+        }
+        return current.titolsDates.get(titol);
+    }
+
     /** 
      * Mètode per esborrar documents del Trie
      * @param autor - Autor del document
@@ -116,8 +137,8 @@ public class Trie implements Serializable{
             TrieNode node = current.children.get(ch);
             current = node;
         }
-        current.titols.remove(titol);
-        current.titols.add(newTitol);
+        String data = current.titolsDates.remove(titol);
+        current.titolsDates.put(newTitol, data);
     }
 
     
@@ -128,17 +149,18 @@ public class Trie implements Serializable{
      * @param newAutor - Nou autor del document
      */
     public void ActualitzarAutor(String autor, String titol, String newAutor) {
+        String data = GetData(autor, titol);
         EsborrarDoc(autor, titol);
-        AfegirDoc(newAutor, titol);
+        AfegirDoc(newAutor, titol, data);
     }
 
     
     /** 
      * Mètode per obtenir tots els documents del Trie
-     * @return Set<Pair<String, String>> - Set amb tots els parells (autor, títol) del Trie
+     * @return Set<Pair<Pair<String, String>, String>> - Set amb totes les tries (autor, títol, data) del Trie
      */
-    public Set<Pair<String, String>> GetKeys() {
-        Set<Pair<String, String>> keys = new HashSet<>();
+    public Set<Pair<Pair<String, String>, String>> GetKeys() {
+        Set<Pair<Pair<String, String>, String>> keys = new HashSet<>();
         StringBuilder s = new StringBuilder();
         getKeys(root, 0, s, keys);
         return keys;
@@ -160,7 +182,7 @@ public class Trie implements Serializable{
             }
             current = node;
         }
-        return current.titols;
+        return current.titolsDates.keySet();
     }
 
     
@@ -202,12 +224,12 @@ public class Trie implements Serializable{
     private boolean delete(TrieNode current, String autor, String titol, int index) {
         //Quan arribem a l'ultim node
         if (index == autor.length()) {
-            current.titols.remove(titol);
+            current.titolsDates.remove(titol);
             if (!current.isEndWord) {
                 return false;
             }
-            if(current.titols.isEmpty()) current.isEndWord = false;
-            return current.children.isEmpty() && current.titols.isEmpty();
+            if(current.titolsDates.isEmpty()) current.isEndWord = false;
+            return current.children.isEmpty() && current.titolsDates.isEmpty();
         }
 
         char ch = autor.charAt(index);
@@ -254,14 +276,15 @@ public class Trie implements Serializable{
      * @param node - Node actual
      * @param level - Profunditat actual del node current
      * @param autor - Identificador d'autor del node actual
-     * @param words - Set amb els documents ja obtinguts
+     * @param keys - Set amb els documents ja obtinguts
      */
-    private void getKeys(TrieNode node, int level, StringBuilder autor, Set<Pair<String,String>> keys) {
+    private void getKeys(TrieNode node, int level, StringBuilder autor, Set<Pair<Pair<String, String>, String>> keys) {
 
         if(node.isEndWord){
-            for (String titol : node.titols) {
-                Pair<String, String> key = new Pair<>(autor.toString(), titol);
-                keys.add(key);
+            for (Entry<String, String> titolData : node.titolsDates.entrySet()) {
+                Pair<String, String> key = new Pair<>(autor.toString(), titolData.getKey());
+                Pair<Pair<String, String>, String> doc = new Pair<>(key, titolData.getValue());
+                keys.add(doc);
             }
         }
 

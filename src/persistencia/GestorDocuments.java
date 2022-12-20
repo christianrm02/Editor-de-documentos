@@ -5,6 +5,7 @@ import excepcions.FormatInvalid;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -181,6 +182,10 @@ public class GestorDocuments {
         BufferedReader reader = new BufferedReader(new FileReader(path));
         String autor = reader.readLine();
         String titol = reader.readLine();
+        if(autor == null || titol == null) {
+            reader.close();
+            throw new IOException();
+        }
         String line = reader.readLine();
         StringBuilder aux = new StringBuilder();
         while(line != null) {
@@ -226,8 +231,10 @@ public class GestorDocuments {
         try {
             DocumentBuilder db = dbf.newDocumentBuilder();
             Element root = db.parse(new File(path)).getDocumentElement();
-            String autor = root.getElementsByTagName("autor").item(0).getTextContent();
-            String titol = root.getElementsByTagName("titol").item(0).getTextContent();
+            Node autorNode = root.getElementsByTagName("autor").item(0);
+            Node titolNode = root.getElementsByTagName("titol").item(0);
+            String autor = autorNode.getTextContent();
+            String titol = titolNode.getTextContent();
             String contingut = root.getElementsByTagName("contingut").item(0).getTextContent();
             return new String[]{autor, titol, contingut};
         } catch (ParserConfigurationException | SAXException e) {

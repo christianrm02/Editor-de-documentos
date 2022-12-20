@@ -42,7 +42,7 @@ public class GestorIndexs {
      */
     public static void ExportarIndexs(byte[] info) throws IOException {
         //System.out.println("Working Directory = " + System.getProperty("user.dir"));
-        Files.createDirectories(Paths.get("./appdata/indexs/"));
+        Files.createDirectories(Paths.get("./appdata/"));
         FileOutputStream fileOutputStream = new FileOutputStream("./appdata/indexs.idx");
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
         objectOutputStream.writeObject(info);

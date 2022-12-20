@@ -82,7 +82,7 @@ public class CtrlDomini {
      * @param loc: String: localització on es vol guardar el document a exportar.
      * @exception IOException: Hi ha hagut algun problema en accedir a disc.
      */
-    public void exportarDocument(String autor, String titol, String loc) throws IOException {
+    public void exportarDocument(String autor, String titol, String loc) throws IOException, FormatInvalid {
         cp.exportaDocument(autor, titol, loc);
     }
 
@@ -245,6 +245,15 @@ public class CtrlDomini {
      */
     public List<Pair<String, String>> cercarExpressioBooleana(String exp) throws ExpBoolNoValidaException {
         return ce.cercarExpressioBooleana(exp, ci);
+    }
+
+    /**
+     * Mètode que dona les claus dels documents que cumpleixen l'expressió booleana amb nom nom.
+     * @param nom: String: nom de l'expressió booleana per fer la cerca.
+     * @return List<Pair<String, String>>: Es retorna una llista amb les claus dels documents que compleixen l'expressió booleana amb nom nom.
+     */
+    public List<Pair<String, String>> cercarExpressioBooleanaNom(String nom) {
+        return ce.cercarExpressioBooleanaExistent(nom, ci);
     }
 
     /**

@@ -24,15 +24,15 @@ TEST_SOURCES = 	./src/test/datatypes/*.java \
 #COMPILAR PROGRAMA
 program:
 	javac -cp $(JGOODIES_JARS) -d $(CLASS_OUTPUT) $(JAVA_SOURCES)
-	jar cvmf ./src/presentacio/MANIFEST.MF $(JAR_OUTPUT)Documentator.jar -C $(CLASS_OUTPUT) .
+	jar cvmf ./src/presentacio/MANIFEST.MF $(JAR_OUTPUT)Documenteitor.jar -C $(CLASS_OUTPUT) .
 
 #EXECUTAR PROGRAMA
 exec_program:
-	java -jar $(JAR_OUTPUT)Documentator.jar
+	java -jar $(JAR_OUTPUT)Documenteitor.jar
 
 #COMPILAR I EXECUTAR PROGRAMA
 comp_exec_program: program
-	java -jar $(JAR_OUTPUT)Documentator.jar
+	java -jar $(JAR_OUTPUT)Documenteitor.jar
 
 #CLEAN
 clean:

@@ -121,7 +121,7 @@ public class CtrlIndex {
     
     /** 
      * Mètode per obtenir totes les claus dels documents dels índexs
-     * @return Set<Pair<String, String>> - Set amb tots els parells (autor, títol) dels índexs
+     * @return Set<Pair<Pair<String, String>, String>> - Set amb totes les tries ((autor, títol), data) del Trie
      */
     public Set<Pair<Pair<String, String>, String>> GetKeys() {
         return indexDocuments.GetKeys();

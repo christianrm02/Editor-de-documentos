@@ -265,7 +265,7 @@ public class ViewGestioExpBool extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(documents.getRowCount() > 0) {
-                    List<Pair<String, String>> docsXExp = cp.cercarExpressioBooleana((String)expressions.getValueAt(expressions.getSelectedRow(), 1));
+                    List<Pair<String, String>> docsXExp = cp.cercarExpressioBooleanaNom((String)expressions.getValueAt(expressions.getSelectedRow(), 0));
 
                     if(docsXExp.size() > 0) {
                         Object[][] docsSemblantsObj = new Object[docsXExp.size()][2];

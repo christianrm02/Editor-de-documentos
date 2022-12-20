@@ -9,32 +9,59 @@ import java.util.Set;
 import transversal.Pair;
 
 /**
- * Trie: Estructura de dades per emmagatzemar strings
+ * Trie: Estructura de dades per emmagatzemar documents
  * Implementació bàsica del trie extreta de https://www.baeldung.com/trie-java
  * @author Èric Ryhr
  */
 public class Trie implements Serializable{
     
+    /**
+     * Node arrel del Trie
+     */
     private TrieNode root;
-    private int maxLength = 0;
 
+    /**
+     * TrieNode: Estructura de dades pels nodes del Trie
+     */
     private class TrieNode implements Serializable{
 
+        /**
+         * Punter als fills d'aquest node
+         */
         HashMap<Character, TrieNode> children;
+
+        /**
+         * Indica si un node es final d'alguna paraula
+         */
         boolean isEndWord = false;
+
+        /**
+         * Set amb els títols de l'autor que té el final de paraula en aquest node
+         */
         Set<String> titols;
-    
+        
+        /**
+         * Constructora del TrieNode
+         */
         TrieNode() {
             children = new HashMap<>();
             titols = new HashSet<>();
         }
     }
 
+    /**
+     * Constructora del Trie
+     */
     public Trie() {
         root = new TrieNode();
     }
 
-    //Insertar un nou document al trie
+    
+    /** 
+     * Mètode per insertar documents al Trie
+     * @param autor - Autor del document
+     * @param titol - Títol del document
+     */
     public void AfegirDoc(String autor, String titol) {
         TrieNode current = root;
     
@@ -43,11 +70,15 @@ public class Trie implements Serializable{
         }
         current.isEndWord = true;
         current.titols.add(titol);
-
-        if(maxLength < autor.length()) maxLength = autor.length();
     }
 
-    //Retorna true si un document es al trie
+    
+    /** 
+     * Mètode per buscar documents al Trie
+     * @param autor - Autor del document a buscar
+     * @param titol - Títol del document a buscar
+     * @return boolean - True si el document es troba al Trie, False si no
+     */
     public boolean FindDoc(String autor, String titol) {
         TrieNode current = root;
         for (int i = 0; i < autor.length(); i++) {
@@ -61,12 +92,23 @@ public class Trie implements Serializable{
         return current.titols.contains(titol);
     }
 
-    //Esborra un document del trie. Si un autor es queda sense titols s'esborra tambe
+    
+    /** 
+     * Mètode per esborrar documents del Trie
+     * @param autor - Autor del document
+     * @param titol - Títol del document
+     */
     public void EsborrarDoc(String autor, String titol) {
         delete(root, autor, titol, 0);
     }
 
-    //Actualitza el titol d'un document amb la precondicio de que existeixi
+    
+    /** 
+     * Mètode per actualitzar el títol d'un document del Trie
+     * @param autor - Autor del document
+     * @param titol - Títol del document
+     * @param newTitol - Nou títol del document
+     */
     public void ActualitzarTitol(String autor, String titol, String newTitol) {
         TrieNode current = root;
         for (int i = 0; i < autor.length(); i++) {
@@ -78,20 +120,36 @@ public class Trie implements Serializable{
         current.titols.add(newTitol);
     }
 
-    //Actualitza l'autor d'un document amb la precondicio de que existeixi
+    
+    /** 
+     * Mètode per actualitzar l'autor d'un document del Trie
+     * @param autor - Autor del document
+     * @param titol - Títol del document
+     * @param newAutor - Nou autor del document
+     */
     public void ActualitzarAutor(String autor, String titol, String newAutor) {
         EsborrarDoc(autor, titol);
         AfegirDoc(newAutor, titol);
     }
 
+    
+    /** 
+     * Mètode per obtenir tots els documents del Trie
+     * @return Set<Pair<String, String>> - Set amb tots els parells (autor, títol) del Trie
+     */
     public Set<Pair<String, String>> GetKeys() {
         Set<Pair<String, String>> keys = new HashSet<>();
         StringBuilder s = new StringBuilder();
-        getKeys(root, maxLength, s, keys);
+        getKeys(root, 0, s, keys);
         return keys;
     }
 
-    //Retorna els titols d'un autor o un set buit si no existeix l'autor
+    
+    /** 
+     * Mètode per obtenir tots els títols d'un autor
+     * @param autor - Autor del que s'obtenen els títols
+     * @return Set<String> - Set amb els títols de l'autor. Buit si no existeix
+     */
     public Set<String> GetTitolsAutor(String autor) {
         TrieNode current = root;
         for (int i = 0; i < autor.length(); i++) {
@@ -105,7 +163,12 @@ public class Trie implements Serializable{
         return current.titols;
     }
 
-    //Retorna les paraules del trie que comencen per prefix
+    
+    /** 
+     * Mètode per obtenir els autors que comencen per prefix
+     * @param prefix - Prefix pel que han de començar els noms dels autors
+     * @return Set<String> - Set amb els autors obtinguts
+     */
     public Set<String> SearchWordsPrefix(String prefix) {   
         Set<String> words = new HashSet<String>();
         
@@ -127,7 +190,15 @@ public class Trie implements Serializable{
         return words;
     }
     
-    //Recursivament esborra nodes del trie
+    
+    /** 
+     * Mètode per esborrar nodes del Trie de forma recursiva
+     * @param current - Node actual
+     * @param autor - Autor del document que estem esborrant del Trie
+     * @param titol - Títol del document que estem esborrant del Trie
+     * @param index - Profunditat actual del node current
+     * @return boolean - True si s'hauria d'esborrar el node current, False si no
+     */
     private boolean delete(TrieNode current, String autor, String titol, int index) {
         //Quan arribem a l'ultim node
         if (index == autor.length()) {
@@ -153,7 +224,14 @@ public class Trie implements Serializable{
         return false;
     }
 
-    //Retorna al set words recursivament les paraules que troba des del node rootNode amb el prefix
+    
+    /** 
+     * Mètode per obtenir els autors que comencen per prefix fent una cerca en profunditat
+     * @param node - Node actual
+     * @param level - Profunditat actual del node current
+     * @param prefix - Prefix pel que han de començar els noms dels autors
+     * @param words - Set amb els autors ja obtinguts
+     */
     private void getWords(TrieNode node, int level, StringBuilder prefix, Set<String> words) {
 
         if(node.isEndWord){
@@ -170,7 +248,14 @@ public class Trie implements Serializable{
         }
     }
 
-    //Retorna al set keys recursivament les keys autor+titol que troba des del node root
+    
+    /** 
+     * Mètode per obtenir els documents des del node paràmetre fent una cerca en profunditat
+     * @param node - Node actual
+     * @param level - Profunditat actual del node current
+     * @param autor - Identificador d'autor del node actual
+     * @param words - Set amb els documents ja obtinguts
+     */
     private void getKeys(TrieNode node, int level, StringBuilder autor, Set<Pair<String,String>> keys) {
 
         if(node.isEndWord){

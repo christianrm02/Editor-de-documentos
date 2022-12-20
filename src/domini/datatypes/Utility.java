@@ -1,20 +1,19 @@
 package domini.datatypes;
 
-//import java.text.Normalizer;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Utility: Funcions estàtiques per processar text
  * @author Èric Ryhr
  */
 public class Utility {
-    
-    /*static public String UTF8toASCII(String frase) {
-        String res = Normalizer.normalize(frase, Normalizer.Form.NFKD).replaceAll("\\p{M}", "");
-        return res.replaceAll("·", "");
-    }*/
 
+    /** 
+     * Mètode per separar una frase en paraules i eliminar símbols
+     * @param frase - Frase a tractar
+     * @return String[] - Array amb les paraules de la frase
+     */
     static public String[] ParseFrase(String frase) {
         frase = frase.replaceAll("[(),;:.!?]", "");
         frase = frase.replaceAll("\n", " ");
@@ -22,6 +21,12 @@ public class Utility {
         return paraules;
     }
 
+    
+    /** 
+     * Mètode per separar un contingut en frases
+     * @param fr - Contingut a tractar
+     * @return List<String> - Llista amb les frases obtenides
+     */
     static public List<String> converteix_a_frases(String fr) {
         List<String> frases = new ArrayList<>();
         if (fr.equals("")) return frases;

@@ -17,14 +17,30 @@ import domini.datatypes.Utility;
  */
 public class IndexExpBooleana implements Serializable{
     
-    private HashMap<String, List<Pair<Boolean, String>>> indexParaulaFrase;   //Per cada paraula indica a quines frases apareix i la paraula que te a continuacio
-    private List<Pair<String, String>> indexFraseDocument;      //Per cada frase(index) indica a quin document pertany 
+    /**
+     * Per cada paraula indica a quines frases apareix i la paraula que hi te a continuacio
+     */
+    private HashMap<String, List<Pair<Boolean, String>>> indexParaulaFrase;
 
+    /**
+     * Per cada frase (index) indica a quin document pertany 
+     */
+    private List<Pair<String, String>> indexFraseDocument;
+
+    /**
+     * Constructora de la classe IndexExpBooleana
+     */
     public IndexExpBooleana() {
         indexParaulaFrase = new HashMap<>();
         indexFraseDocument = new ArrayList<Pair<String, String>>();
     }
 
+    /** 
+     * Mètode per insertar documents a l'índex
+     * @param autor - Autor del document
+     * @param titol - Títol del document
+     * @param contingut - Contingut del document
+     */
     public void AfegirDoc(String autor, String titol, List<String> contingut) {
         Pair<String, String> autorTitol = new Pair<String, String>(autor, titol);
 
@@ -60,7 +76,12 @@ public class IndexExpBooleana implements Serializable{
         }
     }
 
-    //PRE: El document existeix
+    
+    /** 
+     * Mètode per esborrar documents de l'índex
+     * @param autor - Autor del document
+     * @param titol - Títol del document
+     */
     public void EsborrarDoc(String autor, String titol) {
         int startingIndexEliminar = -1;
         int numFrasesEliminar = 0;
@@ -90,7 +111,13 @@ public class IndexExpBooleana implements Serializable{
         cleanIndex();
     }
 
-    //PRE: El document existeix
+    
+    /** 
+     * Mètode per actualitzar el títol d'un document de l'índex
+     * @param autor - Autor del document
+     * @param titol - Títol del document
+     * @param newTitol - Nou títol del document
+     */
     public void ActualitzarTitol(String autor, String titol, String newTitol) {
         Pair<String, String> oldAutorTitol = new Pair<String, String>(autor, titol);
         Pair<String, String> newAutorTitol = new Pair<String, String>(autor, newTitol);
@@ -109,7 +136,13 @@ public class IndexExpBooleana implements Serializable{
         }
     }
 
-    //PRE: El document existeix
+    
+    /** 
+     * Mètode per actualitzar l'autor d'un document de l'índex
+     * @param autor - Autor del document
+     * @param titol - Títol del document
+     * @param newAutor - Nou autor del document
+     */
     public void ActualitzarAutor(String autor, String titol, String newAutor) {
         Pair<String, String> oldAutorTitol = new Pair<String, String>(autor, titol);
         Pair<String, String> newAutorTitol = new Pair<String, String>(newAutor, titol);
@@ -128,12 +161,24 @@ public class IndexExpBooleana implements Serializable{
         }
     }
 
+    
+    /** 
+     * Mètode per actualitzar el contingut d'un document de l'índex
+     * @param autor - Autor del document
+     * @param titol - Títol del document
+     * @param contingut - Contingut del document
+     */
     public void ActualitzarContingut(String autor, String titol, List<String> contingut) {
         EsborrarDoc(autor, titol);
         AfegirDoc(autor, titol, contingut);
     }
 
-    //Retorna els indexs de les frases que contenen paraula
+    
+    /** 
+     * Mètode per obtenir els índexs de les frases on apareix una paraula
+     * @param paraula - Paraula a buscar
+     * @return Set<Integer> - Index de les frases on apareix paraula
+     */
     public Set<Integer> GetFrases(String paraula) {
         Set<Integer> frases = new HashSet<Integer>();
         List<Pair<Boolean, String>> infoParaula = indexParaulaFrase.get(paraula);
@@ -148,12 +193,22 @@ public class IndexExpBooleana implements Serializable{
         return frases;
     }
 
+    
+    /**
+     * Mètode per obtenir el nombre de frases emmagatzemades
+     * @return int - Nombre de frases emmagatzemades
+     */
     public int GetNumFrases(){
         return indexFraseDocument.size();
     }
 
-    //Comprova si existeix una sequencia de paraules seguides a una frase
-    //Candidats conte les frases que tenen totes les paraules de la sequencia (potser no en ordre)
+    
+    /** 
+     * Mètode per obtenir els índexs de les frases on apareix una seqüència de paraules
+     * @param sequencia - Seqüència a buscar
+     * @param candidats - Index de les frases que contenen totes les paraules de la seqüència (potser no en ordre)
+     * @return Set<Integer> - Index de les frases on apareix seqüència
+     */
     public Set<Integer> GetSequencia(String sequencia, Set<Integer> candidats){
         Set<Integer> res = new HashSet<Integer>();
         String[] paraules = Utility.ParseFrase(sequencia);
@@ -182,7 +237,12 @@ public class IndexExpBooleana implements Serializable{
         return res;
     }
 
-    //Retorna els documents que contenen les frases indexs
+    
+    /** 
+     * Mètode per, donat un conjunt d'índexs, retornar els documents on apareixen
+     * @param indexs - Conjunt d'índexs a buscar
+     * @return List<Pair<String, String>> - Claus dels documents obtinguts
+     */
     public List<Pair<String, String>> GetDocuments(Set<Integer> indexs) {
         Set<Pair<String, String>> docs = new HashSet<Pair<String, String>>();
 
@@ -193,19 +253,27 @@ public class IndexExpBooleana implements Serializable{
         return new ArrayList<Pair<String, String>>(docs);
     }
 
-    //Omplira les primeres posicions de la llista amb false
+    
+    /** 
+     * Mètode per omplir les n primeres posicions d'una llista amb parelles de (False, null), on n és el nombre de frases emmagatzemades
+     * @param infoWord - Llista a tractar
+     */
     private void fillList(List<Pair<Boolean, String>> infoWord) {
         for(int i = 0; i < indexFraseDocument.size(); i++) infoWord.add(new Pair<Boolean, String>(false, null));
     }
     
-    //Crea una nova columna de false al index per la frase que inserirem a continuacio
+    /** 
+     * Mètode per afegir una posició al final de cada fila de l'índexParaulaFrase per la frase que s'inserirà a continuació
+     */
     private void addPosition() {
         for (List<Pair<Boolean, String>> infoParaula : indexParaulaFrase.values()) {
             infoParaula.add(new Pair<Boolean, String>(false, null));
         }
     }
 
-    //Netegem el index treient les paraules que no apareixen a cap frase
+    /** 
+     * Mètode per netejar l'índex treient les paraules que no apareixen a cap frase
+     */
     private void cleanIndex() {
         Set<String> toRemove = new HashSet<String>();
 

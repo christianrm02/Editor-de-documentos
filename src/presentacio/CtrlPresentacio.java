@@ -44,7 +44,7 @@ public class CtrlPresentacio {
         if(viewPrincipal == null) {
             viewPrincipal = new ViewPrincipal(this);
             cd = new CtrlDomini();
-            List<Pair<String, String>> docs = new ArrayList<>();
+            List<Pair<Pair<String, String>, String>> docs = new ArrayList<>();
             try {
                 docs = cd.init();
             }
@@ -207,10 +207,10 @@ public class CtrlPresentacio {
      * @param titol: String: titol del document a crear.
      * @return boolean: Indica si s'ha creat el document introduït.
      */
-    public boolean crearDocument(String autor, String titol){
+    public boolean crearDocument(String autor, String titol, String data){
         boolean valid = true;
         try {
-            cd.crearDocument(autor, titol);
+            cd.crearDocument(autor, titol, data);
         }
         catch (EDocumentException e){
             //JOptionPane.showMessageDialog(null, "Ja existeix un document amb aquell títol i autor.", "Error creació document", JOptionPane.ERROR_MESSAGE);

@@ -24,12 +24,13 @@ public class TrieTest {
         String autor = "Manolo";
         String titol1 = "Manolo va a la playa";
         String titol2 = "Manolo va a la montaña";
+        String data = "31/3/2002";
 
         assertFalse("No trobat 1", trie.FindDoc(autor, titol1));
         assertFalse("No trobat 2", trie.FindDoc(autor, titol2));
 
-        trie.AfegirDoc(autor, titol1);
-        trie.AfegirDoc(autor, titol2);
+        trie.AfegirDoc(autor, titol1, data);
+        trie.AfegirDoc(autor, titol2, data);
 
         assertTrue("Trobat 1", trie.FindDoc(autor, titol1));
         assertTrue("Trobat 2", trie.FindDoc(autor, titol2));
@@ -42,12 +43,13 @@ public class TrieTest {
         String autor = "Manolo";
         String titol1 = "Manolo va a la playa";
         String titol2 = "Manolo va a la montaña";
+        String data = "31/3/2002";
 
         assertFalse("No trobat 1", trie.FindDoc(autor, titol1));
         assertFalse("No trobat 2", trie.FindDoc(autor, titol2));
 
-        trie.AfegirDoc(autor, titol1);
-        trie.AfegirDoc(autor, titol2);
+        trie.AfegirDoc(autor, titol1, data);
+        trie.AfegirDoc(autor, titol2, data);
 
         assertTrue("Trobat 1", trie.FindDoc(autor, titol1));
         assertTrue("Trobat 2", trie.FindDoc(autor, titol2));
@@ -69,9 +71,10 @@ public class TrieTest {
         String autor2 = "Po";
         String titol1 = "a";
         String titol2 = "b";
+        String data = "31/3/2002";
 
-        trie.AfegirDoc(autor, titol1);
-        trie.AfegirDoc(autor, titol2);
+        trie.AfegirDoc(autor, titol1, data);
+        trie.AfegirDoc(autor, titol2, data);
 
         Set<String> expected1 = new HashSet<String>(Arrays.asList(titol1, titol2));
         Set<String> res1 = trie.GetTitolsAutor(autor);
@@ -96,10 +99,11 @@ public class TrieTest {
         String autor2 = "Po";
         String titol1 = "a";
         String titol2 = "b";
+        String data = "31/3/2002";
 
-        trie.AfegirDoc(autor, titol1);
-        trie.AfegirDoc(autor, titol2);
-        trie.AfegirDoc(autor2, titol1);
+        trie.AfegirDoc(autor, titol1, data);
+        trie.AfegirDoc(autor, titol2, data);
+        trie.AfegirDoc(autor2, titol1, data);
 
         Set<String> expected1 = new HashSet<String>(Arrays.asList(autor, autor2));
         Set<String> res1 = trie.SearchWordsPrefix("");

@@ -91,7 +91,7 @@ public class CtrlExpressioBooleana {
             String[] words = ParseFrase(node.data); //per la seqüència
             Set<Integer> frases = ci.GetFrases(words[0]); //frases on apareix la primera paraula
             if (words.length == 1) return frases; //només és una paraula
-            else { //es una sequencia
+            else { //és una seqüència
                 int i = 1;
                 while (i < words.length) {
                     Set<Integer> frases2 = ci.GetFrases(words[i]);
@@ -108,7 +108,7 @@ public class CtrlExpressioBooleana {
     }
 
     /**
-     * Mètode que dona les claus dels documents que cumpleixen l'expressió booleana amb nom nom_exp.
+     * Mètode que dona les claus dels documents que compleixen l'expressió booleana amb nom nom_exp.
      * @param nom_exp: String: nom de l'expressió booleana existent per fer la cerca.
      * @param ci: CtrlIndex: controlador d'índex necessari per realitzar la cerca.
      * @return List<Pair<String, String>>: Es retorna una llista amb les claus dels documents que compleixen l'expressió booleana amb nom nom_exp.
@@ -121,7 +121,7 @@ public class CtrlExpressioBooleana {
     }
 
     /**
-     * Mètode que dona les claus dels documents que cumpleixen l'expressió booleana exp.
+     * Mètode que dona les claus dels documents que compleixen l'expressió booleana exp.
      * @param exp: String: expressió booleana per fer la cerca.
      * @param ci: CtrlIndex: controlador d'índex necessari per realitzar la cerca.
      * @return List<Pair<String, String>>: Es retorna una llista amb les claus dels documents que compleixen l'expressió booleana exp.

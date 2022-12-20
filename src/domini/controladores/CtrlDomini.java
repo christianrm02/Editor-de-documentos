@@ -68,7 +68,7 @@ public class CtrlDomini {
      * @exception EDocumentException: El document ja existeix al sistema.
      * @exception IOException: Hi ha hagut algun problema en accedir a disc.
      */
-    public Pair<String,String> importarDocument(String loc) throws EDocumentException, IOException {
+    public Pair<String,String> importarDocument(String loc) throws EDocumentException, IOException, FormatInvalid {
             String[] doc = cp.importaDocument(loc);
             if (ci.FindDoc(doc[0], doc[1])) throw new EDocumentException();
             ci.AfegirDoc(doc[0], doc[1], converteix_a_frases(doc[2]));

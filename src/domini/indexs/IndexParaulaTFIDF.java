@@ -27,12 +27,12 @@ public class IndexParaulaTFIDF implements Serializable{
     static Set<String> stopWords;
     
     /**
-     * Índex TFIDFs per document i paraula. x es TF i y es TFIDF
+     * Index TFIDFs per document i paraula. x es TF i y es TFIDF
      */
     private TreeMap<Pair<String, String>, TreeMap<String, Pair<Double, Double>>> indexTFIDF;
     
     /**
-     * Índex nombre de documents on apareix cada paraula
+     * Index nombre de documents on apareix cada paraula
      */
     private TreeMap<String, Integer> indexNumDocumentsParaula;
 

@@ -19,17 +19,17 @@ import domini.indexs.*;
 public class CtrlIndex {
 
     /**
-     * Índex per desar les claus dels documents
+     * Index per desar les claus dels documents
      */
     private Trie indexDocuments;
 
     /**
-     * Índex per assistir les queries per expressió booleana
+     * Index per assistir les queries per expressió booleana
      */
     private IndexExpBooleana indexExpBooleana;
 
     /**
-     * Índex per realitzar comparacions entre documents
+     * Index per realitzar comparacions entre documents
      */
     private IndexParaulaTFIDF indexParaulaTFIDF;
     
@@ -175,7 +175,7 @@ public class CtrlIndex {
     /** 
      * Mètode per obtenir els índexs de les frases on apareix una paraula
      * @param paraula - Paraula a buscar
-     * @return Set<Integer> - Índex de les frases on apareix paraula
+     * @return Set<Integer> - Index de les frases on apareix paraula
      */
     //Retorna els indexs de les frases que contenen paraula
     public Set<Integer> GetFrases(String paraula) {
@@ -195,8 +195,8 @@ public class CtrlIndex {
     /** 
      * Mètode per obtenir els índexs de les frases on apareix una seqüència de paraules
      * @param sequencia - Seqüència a buscar
-     * @param candidats - Índex de les frases que contenen totes les paraules de la seqüència (potser no en ordre)
-     * @return Set<Integer> - Índex de les frases on apareix seqüència
+     * @param candidats - Index de les frases que contenen totes les paraules de la seqüència (potser no en ordre)
+     * @return Set<Integer> - Index de les frases on apareix seqüència
      */
     public Set<Integer> GetSequencia(String sequencia, Set<Integer> candidats) {
         return indexExpBooleana.GetSequencia(sequencia, candidats);
@@ -215,7 +215,7 @@ public class CtrlIndex {
     
     /** 
      * Mètode per importar els indexs de disc i sobreescriure els actuals
-     * @param info - Índexs en forma d'array de bytes
+     * @param info - Indexs en forma d'array de bytes
      * @throws IOException Hi ha hagut algun problema amb els streams
      */
     public void ImportarIndexs(byte[] info) throws IOException {

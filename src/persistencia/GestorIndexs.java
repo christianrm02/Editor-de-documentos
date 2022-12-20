@@ -37,7 +37,7 @@ public class GestorIndexs {
     
     /** 
      * Mètode per exportar els indexs a disc
-     * @param info - Índexs en forma d'array de bytes
+     * @param info - Indexs en forma d'array de bytes
      * @throws IOException Hi ha hagut algun problema al accedir a disc
      */
     public static void ExportarIndexs(byte[] info) throws IOException {

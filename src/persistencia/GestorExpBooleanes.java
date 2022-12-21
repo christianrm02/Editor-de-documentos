@@ -3,14 +3,22 @@ package persistencia;
 import transversal.Pair;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * GestorIndexs: Classe amb funcions estàtiques per gestionar l’emmagatzematge i la càrrega d’expressions booleanes al disc.
+ * @author Pol Fradera
+ */
 public class GestorExpBooleanes {
+
+    /**
+     * Mètode per càrregar les expressions booleanes de disc.
+     * @return List<Pair<String, String>>: Es retornen totes les expressions booleanes existents al disc (per cada una, el seu nom i l'expressió).
+     * @exception IOException Hi ha hagut algun problema en accedir al disc.
+     */
     public static List<Pair<String, String>> CarregarExpB() throws IOException {
         try {
             List<Pair<String, String>> exps = new ArrayList<>();
@@ -18,17 +26,19 @@ public class GestorExpBooleanes {
             File carpeta = new File(dirPath);
             if (carpeta.exists()) {
                 File[] llistaFitxers = carpeta.listFiles();
-                for (File fitxer : llistaFitxers) {
-                    String nom = fitxer.getName();
-                    FileInputStream fileInputStream = new FileInputStream(dirPath.concat(nom));
-                    ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-                    String exp = (String) objectInputStream.readObject();
-                    objectInputStream.close();
-                    Pair<String, String> p = new Pair<>();
-                    p.x = nom;
-                    p.y = exp;
-                    exps.add(p);
-                    fitxer.delete();
+                if (llistaFitxers != null) {
+                    for (File fitxer : llistaFitxers) {
+                        String nom = fitxer.getName();
+                        FileInputStream fileInputStream = new FileInputStream(dirPath.concat(nom));
+                        ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+                        String exp = (String) objectInputStream.readObject();
+                        objectInputStream.close();
+                        Pair<String, String> p = new Pair<>();
+                        p.x = nom;
+                        p.y = exp;
+                        exps.add(p);
+                        fitxer.delete();
+                    }
                 }
             }
             return exps;
@@ -39,16 +49,21 @@ public class GestorExpBooleanes {
         return null;
     }
 
+    /**
+     * Mètode per guardar les expressions booleanes a disc.
+     * @param exps: List<Pair<String, String>>: Totes les expressions booleanes que es volen guardar a disc.
+     * @exception IOException Hi ha hagut algun problema en accedir al disc.
+     */
    public static void GuardarExpB(List<Pair<String, String>> exps) throws IOException {
         String dirPath = "./appdata/expressions/";
         Files.createDirectories(Paths.get(dirPath));
-        for (int i = 0; i < exps.size(); ++i) {
-            FileOutputStream fileOutputStream = new FileOutputStream(dirPath.concat(exps.get(i).x));
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-            objectOutputStream.writeObject(exps.get(i).y);
-            objectOutputStream.flush();
-            objectOutputStream.close();
-        }
+       for (Pair<String, String> exp : exps) {
+           FileOutputStream fileOutputStream = new FileOutputStream(dirPath.concat(exp.x));
+           ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+           objectOutputStream.writeObject(exp.y);
+           objectOutputStream.flush();
+           objectOutputStream.close();
+       }
     }
 }
 /*    public static void GuardarExpB(List<Pair<String, String>> exps) throws IOException {

@@ -56,7 +56,6 @@ public class Trie implements Serializable{
     public Trie() {
         root = new TrieNode();
     }
-
     
     /** 
      * Mètode per insertar documents al Trie
@@ -74,7 +73,6 @@ public class Trie implements Serializable{
         current.titolsDates.put(titol, data);
     }
 
-    
     /** 
      * Mètode per buscar documents al Trie
      * @param autor - Autor del document a buscar
@@ -94,6 +92,24 @@ public class Trie implements Serializable{
         return current.titolsDates.containsKey(titol);
     }
 
+    /** 
+     * Mètode per escriure la data d'un document
+     * @param autor - Autor del document
+     * @param titol - Títol del document
+     * @param data - Data del document
+     */
+    public void SetData(String autor, String titol, String data) {
+        TrieNode current = root;
+        for (int i = 0; i < autor.length(); i++) {
+            char ch = autor.charAt(i);
+            TrieNode node = current.children.get(ch);
+            if (node == null) {
+                return;
+            }
+            current = node;
+        }
+        current.titolsDates.put(titol, data);
+    }
     
     /** 
      * Mètode per obtenir la data d'un document
@@ -123,7 +139,6 @@ public class Trie implements Serializable{
         delete(root, autor, titol, 0);
     }
 
-    
     /** 
      * Mètode per actualitzar el títol d'un document del Trie
      * @param autor - Autor del document
@@ -140,7 +155,6 @@ public class Trie implements Serializable{
         String data = current.titolsDates.remove(titol);
         current.titolsDates.put(newTitol, data);
     }
-
     
     /** 
      * Mètode per actualitzar l'autor d'un document del Trie
@@ -153,7 +167,6 @@ public class Trie implements Serializable{
         EsborrarDoc(autor, titol);
         AfegirDoc(newAutor, titol, data);
     }
-
     
     /** 
      * Mètode per obtenir tots els documents del Trie
@@ -165,7 +178,6 @@ public class Trie implements Serializable{
         getKeys(root, 0, s, keys);
         return keys;
     }
-
     
     /** 
      * Mètode per obtenir tots els títols d'un autor
@@ -184,7 +196,6 @@ public class Trie implements Serializable{
         }
         return current.titolsDates.keySet();
     }
-
     
     /** 
      * Mètode per obtenir els autors que comencen per prefix
@@ -211,8 +222,7 @@ public class Trie implements Serializable{
 
         return words;
     }
-    
-    
+        
     /** 
      * Mètode per esborrar nodes del Trie de forma recursiva
      * @param current - Node actual
@@ -245,7 +255,6 @@ public class Trie implements Serializable{
         }
         return false;
     }
-
     
     /** 
      * Mètode per obtenir els autors que comencen per prefix fent una cerca en profunditat
@@ -269,7 +278,6 @@ public class Trie implements Serializable{
             prefix.deleteCharAt(level);
         }
     }
-
     
     /** 
      * Mètode per obtenir els documents des del node paràmetre fent una cerca en profunditat

@@ -79,6 +79,16 @@ public class CtrlIndex {
         return indexDocuments.FindDoc(autor, titol);
     }
 
+    /** 
+     * Mètode per escriure la data d'un document
+     * @param autor - Autor del document
+     * @param titol - Títol del document
+     * @param data - Data del document
+     */
+    public void SetData(String autor, String titol, String data) {
+        indexDocuments.SetData(autor, titol, data);
+    }
+
     
     /** 
      * Mètode per actualitzar el títol d'un document dels índexs

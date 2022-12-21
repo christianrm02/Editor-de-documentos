@@ -248,7 +248,7 @@ public class ViewPrincipal extends JFrame {
                     }
                 }
                 else if(documents.getRowCount() == 0 && e.getClickCount() == 2) {
-                    JOptionPane.showMessageDialog(null, "No hi ha cap document encara, crea o importa un document.", "Error cap document.", JOptionPane.DEFAULT_OPTION);
+                    JOptionPane.showMessageDialog(null, "No hi ha cap document encara, crea o importa un document.", "Error cap document", JOptionPane.DEFAULT_OPTION);
                 }
             }
         });
@@ -296,12 +296,15 @@ public class ViewPrincipal extends JFrame {
                             selectedRow = documents.getSelectedRows();
                         }
                         contadorDocs.setText(Integer.toString(documents.getRowCount()));
-                        JOptionPane.showMessageDialog(null, "S'han esborrat correctament " + contDocsElimOk + " documents.", "Esborrar documents seleccionats", JOptionPane.DEFAULT_OPTION);
+                        JOptionPane.showMessageDialog(null, "S'han esborrat correctament " + contDocsElimOk + " documents.",
+                                "Esborrar documents seleccionats", JOptionPane.DEFAULT_OPTION);
                     } else { //misstage no s'han borrat
-                        JOptionPane.showMessageDialog(null, "No s'ha esborrat cap document.", "Esborrar documents seleccionats", JOptionPane.DEFAULT_OPTION);
+                        JOptionPane.showMessageDialog(null, "No s'ha esborrat cap document.",
+                                "Esborrar documents seleccionats", JOptionPane.DEFAULT_OPTION);
                     }
                 } else {
-                    JOptionPane.showMessageDialog(null, "No hi ha cap document seleccionat.", "Esborrar documents seleccionats", JOptionPane.DEFAULT_OPTION);
+                    JOptionPane.showMessageDialog(null, "No hi ha cap document seleccionat.",
+                            "Esborrar documents seleccionats", JOptionPane.DEFAULT_OPTION);
                 }
             }
         };
@@ -388,7 +391,8 @@ public class ViewPrincipal extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 int opt = JOptionPane.showConfirmDialog(null, "Segur que vols esborrar el document amb títol: " +
                         documents.getValueAt(documents.getSelectedRow(), 0) + " i autor: " +
-                        documents.getValueAt(documents.getSelectedRow(), 1) + " permanentment?", "Esborrar document", JOptionPane.YES_NO_OPTION, JOptionPane.DEFAULT_OPTION);
+                        documents.getValueAt(documents.getSelectedRow(), 1) + " permanentment?",
+                        "Esborrar document", JOptionPane.YES_NO_OPTION, JOptionPane.DEFAULT_OPTION);
                 if (opt == 0) {
                     String titol = (String) documents.getValueAt(documents.getSelectedRow(), 0);
                     String autor = (String) documents.getValueAt(documents.getSelectedRow(), 1);
@@ -454,7 +458,7 @@ public class ViewPrincipal extends JFrame {
                     File[] arxius = chooser.getSelectedFiles();
                     if (arxius.length > 10) {
                         JOptionPane.showMessageDialog(null,
-                                "Has seleccionat més arxius del màxim, s'importaran només els 10 primers.");
+                                "Has seleccionat més arxius del màxim, s'importaran només els 10 primers en ordre alfabètic.");
                     }
                     int min = 10;
                     if(arxius.length < 10) min = arxius.length;
@@ -570,50 +574,59 @@ public class ViewPrincipal extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(documents.getRowCount() > 1) {
-                    String autor = (String) documents.getValueAt(documents.getSelectedRow(), 1);
-                    String titol = (String) documents.getValueAt(documents.getSelectedRow(), 0);
-                    JPanel message = new JPanel();
-                    SpinnerModel value = new SpinnerNumberModel(1, 1, documents.getRowCount()-1, 1);
-                    JSpinner num = new JSpinner(value);
-                    JFormattedTextField tf = ((JSpinner.DefaultEditor)num.getEditor()).getTextField(); //para evitar modificar por texto
+                    JPanel KPanel = new JPanel();
+                    SpinnerModel valueKModel = new SpinnerNumberModel(1, 1, documents.getRowCount()-1, 1);
+                    JSpinner valueK = new JSpinner(valueKModel);
+                    JFormattedTextField tf = ((JSpinner.DefaultEditor)valueK.getEditor()).getTextField(); //para evitar modificar por texto
                     tf.setEditable(false);
+                    JLabel KLabel = new JLabel("Indica el nombre de documents que vols llistar:");
+                    KPanel.setLayout(new BorderLayout());
+                    KPanel.add(KLabel, BorderLayout.NORTH);
+                    KPanel.add(valueK, BorderLayout.SOUTH);
+
+                    String[] estrategies = {"TF-IDF", "TF"};
+                    JComboBox jCBestrategia = new JComboBox(estrategies);
+                    jCBestrategia.setEditable(false);
+                    JPanel estratPanel = new JPanel();
+                    JLabel estratLabel = new JLabel("Selecciona estratègia:");
+                    estratPanel.setLayout(new BorderLayout());
+                    estratPanel.add(estratLabel, BorderLayout.NORTH);
+                    estratPanel.add(jCBestrategia, BorderLayout.SOUTH);
+
+                    JPanel message = new JPanel();
                     message.setLayout(new BorderLayout());
-                    message.add(new Label("Escriu el nombre de documents que vols llistar: "), BorderLayout.NORTH);
-                    message.add(num);
+                    message.add(KPanel, BorderLayout.NORTH);
+                    message.add(estratPanel, BorderLayout.SOUTH);
 
                     int opt1 = JOptionPane.showOptionDialog(null, message, "Llistar documents semblants",
                             JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, JOptionPane.NO_OPTION);
                     if(opt1 == 0) {
-                        String[] tox = {"TF-IDF", "TF"};
-                        int opt2 = JOptionPane.showOptionDialog(null, "Escull l'estratègia amb la que vols cercar: ",
-                                "Llistar documents semblants", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, tox, tox[0]);
-                        if (opt2 == 0 || opt2 == 1) {
-                            boolean estrategia = false;
-                            if(opt2 == 1) estrategia = true;
-                            List<Pair<String, String>> docsSemblants = cp.llistarKDocumentsS(autor, titol, (int) num.getValue(), estrategia);
+                        String autor = (String) documents.getValueAt(documents.getSelectedRow(), 1);
+                        String titol = (String) documents.getValueAt(documents.getSelectedRow(), 0);
+                        boolean estrategia = false;
+                        if(jCBestrategia.getSelectedItem().equals("TF")) estrategia = true;
+                        List<Pair<String, String>> docsSemblants = cp.llistarKDocumentsS(autor, titol, (int)valueK.getValue(), estrategia);
 
-                            Object[][] docsSemblantsObj = new Object[docsSemblants.size()][2];
-                            for(int i = 0; i < docsSemblants.size(); ++i) {
-                                Object[] docSemblantsObj = {docsSemblants.get(i).y, docsSemblants.get(i).x};
-                                //System.out.println(docsSemblants.get(i).y + docsSemblants.get(i).x);
-                                docsSemblantsObj[i] = docSemblantsObj;
-                            }
-                            String[] columns = {"Títols", "Autors"};
-                            DefaultTableModel tm = new DefaultTableModel(docsSemblantsObj, columns) {
-                                @Override
-                                public boolean isCellEditable(int row, int column) {
-                                    return false;
-                                }
-                            };
-                            JPanel panelDocs = new showingDocsTable(tm, documents, cp, true, viewPrin);
-                            String estrat = "TF-IDF";
-                            if(estrategia) estrat = "TF";
-                            JLabel label = new JLabel( "Aquests són els " + num.getValue() +
-                                    " documents més semblants al document amb títol: " + titol + " i autor: " +
-                                    autor + " amb l'estratègia " + estrat + ".");
-                            panelDocs.add(label, BorderLayout.SOUTH);
-                            JOptionPane.showMessageDialog(null, panelDocs, "Documents més semblants", JOptionPane.DEFAULT_OPTION);
+                        Object[][] docsSemblantsObj = new Object[docsSemblants.size()][2];
+                        for(int i = 0; i < docsSemblants.size(); ++i) {
+                            Object[] docSemblantsObj = {docsSemblants.get(i).y, docsSemblants.get(i).x};
+                            //System.out.println(docsSemblants.get(i).y + docsSemblants.get(i).x);
+                            docsSemblantsObj[i] = docSemblantsObj;
                         }
+                        String[] columns = {"Títols", "Autors"};
+                        DefaultTableModel tm = new DefaultTableModel(docsSemblantsObj, columns) {
+                            @Override
+                            public boolean isCellEditable(int row, int column) {
+                                return false;
+                            }
+                        };
+                        JPanel panelDocs = new showingDocsTable(tm, documents, cp, true, viewPrin);
+                        String intro = "Aquests són els " + valueK.getValue() + " documents més semblants";
+                        if((int)valueK.getValue() == 1) intro = "Aquests és el document més semblant";
+                        JLabel label = new JLabel( intro + " al document amb títol:" + titol + " i autor: " +
+                                autor + " amb l'estratègia " + jCBestrategia.getSelectedItem() + ".");
+                        panelDocs.add(label, BorderLayout.SOUTH);
+                        JOptionPane.showMessageDialog(null, panelDocs, "Documents més semblants", JOptionPane.DEFAULT_OPTION);
                     }
                 }
                 else {
@@ -660,7 +673,8 @@ public class ViewPrincipal extends JFrame {
                     }
                 }
                 else {
-                    JOptionPane.showMessageDialog(null, "No hi ha cap autor encara, crea o importa un document.", "Error cap document.", JOptionPane.DEFAULT_OPTION);
+                    JOptionPane.showMessageDialog(null, "No hi ha cap autor encara, crea o importa un document.",
+                            "Error cap document", JOptionPane.DEFAULT_OPTION);
                 }
             }
         });
@@ -695,7 +709,7 @@ public class ViewPrincipal extends JFrame {
                                 }
                             };
                             JPanel panelAuts = new showingDocsTable(tm, documents, cp, false, viewPrin);
-                            JOptionPane.showMessageDialog(null, panelAuts, "Autors donat prefix.",
+                            JOptionPane.showMessageDialog(null, panelAuts, "Autors donat prefix",
                                     JOptionPane.DEFAULT_OPTION);
                         }
                         else {
@@ -705,7 +719,8 @@ public class ViewPrincipal extends JFrame {
                     }
                 }
                 else {
-                    JOptionPane.showMessageDialog(null, "No hi ha cap autor encara, crea o importa un document.", "Error cap document.", JOptionPane.DEFAULT_OPTION);
+                    JOptionPane.showMessageDialog(null, "No hi ha cap autor encara, crea o importa un document.",
+                            "Error cap document", JOptionPane.DEFAULT_OPTION);
                 }
             }
         });
@@ -715,16 +730,19 @@ public class ViewPrincipal extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(documents.getRowCount() > 0) {
-                    /*JPanel paraulesPanel = new JPanel();
-                    JTextField paraulesField = new JTextField();
-                    JLabel paraulesLabel = new JLabel("Escriu el nombre de documents que vols llistar:");
+                    JPanel paraulesPanel = new JPanel();
+                    JTextField paraulesField = new JTextField("");
+                    JLabel paraulesLabel = new JLabel("Escriu les paraules que vols cercar per rellevància, separades per un espai:");
                     paraulesPanel.setLayout(new BorderLayout());
                     paraulesPanel.add(paraulesLabel, BorderLayout.NORTH);
                     paraulesPanel.add(paraulesField, BorderLayout.SOUTH);
 
-                    /*JPanel KPanel = new JPanel();
-                    SpinnerModel valueK = new SpinnerNumberModel(1, 1, documents.getRowCount(), 1);
-                    JLabel KLabel = new JLabel("Escriu el nombre de documents que vols llistar:");
+                    JPanel KPanel = new JPanel();
+                    SpinnerModel valueKModel = new SpinnerNumberModel(1, 1, documents.getRowCount(), 1);
+                    JSpinner valueK = new JSpinner(valueKModel);
+                    JFormattedTextField tf = ((JSpinner.DefaultEditor)valueK.getEditor()).getTextField(); //para evitar modificar por texto
+                    tf.setEditable(false);
+                    JLabel KLabel = new JLabel("Indica el nombre de documents que vols llistar:");
                     KPanel.setLayout(new BorderLayout());
                     KPanel.add(KLabel, BorderLayout.NORTH);
                     KPanel.add(valueK, BorderLayout.SOUTH);
@@ -741,66 +759,44 @@ public class ViewPrincipal extends JFrame {
                     JPanel message = new JPanel();
                     message.setLayout(new BorderLayout());
                     message.add(paraulesPanel, BorderLayout.NORTH);
-                    //message.add(KPanel, BorderLayout.CENTER);
+                    message.add(KPanel, BorderLayout.CENTER);
                     message.add(estratPanel, BorderLayout.SOUTH);
 
-                    int opt1 = JOptionPane.showOptionDialog(null, message, "Llistar documents semblants",
+                    int opt1 = JOptionPane.showOptionDialog(null, message, "Cerca per rellevància",
                             JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, JOptionPane.NO_OPTION);
-                }*/
+                    if (opt1 == 0 && !paraulesField.getText().equals("")) {
+                        boolean estrategia = false;
+                        if (jCBestrategia.getSelectedItem().equals("TF")) estrategia = true;
 
-                if(documents.getRowCount() > 0) {
-                    String paraules;
-                    paraules = JOptionPane.showInputDialog(null, "Escriu les paraules que vols cercar per rellevància, " +
-                            "separades per un espai: ", "Llistar documents rellevants", -1);
-
-                    JPanel message = new JPanel();
-                    SpinnerModel value = new SpinnerNumberModel(1, 1, documents.getRowCount(), 1);
-                    JSpinner num = new JSpinner(value);
-                    JFormattedTextField tf = ((JSpinner.DefaultEditor)num.getEditor()).getTextField();
-                    tf.setEditable(false);
-                    message.setLayout(new BorderLayout());
-                    message.add(new Label("Escriu el nombre de documents que vols llistar: "), BorderLayout.NORTH);
-                    message.add(num);
-
-                    int opt1 = JOptionPane.showOptionDialog(null, message, "Llistar documents semblants",
-                            JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, JOptionPane.NO_OPTION);
-                    if(opt1 == 0) {
-                        String[] tox = {"TF-IDF", "TF"};
-                        int opt2 = JOptionPane.showOptionDialog(null, "Escull l'estratègia amb la que vols cercar: ", "Escollir estratègia", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, tox, tox[0]);
-                        if (opt2 == 0 || opt2 == 1) {
-                            boolean estrategia = false;
-                            if (opt2 == 1) estrategia = true;
-                            List<Pair<String, String>> docsCondicio = cp.cercarPerRellevancia(paraules, (int) num.getValue(), estrategia);
-
-
-                            Object[][] docsCondicioObj = new Object[docsCondicio.size()][2];
-                            for (int i = 0; i < docsCondicio.size(); ++i) {
-                                Object[] docCondicioObj = {docsCondicio.get(i).y, docsCondicio.get(i).x};
-                                //System.out.println(docsCondicio.get(i).y + docsCondicio.get(i).x);
-                                docsCondicioObj[i] = docCondicioObj;
+                        List<Pair<String, String>> docsCondicio = cp.cercarPerRellevancia(paraulesField.getText(), (int) valueK.getValue(), estrategia);
+                        Object[][] docsCondicioObj = new Object[docsCondicio.size()][2];
+                        for (int i = 0; i < docsCondicio.size(); ++i) {
+                            Object[] docCondicioObj = {docsCondicio.get(i).y, docsCondicio.get(i).x};
+                            //System.out.println(docsCondicio.get(i).y + docsCondicio.get(i).x);
+                            docsCondicioObj[i] = docCondicioObj;
+                        }
+                        String[] columns = {"Títols", "Autors"};
+                        DefaultTableModel tm = new DefaultTableModel(docsCondicioObj, columns) {
+                            @Override
+                            public boolean isCellEditable(int row, int column) {
+                                return false;
                             }
-                            String[] columns = {"Títols", "Autors"};
-                            DefaultTableModel tm = new DefaultTableModel(docsCondicioObj, columns) {
-                                @Override
-                                public boolean isCellEditable(int row, int column) {
-                                    return false;
-                                }
-                            };
-                            JPanel panelDocs = new showingDocsTable(tm, documents, cp, true, viewPrin);
-                            String estrat = "TF-IDF";
-                            if (estrategia) estrat = "TF";
-                            JLabel label = new JLabel("Aquests són els " + num.getValue() +
-                                    " documents més rellevants segons les paraules escollides" +
-                                    " amb l'estratègia " + estrat + ".");
-                            panelDocs.add(label, BorderLayout.SOUTH);
-                            JOptionPane.showMessageDialog(null, panelDocs, "Documents segons la cerca per rellevància",
-                                    JOptionPane.DEFAULT_OPTION);
-                        }
-                        }
+                        };
+                        JPanel panelDocs = new showingDocsTable(tm, documents, cp, true, viewPrin);
+                        String intro = "Aquests són els " + valueK.getValue() + " documents més rellevants";
+                        if((int)valueK.getValue() == 1) intro = "Aquest és el document més rellevant";
+                        JLabel label = new JLabel(intro + " segons les paraules escollides amb l'estratègia " + jCBestrategia.getSelectedItem() + ".");
+                        panelDocs.add(label, BorderLayout.SOUTH);
+                        JOptionPane.showMessageDialog(null, panelDocs, "Documents segons la cerca per rellevància",
+                                JOptionPane.DEFAULT_OPTION);
+                    } else if (opt1 == 0 && paraulesField.getText().equals("")) {//el conjunt de paraules no pot ser buit
+                        JOptionPane.showMessageDialog(null, "El conjunt de paraules no pot ser buit.",
+                                "Error paraules introduïdes", JOptionPane.DEFAULT_OPTION);
                     }
                 }
                 else {
-                    JOptionPane.showMessageDialog(null, "No hi ha cap document encara, els pots crear o importar.", "Error cap document.", JOptionPane.DEFAULT_OPTION);
+                    JOptionPane.showMessageDialog(null, "No hi ha cap document encara, els pots crear o importar.",
+                            "Error cap document", JOptionPane.DEFAULT_OPTION);
                 }
             }
         });
@@ -1043,7 +1039,7 @@ public class ViewPrincipal extends JFrame {
             tableModel.addRow(new Object[]{p.x.y, p.x.x, p.y});
         }
         contadorDocs.setText(Integer.toString(documents.getRowCount()));
-    } //Pair p : docsList
+    }
 }
 
         /* keyboard listeners */
@@ -1058,8 +1054,62 @@ public class ViewPrincipal extends JFrame {
                     System.out.println("Up A is pressed!");
                 }
             }
-        });*/
+        });
 
+        if(documents.getRowCount() > 0) {
+                    String paraules;
+                    paraules = JOptionPane.showInputDialog(null, "Escriu les paraules que vols cercar per rellevància, " +
+                            "separades per un espai: ", "Llistar documents rellevants", -1);
+
+                    JPanel message = new JPanel();
+                    SpinnerModel value = new SpinnerNumberModel(1, 1, documents.getRowCount(), 1);
+                    JSpinner num = new JSpinner(value);
+                    JFormattedTextField tf = ((JSpinner.DefaultEditor)num.getEditor()).getTextField();
+                    tf.setEditable(false);
+                    message.setLayout(new BorderLayout());
+                    message.add(new Label("Escriu el nombre de documents que vols llistar: "), BorderLayout.NORTH);
+                    message.add(num);
+
+                    int opt1 = JOptionPane.showOptionDialog(null, message, "Llistar documents semblants",
+                            JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, JOptionPane.NO_OPTION);
+                    if(opt1 == 0) {
+                        String[] tox = {"TF-IDF", "TF"};
+                        int opt2 = JOptionPane.showOptionDialog(null, "Escull l'estratègia amb la que vols cercar: ", "Escollir estratègia", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, tox, tox[0]);
+                        if (opt2 == 0 || opt2 == 1) {
+                            boolean estrategia = false;
+                            if (opt2 == 1) estrategia = true;
+                            List<Pair<String, String>> docsCondicio = cp.cercarPerRellevancia(paraules, (int) num.getValue(), estrategia);
+
+
+                            Object[][] docsCondicioObj = new Object[docsCondicio.size()][2];
+                            for (int i = 0; i < docsCondicio.size(); ++i) {
+                                Object[] docCondicioObj = {docsCondicio.get(i).y, docsCondicio.get(i).x};
+                                //System.out.println(docsCondicio.get(i).y + docsCondicio.get(i).x);
+                                docsCondicioObj[i] = docCondicioObj;
+                            }
+                            String[] columns = {"Títols", "Autors"};
+                            DefaultTableModel tm = new DefaultTableModel(docsCondicioObj, columns) {
+                                @Override
+                                public boolean isCellEditable(int row, int column) {
+                                    return false;
+                                }
+                            };
+                            JPanel panelDocs = new showingDocsTable(tm, documents, cp, true, viewPrin);
+                            String estrat = "TF-IDF";
+                            if (estrategia) estrat = "TF";
+                            JLabel label = new JLabel("Aquests són els " + num.getValue() +
+                                    " documents més rellevants segons les paraules escollides" +
+                                    " amb l'estratègia " + estrat + ".");
+                            panelDocs.add(label, BorderLayout.SOUTH);
+                            JOptionPane.showMessageDialog(null, panelDocs, "Documents segons la cerca per rellevància",
+                                    JOptionPane.DEFAULT_OPTION);
+                        }
+                        }
+                    }
+                }
+                else {
+                    JOptionPane.showMessageDialog(null, "No hi ha cap document encara, els pots crear o importar.", "Error cap document.", JOptionPane.DEFAULT_OPTION);
+                }*/
 
 
 

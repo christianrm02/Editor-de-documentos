@@ -104,7 +104,7 @@ public class ViewGestioExpBool extends JFrame{
         /*Creacion popup opciones*/
         JMenuItem modificaE=new JMenuItem("Modifica");
         JMenuItem eliminaE=new JMenuItem("Elimina");
-        JMenuItem buscaXE=new JMenuItem("Busca");
+        JMenuItem buscaXE=new JMenuItem("Cerca");
         JPopupMenu popOptExp = new JPopupMenu();
         popOptExp.add(modificaE); popOptExp.add(eliminaE); popOptExp.add(buscaXE);
 
@@ -140,7 +140,7 @@ public class ViewGestioExpBool extends JFrame{
                 }
                 else if(expressions.getRowCount() == 0 && e.getClickCount() == 0) {
                     JOptionPane.showMessageDialog(null, "No hi ha cap expressió encara, les pots crear.",
-                            "Error cap expressió.", JOptionPane.DEFAULT_OPTION);
+                            "Error cap expressió", JOptionPane.DEFAULT_OPTION);
                 }
             }
         });
@@ -286,7 +286,7 @@ public class ViewGestioExpBool extends JFrame{
                     }
                     else {
                         JOptionPane.showMessageDialog(null, "No hi ha cap document que satisfagui l'expressió.",
-                                "Cerca per expressió booleana.", JOptionPane.DEFAULT_OPTION);
+                                "Cerca per expressió booleana", JOptionPane.DEFAULT_OPTION);
                     }
                 }
                 else {

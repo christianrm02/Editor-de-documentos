@@ -340,7 +340,7 @@ public class ViewPrincipal extends JFrame {
                         }
                     }
                 }
-                else if (newT.getText().equals(titol)){
+                else if (opt == 0 && newT.getText().equals(titol)){
                     JOptionPane.showMessageDialog(null, "Ja és el títol del document.");
                 } else if(opt == 0) { //es titol buit
                     JOptionPane.showMessageDialog(null, "Introdueix un títol vàlid, no es permeten deixar camps buits.");
@@ -377,10 +377,12 @@ public class ViewPrincipal extends JFrame {
                             tableModel.addRow(new Object[]{titol, newA.getText(), data});
                         }
                     }
-                } else if (newA.getText().equals(titol)){
-                    JOptionPane.showMessageDialog(null, "Ja és l'autor del document.");
+                } else if (opt == 0 && newA.getText().equals(titol)){
+                    JOptionPane.showMessageDialog(null, "Ja és l'autor del document.",
+                            "Modificar títol", JOptionPane.DEFAULT_OPTION);
                 } else if (opt == 0) { //és autor buit
-                    JOptionPane.showMessageDialog(null, "Introdueix un autor vàlid, no es permeten deixar camps buits.");
+                    JOptionPane.showMessageDialog(null, "Introdueix un autor vàlid, no es permeten deixar camps buits.",
+                            "Modificar títol", JOptionPane.DEFAULT_OPTION);
                 }
             }
         });
@@ -476,7 +478,8 @@ public class ViewPrincipal extends JFrame {
                     }
                     contadorDocs.setText(Integer.toString(documents.getRowCount()));
                     JOptionPane.showMessageDialog(null,
-                            "S'han importat correctament " + contDocsImp + " documents.");
+                            "S'han importat correctament " + contDocsImp + " documents.",
+                            "Importar document", JOptionPane.DEFAULT_OPTION);
                 }
             }
         });
@@ -631,7 +634,8 @@ public class ViewPrincipal extends JFrame {
                     }
                 }
                 else {
-                    JOptionPane.showMessageDialog(null, "No hi ha suficients documents", "Documents més semblants", JOptionPane.DEFAULT_OPTION);
+                    JOptionPane.showMessageDialog(null, "No hi ha suficients documents",
+                            "Documents més semblants", JOptionPane.DEFAULT_OPTION);
                 }
             }
         });

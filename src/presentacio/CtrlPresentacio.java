@@ -244,10 +244,10 @@ public class CtrlPresentacio {
      * @return Pair<String,String>: Es retorna l'autor i el titol del document importat.
      *          Retorna null si no s'ha pogut importar.
      */
-    public Pair<String, String> importaDocument(String path) { //path = path+nom+.format
+    public Pair<String, String> importaDocument(String path, String date) { //path = path+nom+.format
         Pair<String, String> docImp = new Pair<>();
         try {
-            docImp = cd.importarDocument(path);
+            docImp = cd.importarDocument(path, date);
         }
         catch (EDocumentException e){
             //JOptionPane.showMessageDialog(null, "Ja existeix un document amb aquell títol i autor.", "Error importar document", JOptionPane.ERROR_MESSAGE);
@@ -372,8 +372,8 @@ public class CtrlPresentacio {
      * Mètode per modificar el contingut del document obert actualment.
      * @param cont: String: nou contingut del document (autorAct+titolAct).
      */
-    public void modificarContingut(String cont) { //vieweditar
-        cd.modificarContingut(cont);
+    public void modificarContingut(String cont, String date) { //vieweditar
+        cd.modificarContingut(cont, date);
     }
 
     /**

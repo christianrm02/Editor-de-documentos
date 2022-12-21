@@ -461,10 +461,11 @@ public class ViewPrincipal extends JFrame {
                     //List<String> paths = new ArrayList<>();
                     int contDocsImp = 0; //comptador de documents importats correctaments
                     for(int i = 0; i < min; ++i) {
-                        Pair docImp = cp.importaDocument(arxius[i].getAbsolutePath());
+                        String date = LocalDate.now() + " " + LocalTime.now().truncatedTo(ChronoUnit.SECONDS);
+                        Pair docImp = cp.importaDocument(arxius[i].getAbsolutePath(), date);
                         if(docImp != null) {
                             ++contDocsImp;
-                            tableModel.addRow(new Object[]{docImp.y, docImp.x, LocalDate.now() + " " + LocalTime.now().truncatedTo(ChronoUnit.SECONDS)});
+                            tableModel.addRow(new Object[]{docImp.y, docImp.x, date});
                         }
                     }
                     contadorDocs.setText(Integer.toString(documents.getRowCount()));

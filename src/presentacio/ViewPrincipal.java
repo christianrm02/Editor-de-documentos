@@ -807,7 +807,7 @@ public class ViewPrincipal extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 if(documents.getRowCount() > 0) {
                     JPanel panelBusquedaExp = new JPanel();
-                    JTextField newExp = new JTextField("",20);
+                    JTextField newExp = new JTextField("",45);
                     JPanel insertExp = new JPanel();
                     insertExp.add(new JLabel("Escriu l'expressió per cercar: "));
                     insertExp.add(newExp);
@@ -816,7 +816,7 @@ public class ViewPrincipal extends JFrame {
 
                     String[] tox = {"Cerca", "Cancel·lar"};
                     int opt1 = JOptionPane.showOptionDialog(null, panelBusquedaExp,
-                            "Cercar per expressió booleana", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE,
+                            "Cercar per expressió booleana", JOptionPane.DEFAULT_OPTION, JOptionPane.DEFAULT_OPTION,
                             null, tox, tox[0]);
                     if (opt1 == 0 && !newExp.getText().equals("")) {
                         List<Pair<String, String>> docsXExp = cp.cercarExpressioBooleana(newExp.getText());
@@ -841,12 +841,12 @@ public class ViewPrincipal extends JFrame {
                                 JPanel panelDocs = new showingDocsTable(tm, documents, cp, true, viewPrin);
 
                                 opt2 = JOptionPane.showOptionDialog(null, panelDocs,
-                                        "Resultats de cerca per expressió", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE,
+                                        "Resultats de cerca per expressió", JOptionPane.DEFAULT_OPTION, JOptionPane.DEFAULT_OPTION,
                                         null, tox2, tox2[1]);
                             }
                             else {
                                 opt2 = JOptionPane.showOptionDialog(null, "No hi ha cap document que satisfagui l'expressió.",
-                                        "Resultats de cerca per expressió", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE,
+                                        "Resultats de cerca per expressió", JOptionPane.DEFAULT_OPTION, JOptionPane.DEFAULT_OPTION,
                                         null, tox2, tox2[1]);
                             }
 
@@ -871,9 +871,8 @@ public class ViewPrincipal extends JFrame {
                                 if(!newNom.getText().equals("") && opt3 == 0) {
                                     boolean creat = cp.creaExpressioBooleana(newNom.getText(), newExp.getText());
                                     if(creat) {
-                                        JOptionPane.showMessageDialog(null, "S'ha guardat l'expressió booleana: " +
-                                                        newExp.getText() + " amb el nom: " + newNom.getText() + ".", "Guardar nova expressió booleana",
-                                                JOptionPane.DEFAULT_OPTION);
+                                        JOptionPane.showMessageDialog(null, "S'ha guardat l'expressió booleana amb el nom: " +
+                                                        newNom.getText() + ".", "Guardar nova expressió booleana", JOptionPane.DEFAULT_OPTION);
                                     }
                                 }
                                 else if(opt3 == 0) {
@@ -883,7 +882,7 @@ public class ViewPrincipal extends JFrame {
                             }
                         }
                     }
-                    else if(newExp.getText().equals("")) {
+                    else if(opt1 == 0 && newExp.getText().equals("")) {
                         JOptionPane.showMessageDialog(null, "No es permeten expressions booleanes buides.",
                                 "Error expressió", JOptionPane.DEFAULT_OPTION);
                     }
@@ -1074,7 +1073,7 @@ public class ViewPrincipal extends JFrame {
                             JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, JOptionPane.NO_OPTION);
                     if(opt1 == 0) {
                         String[] tox = {"TF-IDF", "TF"};
-                        int opt2 = JOptionPane.showOptionDialog(null, "Escull l'estratègia amb la que vols cercar: ", "Escollir estratègia", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, tox, tox[0]);
+                        int opt2 = JOptionPane.showOptionDialog(null, "Escull l'estratègia amb la que vols cercar: ", "Escollir estratègia", JOptionPane.DEFAULT_OPTION, JOptionPane.DEFAULT_OPTION, null, tox, tox[0]);
                         if (opt2 == 0 || opt2 == 1) {
                             boolean estrategia = false;
                             if (opt2 == 1) estrategia = true;

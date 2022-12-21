@@ -84,6 +84,7 @@ public class CtrlPresentacio {
      */
     public void mostraViewMostrarCont(String titol, String autor){ //Conseguir el cont con el getContingut, y q este llame a esta y así la main view como q no conoce las otras views?
         String cont = getContingut(autor, titol);
+        ocultaViewPrincipal();
         new ViewMostrarCont(this, titol, autor, cont);
     }
 

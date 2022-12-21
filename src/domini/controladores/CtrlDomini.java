@@ -44,13 +44,14 @@ public class CtrlDomini {
 
     /**
      * Mètode per inicialitzar els indexs i expressions booleanes a la capa de domini.
-     * @return List<Pair<String, String>>: Es retorna la llista de tots els documents (auto+titol) existents.
+     *
+     * @return List<Pair < String, String>>: Es retorna la llista de tots els documents (auto+titol) existents.
      */
-    public List<Pair<String, String>> init() throws IOException, ExpBoolNoValidaException {
+    public List<Pair<Pair<String, String>, String>> init() throws IOException, ExpBoolNoValidaException {
         ci.ImportarIndexs(cp.importarIndexs());
         List<Pair<String, String>> ebs = cp.carregarExpB();
         for (Pair<String, String> eb : ebs) ce.setExpressioBooleana(eb.x, eb.y);
-        return getTitolsAutors();
+        return getTitolsAutorsData();
     }
 
     /**
@@ -64,14 +65,15 @@ public class CtrlDomini {
     /**
      * Mètode per importar el document de la localització loc al sistema.
      * @param loc: String: localització del document a importar.
+     * @param data: String: data de l'instant on s'ha demanat importar.
      * @return Pair<String,String>: Es retorna l'autor i el titol del document importat.
      * @exception EDocumentException: El document ja existeix al sistema.
      * @exception IOException: Hi ha hagut algun problema en accedir a disc.
      */
-    public Pair<String,String> importarDocument(String loc) throws EDocumentException, IOException, FormatInvalid {
+    public Pair<String,String> importarDocument(String loc, String data) throws EDocumentException, IOException, FormatInvalid {
             String[] doc = cp.importaDocument(loc);
             if (ci.FindDoc(doc[0], doc[1])) throw new EDocumentException();
-            ci.AfegirDoc(doc[0], doc[1], converteix_a_frases(doc[2]));
+            ci.AfegirDoc(doc[0], doc[1], data, converteix_a_frases(doc[2]));
         return new Pair<>(doc[0], doc[1]);
     }
 
@@ -96,9 +98,9 @@ public class CtrlDomini {
 
     /**
      * Getter de documents.
-     * @return List<Pair<String, String>>: Es retornen tots els identificadors de documents (autor+titol) existents al sistema.
+     * @return List<Pair<Pair<String, String>,String>>: Es retornen ots els identificadors de documents (autor+titol) texistents al sistema.
      */
-    public List<Pair<String, String>> getTitolsAutors() {
+    public List<Pair<Pair<String, String>,String>> getTitolsAutorsData() {
         return new ArrayList<>(ci.GetKeys());
     }
 
@@ -131,12 +133,13 @@ public class CtrlDomini {
      * Mètode per crear un document amb autor autor, títol titol i contingut en blanc.
      * @param autor: String: autor del document a crear.
      * @param titol: String: titol del document a crear.
+     * @param data: String: data de l'instant on s'ha demanat crear el document.
      * @exception EDocumentException: El document ja existeix al sistema.
      * @exception IOException: Hi ha hagut algun problema en accedir a disc.
      */
-    public void crearDocument(String autor, String titol) throws EDocumentException, IOException {
+    public void crearDocument(String autor, String titol, String data) throws EDocumentException, IOException {
         if (ci.FindDoc(autor, titol)) throw new EDocumentException();
-        ci.AfegirDoc(autor, titol, new ArrayList<String>());
+        ci.AfegirDoc(autor, titol, data, new ArrayList<String>());
         cp.desaContingut(autor, titol, "");
     }
 
@@ -181,11 +184,13 @@ public class CtrlDomini {
     }
 
     /**
-     * Mètode per modificar el contingut (contAct) del document obert actualment (autorAct+titolAct).
+     * Mètode per modificar el contingut (contAct) del document obert actualment (autorAct+titolAct) i actualitzar la seva data.
      * @param cont: String: nou contingut del document (autorAct+titolAct).
+     * @param data: String: data de l'instant on s'ha desat el contingut.
      */
-    public void modificarContingut(String cont) {
+    public void modificarContingut(String cont, String data) {
         contAct = cont;
+        ci.ActualitzarData(autorAct, titolAct, data);
         ci.ActualitzarContingut(autorAct, titolAct, converteix_a_frases(cont));
     }
 

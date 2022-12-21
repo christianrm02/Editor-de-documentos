@@ -6,12 +6,20 @@ import transversal.Pair;
 import java.io.IOException;
 import java.util.List;
 
+
+/**
+ * Aquesta classe és l’encarregada d’interactuar amb les classes de persistència.
+ * @author Pol Fradera
+ */
 public class CtrlPersistencia {
 
-    // Constructora
+    /**
+     * Constructora del controlador de persistència.
+     */
     public CtrlPersistencia() {
 
     }
+
     public String[] importaDocument(String path) throws IOException, FormatInvalid {
         return GestorDocuments.ImportaDocument(path);
     }

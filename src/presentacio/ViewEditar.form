@@ -2,6 +2,7 @@
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="presentacio.ViewEditar">
   <grid id="27dc6" binding="panel1" layout-manager="FormLayout">
     <rowspec value="center:max(d;4px):noGrow"/>
+    <rowspec value="center:max(d;4px):noGrow"/>
     <rowspec value="top:0dlu:noGrow"/>
     <rowspec value="center:d:grow"/>
     <colspec value="left:min(m;206px):noGrow"/>
@@ -27,7 +28,7 @@
         <rowspec value="center:max(d;4px):noGrow"/>
         <colspec value="fill:d:grow"/>
         <constraints>
-          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+          <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
             <preferred-size width="173" height="139"/>
           </grid>
           <forms defaultalign-horz="false" defaultalign-vert="false"/>
@@ -80,7 +81,7 @@
       </grid>
       <component id="ade0b" class="javax.swing.JLabel" binding="titol">
         <constraints>
-          <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
           <forms/>
         </constraints>
         <properties>
@@ -92,7 +93,7 @@
       </component>
       <component id="37046" class="javax.swing.JLabel" binding="autor">
         <constraints>
-          <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <grid row="1" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
           <forms/>
         </constraints>
         <properties>
@@ -103,7 +104,7 @@
       </component>
       <scrollpane id="4aefc">
         <constraints>
-          <grid row="2" column="1" row-span="1" col-span="4" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <grid row="3" column="1" row-span="1" col-span="4" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
           <forms defaultalign-horz="false" defaultalign-vert="false"/>
         </constraints>
         <properties/>
@@ -119,7 +120,7 @@
       </scrollpane>
       <component id="bceec" class="javax.swing.JLabel">
         <constraints>
-          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="10" fill="0" indent="0" use-parent-layout="false"/>
+          <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="10" fill="0" indent="0" use-parent-layout="false"/>
           <forms defaultalign-horz="false" defaultalign-vert="false"/>
         </constraints>
         <properties>
@@ -129,12 +130,22 @@
       </component>
       <component id="910b4" class="javax.swing.JLabel">
         <constraints>
-          <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="10" fill="0" indent="0" use-parent-layout="false"/>
+          <grid row="1" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="10" fill="0" indent="0" use-parent-layout="false"/>
           <forms defaultalign-vert="false"/>
         </constraints>
         <properties>
           <font name="Verdana" size="14"/>
           <text value="Autor:"/>
+        </properties>
+      </component>
+      <component id="18ad8" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <font size="20"/>
+          <text value="    "/>
         </properties>
       </component>
     </children>

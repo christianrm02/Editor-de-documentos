@@ -399,10 +399,12 @@ public class ViewPrincipal extends JFrame {
                     if(cp.esborrarDocument(autor, titol)) {
                         tableModel.removeRow(documents.getSelectedRow());
                         contadorDocs.setText(Integer.toString(documents.getRowCount()));
-                        JOptionPane.showMessageDialog(null, "S'ha esborrat el document correctament");
+                        JOptionPane.showMessageDialog(null, "S'ha esborrat el document correctament",
+                                "Borrar document", JOptionPane.DEFAULT_OPTION);
                     }
                 } else {
-                    JOptionPane.showMessageDialog(null, "No s'ha esborrat el document");
+                    JOptionPane.showMessageDialog(null, "No s'ha esborrat el document",
+                            "Borrar document", JOptionPane.DEFAULT_OPTION);
                 }
             }
         });
@@ -496,7 +498,6 @@ public class ViewPrincipal extends JFrame {
                     insertNom.add(newNom);
 
                     JComboBox tipus = new JComboBox();
-                    tipus.addItem("");
                     tipus.addItem("txt");
                     tipus.addItem("xml");
                     tipus.setSize(90, 20);
@@ -520,15 +521,15 @@ public class ViewPrincipal extends JFrame {
                         System.out.println(newNom.getText());
                     }
 
-                    if(opt == 0 && !newNom.getText().equals("") && !((String)tipus.getSelectedItem()).equals("")) {
+                    if(opt == 0 && !newNom.getText().equals("")) {
                         String titol = (String)tableModel.getValueAt(documents.getSelectedRow(), 0);
                         String autor = (String)tableModel.getValueAt(documents.getSelectedRow(), 1);
                         String path = chooser.getSelectedFile().getAbsolutePath();
                         String loc = path + "\\" + newNom.getText() + "." + (String)tipus.getSelectedItem();
                         //System.out.println(loc);
                         if(cp.exportaDocument(autor, titol, loc)) {
-                            JOptionPane.showMessageDialog(null,
-                                    "S'ha exportat el document correctament.");
+                            JOptionPane.showMessageDialog(null, "S'ha exportat el document correctament.",
+                                    "Exportació", JOptionPane.DEFAULT_OPTION);
                         }
                     }
                     else if(opt == 0 && (newNom.getText().equals("") || ((String)tipus.getSelectedItem()).equals(""))) {
@@ -623,7 +624,7 @@ public class ViewPrincipal extends JFrame {
                         JPanel panelDocs = new showingDocsTable(tm, documents, cp, true, viewPrin);
                         String intro = "Aquests són els " + valueK.getValue() + " documents més semblants";
                         if((int)valueK.getValue() == 1) intro = "Aquests és el document més semblant";
-                        JLabel label = new JLabel( intro + " al document amb títol:" + titol + " i autor: " +
+                        JLabel label = new JLabel( intro + " al document amb títol: " + titol + " i autor: " +
                                 autor + " amb l'estratègia " + jCBestrategia.getSelectedItem() + ".");
                         panelDocs.add(label, BorderLayout.SOUTH);
                         JOptionPane.showMessageDialog(null, panelDocs, "Documents més semblants", JOptionPane.DEFAULT_OPTION);

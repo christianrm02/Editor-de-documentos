@@ -1,6 +1,7 @@
 package persistencia;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -29,8 +30,10 @@ public class GestorIndexs {
             return info;
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            //Si no troba el fitxer simplement retorna null
+            return null;
         }
-        //Si no troba el fitxer simplement retorna null
         return null;
     }
 

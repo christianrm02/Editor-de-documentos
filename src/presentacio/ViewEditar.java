@@ -98,14 +98,9 @@ public class ViewEditar extends JFrame {
                     JOptionPane.showMessageDialog(null, "S'ha modificat el títol a " + newT.getText() + ".");
                 }
             }
-            else {
-                //JOptionPane.showMessageDialog(null, "No s'ha modificat el títol.");
-            }
         }
-        else {
-            if (newT.getText().equals("")) JOptionPane.showMessageDialog(null, "No es permeten camps en buit.");
-            else if (titol.getText().equals(newT.getText())) JOptionPane.showMessageDialog(null, "Ja és el títol del document.");
-        }
+        else if (opt == 0 && newT.getText().equals("")) JOptionPane.showMessageDialog(null, "No es permeten camps en buit.");
+        else if (opt == 0) JOptionPane.showMessageDialog(null, "Ja és el títol del document.");
     }
 
     /**
@@ -131,14 +126,9 @@ public class ViewEditar extends JFrame {
                     JOptionPane.showMessageDialog(null, "S'ha modificat l'autor a " + newA.getText() + ".");
                 }
             }
-            else {
-                //JOptionPane.showMessageDialog(null, "No s'ha modificat l'autor.");
-            }
         }
-        else {
-            if (newA.getText().equals("")) JOptionPane.showMessageDialog(null, "No es permeten camps en buit.");
-            else if (autor.getText().equals(newA.getText())) JOptionPane.showMessageDialog(null, "Ja és l'autor del document.");
-        }
+        else if (opt == 0 && newA.getText().equals("")) JOptionPane.showMessageDialog(null, "No es permeten camps en buit.");
+        else if (opt == 0) JOptionPane.showMessageDialog(null, "Ja és l'autor del document.");
     }
 
     /**

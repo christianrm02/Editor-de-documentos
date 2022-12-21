@@ -64,8 +64,9 @@ public class ViewEditar extends JFrame {
         do {
             opt = JOptionPane.showConfirmDialog(null, frase, "Desar document", JOptionPane.YES_NO_OPTION, JOptionPane.DEFAULT_OPTION);
             if (opt == 0) {
-                cp.modificarContingut(contNou);
-                cp.actualitzaDarreraModificacio(LocalDate.now() + " " + LocalTime.now().truncatedTo(ChronoUnit.SECONDS));
+                String data = LocalDate.now() + " " + LocalTime.now().truncatedTo(ChronoUnit.SECONDS);
+                cp.modificarContingut(contNou, data);
+                cp.actualitzaDarreraModificacio(data);
             }
             else if (opt == 1) {
                 opt2 = JOptionPane.showConfirmDialog(null, "Estàs segur que no vols desar el document?", "Desar document", JOptionPane.YES_NO_OPTION, JOptionPane.DEFAULT_OPTION);
@@ -180,10 +181,11 @@ public class ViewEditar extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String contNou = textPane1.getText();
                 if (!cont.equals(contNou)) {
-                    cp.modificarContingut(contNou);
+                    String data = LocalDate.now() + " " + LocalTime.now().truncatedTo(ChronoUnit.SECONDS);
+                    cp.modificarContingut(contNou, data);
                     cont = contNou;
                     JOptionPane.showMessageDialog(null, "El document s'ha desat correctament.");
-                    cp.actualitzaDarreraModificacio(LocalDate.now() + " " + LocalTime.now().truncatedTo(ChronoUnit.SECONDS));
+                    cp.actualitzaDarreraModificacio(data);
                 }
             }
         });
@@ -230,7 +232,9 @@ public class ViewEditar extends JFrame {
                         String path = chooser.getSelectedFile().getAbsolutePath();
                         String au = autor.getText(), ti = titol.getText();
                         String loc = path + "\\" + newNom.getText() + "." + (String)tipus.getSelectedItem(); //COMPROBAR Q SE HACE BIEN EL PATH
-                        cp.modificarContingut(textPane1.getText());
+                        String data = LocalDate.now() + " " + LocalTime.now().truncatedTo(ChronoUnit.SECONDS);
+                        cont = textPane1.getText();
+                        cp.modificarContingut(cont, data);
                         cp.desarDocument();
                         cp.exportaDocument(au, ti, loc);
                         //System.out.println(titol + " " + autor + " " + newNom.getText() + " " + chooser.getSelectedFile().getAbsolutePath());

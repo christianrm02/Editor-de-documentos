@@ -90,18 +90,18 @@ public class IndexExpBooleana implements Serializable{
         //OPTIMITZACIO: Es fa un break quan ha trobat tots els autorTitol iguals seguits
         for (int i = 0; i < indexFraseDocument.size(); i++) {
             Pair<String, String> autorTitol = indexFraseDocument.get(i);
-            if(autor == autorTitol.x && titol == autorTitol.y) {
+            if(autor.equals(autorTitol.x) && titol.equals(autorTitol.y)) {
                 if(startingIndexEliminar == -1) startingIndexEliminar = i;
                 numFrasesEliminar++;
             } else if (startingIndexEliminar != -1) break;
         }
 
-        //Eliminem les frases
+        //Eliminem les frases (borrem sempre del mateix index perque cada cop que esborrem la llista es fa mes curta i la proxima posicio a eliminar cau al mateix lloc)
         for (int i = startingIndexEliminar; i < startingIndexEliminar+numFrasesEliminar; i++) {
             //int s = indexFraseDocument.size();
             indexFraseDocument.remove(startingIndexEliminar);
 
-            //Del indexParaulaFrase eliminem les posicions de les frases eliminades
+            //Del indexParaulaFrase eliminem les columnes de les frases eliminades
             for (List<Pair<Boolean, String>> infoParaula : indexParaulaFrase.values()) {
                 infoParaula.remove(startingIndexEliminar);
             }

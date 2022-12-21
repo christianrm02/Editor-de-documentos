@@ -190,7 +190,7 @@ public class CtrlDomini {
      */
     public void modificarContingut(String cont, String data) {
         contAct = cont;
-        ci.ActualitzarData(autorAct, titolAct, data);
+        ci.SetData(autorAct, titolAct, data);
         ci.ActualitzarContingut(autorAct, titolAct, converteix_a_frases(cont));
     }
 

@@ -22,54 +22,49 @@ import static javax.swing.SwingUtilities.isRightMouseButton;
 
 /**
  * És la vista principal del programa, la que apareix quan s’inicia l’aplicació.
- * Mostra la llista dels documents (títols+autors) i et deixa obrir-los, filtrar-los, i
- * altres opcions sobre ells. Des d’aquesta s’obren les altres vistes mitjançant crides
- * al CtrlPresentacio.
+ * Mostra la llista dels documents (títols+autors) i et deixa obrir-los, filtrar-los, i altres opcions sobre ells. Des d’aquesta s’obren les altres vistes mitjançant crides al CtrlPresentacio
  * @author Christian Rivero
  */
 public class ViewPrincipal extends JFrame {
     /**
-     * Panell principal de la vista.
+     * Panell principal de la vista
      */
     private JPanel panel1;
     /**
-     * Botó per crear un document i afegir-ho al sistema.
+     * Botó per crear un document i afegir-ho al sistema
      */
     private JButton creaButton;
     /**
-     * Botó per importar un document de tipus txt o xml i afegir-ho al sistema.
+     * Botó per importar un document de tipus txt o xml i afegir-ho al sistema
      */
     private JButton importaButton;
     /**
-     * Botó per mostrar una sèrie de popups amb indicacions de les funcions de cada botó
-     * i acció possible a la vista.
+     * Botó per mostrar una sèrie de popups amb indicacions de les funcions de cada botó i acció possible a la vista
      */
     private JButton ajudaButton;
     /**
-     * Panell on s’ubica la JTable on es llisten els documents que hi ha al sistema
-     * (autor+títol).
+     * Panell on s’ubica la JTable on es llisten els documents que hi ha al sistema (autor+títol)
      */
     private JPanel tablePanel;
     /**
-     * Botó que obre la vista de ViewGestExpBool.
+     * Botó que obre la vista de ViewGestExpBool
      */
     private JButton gestioExpBoolButton;
     /**
-     * Botó que mostra un popup amb els diferents tipus de cerca sobre documents que hi ha.
+     * Botó que mostra un popup amb els diferents tipus de cerca sobre documents que hi ha
      */
     private JButton busquedaButton;
     /**
-     * Botó per esborrar un conjunt de documents seleccionats.
+     * Botó per esborrar un conjunt de documents seleccionats
      */
     private JButton esborrarDocsButton;
     /**
-     * Label on indiquem el nombre de documents del sistema en tot moment.
+     * Label on indiquem el nombre de documents del sistema en tot moment
      */
     private JLabel contadorDocs;
     /**
-     * Int que indica quina ha sigut l’anterior columna del header del JTable
-     * dels documents pulsada. Pot ser 0 o 1 (columnes que permeten l’ordenació) i si
-     * es prem dues vegades la mateixa columna seguida, es posa a -1.
+     * Int que indica quina ha sigut l’anterior columna del header del JTable dels documents pulsada.
+     * Pot ser 0 o 1 (columnes que permeten l’ordenació) i si es prem dues vegades la mateixa columna seguida, es posa a -1
      */
     private int columnRepetida;
     /**
@@ -88,7 +83,7 @@ public class ViewPrincipal extends JFrame {
 
     /**
      * Creadora única
-     * @param cp: CtrlPresentacio: instància del controlador de presentació.
+     * @param cp Instància del controlador de presentació
      */
     public ViewPrincipal(CtrlPresentacio cp) {
         columnRepetida = -1;
@@ -118,6 +113,9 @@ public class ViewPrincipal extends JFrame {
         TableRowSorter<TableModel> sorter = new TableRowSorter<>(documents.getModel());
         documents.setRowSorter(sorter);
         List<RowSorter.SortKey> sortKeys = new ArrayList<>();
+        sortKeys.add(new RowSorter.SortKey(1, SortOrder.ASCENDING));
+        sortKeys.add(new RowSorter.SortKey(0, SortOrder.ASCENDING));
+        columnRepetida = 1;
         sorter.setSortKeys(sortKeys);
         sorter.setSortable(3, false);
 
@@ -368,7 +366,7 @@ public class ViewPrincipal extends JFrame {
                 String titol = (String) documents.getValueAt(documents.getSelectedRow(), 0);
                 String autor = (String) documents.getValueAt(documents.getSelectedRow(), 1);
 
-                if (opt == 0 && !newA.getText().equals("") && !newA.getText().equals(titol)) {
+                if (opt == 0 && !newA.getText().equals("") && !newA.getText().equals(autor)) {
                     int opt2 = JOptionPane.showConfirmDialog(null, "El document tindrà el títol: " + titol +
                             " i l'autor: " + newA.getText() + ", estàs d'acord?", "Modificar autor", JOptionPane.YES_NO_OPTION, JOptionPane.DEFAULT_OPTION);
                     if (opt2 == 0) {
@@ -379,7 +377,7 @@ public class ViewPrincipal extends JFrame {
                             tableModel.addRow(new Object[]{titol, newA.getText(), data});
                         }
                     }
-                } else if (opt == 0 && newA.getText().equals(titol)){
+                } else if (opt == 0 && newA.getText().equals(autor)){
                     JOptionPane.showMessageDialog(null, "Ja és l'autor del document.",
                             "Modificar títol", JOptionPane.DEFAULT_OPTION);
                 } else if (opt == 0) { //és autor buit
@@ -652,11 +650,17 @@ public class ViewPrincipal extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(documents.getRowCount() > 0) {
-                    //String[] auts = cp.getAutors().toArray(new String[0]);
-                    //String[] auts = {"Ana", "Carlos", "Joan", "Pepe"};
-                    List<String> autorsList = cp.getAutors();
+                    /*List<String> autorsList = cp.getAutors();
                     String[] autorsArray = autorsList.toArray(new String[0]);
+                    JComboBox jca = new JComboBox(autorsArray);*/
+
+                    List<String> autorsList = cp.getAutors();
+                    String[] autorsArray = new String[autorsList.size()];
+                    for(int i = 0; i < autorsList.size(); ++i) {
+                        autorsArray[i] = autorsList.get(i);
+                    }
                     JComboBox jca = new JComboBox(autorsArray);
+
                     jca.setEditable(false);
 
                     Object[] options = new Object[]{"Tria un autor: ", jca};
@@ -944,6 +948,9 @@ public class ViewPrincipal extends JFrame {
 
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
+                sortKeys.add(new RowSorter.SortKey(1, SortOrder.ASCENDING));
+                sortKeys.add(new RowSorter.SortKey(0, SortOrder.ASCENDING));
+                columnRepetida = 1;
                 cp.tancarAplicacio();
                 dispose();
                 //cp.mostraViewPrincipal();
@@ -967,9 +974,8 @@ public class ViewPrincipal extends JFrame {
     }*/
 
     /**
-     * Mètode per cambiar el títol d'un document obert.
-     * @param newT: String: Nou títol del document obert, el document obert està
-     *            seleccionat en la JTable documents.
+     * Mètode per cambiar el títol d'un document obert
+     * @param newT Nou títol del document obert, el document obert està seleccionat en la JTable documents
      */
     public void actualitzaTitol(String newT) {
         String autor = (String) documents.getValueAt(documents.getSelectedRow(), 1);
@@ -987,9 +993,8 @@ public class ViewPrincipal extends JFrame {
     }
 
     /**
-     * Mètode per cambiar l'autor d'un document obert.
-     * @param newA: String: Nou autor del document obert, el document obert està
-     *            seleccionat en la JTable documents.
+     * Mètode per cambiar l'autor d'un document obert
+     * @param newA Nou autor del document obert, el document obert està seleccionat en la JTable documents
      */
     public void actualitzaAutor(String newA) {
         String titol = (String) documents.getValueAt(documents.getSelectedRow(), 0);
@@ -1006,6 +1011,10 @@ public class ViewPrincipal extends JFrame {
         documents.addRowSelectionInterval(row, row);
     }
 
+    /**
+     * Mètode per cambiar la darrera modificació d'un document obert
+     * @param date Nova darrera modificació del document obert, el document obert està seleccionat en la JTable documents
+     */
     public void actualitzaDarreraModificacio(String date) {
         String titol = (String) documents.getValueAt(documents.getSelectedRow(), 0);
         String autor = (String) documents.getValueAt(documents.getSelectedRow(), 1);
@@ -1022,26 +1031,24 @@ public class ViewPrincipal extends JFrame {
     }
 
     /**
-     * Mètode que retorna el títol del document obert.
-     * @return String: Títol del document obert, el document obert està seleccionat
-     *          a la JTable documents.
+     * Mètode que retorna el títol del document ober
+     * @return Títol del document obert, el document obert està seleccionat a la JTable documents
      */
     public String getTitolDocObert() {
         return (String)documents.getValueAt(documents.getSelectedRow(), 0);
     }
 
     /**
-     * Mètode que retorna l'autor del document obert.
-     * @return String: Autor del document obert, el document obert està seleccionat
-     *          a la JTable documents.
+     * Mètode que retorna l'autor del document obert
+     * @return Autor del document obert, el document obert està seleccionat a la JTable documents
      */
     public String getAutorDocObert() {
         return (String)documents.getValueAt(documents.getSelectedRow(), 1);
     }
 
     /**
-     * Mètode que incialitza la JTable documents amb els documents que hi ha guardats al sistema.
-     * @param docsList: List<Pair<String, String>>: Llista de pairs (autor+títol) dels documents guardats.
+     * Mètode que incialitza la JTable documents amb els documents que hi ha guardats al sistema
+     * @param docsList Llista de pairs (autor+títol) dels documents guardats
      */
     public void initDocs(List<Pair<Pair<String, String>, String>> docsList){
         for (Pair<Pair<String, String>, String> p : docsList) {

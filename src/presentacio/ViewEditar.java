@@ -52,9 +52,9 @@ public class ViewEditar extends JFrame {
 
     /**
      * Pregunta a l’usuari si vol desar el document abans de sortir de la vista o tancar el programa. En cas que l’usuari accepti, es guarda el contingut del document a contAct a CtrlDomini, altrament no es guarda.
-     * @param contNou: String: contingut actual del document sense desar.
-     * @param sortir: boolean:
-     * @return int: Es retorna un enter, que si és 0, vol dir que s'ha guardat, altrament vol dir que no s'ha guardat.
+     * @param contNou Contingut actual del document sense desar.
+     * @param sortir Booleà que indica si es vol tancar el programa o sortir a la pantalla principal.
+     * @return Es retorna un enter, que si és 0, vol dir que s'ha guardat, altrament vol dir que no s'ha guardat.
      */
     private int desarAbansDeTancar(String contNou, boolean sortir) {
         String frase = "No has desat el document. El vols desar abans de ";
@@ -133,10 +133,10 @@ public class ViewEditar extends JFrame {
 
     /**
      * Mostra un panell editable amb el contingut del document (a+t), amb el títol t i l’autor a a dalt del panell i un botó per desar el contingut del document, un altre per exportar el document i un tercer per tornar enrere, és a dir, anar a la ViewPrincipal.
-     * @param ctrlp: CtrlPresentacio: instància del controlador de presentació.
-     * @param t: String: títol del document.
-     * @param a: String: títol del document.
-     * @param c: String: contingut del document.
+     * @param ctrlp Instància del controlador de presentació.
+     * @param t Títol del document.
+     * @param a Autor del document.
+     * @param c Contingut del document.
      */
     public ViewEditar(CtrlPresentacio ctrlp, String t, String a, String c) {
         setContentPane(panel1);

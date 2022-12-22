@@ -2,9 +2,10 @@ package domini.datatypes;
 
 import java.io.Serializable;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.TreeMap;
+import java.util.TreeSet;
 import java.util.Map.Entry;
 
 import transversal.Pair;
@@ -39,14 +40,14 @@ public class Trie implements Serializable{
         /**
          * Mapa amb els títols de l'autor que té el final de paraula en aquest node i les dates de modificacio
          */
-        HashMap<String, String> titolsDates;
+        TreeMap<String, String> titolsDates;
         
         /**
          * Constructora del TrieNode
          */
         TrieNode() {
             children = new HashMap<>();
-            titolsDates = new HashMap<>();
+            titolsDates = new TreeMap<>(); //Fem servir treemap per a que estigui ordenat
         }
     }
 
@@ -173,7 +174,7 @@ public class Trie implements Serializable{
      * @return Set<Pair<Pair<String, String>, String>> - Set amb totes les tries (autor, títol, data) del Trie
      */
     public Set<Pair<Pair<String, String>, String>> GetKeys() {
-        Set<Pair<Pair<String, String>, String>> keys = new HashSet<>();
+        Set<Pair<Pair<String, String>, String>> keys = new TreeSet<>();
         StringBuilder s = new StringBuilder();
         getKeys(root, 0, s, keys);
         return keys;
@@ -190,7 +191,7 @@ public class Trie implements Serializable{
             char ch = autor.charAt(i);
             TrieNode node = current.children.get(ch);
             if (node == null) {
-                return new HashSet<String>();
+                return new TreeSet<String>();
             }
             current = node;
         }
@@ -203,7 +204,7 @@ public class Trie implements Serializable{
      * @return Set<String> - Set amb els autors obtinguts
      */
     public Set<String> SearchWordsPrefix(String prefix) {   
-        Set<String> words = new HashSet<String>();
+        Set<String> words = new TreeSet<String>();
         
         TrieNode current = root;
         //Fem un recorregut fins al node on acaba el prefix

@@ -404,11 +404,11 @@ public class ViewPrincipal extends JFrame {
                         tableModel.removeRow(documents.getSelectedRow());
                         contadorDocs.setText(Integer.toString(documents.getRowCount()));
                         JOptionPane.showMessageDialog(null, "S'ha esborrat el document correctament",
-                                "Borrar document", JOptionPane.DEFAULT_OPTION);
+                                "Esborrar document", JOptionPane.DEFAULT_OPTION);
                     }
                 } else {
                     JOptionPane.showMessageDialog(null, "No s'ha esborrat el document",
-                            "Borrar document", JOptionPane.DEFAULT_OPTION);
+                            "Esborrar document", JOptionPane.DEFAULT_OPTION);
                 }
             }
         });

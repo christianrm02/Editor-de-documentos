@@ -53,7 +53,7 @@ public class CtrlPresentacio {
                 popupException(e.toString(), "Error obrir programa");
                 docs = null;
             }
-            catch (ExpBoolNoValidaException e) { //PORQUE THROWEA ESTA EXCEPCIÓN?
+            catch (ExpBoolNoValidaException e) { //no hauria de pasar mai
                 popupException(e.toString(), "Error obrir programa");
                 docs = null;
             }
@@ -257,7 +257,7 @@ public class CtrlPresentacio {
         }
         catch(IOException e) {
             //JOptionPane.showMessageDialog(null, "Hi ha hagut un error al importar el document.","Error importar document", JOptionPane.ERROR_MESSAGE);
-            popupException(e.toString(), "Error importar document");
+            popupException("El document importat no indica el títol o l'autor correctament.", "Error importar document");
             docImp = null;
         }
         catch(FormatInvalid e) {

@@ -74,7 +74,7 @@ public class CtrlExpressioBooleana {
     /**
      * Mètode per saber si un string és un operador lògic.
      * @param s String qualsevol.
-     * @return Indica si l'string s és un operador lògic.
+     * @return Indica si l'String s és un operador lògic.
      */
     private boolean isOperator(String s) {
         return s.length() == 1 && (s.equals("&") || s.equals("|") || s.equals("!"));

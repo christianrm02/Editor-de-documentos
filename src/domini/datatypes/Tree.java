@@ -3,26 +3,43 @@ import java.util.*;
 import excepcions.*;
 
 /**
+ * Tree: Estructura de dades que representa un arbre.
  * @author Pol Fradera
  */
 
 public class Tree {
 
+    /**
+     * Node arrel del Tree.
+     */
     public TreeNode root;
 
-    //Constructora
+    /**
+     * Constructora del Tree.
+     * @param exp Expressió booleana.
+     * @throws ExpBoolNoValidaException exp no és vàlida.
+     */
     public Tree(List<String> exp) throws ExpBoolNoValidaException {
         List<String> llista;
         llista = infixToPost(exp);
         root = expressionTree(llista);
     }
 
-    //Retorna true si s és un operador lògic
+    /**
+     * Mètode per saber si un String és un operador lògic.
+     * @param s String qualsevol.
+     * @return Indica si l'String s és un operador lògic., un parèntesi o una clau d'obertura.
+     */
     private boolean isOperator(String s) {
         return s.length() == 1 && (s.equals("&") || s.equals("|") || s.equals("!") || s.equals("(") || s.equals(")"));
     }
 
-    //Retorna l'arrel de l'arbre que es crea a partir de la llista en notació postfix
+    /**
+     * Mètode que crea un arbre a partir d'una llista que representa una expressió booleana en notació postfix.
+     * @param postfix Llista que representa una expressió booleana en notació postfix.
+     * @return Node arrel de l'arbre generat.
+     * @throws ExpBoolNoValidaException exp no és vàlida.
+     */
     private TreeNode expressionTree(List<String> postfix) throws ExpBoolNoValidaException {
         Stack<TreeNode> st = new Stack<>();
         TreeNode t1 = null;
@@ -53,7 +70,11 @@ public class Tree {
         }
     }
 
-    //Retorna la prioritat de l'operador
+    /**
+     * Mètode que retorna la prioritat de l'operador.
+     * @param s Operador.
+     * @return Nombre que indica la prioritat de l'operador.
+     */
     private int priority(String s) {
         if (s.equals("|")) {
             return 1;               //Precedence of | 1
@@ -70,7 +91,11 @@ public class Tree {
         return -1;
     }
 
-    //Retorna una llista convertida de infix a postfix
+    /**
+     * Mètode que converteix una llista que representa una expressió booleana en notació infix a una llista en notació postfix.
+     * @param infix Expressió booleana en notació infix.
+     * @return Expressió booleana en notació postfix.
+     */
     private List<String> infixToPost(List<String> infix) {
         Stack<String> st = new Stack<>();
         st.push("#"); //per mirar quan la pila és buida

@@ -26,6 +26,8 @@ public class ExpressioBooleana {
 
     /**
      * Constructora de l'expressió booleana amb només l'expressió.
+     * @param exp Expressió de l'expressió booleana.
+     * @throws ExpBoolNoValidaException exp no és vàlida.
      */
     public ExpressioBooleana(String exp) throws ExpBoolNoValidaException {
         esCorrecte(exp);
@@ -42,6 +44,9 @@ public class ExpressioBooleana {
 
     /**
      * Constructora de l'expressió booleana amb el nom i l'expressió.
+     * @param nom Nom de l'expressió booleana.
+     * @param exp Expressió de l'expressió booleana.
+     * @throws ExpBoolNoValidaException exp no és vàlida.
      */
     public ExpressioBooleana(String nom, String exp) throws ExpBoolNoValidaException {
         esCorrecte(exp);

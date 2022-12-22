@@ -31,6 +31,7 @@ public class GestioCell extends DefaultTableCellRenderer {
      * @param focused Booleà que indica si a cel·la està sent focused
      * @param row Fila a la qual pertany la cel·la
      * @param column Columna a la qual pertany la cel·la
+     * @return El component modificat
      */
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value, boolean selected, boolean focused, int row, int column) {

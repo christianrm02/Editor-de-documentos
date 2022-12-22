@@ -15,7 +15,7 @@ import java.util.List;
  * Classe extends de JPanel. Com en diversos llocs de l’aplicació es mostren autors, títols, documents, i sempre ho fem amb un JPanel amb un JTable (amb un comportament concret) i un JScrollPane, hem fet una classe per evitar programar tantes vegades el mateix i encapsular aquest tipus particular de JPanel.
  * @author Christian Rivero
  */
-public class showingDocsTable extends JPanel {
+public class ShowingDocsTable extends JPanel {
     /**
      * Int que indica quina ha sigut l’anterior columna del header del JTable pulsada.
      * Pot ser 0 o 1 (columnes que permeten l’ordenació) i si es prem dues vegades la mateixa columna seguida, es posa a -1
@@ -30,12 +30,13 @@ public class showingDocsTable extends JPanel {
      * @param mostrarDoc Indica si s'ha de mostrar la vista d'edició de documents si es fa doble clic en algunes de les seves files. Com a qeusta classe s'utilitza en diferents llocs, hi ha vegades que no ens interessa que es mostrin els documents
      * @param vistaCaller Instància de la vista que crea la classe (pot ser o la view principal o la view de gestor de les expressions booleanes), necessària per ocultar-la en cas que s'obri un dels documents
      */
-    public showingDocsTable(DefaultTableModel tm, JTable documents, CtrlPresentacio cp, boolean mostrarDoc, JFrame vistaCaller) {
+    public ShowingDocsTable(DefaultTableModel tm, JTable documents, CtrlPresentacio cp, boolean mostrarDoc, JFrame vistaCaller) {
         anteriorColumn = -1;
         JTable table = new JTable(tm);
         table.getTableHeader().setReorderingAllowed(false);
         table.setAutoCreateRowSorter(true);
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        //las tablas que creamos con esta clase nunca tienen más de 2 columnas
         if (table.getColumnCount() >= 1) {
             table.getColumnModel().getColumn(0).setCellRenderer(new GestioCell("text"));
             table.getColumnModel().getColumn(0).setPreferredWidth(100);
@@ -44,14 +45,6 @@ public class showingDocsTable extends JPanel {
             table.getColumnModel().getColumn(1).setCellRenderer(new GestioCell("text"));
             table.getColumnModel().getColumn(1).setPreferredWidth(100);
         }
-        /*if (table.getColumnCount() >= 3) {
-            table.getColumnModel().getColumn(2).setCellRenderer(new GestioCell());
-            table.getColumnModel().getColumn(2).setPreferredWidth(200);
-        }
-        if (table.getColumnCount() == 4) {
-            table.getColumnModel().getColumn(3).setCellRenderer(new GestioCell());
-            table.getColumnModel().getColumn(3).setPreferredWidth(10);
-        }*/
         table.setRowHeight(25);
 
         if (table.getColumnCount() > 1) {
@@ -121,7 +114,6 @@ public class showingDocsTable extends JPanel {
 
                         //abre el documento
                         cp.obrirDocument(autor, titol);
-                        //cp.ocultaViewPrincipal();
                         vistaCaller.setVisible(false);
                     }
                 }

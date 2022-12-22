@@ -170,7 +170,7 @@ public class ViewGestioExpBool extends JFrame{
                                 return false;
                             }
                         };
-                        JPanel panelBorrar = new showingDocsTable(tm, expressions, cp, false, exp);
+                        JPanel panelBorrar = new ShowingDocsTable(tm, expressions, cp, false, exp);
                         panelBorrar.add(new JLabel("S'esborraran les següents expressions booleanes:"), BorderLayout.NORTH);
                         panelBorrar.add(new JLabel("Estàs d'acord?"), BorderLayout.SOUTH);
                         //panelBorrar.setFillsViewportHeight(true);
@@ -289,7 +289,7 @@ public class ViewGestioExpBool extends JFrame{
                             }
                         };
 
-                        JPanel panelDocs = new showingDocsTable(tm, documents, cp, true, exp);
+                        JPanel panelDocs = new ShowingDocsTable(tm, documents, cp, true, exp);
                         JOptionPane.showMessageDialog(null, panelDocs, "Resultats de cerca per expressió", JOptionPane.DEFAULT_OPTION);
                     }
                     else {

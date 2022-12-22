@@ -217,8 +217,7 @@ public class CtrlDomini {
      * @return List<String>: Es retorna una llista amb tots els títols de l'autor autor.
      */
     public List<String> llistarTitolsdAutors(String autor) {
-        Set<String> a = ci.GetTitolsAutor(autor);
-        return new ArrayList<>(a);
+        return new ArrayList<>(ci.GetTitolsAutor(autor));
     }
 
     /**

@@ -296,7 +296,9 @@ public class ViewPrincipal extends JFrame {
                             selectedRow = documents.getSelectedRows();
                         }
                         contadorDocs.setText(Integer.toString(documents.getRowCount()));
-                        JOptionPane.showMessageDialog(null, "S'han esborrat correctament " + contDocsElimOk + " documents.",
+                        String nombreDocumentsDepen = " documents."; //si es 1 documento borrado quiero que diga document y no documents
+                        if(contDocsElimOk == 1) nombreDocumentsDepen = " document.";
+                        JOptionPane.showMessageDialog(null, "S'han esborrat correctament " + contDocsElimOk + nombreDocumentsDepen,
                                 "Esborrar documents seleccionats", JOptionPane.DEFAULT_OPTION);
                     } else { //misstage no s'han borrat
                         JOptionPane.showMessageDialog(null, "No s'ha esborrat cap document.",
@@ -402,11 +404,11 @@ public class ViewPrincipal extends JFrame {
                         tableModel.removeRow(documents.getSelectedRow());
                         contadorDocs.setText(Integer.toString(documents.getRowCount()));
                         JOptionPane.showMessageDialog(null, "S'ha esborrat el document correctament",
-                                "Borrar document", JOptionPane.DEFAULT_OPTION);
+                                "Esborrar document", JOptionPane.DEFAULT_OPTION);
                     }
                 } else {
                     JOptionPane.showMessageDialog(null, "No s'ha esborrat el document",
-                            "Borrar document", JOptionPane.DEFAULT_OPTION);
+                            "Esborrar document", JOptionPane.DEFAULT_OPTION);
                 }
             }
         });
@@ -477,8 +479,11 @@ public class ViewPrincipal extends JFrame {
                         }
                     }
                     contadorDocs.setText(Integer.toString(documents.getRowCount()));
+                    contadorDocs.setText(Integer.toString(documents.getRowCount()));
+                    String nombreDocumentsDepen = " documents."; //si es 1 documento borrado quiero que diga document y no documents
+                    if(contDocsImp == 1) nombreDocumentsDepen = " document.";
                     JOptionPane.showMessageDialog(null,
-                            "S'han importat correctament " + contDocsImp + " documents.",
+                            "S'han importat correctament " + contDocsImp + nombreDocumentsDepen,
                             "Importar document", JOptionPane.DEFAULT_OPTION);
                 }
             }

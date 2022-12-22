@@ -47,9 +47,9 @@ public class IndexParaulaTFIDF implements Serializable{
 
     /** 
      * Mètode per insertar documents a l'índex
-     * @param autor - Autor del document
-     * @param titol - Títol del document
-     * @param contingut - Contingut del document
+     * @param autor Autor del document
+     * @param titol Títol del document
+     * @param contingut Contingut del document
      */
     public void AfegirDoc(String autor, String titol, List<String> contingut) {
         //Juntem totes les paraules del document en una llista
@@ -70,8 +70,8 @@ public class IndexParaulaTFIDF implements Serializable{
     
     /** 
      * Mètode per esborrar documents de l'índex
-     * @param autor - Autor del document
-     * @param titol - Títol del document
+     * @param autor Autor del document
+     * @param titol Títol del document
      */
     public void EsborrarDoc(String autor, String titol) {
         Pair<String, String> autorTitol = new Pair<String,String>(autor, titol);
@@ -92,9 +92,9 @@ public class IndexParaulaTFIDF implements Serializable{
     
     /** 
      * Mètode per actualitzar el títol d'un document de l'índex
-     * @param autor - Autor del document
-     * @param titol - Títol del document
-     * @param newTitol - Nou títol del document
+     * @param autor Autor del document
+     * @param titol Títol del document
+     * @param newTitol Nou títol del document
      */
     public void ActualitzarTitol(String autor, String titol, String newTitol) {
         Pair<String, String> oldAutorTitol = new Pair<String, String>(autor, titol);
@@ -107,9 +107,9 @@ public class IndexParaulaTFIDF implements Serializable{
     
     /** 
      * Mètode per actualitzar l'autor d'un document de l'índex
-     * @param autor - Autor del document
-     * @param titol - Títol del document
-     * @param newAutor - Nou autor del document
+     * @param autor Autor del document
+     * @param titol Títol del document
+     * @param newAutor Nou autor del document
      */
     public void ActualitzarAutor(String autor, String titol, String newAutor) {
         Pair<String, String> oldAutorTitol = new Pair<String, String>(autor, titol);
@@ -122,9 +122,9 @@ public class IndexParaulaTFIDF implements Serializable{
     
     /** 
      * Mètode per actualitzar el contingut d'un document de l'índex
-     * @param autor - Autor del document
-     * @param titol - Títol del document
-     * @param contingut - Contingut del document
+     * @param autor Autor del document
+     * @param titol Títol del document
+     * @param contingut Contingut del document
      */
     public void ActualitzarContingut(String autor, String titol, List<String> contingut) {
         EsborrarDoc(autor, titol);
@@ -134,8 +134,8 @@ public class IndexParaulaTFIDF implements Serializable{
     
     /** 
      * Mètode per comprovar si un document és a l'índex
-     * @param autorTitol - Clau del document
-     * @return boolean - True si el document és a l'índex, False si no
+     * @param autorTitol Clau del document
+     * @return True si el document és a l'índex, False si no
      */
     public boolean DocExists(Pair<String, String> autorTitol){
         return indexTFIDF.get(autorTitol) != null;
@@ -144,10 +144,10 @@ public class IndexParaulaTFIDF implements Serializable{
     
     /** 
      * Mètode per obtenir els documents més semblants al passat per paràmetre
-     * @param autorTitol - Document a comparar
-     * @param K - Nombre de respostes a retornar
-     * @param estrategia - True si la comparació es fa amb TF, False si amb TF-IDF
-     * @return List<Pair<String, String>> - Llista dels documents més semblants ordenats amb el més semblant primer
+     * @param autorTitol Document a comparar
+     * @param K Nombre de respostes a retornar
+     * @param estrategia True si la comparació es fa amb TF, False si amb TF-IDF
+     * @return Llista dels documents més semblants ordenats amb el més semblant primer
      */
     public List<Pair<String, String>> GetKDocsSimilarS(Pair<String, String> autorTitol, int K, boolean estrategia) {
         //Obtenim la llista de TF-IDF's de S
@@ -186,10 +186,10 @@ public class IndexParaulaTFIDF implements Serializable{
     
     /** 
      * Mètode per obtenir els documents més semblants a l'entrada passada per paràmetre
-     * @param entrada - Entrada a comparar
-     * @param K - Nombre de respostes a retornar
-     * @param estrategia - True si la comparació es fa amb TF, False si amb TF-IDF
-     * @return List<Pair<String, String>> - Llista dels documents més semblants ordenats amb el més semblant primer
+     * @param entrada Entrada a comparar
+     * @param K Nombre de respostes a retornar
+     * @param estrategia True si la comparació es fa amb TF, False si amb TF-IDF
+     * @return Llista dels documents més semblants ordenats amb el més semblant primer
      */
     public List<Pair<String, String>> CercaPerRellevancia(String entrada, int K, boolean estrategia) {
         //Obtenim la llista de TF-IDF's de l'entrada
@@ -237,10 +237,10 @@ public class IndexParaulaTFIDF implements Serializable{
     
     /** 
      * Mètode per obtenir la semblança entre 2 documents
-     * @param query - Document 1
-     * @param document - Document 2
-     * @param estrategia - True si la comparació es fa amb TF, False si amb TF-IDF
-     * @return Double - Semblança entre els 2 documents entre [0, 1]
+     * @param query Document 1
+     * @param document Document 2
+     * @param estrategia True si la comparació es fa amb TF, False si amb TF-IDF
+     * @return Semblança entre els 2 documents entre [0, 1]
      */
     static private Double cosinusMetric(TreeMap<String, Pair<Double, Double>> query, TreeMap<String, Pair<Double, Double>> document, boolean estrategia){
         //Si algun dels documents es buit la metrica es nula
@@ -292,8 +292,8 @@ public class IndexParaulaTFIDF implements Serializable{
     
     /** 
      * Mètode per obtenir totes les paraules d'un contingut
-     * @param frases - Contingut en forma de llista de frases
-     * @return List<String> - Llista de paraules
+     * @param frases Contingut en forma de llista de frases
+     * @return Llista de paraules
      */
     static private List<String> getAllWords(List<String> frases){
         List<String> paraules = new ArrayList<String>();
@@ -306,8 +306,8 @@ public class IndexParaulaTFIDF implements Serializable{
     
     /** 
      * Mètode per calcular l'IDF d'una paraula
-     * @param word - Paraula a calcular
-     * @return double - IDF calculat
+     * @param word Paraula a calcular
+     * @return IDF calculat
      */
     private double idf(String word) {
         return Math.log((1+indexTFIDF.size())/(1+indexNumDocumentsParaula.get(word))) + 1;
@@ -316,10 +316,10 @@ public class IndexParaulaTFIDF implements Serializable{
     
     /** 
      * Mètode per calcular les TFs de les paraules d'un document
-     * @param infoDoc - Set de TFs i TFIDFs del document
-     * @param paraules - Llista de paraules del document
-     * @param numWordsDoc - Nombre de paraules del document
-     * @param ignoreNewWords - True les noves paraules no es posen a l'índexNumDocumentsParaula, False si
+     * @param infoDoc Set de TFs i TFIDFs del document
+     * @param paraules Llista de paraules del document
+     * @param numWordsDoc Nombre de paraules del document
+     * @param ignoreNewWords True les noves paraules no es posen a l'índexNumDocumentsParaula, False si
      */
     private void calcularTFs(TreeMap<String, Pair<Double, Double>> infoDoc, List<String> paraules, int numWordsDoc, boolean ignoreNewWords){
         //Sumem les paraules que apareixen al document
@@ -348,7 +348,7 @@ public class IndexParaulaTFIDF implements Serializable{
     
     /** 
      * Mètode per actualitzar l'índexNumDocumentsParaula
-     * @param paraules - Noves paraules a inserir a l'índex o a actualitzar el seu valor
+     * @param paraules Noves paraules a inserir a l'índex o a actualitzar el seu valor
      */
     private void calcularNumDocumentsParaules(List<String> paraules) {
         //Per cada paraula recorrem la seva columna del index i comptem els cops que el seu TF > 0

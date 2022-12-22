@@ -11,8 +11,8 @@ public class Utility {
 
     /** 
      * Mètode per separar una frase en paraules i eliminar símbols
-     * @param frase - Frase a tractar
-     * @return String[] - Array amb les paraules de la frase
+     * @param frase Frase a tractar
+     * @return Array amb les paraules de la frase
      */
     static public String[] ParseFrase(String frase) {
         frase = frase.replaceAll("[(),;:.!?]", "");
@@ -24,8 +24,8 @@ public class Utility {
     
     /** 
      * Mètode per separar un contingut en frases
-     * @param fr - Contingut a tractar
-     * @return List<String> - Llista amb les frases obtenides
+     * @param fr Contingut a tractar
+     * @return Llista amb les frases obtenides
      */
     static public List<String> converteix_a_frases(String fr) {
         List<String> frases = new ArrayList<>();

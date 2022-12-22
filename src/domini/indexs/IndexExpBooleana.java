@@ -37,9 +37,9 @@ public class IndexExpBooleana implements Serializable{
 
     /** 
      * Mètode per insertar documents a l'índex
-     * @param autor - Autor del document
-     * @param titol - Títol del document
-     * @param contingut - Contingut del document
+     * @param autor Autor del document
+     * @param titol Títol del document
+     * @param contingut Contingut del document
      */
     public void AfegirDoc(String autor, String titol, List<String> contingut) {
         Pair<String, String> autorTitol = new Pair<String, String>(autor, titol);
@@ -79,8 +79,8 @@ public class IndexExpBooleana implements Serializable{
     
     /** 
      * Mètode per esborrar documents de l'índex
-     * @param autor - Autor del document
-     * @param titol - Títol del document
+     * @param autor Autor del document
+     * @param titol Títol del document
      */
     public void EsborrarDoc(String autor, String titol) {
         int startingIndexEliminar = -1;
@@ -114,9 +114,9 @@ public class IndexExpBooleana implements Serializable{
     
     /** 
      * Mètode per actualitzar el títol d'un document de l'índex
-     * @param autor - Autor del document
-     * @param titol - Títol del document
-     * @param newTitol - Nou títol del document
+     * @param autor Autor del document
+     * @param titol Títol del document
+     * @param newTitol Nou títol del document
      */
     public void ActualitzarTitol(String autor, String titol, String newTitol) {
         Pair<String, String> oldAutorTitol = new Pair<String, String>(autor, titol);
@@ -139,9 +139,9 @@ public class IndexExpBooleana implements Serializable{
     
     /** 
      * Mètode per actualitzar l'autor d'un document de l'índex
-     * @param autor - Autor del document
-     * @param titol - Títol del document
-     * @param newAutor - Nou autor del document
+     * @param autor Autor del document
+     * @param titol Títol del document
+     * @param newAutor Nou autor del document
      */
     public void ActualitzarAutor(String autor, String titol, String newAutor) {
         Pair<String, String> oldAutorTitol = new Pair<String, String>(autor, titol);
@@ -164,9 +164,9 @@ public class IndexExpBooleana implements Serializable{
     
     /** 
      * Mètode per actualitzar el contingut d'un document de l'índex
-     * @param autor - Autor del document
-     * @param titol - Títol del document
-     * @param contingut - Contingut del document
+     * @param autor Autor del document
+     * @param titol Títol del document
+     * @param contingut Contingut del document
      */
     public void ActualitzarContingut(String autor, String titol, List<String> contingut) {
         EsborrarDoc(autor, titol);
@@ -176,8 +176,8 @@ public class IndexExpBooleana implements Serializable{
     
     /** 
      * Mètode per obtenir els índexs de les frases on apareix una paraula
-     * @param paraula - Paraula a buscar
-     * @return Set<Integer> - Index de les frases on apareix paraula
+     * @param paraula Paraula a buscar
+     * @return Index de les frases on apareix paraula
      */
     public Set<Integer> GetFrases(String paraula) {
         Set<Integer> frases = new HashSet<Integer>();
@@ -196,7 +196,7 @@ public class IndexExpBooleana implements Serializable{
     
     /**
      * Mètode per obtenir el nombre de frases emmagatzemades
-     * @return int - Nombre de frases emmagatzemades
+     * @return Nombre de frases emmagatzemades
      */
     public int GetNumFrases(){
         return indexFraseDocument.size();
@@ -205,9 +205,9 @@ public class IndexExpBooleana implements Serializable{
     
     /** 
      * Mètode per obtenir els índexs de les frases on apareix una seqüència de paraules
-     * @param sequencia - Seqüència a buscar
-     * @param candidats - Index de les frases que contenen totes les paraules de la seqüència (potser no en ordre)
-     * @return Set<Integer> - Index de les frases on apareix seqüència
+     * @param sequencia Seqüència a buscar
+     * @param candidats Index de les frases que contenen totes les paraules de la seqüència (potser no en ordre)
+     * @return Index de les frases on apareix seqüència
      */
     public Set<Integer> GetSequencia(String sequencia, Set<Integer> candidats){
         Set<Integer> res = new HashSet<Integer>();
@@ -240,8 +240,8 @@ public class IndexExpBooleana implements Serializable{
     
     /** 
      * Mètode per, donat un conjunt d'índexs, retornar els documents on apareixen
-     * @param indexs - Conjunt d'índexs a buscar
-     * @return List<Pair<String, String>> - Claus dels documents obtinguts
+     * @param indexs Conjunt d'índexs a buscar
+     * @return Claus dels documents obtinguts
      */
     public List<Pair<String, String>> GetDocuments(Set<Integer> indexs) {
         Set<Pair<String, String>> docs = new HashSet<Pair<String, String>>();
@@ -256,7 +256,7 @@ public class IndexExpBooleana implements Serializable{
     
     /** 
      * Mètode per omplir les n primeres posicions d'una llista amb parelles de (False, null), on n és el nombre de frases emmagatzemades
-     * @param infoWord - Llista a tractar
+     * @param infoWord Llista a tractar
      */
     private void fillList(List<Pair<Boolean, String>> infoWord) {
         for(int i = 0; i < indexFraseDocument.size(); i++) infoWord.add(new Pair<Boolean, String>(false, null));

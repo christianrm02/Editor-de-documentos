@@ -17,7 +17,7 @@ public class GestorIndexs {
     
     /** 
      * Mètode per importar els indexs de disc
-     * @return byte[] - Import en forma d'array de bytes
+     * @return Import en forma d'array de bytes
      * @throws IOException Hi ha hagut algun problema al accedir a disc
      */
     public static byte[] ImportarIndexs() throws IOException {
@@ -40,7 +40,7 @@ public class GestorIndexs {
     
     /** 
      * Mètode per exportar els indexs a disc
-     * @param info - Indexs en forma d'array de bytes
+     * @param info Indexs en forma d'array de bytes
      * @throws IOException Hi ha hagut algun problema al accedir a disc
      */
     public static void ExportarIndexs(byte[] info) throws IOException {

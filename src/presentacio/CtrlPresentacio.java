@@ -37,8 +37,7 @@ public class CtrlPresentacio {
     public CtrlPresentacio() {}
 
     /**
-     * Mètode que mostra la vista principal, tant si és la primera vegada des que s’inicia el programa,
-     * com si no, actualitzada amb tots els documents.
+     * Mètode que mostra la vista principal, tant si és la primera vegada des que s’inicia el programa, com si no, actualitzada amb tots els documents
      */
     public void mostraViewPrincipal(){
         if(viewPrincipal == null) {
@@ -63,14 +62,14 @@ public class CtrlPresentacio {
     }
 
     /**
-     * Mètode que oculta la vista principal.
+     * Mètode que oculta la vista principal
      */
     public void ocultaViewPrincipal() {
         viewPrincipal.setVisible(false);
     }
 
     /**
-     * Mètode que mostra la vista de gestió d’expressions booleanes.
+     * Mètode que mostra la vista de gestió d’expressions booleanes
      */
     public void mostraVistaGestioExpBool(JTable documents){
         viewExps = new ViewGestioExpBool(documents, this);
@@ -80,7 +79,7 @@ public class CtrlPresentacio {
     }
 
     /**
-     * Mètode que mostra la vista de mostrar el contingut d’un document (autor+titol) que existeix al sistema.
+     * Mètode que mostra la vista de mostrar el contingut d’un document (autor+titol) que existeix al sistema
      */
     public void mostraViewMostrarCont(String titol, String autor){ //Conseguir el cont con el getContingut, y q este llame a esta y así la main view como q no conoce las otras views?
         String cont = getContingut(autor, titol);
@@ -89,7 +88,7 @@ public class CtrlPresentacio {
     }
 
     /**
-     * Mètode que mostra la vista d'editar el contingut d’un document (autor+titol) que existeix al sistema.
+     * Mètode que mostra la vista d'editar el contingut d’un document (autor+titol) que existeix al sistema
      */
     public void mostraViewEditar(String titol, String autor, String cont){
         if(viewEditar != null) viewEditar.dispose();
@@ -97,7 +96,7 @@ public class CtrlPresentacio {
     }
 
     /**
-     * Mètode per guardar els indexs i expressions booleanes a la capa de persistència.
+     * Mètode per guardar els indexs i expressions booleanes a la capa de persistència
      */
     public void tancarAplicacio() {
         try {
@@ -112,9 +111,9 @@ public class CtrlPresentacio {
     }
 
     /**
-     * Mètode que canvia el títol d'un document obert, si es pot, el canvia en les vistes.
-     * @param newT: String: Nou títol del document obert.
-     * @return boolean: Indica si es pot modificar o no.
+     * Mètode que canvia el títol d'un document obert, si es pot, el canvia en les vistes
+     * @param newT Nou títol del document obert
+     * @return Indica si es pot modificar o no
      */
     public boolean actualitzaTitol(String newT) { //se tiene q comprobarantes si se puede crear
         String titol = viewPrincipal.getTitolDocObert();
@@ -127,9 +126,9 @@ public class CtrlPresentacio {
     }
 
     /**
-     * Mètode que canvia l'autor d'un document obert, si es pot, el canvia en les vistes.
-     * @param newA: String: Nou autor del document obert.
-     * @return boolean: Indica si es pot modificar o no.
+     * Mètode que canvia l'autor d'un document obert, si es pot, el canvia en les vistes
+     * @param newA Nou autor del document obert
+     * @return Indica si es pot modificar o no
      */
     public boolean actualitzaAutor(String newA) { //se tiene q comprobarantes si se puede crear
         String titol = viewPrincipal.getTitolDocObert();
@@ -141,14 +140,18 @@ public class CtrlPresentacio {
         return valid;
     }
 
+    /**
+     * Mètode que canvia la darrera modificació d'un document obert
+     * @param date Nova darrera modificació del document obert
+     */
     public void actualitzaDarreraModificacio(String date) {
         viewPrincipal.actualitzaDarreraModificacio(date);
     }
 
     /*Crides a domini*/
     /**
-     * Getter d'autors.
-     * @return List<String>: Es retornen tots els autors existents al sistema.
+     * Getter d'autors
+     * @return Els autors existents al sistema
      */
     public List<String> getAutors() {
         return cd.getAutors();
@@ -159,10 +162,10 @@ public class CtrlPresentacio {
     }*/
 
     /**
-     * Mètode per obtenir el contingut del document (autor+titol).
-     * @param autor: String: autor del document.
-     * @param titol: String: titol del document.
-     * @return String: Es retorna el contingut del document (autor+titol).
+     * Mètode per obtenir el contingut del document (autor+titol)
+     * @param autor Autor del document
+     * @param titol Títol del document
+     * @return El contingut del document (autor+titol)
      */
     public String getContingut(String autor, String titol) {
         String cont = null;
@@ -177,10 +180,10 @@ public class CtrlPresentacio {
     }
 
     /**
-     * Mètode per obrir el document (autor+titol). titolAct, autorAct i contAct prenen el valor actual corresponent del document que s'ha obert.
-     * @param autor: String: autor del document.
-     * @param titol: String: titol del document.
-     * @return String: Es retorna el contingut del document (autor+titol).
+     * Mètode per obrir el document (autor+titol). titolAct, autorAct i contAct prenen el valor actual corresponent del document que s'ha obert
+     * @param autor Autor del document
+     * @param titol Títol del document
+     * @return El contingut del document (autor+titol)
      */
     public String obrirDocument(String autor, String titol) {
         String cont = null;
@@ -196,17 +199,17 @@ public class CtrlPresentacio {
     }
 
     /**
-     * Mètode per simular a la capa de domini que es tanca el document obert.
+     * Mètode per simular a la capa de domini que es tanca el document obert
      */
     public void tancarDocument() {
         cd.tancarDocument();
     }
 
     /**
-     * Mètode per crear un document amb autor autor, títol titol i contingut buit.
-     * @param autor: String: autor del document a crear.
-     * @param titol: String: titol del document a crear.
-     * @return boolean: Indica si s'ha creat el document introduït.
+     * Mètode per crear un document amb autor autor, títol titol i contingut buit
+     * @param autor Autor del document a crear
+     * @param titol Títol del document a crear
+     * @return Indica si s'ha creat el document introduït
      */
     public boolean crearDocument(String autor, String titol, String data){
         boolean valid = true;
@@ -227,7 +230,7 @@ public class CtrlPresentacio {
     }
 
     /**
-     * Mètode per desar el contingut del document obert actualment a la capa de persistència.
+     * Mètode per desar el contingut del document obert actualment a la capa de persistència
      */
     public void desarDocument() {
         try {
@@ -240,10 +243,9 @@ public class CtrlPresentacio {
     }
 
     /**
-     * Mètode per importar el document de la localització path al sistema.
-     * @param path: String: localització del document a importar.
-     * @return Pair<String,String>: Es retorna l'autor i el titol del document importat.
-     *          Retorna null si no s'ha pogut importar.
+     * Mètode per importar el document de la localització path al sistema
+     * @param path Localització del document a importar
+     * @return L'autor i el titol del document importat. Retorna null si no s'ha pogut importar
      */
     public Pair<String, String> importaDocument(String path, String date) { //path = path+nom+.format
         Pair<String, String> docImp = new Pair<>();
@@ -269,11 +271,11 @@ public class CtrlPresentacio {
     }
 
     /**
-     * Mètode per exportar el document (autor+titol) a la localització path.
-     * @param autor: String: autor del document a exportar.
-     * @param titol: String: titol del document a exportar.
-     * @param path: String: localització on es vol guardar el document a exportar.
-     * @return boolean: Indica si el document s'ha pogut exportar correctament o no.
+     * Mètode per exportar el document (autor+titol) a la localització path
+     * @param autor Autor del document a exportar
+     * @param titol Títol del document a exportar
+     * @param path Localització on es vol guardar el document a exportar
+     * @return Indica si el document s'ha pogut exportar correctament o no
      */
     public boolean exportaDocument(String autor, String titol, String path) {
         boolean expOk = true;
@@ -294,10 +296,10 @@ public class CtrlPresentacio {
     }
 
     /**
-     * Mètode per esborrar el document amb autor autor i títol titol.
-     * @param autor: String: autor del document a esborrar.
-     * @param titol: String: titol del document a esborrar.
-     * @return boolean: Indica si el document s'ha pogut esborrar correctament o no.
+     * Mètode per esborrar el document amb autor autor i títol titol
+     * @param autor Autor del document a esborrar
+     * @param titol Títol del document a esborrar
+     * @return Indica si el document s'ha pogut esborrar correctament o no
      */
     public boolean esborrarDocument(String autor, String titol) {
         boolean esborrat = true;
@@ -318,11 +320,11 @@ public class CtrlPresentacio {
     }
 
     /**
-     * Mètode per modificar el títol del document amb clau (autor+titol) per newT.
-     * @param autor: String: autor del document.
-     * @param titol: String: titol del document.
-     * @param newT: String: nou titol que se li vol posar al document.
-     * @return boolean: Indica si s'ha pogut modificar el títol o no.
+     * Mètode per modificar el títol del document amb clau (autor+titol) per newT
+     * @param autor Autor del document
+     * @param titol Títol del document
+     * @param newT Nou titol que se li vol posar al document
+     * @return Indica si s'ha pogut modificar el títol o no
      */
     public boolean modificarTitol(String autor, String titol, String newT) {
         boolean valid = true;
@@ -344,11 +346,11 @@ public class CtrlPresentacio {
     }
 
     /**
-     * Mètode per modificar el títol del document amb clau (autor+titol).
-     * @param autor: String: autor del document.
-     * @param titol: String: titol del document.
-     * @param newA: String: nou autor que se li vol posar al document.
-     * @return boolean: Indica si s'ha pogut modificar l'autor o no.
+     * Mètode per modificar el títol del document amb clau (autor+titol)
+     * @param autor Autor del document
+     * @param titol Títol del document
+     * @param newA Nou autor que se li vol posar al document
+     * @return Indica si s'ha pogut modificar l'autor o no
      */
     public boolean modificarAutor(String autor, String titol, String newA) {
         boolean valid = true;
@@ -370,69 +372,67 @@ public class CtrlPresentacio {
     }
 
     /**
-     * Mètode per modificar el contingut del document obert actualment.
-     * @param cont: String: nou contingut del document (autorAct+titolAct).
+     * Mètode per modificar el contingut del document obert actualment
+     * @param cont Nou contingut del document (autorAct+titolAct)
      */
     public void modificarContingut(String cont, String date) { //vieweditar
         cd.modificarContingut(cont, date);
     }
 
     /**
-     * Mètode que dona tots els títols de l'autor autor.
-     * @param autor: String: autor del que es volen tots els seus títols.
-     * @return List<String>: Es retorna una llista amb tots els títols de l'autor autor.
+     * Mètode que dona tots els títols de l'autor autor
+     * @param autor Autor del que es volen tots els seus títols
+     * @return Llista amb tots els títols de l'autor autor
      */
     public List<String> llistarTitolsdAutors(String autor) {
         return cd.llistarTitolsdAutors(autor);
     }
 
     /**
-     * Mètode que dona tots els autors amb prefix prefix.
-     * @param prefix: String: prefix dels autors a cercar.
-     * @return List<String>: Es retorna una llista amb tots els autors que tenen com a prefix prefix.
+     * Mètode que dona tots els autors amb prefix prefix
+     * @param prefix Prefix dels autors a cercar
+     * @return Llista amb tots els autors que tenen com a prefix prefix
      */
     public List<String> llistarAutorsPrefix(String prefix) {
         return cd.llistarAutorsPrefix(prefix);
     }
 
     /**
-     * Mètode que dona les com a molt K claus dels documents més semblants al document (autor+titol) amb l'estratègia estrategia.
-     * @param autor: String: autor del document.
-     * @param titol: String: titol del document.
-     * @param K: int: nombre de documents a llistar, 1 <= K <= nombreDocumentsTotal -1.
-     * @param estrategia: boolean: estrategia per fer la cerca.
-     * @return List<Pair<String, String>>: Es retorna una llista amb com a molt K claus dels documents més semblants al document (autor+titol)
-     *          amb l'estratègia estrategia.
+     * Mètode que dona les com a molt K claus dels documents més semblants al document (autor+titol) amb l'estratègia estrategia
+     * @param autor Autor del document
+     * @param titol Títol del document
+     * @param K Nombre de documents a llistar, 1 <= K <= nombreDocumentsTotal -1
+     * @param estrategia Estrategia per fer la cerca
+     * @return Llista amb com a molt K claus dels documents més semblants al document (autor+titol) amb l'estratègia estrategia.
      */
     public List<Pair<String, String>> llistarKDocumentsS(String autor, String titol, int K, boolean estrategia) {
         return cd.llistarKDocumentsS(autor, titol, K, estrategia);
     }
 
     /**
-     * Opcional: Mètode que dona les com a molt K claus dels documents més rellevants segons les paraules paraules amb l'estratègia estrategia.
-     * @param paraules: String: paraules rellevants a cercar.
-     * @param K: int: nombre de documents a llistar, 1 <= K <= nombreDocumentsTotal.
-     * @param estrategia: boolean: estrategia per fer la cerca.
-     * @return List<Pair<String, String>>: Es retorna una llista amb com a molt K claus dels documents més rellevants segons les paraules
-     *          paraules amb l'estratègia estrategia.
+     * Opcional de l'enunciat: Mètode que dona les com a molt K claus dels documents més rellevants segons les paraules paraules amb l'estratègia estrategia
+     * @param paraules Paraules rellevants a cercar
+     * @param K Nombre de documents a llistar, 1 <= K <= nombreDocumentsTotal
+     * @param estrategia Estrategia per fer la cerca
+     * @return Llista amb com a molt K claus dels documents més rellevants segons les paraules paraules amb l'estratègia estrategia
      */
     public List<Pair<String, String>> cercarPerRellevancia(String paraules, int K, boolean estrategia) {
         return cd.cercarPerRellevancia(paraules, K, estrategia);
     }
 
     /**
-     * Getter que dona totes les expressions booleanes (nom + exp).
-     * @return List<Pair<String, String>>: Es retorna una llista de pairs amb totes les expressions booleanes (nom+exp).
+     * Getter que dona totes les expressions booleanes (nom + exp)
+     * @return Llista de pairs amb totes les expressions booleanes (nom+exp)
      */
     public List<Pair<String, String>> getAllExpressionsBooleanes() {
         return cd.getAllExpressionsBooleanes();
     }
 
     /**
-     * Mètode per crear una expressió booleana amb nom nom i expressió exp.
-     * @param nom: String: nom de l'expressió booleana a crear.
-     * @param exp: String: expressió de l'expressió booleana a crear.
-     * @return boolean: Indica si l'expressió booleana ha sigut creada o no.
+     * Mètode per crear una expressió booleana amb nom nom i expressió exp
+     * @param nom Nom de l'expressió booleana a crear
+     * @param exp Expressió de l'expressió booleana a crear
+     * @return Indica si l'expressió booleana ha sigut creada o no
      */
     public boolean creaExpressioBooleana(String nom, String exp) {
         boolean valida = true;
@@ -453,10 +453,9 @@ public class CtrlPresentacio {
     }
 
     /**
-     * Mètode que dona les claus dels documents que cumpleixen l'expressió booleana exp.
-     * @param exp: String: expressió booleana per fer la cerca.
-     * @return List<Pair<String, String>>: Es retorna una llista amb les claus dels documents que compleixen l'expressió booleana exp,
-     *          la llista = null si ha succeït algun error.
+     * Mètode que dona les claus dels documents que cumpleixen l'expressió booleana exp
+     * @param exp Expressió booleana per fer la cerca
+     * @return Llista amb les claus dels documents que compleixen l'expressió booleana exp, la llista = null si ha succeït algun error
      */
     public List<Pair<String, String>> cercarExpressioBooleana(String exp) {
         List<Pair<String, String>> docs = new ArrayList<>();
@@ -472,9 +471,9 @@ public class CtrlPresentacio {
     }
 
     /**
-     * Mètode que dona les claus dels documents que cumpleixen l'expressió booleana amb nom nom.
-     * @param nom: String: nom de l'expressió booleana per fer la cerca.
-     * @return List<Pair<String, String>>: Es retorna una llista amb les claus dels documents que compleixen l'expressió booleana amb nom nom.
+     * Mètode que dona les claus dels documents que cumpleixen l'expressió booleana amb nom nom
+     * @param nom Nom de l'expressió booleana per fer la cerca
+     * @return Llista amb les claus dels documents que compleixen l'expressió booleana amb nom nom
      */
     public List<Pair<String, String>> cercarExpressioBooleanaNom(String nom) {
         List<Pair<String, String>> docs = cd.cercarExpressioBooleanaNom(nom);
@@ -482,10 +481,10 @@ public class CtrlPresentacio {
     }
 
     /**
-     * Mètode per modificar l'expressió de l'expressió booleana amb nom nom a nExp.
-     * @param nom: String: nom de l'expressió booleana a modificar.
-     * @param nExp: String: nova expressió per a l'expressió booleana.
-     * @return boolean: Indica si s'ha pogut fer la modificació o no.
+     * Mètode per modificar l'expressió de l'expressió booleana amb nom nom a nExp
+     * @param nom Nom de l'expressió booleana a modificar
+     * @param nExp Nova expressió per a l'expressió booleana
+     * @return Indica si s'ha pogut fer la modificació o no
      */
     public boolean modExpressioBooleana(String nom, String nExp) {
         boolean valida = true;
@@ -501,21 +500,26 @@ public class CtrlPresentacio {
     }
 
     /**
-     * Mètode per esborrar l'expressió booleana amb nom nom.
-     * @param nom: String: nom de l'expressió booleana a esborrar.
+     * Mètode per esborrar l'expressió booleana amb nom nom
+     * @param nom Nom de l'expressió booleana a esborrar
      */
     public void deleteExpressioBooleana(String nom) {
         cd.deleteExpressioBooleana(nom);
     }
 
     /**
-     * Mètode main de l'aplicació, comença mostrant la viewPincipal.
+     * Mètode main de l'aplicació, comença mostrant la viewPincipal
      */
     public static void main(String[] args) {
         CtrlPresentacio cp = new CtrlPresentacio();
         cp.mostraViewPrincipal();
     }
 
+    /**
+     * Mètode privat per mostrar un popup amb l'error que ha causat l'excepció
+     * @param message Missatge del popup, és el motiu de l'excepció
+     * @param title Títol del popup, acció que l'ha causat
+     */
     private void popupException(String message, String title) {
         JOptionPane.showMessageDialog(null, message, title, JOptionPane.ERROR_MESSAGE);
     }

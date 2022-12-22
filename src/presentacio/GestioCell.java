@@ -5,9 +5,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.*;
 
 /**
- * Classe extends de DefaultTableCellRenderer. La funció d’aquesta classe és redefinir les cel·les de la JTable que 
- * mostra els documents per tal de donar un color concret, un estil concret o inclús afegir la icona dels tres punts 
- * verticals.
+ * Classe extends de DefaultTableCellRenderer. La funció d’aquesta classe és redefinir les cel·les de la JTable que mostra els documents per tal de donar un color concret, un estil concret o inclús afegir la icona dels tres punts verticals.
  * @author Christian Rivero 
  */
 public class GestioCell extends DefaultTableCellRenderer {
@@ -26,13 +24,13 @@ public class GestioCell extends DefaultTableCellRenderer {
     }
 
     /**
-     * Métode override que retorna el component amb l'estil desitjat.
-     * @param table: JTable: JTable a la qaul pertany la cel·la.
-     * @param value: Object: Valor de la cel·la.
-     * @param selected: boolean: Booleà que indica si a cel·la està seleccionada.
-     * @param focused: boolean: Booleà que indica si a cel·la està sent focused.
-     * @param row: int: Fila a la qual pertany la cel·la.
-     * @param column: int: Columna a la qual pertany la cel·la.
+     * Métode override que retorna el component amb l'estil desitjat
+     * @param table JTable a la qaul pertany la cel·la
+     * @param value Valor de la cel·la
+     * @param selected Booleà que indica si a cel·la està seleccionada
+     * @param focused Booleà que indica si a cel·la està sent focused
+     * @param row Fila a la qual pertany la cel·la
+     * @param column Columna a la qual pertany la cel·la
      */
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value, boolean selected, boolean focused, int row, int column) {

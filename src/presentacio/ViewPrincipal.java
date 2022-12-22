@@ -296,7 +296,9 @@ public class ViewPrincipal extends JFrame {
                             selectedRow = documents.getSelectedRows();
                         }
                         contadorDocs.setText(Integer.toString(documents.getRowCount()));
-                        JOptionPane.showMessageDialog(null, "S'han esborrat correctament " + contDocsElimOk + " documents.",
+                        String nombreDocumentsDepen = " documents."; //si es 1 documento borrado quiero que diga document y no documents
+                        if(contDocsElimOk == 1) nombreDocumentsDepen = " document.";
+                        JOptionPane.showMessageDialog(null, "S'han esborrat correctament " + contDocsElimOk + nombreDocumentsDepen,
                                 "Esborrar documents seleccionats", JOptionPane.DEFAULT_OPTION);
                     } else { //misstage no s'han borrat
                         JOptionPane.showMessageDialog(null, "No s'ha esborrat cap document.",

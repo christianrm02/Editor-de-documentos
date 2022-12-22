@@ -16,8 +16,8 @@ public class GestorExpBooleanes {
 
     /**
      * Mètode per càrregar les expressions booleanes de disc.
-     * @return List<Pair<String, String>>: Es retornen totes les expressions booleanes existents al disc (per cada una, el seu nom i l'expressió).
-     * @exception IOException Hi ha hagut algun problema en accedir al disc.
+     * @return Es retornen totes les expressions booleanes existents al disc (per cada una, el seu nom i l'expressió).
+     * @throws IOException Hi ha hagut algun problema en accedir al disc.
      */
     public static List<Pair<String, String>> CarregarExpB() throws IOException {
         try {
@@ -51,8 +51,8 @@ public class GestorExpBooleanes {
 
     /**
      * Mètode per guardar les expressions booleanes a disc.
-     * @param exps: List<Pair<String, String>>: Totes les expressions booleanes que es volen guardar a disc.
-     * @exception IOException Hi ha hagut algun problema en accedir al disc.
+     * @param exps Totes les expressions booleanes que es volen guardar a disc.
+     * @throws IOException Hi ha hagut algun problema en accedir al disc.
      */
    public static void GuardarExpB(List<Pair<String, String>> exps) throws IOException {
         String dirPath = "./appdata/expressions/";

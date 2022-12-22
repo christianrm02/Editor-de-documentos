@@ -479,8 +479,11 @@ public class ViewPrincipal extends JFrame {
                         }
                     }
                     contadorDocs.setText(Integer.toString(documents.getRowCount()));
+                    contadorDocs.setText(Integer.toString(documents.getRowCount()));
+                    String nombreDocumentsDepen = " documents."; //si es 1 documento borrado quiero que diga document y no documents
+                    if(contDocsImp == 1) nombreDocumentsDepen = " document.";
                     JOptionPane.showMessageDialog(null,
-                            "S'han importat correctament " + contDocsImp + " documents.",
+                            "S'han importat correctament " + contDocsImp + nombreDocumentsDepen,
                             "Importar document", JOptionPane.DEFAULT_OPTION);
                 }
             }

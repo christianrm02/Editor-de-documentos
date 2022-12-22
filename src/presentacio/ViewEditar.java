@@ -80,7 +80,7 @@ public class ViewEditar extends JFrame {
      */
     protected void modificarTitol() {
         JPanel insertTitol = new JPanel();
-        JTextField newT = new JTextField("",20);
+        JTextField newT = new JTextField(titol.getText(),20);
         insertTitol.add(new JLabel("Escriu el nou títol: "));
         insertTitol.add(newT);
         String[] opts = {"Sí", "Cancel·la"};
@@ -108,7 +108,7 @@ public class ViewEditar extends JFrame {
      */
     protected void modificarAutor() {
         JPanel insertAutor = new JPanel();
-        JTextField newA = new JTextField("", 20);
+        JTextField newA = new JTextField(autor.getText(), 20);
         insertAutor.add(new JLabel("Escriu el nou autor: "));
         insertAutor.add(newA);
         String[] opts = {"Sí", "Cancel·la"};
@@ -198,7 +198,6 @@ public class ViewEditar extends JFrame {
                     insertNom.add(new JLabel("Nom de l'arxiu: "));
                     insertNom.add(newNom);
                     JComboBox tipus = new JComboBox();
-                    tipus.addItem("");
                     tipus.addItem("txt");
                     tipus.addItem("xml");
                     tipus.setSize(90, 20);
@@ -226,18 +225,13 @@ public class ViewEditar extends JFrame {
                         cont = textPane1.getText();
                         cp.modificarContingut(cont, data);
                         cp.desarDocument();
-                        cp.exportaDocument(au, ti, loc);
-                        //System.out.println(titol + " " + autor + " " + newNom.getText() + " " + chooser.getSelectedFile().getAbsolutePath());
+                        if (cp.exportaDocument(au, ti, loc)) {
+                            cp.exportaDocument(au, ti, loc);
+                        }
                     } else if (opt == 0 && (newNom.getText().equals("") || ((String) tipus.getSelectedItem()).equals(""))) {
                         JOptionPane.showMessageDialog(null, "Indica un nom i un format vàlids, no deixis camps buits.",
                                 "Error exportació", JOptionPane.ERROR_MESSAGE);
                     }
-                    else {
-                        JOptionPane.showMessageDialog(null, "No s'ha exportat el document.");
-                    }
-                }
-                else {
-                    JOptionPane.showMessageDialog(null, "Alguna cosa ha sortit malament, torna a intentar-ho.");
                 }
             }
         });

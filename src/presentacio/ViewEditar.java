@@ -18,19 +18,19 @@ public class ViewEditar extends JFrame {
      */
     private JPanel panel1;
     /**
-     * Botó per desar les modificacions del contingut del document que està obert.
+     * Boto per desar les modificacions del contingut del document que esta obert.
      */
     protected JButton desarButton;
     /**
-     * Botó per exportar el document que està obert.
+     * Boto per exportar el document que esta obert.
      */
     protected JButton exportarButton;
     /**
-     * Botó per tornar enrere a ViewPrincipal.
+     * Boto per tornar enrere a ViewPrincipal.
      */
     private JButton sortirButton;
     /**
-     * Etiqueta amb el títol del document.
+     * Etiqueta amb el titol del document.
      */
     protected JLabel titol;
     /**
@@ -42,19 +42,19 @@ public class ViewEditar extends JFrame {
      */
     protected JTextPane textPane1;
     /**
-     * Contingut del document de l’última vegada que s’ha desat.
+     * Contingut del document de l’ultima vegada que s’ha desat.
      */
     private String cont;
     /**
-     * Controlador de la capa de presentació.
+     * Controlador de la capa de presentacio.
      */
     private CtrlPresentacio cp;
 
     /**
      * Pregunta a l’usuari si vol desar el document abans de sortir de la vista o tancar el programa. En cas que l’usuari accepti, es guarda el contingut del document a contAct a CtrlDomini, altrament no es guarda.
      * @param contNou Contingut actual del document sense desar.
-     * @param sortir Booleà que indica si es vol tancar el programa o sortir a la pantalla principal.
-     * @return Es retorna un enter, que si és 0, vol dir que s'ha guardat, altrament vol dir que no s'ha guardat.
+     * @param sortir Boolea que indica si es vol tancar el programa o sortir a la pantalla principal.
+     * @return Es retorna un enter, que si es 0, vol dir que s'ha guardat, altrament vol dir que no s'ha guardat.
      */
     private int desarAbansDeTancar(String contNou, boolean sortir) {
         String frase = "No has desat el document. El vols desar abans de ";
@@ -76,7 +76,7 @@ public class ViewEditar extends JFrame {
     }
 
     /**
-     * Pregunta a l'usuari quin nou títol vol posar al document i si és vàlid, el modifica.
+     * Pregunta a l'usuari quin nou titol vol posar al document i si es valid, el modifica.
      */
     protected void modificarTitol() {
         JPanel insertTitol = new JPanel();
@@ -104,7 +104,7 @@ public class ViewEditar extends JFrame {
     }
 
     /**
-     * Pregunta a l'usuari quin nou autor vol posar al document i si és vàlid, el modifica.
+     * Pregunta a l'usuari quin nou autor vol posar al document i si és valid, el modifica.
      */
     protected void modificarAutor() {
         JPanel insertAutor = new JPanel();
@@ -132,9 +132,9 @@ public class ViewEditar extends JFrame {
     }
 
     /**
-     * Mostra un panell editable amb el contingut del document (a+t), amb el títol t i l’autor a a dalt del panell i un botó per desar el contingut del document, un altre per exportar el document i un tercer per tornar enrere, és a dir, anar a la ViewPrincipal.
-     * @param ctrlp Instància del controlador de presentació.
-     * @param t Títol del document.
+     * Mostra un panell editable amb el contingut del document (a+t), amb el titol t i l’autor a a dalt del panell i un boto per desar el contingut del document, un altre per exportar el document i un tercer per tornar enrere, es a dir, anar a la ViewPrincipal.
+     * @param ctrlp Instancia del controlador de presentacio.
+     * @param t Titol del document.
      * @param a Autor del document.
      * @param c Contingut del document.
      */

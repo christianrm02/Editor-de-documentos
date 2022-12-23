@@ -12,10 +12,10 @@ import java.awt.event.WindowEvent;
  */
 public class ViewMostrarCont extends ViewEditar {
     /**
-     * Mostra la vista ViewEditar sense les opcions de desar, exportar i modificar el contingut del document, és a dir, mostra el contingut del document.
-     * @param cp Instància del controlador de presentació.
-     * @param t Títol del document.
-     * @param a Títol del document.
+     * Mostra la vista ViewEditar sense les opcions de desar, exportar i modificar el contingut del document, es a dir, mostra el contingut del document.
+     * @param cp Instancia del controlador de presentacio.
+     * @param t Titol del document.
+     * @param a Autor del document.
      * @param cont Contingut del document.
      */
     public ViewMostrarCont(CtrlPresentacio cp, String t, String a, String cont) {

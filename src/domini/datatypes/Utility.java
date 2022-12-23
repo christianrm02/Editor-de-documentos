@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Utility: Funcions estàtiques per processar text
- * @author Èric Ryhr
+ * Utility: Funcions estatiques per processar text
+ * @author Eric Ryhr
  */
 public class Utility {
 
     /** 
-     * Mètode per separar una frase en paraules i eliminar símbols
+     * Metode per separar una frase en paraules i eliminar simbols
      * @param frase Frase a tractar
      * @return Array amb les paraules de la frase
      */
@@ -23,7 +23,7 @@ public class Utility {
 
     
     /** 
-     * Mètode per separar un contingut en frases
+     * Metode per separar un contingut en frases
      * @param fr Contingut a tractar
      * @return Llista amb les frases obtenides
      */

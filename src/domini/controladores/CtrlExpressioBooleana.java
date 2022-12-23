@@ -19,25 +19,25 @@ public class CtrlExpressioBooleana {
     private Map<String, ExpressioBooleana> expressions;
 
     /**
-     * Constructora del controlador d'expressió booleana.
+     * Constructora del controlador d'expressio booleana.
      */
     public CtrlExpressioBooleana() {
         expressions = new HashMap<>();
     }
 
     /**
-     * Mètode per saber si una expressió booleana ja existeix.
-     * @param nom Nom de l'expressió booleana.
-     * @return Indica si l'expressió booleana amb nom nom existeix.
+     * Metode per saber si una expressio booleana ja existeix.
+     * @param nom Nom de l'expressio booleana.
+     * @return Indica si l'expressio booleana amb nom nom existeix.
      */
     public boolean existsExpressioBooleana(String nom) {
         return expressions.containsKey(nom);
     }
 
     /**
-     * Mètode que dona els identificadors de les frases complementàries a les indicades per set.
-     * @param set Conjunt de frases en què es vol aplicar l'operació not.
-     * @param ci Controlador d'índex necessari per realitzar l'operació del complementari.
+     * Metode que dona els identificadors de les frases complementàries a les indicades per set.
+     * @param set Conjunt de frases en que es vol aplicar l'operacio not.
+     * @param ci Controlador d'índex necessari per realitzar l'operacio del complementari.
      * @return Es retorna un Set amb els identificadors de les frases complementàries a les frases del Set set.
      */
     private Set<Integer> not(Set<Integer> set, CtrlIndex ci) {
@@ -50,9 +50,9 @@ public class CtrlExpressioBooleana {
     }
 
     /**
-     * Mètode que dona els identificadors de les frases resultants d'aplicar l'operació unió entre el set1 i el set2.
-     * @param set1 Primer conjunt de frases en què es vol aplicar l'operació unió.
-     * @param set2 Segon conjunt de frases en què es vol aplicar l'operació unió.
+     * Metode que dona els identificadors de les frases resultants d'aplicar l'operacio unio entre el set1 i el set2.
+     * @param set1 Primer conjunt de frases en que es vol aplicar l'operacio unio.
+     * @param set2 Segon conjunt de frases en que es vol aplicar l'operacio unio.
      * @return Es retorna un set amb els identificadors de les frases que es troben al set1 i també de les que es troben al set2.
      */
     private Set<Integer> union(Set<Integer> set1, Set<Integer> set2) {
@@ -61,9 +61,9 @@ public class CtrlExpressioBooleana {
     }
 
     /**
-     * Mètode que dona els identificadors de les frases resultants d'aplicar l'operació intersecció entre el set1 i el set2.
-     * @param set1 Primer conjunt de frases en què es vol aplicar l'operació intersecció.
-     * @param set2 Segon conjunt de frases en què es vol aplicar l'operació intersecció.
+     * Metode que dona els identificadors de les frases resultants d'aplicar l'operacio interseccio entre el set1 i el set2.
+     * @param set1 Primer conjunt de frases en que es vol aplicar l'operacio interseccio.
+     * @param set2 Segon conjunt de frases en que es vol aplicar l'operacio interseccio.
      * @return Es retorna un set només amb els identificadors de les frases que es troben en el set1 i el set2.
      */
     private Set<Integer> intersection(Set<Integer> set1, Set<Integer> set2) {
@@ -72,7 +72,7 @@ public class CtrlExpressioBooleana {
     }
 
     /**
-     * Mètode per saber si un string és un operador lògic.
+     * Metode per saber si un string és un operador lògic.
      * @param s String qualsevol.
      * @return Indica si l'String s és un operador lògic.
      */
@@ -81,10 +81,10 @@ public class CtrlExpressioBooleana {
     }
 
     /**
-     * Mètode que dona els identificadors de les frases de tots els documents que compleixen l'expressió booleana que té com a arrel el node node.
-     * @param node Arrel d'un subarbre de l'expressió booleana.
+     * Metode que dona els identificadors de les frases de tots els documents que compleixen l'expressio booleana que té com a arrel el node node.
+     * @param node Arrel d'un subarbre de l'expressio booleana.
      * @param ci Controlador d'índex necessari per realitzar la cerca.
-     * @return Es retorna un set amb els identificadors de les frases que compleixen l'expressió booleana que té com a arrel el node node.
+     * @return Es retorna un set amb els identificadors de les frases que compleixen l'expressio booleana que té com a arrel el node node.
      */
     private Set<Integer> cercaExpBol(TreeNode node, CtrlIndex ci) {
         if (!isOperator(node.data)) {
@@ -98,7 +98,7 @@ public class CtrlExpressioBooleana {
                     frases.retainAll(frases2);
                     ++i;
                 }
-                return ci.GetSequencia(node.data, frases); //frases on apareix la seqüència
+                return ci.GetSequencia(node.data, frases); //frases on apareix la seqüencia
             }
         } else {
             if (node.data.equals("&")) return intersection(cercaExpBol(node.leftNode, ci), cercaExpBol(node.rightNode, ci));
@@ -108,10 +108,10 @@ public class CtrlExpressioBooleana {
     }
 
     /**
-     * Mètode que dona les claus dels documents que compleixen l'expressió booleana amb nom nom_exp.
-     * @param nom_exp Nom de l'expressió booleana existent per fer la cerca.
+     * Metode que dona les claus dels documents que compleixen l'expressio booleana amb nom nom_exp.
+     * @param nom_exp Nom de l'expressio booleana existent per fer la cerca.
      * @param ci Controlador d'índex necessari per realitzar la cerca.
-     * @return Es retorna una llista amb les claus dels documents que compleixen l'expressió booleana amb nom nom_exp.
+     * @return Es retorna una llista amb les claus dels documents que compleixen l'expressio booleana amb nom nom_exp.
      */
     public List<Pair<String, String>> cercarExpressioBooleanaExistent(String nom_exp, CtrlIndex ci) {
         ExpressioBooleana expB = expressions.get(nom_exp);
@@ -121,10 +121,10 @@ public class CtrlExpressioBooleana {
     }
 
     /**
-     * Mètode que dona les claus dels documents que compleixen l'expressió booleana exp.
-     * @param exp Expressió booleana per fer la cerca.
+     * Metode que dona les claus dels documents que compleixen l'expressio booleana exp.
+     * @param exp Expressio booleana per fer la cerca.
      * @param ci Controlador d'índex necessari per realitzar la cerca.
-     * @return Es retorna una llista amb les claus dels documents que compleixen l'expressió booleana exp.
+     * @return Es retorna una llista amb les claus dels documents que compleixen l'expressio booleana exp.
      * @throws ExpBoolNoValidaException exp no és vàlida.
      */
     public List<Pair<String, String>> cercarExpressioBooleana(String exp, CtrlIndex ci) throws ExpBoolNoValidaException {
@@ -136,7 +136,7 @@ public class CtrlExpressioBooleana {
 
     /**
      * Getter d'expressions booleanes.
-     * @return Es retornen totes les expressions booleanes existents al sistema (per cada una, el seu nom i l'expressió).
+     * @return Es retornen totes les expressions booleanes existents al sistema (per cada una, el seu nom i l'expressio).
      */
     public List<Pair<String, String>> getAll() {
         List<Pair<String, String>> exps = new ArrayList<>();
@@ -150,9 +150,9 @@ public class CtrlExpressioBooleana {
     }
 
     /**
-     * Mètode per crear una expressió booleana amb nom nom i expressió exp.
-     * @param nom Nom de l'expressió booleana a crear.
-     * @param exp Expressió de l'expressió booleana a crear.
+     * Metode per crear una expressio booleana amb nom nom i expressio exp.
+     * @param nom Nom de l'expressio booleana a crear.
+     * @param exp Expressio de l'expressio booleana a crear.
      * @throws ExpBoolNoValidaException exp no és vàlida.
      */
     public void setExpressioBooleana(String nom, String exp) throws ExpBoolNoValidaException {
@@ -161,8 +161,8 @@ public class CtrlExpressioBooleana {
     }
 
     /**
-     * Mètode per esborrar l'expressió booleana amb nom nom.
-     * @param nom Nom de l'expressió booleana a esborrar.
+     * Metode per esborrar l'expressio booleana amb nom nom.
+     * @param nom Nom de l'expressio booleana a esborrar.
      */
     public void deleteExpressioBooleana(String nom) {
         expressions.remove(nom);

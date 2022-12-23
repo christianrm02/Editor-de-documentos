@@ -9,14 +9,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * GestorIndexs: Classe amb funcions estàtiques per gestionar l’emmagatzematge i la càrrega d’expressions booleanes al disc.
+ * GestorIndexs: Classe amb funcions estatiques per gestionar l’emmagatzematge i la carrega d’expressions booleanes al disc.
  * @author Pol Fradera
  */
 public class GestorExpBooleanes {
 
     /**
-     * Mètode per càrregar les expressions booleanes de disc.
-     * @return Es retornen totes les expressions booleanes existents al disc (per cada una, el seu nom i l'expressió).
+     * Metode per carregar les expressions booleanes de disc.
+     * @return Es retornen totes les expressions booleanes existents al disc (per cada una, el seu nom i l'expressio).
      * @throws IOException Hi ha hagut algun problema en accedir al disc.
      */
     public static List<Pair<String, String>> CarregarExpB() throws IOException {
@@ -50,7 +50,7 @@ public class GestorExpBooleanes {
     }
 
     /**
-     * Mètode per guardar les expressions booleanes a disc.
+     * Metode per guardar les expressions booleanes a disc.
      * @param exps Totes les expressions booleanes que es volen guardar a disc.
      * @throws IOException Hi ha hagut algun problema en accedir al disc.
      */

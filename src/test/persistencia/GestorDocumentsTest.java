@@ -8,12 +8,13 @@ import java.io.IOException;
 import org.junit.Test;
 
 import excepcions.FormatInvalid;
+import excepcions.IDInvalid;
 import persistencia.GestorDocuments;
 
 public class GestorDocumentsTest {
 
     @Test
-    public void testObrirDesar() throws IOException {
+    public void testObrirDesar() throws IOException, IDInvalid {
         String autor = "Manolo";
         String titol = "Manolo se va a la playa";
         String contingut = "Manolo se aburre en la playa.\nManolo vuelve a casa";
@@ -25,7 +26,7 @@ public class GestorDocumentsTest {
     }
 
     @Test
-    public void testTXT() throws IOException, FormatInvalid {
+    public void testTXT() throws IOException, FormatInvalid, IDInvalid {
         String autor = "Manolo";
         String titol = "Manolo se va a la playa";
         String contingut = "Manolo se aburre en la playa.\nManolo vuelve a casa.";
@@ -40,7 +41,7 @@ public class GestorDocumentsTest {
     }
 
     @Test
-    public void testXML() throws IOException, FormatInvalid {
+    public void testXML() throws IOException, FormatInvalid, IDInvalid {
         String autor = "Manolo";
         String titol = "Manolo se va a la playa";
         String contingut = "Manolo se aburre en la playa.\nManolo vuelve a casa.";

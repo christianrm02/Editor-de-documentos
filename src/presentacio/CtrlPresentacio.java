@@ -225,7 +225,11 @@ public class CtrlPresentacio {
             valid = false;
         }
         catch(IOException e) {
-            JOptionPane.showMessageDialog(null, "Hi ha hagut un error en la creacio del document.", "Error creacio document", JOptionPane.ERROR_MESSAGE);
+            //JOptionPane.showMessageDialog(null, "Hi ha hagut un error en la creacio del document.", "Error creacio document", JOptionPane.ERROR_MESSAGE);
+            popupException(e.toString(), "Error crear document");
+            valid = false;
+        } catch (IDInvalid e) {
+            //JOptionPane.showMessageDialog(null, "Hi ha hagut un error en la creacio del document.", "Error creacio document", JOptionPane.ERROR_MESSAGE);
             popupException(e.toString(), "Error crear document");
             valid = false;
         }
@@ -268,6 +272,9 @@ public class CtrlPresentacio {
         }
         catch(FormatInvalid e) {
             //JOptionPane.showMessageDialog(null, "S'ha seleccionat un format que no és valid, només txt i xml.", "Error importar document", JOptionPane.ERROR_MESSAGE);
+            popupException(e.toString(), "Error importar document");
+            docImp = null;
+        } catch (IDInvalid e) {
             popupException(e.toString(), "Error importar document");
             docImp = null;
         }
@@ -345,6 +352,10 @@ public class CtrlPresentacio {
             //JOptionPane.showMessageDialog(null, "No s'ha pogut modificar el titol.","Error modificacio titol", JOptionPane.ERROR_MESSAGE);
             valid = false;
             popupException(e.toString(), "Error modificar títol");
+        } catch (IDInvalid e) {
+            //JOptionPane.showMessageDialog(null, "Hi ha hagut un error en la creacio del document.", "Error creacio document", JOptionPane.ERROR_MESSAGE);
+            popupException(e.toString(), "Error modificar títol");
+            valid = false;
         }
         return valid;
     }
@@ -371,6 +382,10 @@ public class CtrlPresentacio {
             //JOptionPane.showMessageDialog(null, "No s'ha pogut modificar l'autor.","Error modificacio autor", JOptionPane.ERROR_MESSAGE);
             valid = false;
             popupException(e.toString(), "Error modificar autor");
+        } catch (IDInvalid e) {
+            //JOptionPane.showMessageDialog(null, "Hi ha hagut un error en la creacio del document.", "Error creacio document", JOptionPane.ERROR_MESSAGE);
+            popupException(e.toString(), "Error modificar autor");
+            valid = false;
         }
         return valid;
     }

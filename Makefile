@@ -14,7 +14,7 @@ JAVA_SOURCES =	./src/domini/controladores/*.java \
 				./src/excepcions/*.java
 
 #COMPILAR PROGRAMA
-program: clean
+compile: clean
 	javac -classpath $(JGOODIES_JARS) -d $(CLASS_OUTPUT) $(JAVA_SOURCES)
 	jar vxf ./lib/forms_rt.jar
 	jar vxf ./lib/jgoodies-forms-1.9.0.jar
@@ -28,10 +28,10 @@ program: clean
 
 #EXECUTAR PROGRAMA
 exec:
-	java -jar $(JAR_OUTPUT)Documenteitor.jar
+	cd $(JAR_OUTPUT); java -jar Documenteitor.jar
 
 #COMPILAR I EXECUTAR PROGRAMA
-comp_exec_program: program
+comp_exec_program: compile
 	java -jar $(JAR_OUTPUT)Documenteitor.jar
 
 javadoc:

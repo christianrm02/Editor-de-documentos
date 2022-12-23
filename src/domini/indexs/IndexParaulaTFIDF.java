@@ -170,6 +170,8 @@ public class IndexParaulaTFIDF implements Serializable{
             TreeMap<String, Pair<Double, Double>> docTFIDF = indexTFIDF.get(doc);
             double metric = cosinusMetric(qTFIDF, docTFIDF, estrategia);
 
+            System.out.println(doc.x + " " + doc.y + " " + metric);
+
             docsSemblants.add(new Pair<Double, Pair<String, String>>(metric, doc));
         }
         
@@ -242,7 +244,7 @@ public class IndexParaulaTFIDF implements Serializable{
      * @param estrategia True si la comparacio es fa amb TF, False si amb TF-IDF
      * @return Semblança entre els 2 documents entre [0, 1]
      */
-    static private Double cosinusMetric(TreeMap<String, Pair<Double, Double>> query, TreeMap<String, Pair<Double, Double>> document, boolean estrategia){
+    static private double cosinusMetric(TreeMap<String, Pair<Double, Double>> query, TreeMap<String, Pair<Double, Double>> document, boolean estrategia){
         //Si algun dels documents es buit la metrica es nula
         if(query.size() == 0 || document.size() == 0) return 0.0;
 
@@ -254,8 +256,40 @@ public class IndexParaulaTFIDF implements Serializable{
         Iterator<String> docQuery = document.keySet().iterator();
         String wordQ = (String) itQuery.next();
         String wordD = (String) docQuery.next();
+
+        while(true) {
+            double q, d;
+            if(estrategia) {
+                //Agafem TFs
+                q = query.get(wordQ).x;
+                d = document.get(wordD).x;
+            } else {
+                //Agafem TFIDFs
+                q = query.get(wordQ).y;
+                d = document.get(wordD).y;
+            }
+            //Si son iguals calculem el producte escalar i avancem els 2 iteradors
+            if(wordQ.equals(wordD)) {
+                dot += q*d;
+                queryNorm += q*q;
+                documentNorm += d*d;
+                if(itQuery.hasNext()) wordQ = (String) itQuery.next();
+                else break;
+                if(docQuery.hasNext()) wordD = (String) docQuery.next();
+                else break;
+            //Si un dels dos es mes petit l'avancem fins que agafi a l'altre
+            } else if (wordQ.compareTo(wordD) < 0) {
+                queryNorm += q*q;
+                if(itQuery.hasNext()) wordQ = (String) itQuery.next();
+                else break;
+            } else {
+                documentNorm += d*d;
+                if(docQuery.hasNext()) wordD = (String) docQuery.next();
+                else break;
+            }
+        }
         
-        while(itQuery.hasNext() && docQuery.hasNext()) {
+        /*while(itQuery.hasNext() && docQuery.hasNext()) {
             double q, d;
             if(estrategia) {
                 //Agafem TFs
@@ -281,12 +315,16 @@ public class IndexParaulaTFIDF implements Serializable{
                 documentNorm += d*d;
                 wordD = (String) docQuery.next();
             }
-        } 
+        } */
 
         queryNorm = Math.sqrt(queryNorm);
         documentNorm = Math.sqrt(documentNorm);
 
-        return dot/(queryNorm*documentNorm);
+        double res;
+        if(queryNorm == 0.0 || documentNorm == 0.0) res = 0.0;
+        else res = dot/(queryNorm*documentNorm);
+
+        return res;
     }
 
     

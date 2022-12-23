@@ -209,7 +209,7 @@ public class ViewGestioExpBool extends JFrame{
                         JOptionPane.YES_NO_OPTION);
                 if (opt == 0) {
                     cp.deleteExpressioBooleana((String)expressions.getValueAt(expressions.getSelectedRow(), 0));
-                    tableModel.removeRow(expressions.getSelectedRow());
+                    tableModel.removeRow(expressions.convertRowIndexToModel(expressions.getSelectedRow()));
                     contadorExp.setText(Integer.toString(expressions.getRowCount()));
                     JOptionPane.showMessageDialog(null, "S'ha esborrat l'expressió booleana correctament.",
                             "Esborrar expressió booleana", JOptionPane.DEFAULT_OPTION);

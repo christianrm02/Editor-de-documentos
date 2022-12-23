@@ -393,7 +393,7 @@ public class ViewPrincipal extends JFrame {
                         titol + " i autor: " + autor + " permanentment?", "Esborrar document", JOptionPane.YES_NO_OPTION, JOptionPane.DEFAULT_OPTION);
                 if (opt == 0) {
                     if(cp.esborrarDocument(autor, titol)) {
-                        tableModel.removeRow(documents.getSelectedRow());
+                        tableModel.removeRow(documents.convertRowIndexToModel(documents.getSelectedRow()));
                         contadorDocs.setText(Integer.toString(documents.getRowCount()));
                         JOptionPane.showMessageDialog(null, "S'ha esborrat el document correctament",
                                 "Esborrar document", JOptionPane.DEFAULT_OPTION);

@@ -13,7 +13,7 @@ import domini.datatypes.Trie;
 import domini.indexs.*;
 
 /**
- * CtrlIndex: Controlador de domini pels indexs
+ * Controlador de domini pels indexs
  * @author Eric Ryhr
  */
 public class CtrlIndex {

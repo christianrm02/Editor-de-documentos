@@ -16,7 +16,7 @@ import transversal.Pair;
 import domini.datatypes.Utility;
 
 /**
- * IndexParaulaTFIDF: Index de semblança entre documents
+ * Index de semblança entre documents
  * @author Eric Ryhr
  */
 public class IndexParaulaTFIDF implements Serializable{

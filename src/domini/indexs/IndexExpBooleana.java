@@ -12,7 +12,7 @@ import domini.datatypes.Utility;
 
 
 /**
- * IndexExpBooleana: Index per les cerques per expressio booleana
+ * Index per les cerques per expressio booleana
  * @author Eric Ryhr
  */
 public class IndexExpBooleana implements Serializable{

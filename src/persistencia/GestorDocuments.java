@@ -23,7 +23,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.Objects;
 
 /**
  * Funcions estatiques per gestionar l'emmagatzematge dels documents a disc
@@ -153,8 +152,10 @@ public class GestorDocuments {
     public static void ActualitzarAutor(String autor, String titol, String newAutor) throws IOException, IDInvalid {
         String dirPath = "./appdata/docs/";
         Files.createDirectories(Paths.get(dirPath));
-        String oldFileName = Integer.toString(Objects.hash(autor, titol));
-        String newFileName = Integer.toString(Objects.hash(newAutor, titol));
+        //String oldFileName = Integer.toString(Objects.hash(autor, titol));
+        String oldFileName = autor.concat("_").concat(titol);
+        //String newFileName = Integer.toString(Objects.hash(newAutor, titol));
+        String newFileName = newAutor.concat("_").concat(titol);
         Path oldPath = Paths.get(dirPath.concat(oldFileName).concat(".prop"));
         Path newPath = Paths.get(dirPath.concat(newFileName).concat(".prop"));
 
@@ -173,8 +174,10 @@ public class GestorDocuments {
     public static void ActualitzarTitol(String autor, String titol, String newTitol) throws IOException, IDInvalid {
         String dirPath = "./appdata/docs/";
         Files.createDirectories(Paths.get(dirPath));
-        String oldFileName = Integer.toString(Objects.hash(autor, titol));
-        String newFileName = Integer.toString(Objects.hash(autor, newTitol));
+        //String oldFileName = Integer.toString(Objects.hash(autor, titol));
+        String oldFileName = autor.concat("_").concat(titol);
+        //String newFileName = Integer.toString(Objects.hash(newAutor, titol));
+        String newFileName = autor.concat("_").concat(newTitol);
         Path oldPath = Paths.get(dirPath.concat(oldFileName).concat(".prop"));
         Path newPath = Paths.get(dirPath.concat(newFileName).concat(".prop"));
 

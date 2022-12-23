@@ -1,5 +1,4 @@
 Ens trobem en el directori FONTS/src/domini/controladores, en aquest directori trobem les classes controladores implementades:
--CtrlDocument: Arxiu .java on s'implementa la classe CtrlDocument.
 -CtrlDomini: Arxiu .java on s'implementa la classe CtrlDomini.
 -CtrlExpressioBooleana: Arxiu .java on s'implementa la classe CtrlExpressioBooleana.
 -CtrlIndex: Arxiu .java on s'implementa la classe CtrlIndex.

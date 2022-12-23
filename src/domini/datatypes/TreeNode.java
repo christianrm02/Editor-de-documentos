@@ -1,7 +1,7 @@
 package domini.datatypes;
 
 /**
- * TreeNode: Estructura de dades que representa un node d'un arbre.
+ * Estructura de dades que representa un node d'un arbre.
  * @author Pol Fradera
  */
 public class TreeNode {

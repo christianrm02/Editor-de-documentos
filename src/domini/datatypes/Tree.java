@@ -3,7 +3,7 @@ import java.util.*;
 import excepcions.*;
 
 /**
- * Tree: Estructura de dades que representa un arbre.
+ * Estructura de dades que representa un arbre.
  * @author Pol Fradera
  */
 

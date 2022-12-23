@@ -134,22 +134,4 @@ public class Tree {
         }
         return postfix;
     }
-/*
-    public static void InOrder(TreeNode arrel) {
-        if (arrel == null) return;
-        else {
-            InOrder(arrel.leftNode);
-            System.out.print(arrel.data+", ");
-            InOrder(arrel.rightNode);
-        }
-    }
-
-    public static void PostOrder(TreeNode arrel) {
-        if (arrel == null) return;
-        else {
-            PostOrder(arrel.leftNode);
-            PostOrder(arrel.rightNode);
-            System.out.print(arrel.data+", ");
-        }
-    }*/
 }

@@ -692,6 +692,11 @@ public class ViewPrincipal extends JFrame {
                     if (opt == 0) {
                         List<String> autors = cp.llistarAutorsPrefix(pref.getText());
                         if(autors.size() > 0) {
+                            //PARA ORDENAR POR ORDEN ALFABÉTICO Y NO POR ASCII
+                            Locale catalan = new Locale("ca-ES");
+                            Collator catalanCollator = Collator.getInstance(catalan);
+                            Collections.sort(autors, catalanCollator);
+
                             Object[][] autorsObj = new Object[autors.size()][1];
                             for(int i = 0; i < autors.size(); ++i) {
                                 Object[] autor = {autors.get(i)};

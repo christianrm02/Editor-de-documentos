@@ -95,7 +95,7 @@ public class ViewEditar extends JFrame {
         int opt = JOptionPane.showOptionDialog(null, insertTitol, "Modificar títol",
                 JOptionPane.DEFAULT_OPTION, JOptionPane.DEFAULT_OPTION, null, opts, opts[0]);
 
-        if (opt == 0 && !titol.getText().equals(newT.getText()) && !newT.getText().equals("")) { // diria q no pot passar a no ser q tanquis
+        if (opt == 0 && !titol.getText().equals(newT.getText()) && !newT.getText().equals("") && newT.getText().length() <= 50 && !newT.getText().contains("_")) { // diria q no pot passar a no ser q tanquis
             String au = autor.getText();
             int opt2 = JOptionPane.showConfirmDialog(null, "El document tindrà el títol: " + newT.getText() +
                     " i l'autor: " + au + ", estàs d'acord?", "Modificar títol", JOptionPane.YES_NO_OPTION, JOptionPane.DEFAULT_OPTION);
@@ -106,7 +106,10 @@ public class ViewEditar extends JFrame {
                     JOptionPane.showMessageDialog(null, "S'ha modificat el títol a " + newT.getText() + ".");
                 }
             }
-        } else if (opt == 0 && newT.getText().equals(""))
+        } else if(newT.getText().length() > 50 || newT.getText().contains("_")) {
+            JOptionPane.showMessageDialog(null, "El títol no pot contenir \"_\" ni ser més llarg de 50 caràcters.");
+        }
+        else if (opt == 0 && newT.getText().equals(""))
             JOptionPane.showMessageDialog(null, "No es permeten camps en buit.");
         else if (opt == 0) JOptionPane.showMessageDialog(null, "Ja és el títol del document.");
     }
@@ -123,7 +126,7 @@ public class ViewEditar extends JFrame {
         int opt = JOptionPane.showOptionDialog(null, insertAutor, "Modificar autor",
                 JOptionPane.DEFAULT_OPTION, JOptionPane.DEFAULT_OPTION, null, opts, opts[0]);
 
-        if (opt == 0 && !autor.getText().equals(newA.getText()) && !newA.getText().equals("")) {
+        if (opt == 0 && !autor.getText().equals(newA.getText()) && !newA.getText().equals("") && newA.getText().length() <= 50 && !newA.getText().contains("_")) {
             String ti = titol.getText();
             int opt2 = JOptionPane.showConfirmDialog(null, "El document tindrà el títol: " + ti +
                     " i l'autor: " + newA.getText() + ", estàs d'acord?", "Modificar autor", JOptionPane.YES_NO_OPTION, JOptionPane.DEFAULT_OPTION);
@@ -134,6 +137,8 @@ public class ViewEditar extends JFrame {
                     JOptionPane.showMessageDialog(null, "S'ha modificat l'autor a " + newA.getText() + ".");
                 }
             }
+        } else if(newA.getText().length() > 50 || newA.getText().contains("_")) {
+            JOptionPane.showMessageDialog(null, "L'autor no pot contenir \"_\" ni ser més llarg de 50 caràcters.");
         } else if (opt == 0 && newA.getText().equals(""))
             JOptionPane.showMessageDialog(null, "No es permeten camps en buit.");
         else if (opt == 0) JOptionPane.showMessageDialog(null, "Ja és l'autor del document.");

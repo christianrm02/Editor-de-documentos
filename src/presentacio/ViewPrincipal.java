@@ -274,6 +274,7 @@ public class ViewPrincipal extends JFrame {
                         Object[] docBorrar = {documents.getValueAt(i, 0), documents.getValueAt(i, 1)};
                         documentsBorrar[index] = docBorrar;
                         ++index;
+                        //System.out.println(selectedRow[i]);
                     }
 
                     DefaultTableModel tm = new DefaultTableModel(documentsBorrar, columnsBorrar) {
@@ -320,7 +321,7 @@ public class ViewPrincipal extends JFrame {
         borrarDocsSeleccionats.addActionListener(esborrarDocsSeleccionatsAction);
         esborrarDocsButton.addActionListener(esborrarDocsSeleccionatsAction);
 
-        /*modificar titulo doc*/
+        /*modificar titulo*/
         modT.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -334,7 +335,7 @@ public class ViewPrincipal extends JFrame {
                 int opt = JOptionPane.showOptionDialog(null, insertTitol, "Modificar títol",
                         JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, opts, opts[0]);
 
-                if (opt == 0 && !newT.getText().equals("") && !newT.getText().equals(titol)) {
+                if (opt == 0 && !newT.getText().equals("") && !newT.getText().equals(titol) && newT.getText().length() <= 50 && !newT.getText().contains("_")) {
                     int opt2 = JOptionPane.showConfirmDialog(null, "El document tindrà el títol: " + newT.getText() +
                             " i l'autor: " + autor + ", estàs d'acord?", "Modificar títol", JOptionPane.YES_NO_OPTION, JOptionPane.DEFAULT_OPTION);
                     if (opt2 == 0) {
@@ -345,6 +346,8 @@ public class ViewPrincipal extends JFrame {
                             tableModel.addRow(new Object[]{newT.getText(), autor, data});
                         }
                     }
+                } else if(newT.getText().length() > 50 || newT.getText().contains("_")) {
+                    JOptionPane.showMessageDialog(null, "El títol no pot contenir \"_\" ni ser més llarg de 50 caràcters.");
                 } else if (opt == 0 && newT.getText().equals(titol)) {
                     JOptionPane.showMessageDialog(null, "Ja és el títol del document.");
                 } else if (opt == 0) { //es titol buit
@@ -353,7 +356,7 @@ public class ViewPrincipal extends JFrame {
             }
         });
 
-        /*modificar autor doc*/
+        /*modificar autor*/
         modA.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -368,7 +371,7 @@ public class ViewPrincipal extends JFrame {
                 int opt = JOptionPane.showOptionDialog(null, insertAutor, "Modificar autor",
                         JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, opts, opts[0]);
 
-                if (opt == 0 && !newA.getText().equals("") && !newA.getText().equals(autor)) {
+                if (opt == 0 && !newA.getText().equals("") && !newA.getText().equals(autor) && newA.getText().length() <= 50 && !newA.getText().contains("_")) {
                     int opt2 = JOptionPane.showConfirmDialog(null, "El document tindrà el títol: " + titol +
                             " i l'autor: " + newA.getText() + ", estàs d'acord?", "Modificar autor", JOptionPane.YES_NO_OPTION, JOptionPane.DEFAULT_OPTION);
                     if (opt2 == 0) {
@@ -379,6 +382,8 @@ public class ViewPrincipal extends JFrame {
                             tableModel.addRow(new Object[]{titol, newA.getText(), data});
                         }
                     }
+                } else if(newA.getText().length() > 50 || newA.getText().contains("_")) {
+                    JOptionPane.showMessageDialog(null, "L'autor no pot contenir \"_\" ni ser més llarg de 50 caràcters.");
                 } else if (opt == 0 && newA.getText().equals(autor)) {
                     JOptionPane.showMessageDialog(null, "Ja és l'autor del document.",
                             "Modificar títol", JOptionPane.DEFAULT_OPTION);
@@ -411,7 +416,7 @@ public class ViewPrincipal extends JFrame {
             }
         });
 
-        /*crear nou doc*/
+        /*crear doc*/
         creaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -434,13 +439,16 @@ public class ViewPrincipal extends JFrame {
                 int opt = JOptionPane.showOptionDialog(null, panelCreacio, "Creació document",
                         JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, opts, opts[0]);
 
-                if (opt == 0 && !newT.getText().equals("") && !newA.getText().equals("")) {
+                if (opt == 0 && !newT.getText().equals("") && !newA.getText().equals("") && newT.getText().length() <= 50 && !newT.getText().contains("_") && newA.getText().length() <= 50 && !newA.getText().contains("_")) {
                     String data = LocalDate.now() + " " + LocalTime.now().truncatedTo(ChronoUnit.SECONDS);
                     boolean creat = cp.crearDocument(newA.getText(), newT.getText(), data);
                     if (creat) {
                         tableModel.addRow(new Object[]{newT.getText(), newA.getText(), data});
                         contadorDocs.setText(Integer.toString(documents.getRowCount()));
                     }
+                } else if(newT.getText().length() > 50 || newT.getText().contains("_") || newA.getText().length() > 50 || newA.getText().contains("_")) {
+                    JOptionPane.showMessageDialog(null, "Ni títol ni l'autor poden contenir \"_\" ni ser més llargs de 50 caràcters.",
+                            "Error crear", JOptionPane.ERROR_MESSAGE);
                 } else if (opt == 0 && (newT.getText().equals("") || newA.getText().equals(""))) {
                     JOptionPane.showMessageDialog(null, "Indica un títol i autor vàlids, no deixis camps buits.",
                             "Error crear", JOptionPane.ERROR_MESSAGE);
@@ -485,7 +493,7 @@ public class ViewPrincipal extends JFrame {
             }
         });
 
-        /* exportar doc*/
+        /* único doc*/
         exportarD.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -594,8 +602,7 @@ public class ViewPrincipal extends JFrame {
                         String autor = (String) documents.getValueAt(documents.getSelectedRow(), 1);
                         String titol = (String) documents.getValueAt(documents.getSelectedRow(), 0);
                         boolean estrategia = false;
-                        String selected = (String) jCBestrategia.getSelectedItem();
-                        if (selected.equals("TF")) estrategia = true;
+                        if (jCBestrategia.getSelectedItem().equals("TF")) estrategia = true;
                         List<Pair<String, String>> docsSemblants = cp.llistarKDocumentsS(autor, titol, (int) valueK.getValue(), estrategia);
 
                         Object[][] docsSemblantsObj = new Object[docsSemblants.size()][2];
@@ -641,10 +648,13 @@ public class ViewPrincipal extends JFrame {
                     Collections.sort(autorsList, catalanCollator);
 
                     String[] autorsArray = autorsList.toArray(new String[0]);
+
                     JComboBox jca = new JComboBox(autorsArray);
+
                     jca.setEditable(false);
 
                     Object[] options = new Object[]{"Tria un autor: ", jca};
+
                     int opt = JOptionPane.showOptionDialog(null, options, "Llistar títols d'autor",
                             JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
                     if (opt == 0) {
@@ -935,17 +945,34 @@ public class ViewPrincipal extends JFrame {
             }
         });
 
-        /* Guardar a persistencia abans de tancar*/
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
+                /*sortKeys.add(new RowSorter.SortKey(1, SortOrder.ASCENDING));
+                sortKeys.add(new RowSorter.SortKey(0, SortOrder.ASCENDING));
+                columnRepetida = 1;
+                sorter.setSortKeys(sortKeys);
+                sorter.setSortable(3, false);*/
                 cp.tancarAplicacio();
                 dispose();
+                //cp.mostraViewPrincipal();
             }
         });
 
         setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         validate();
     }
+
+    /*private void borrarDocs(Object[][] documentsBorrar) {
+        List<Pair<String, String>> docsBorrarList = new ArrayList<>();
+        Pair<String,String> p = new Pair();
+        for(int i = 0; i < documentsBorrar.length; ++i) {
+            p.x = (String) documentsBorrar[i][1];
+            p.y = (String) documentsBorrar[i][0];
+            //System.out.println(p.x + p.y);
+            docsBorrarList.add(p);
+        }
+        cp.esborrarDocuments(docsBorrarList);
+    }*/
 
     /**
      * Metode per cambiar el titol d'un document obert
@@ -1159,3 +1186,6 @@ public class ViewPrincipal extends JFrame {
         return panel1;
     }
 }
+
+
+

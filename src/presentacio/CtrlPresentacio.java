@@ -212,25 +212,19 @@ public class CtrlPresentacio {
      */
     public boolean crearDocument(String autor, String titol, String data){
         boolean valid = true;
-        if(autor.length() > 50 || titol.length() > 50 || autor.contains("_") || titol.contains("_")) {
-            popupException("Ni títol ni l'autor poden contenir \"_\" ni ser més llargs de 50 caràcters.", "Error crear document");
+        try {
+            cd.crearDocument(autor, titol, data);
+        }
+        catch (EDocumentException e){
+            popupException(e.toString(), "Error crear document");
             valid = false;
         }
-        else {
-            try {
-                cd.crearDocument(autor, titol, data);
-            }
-            catch (EDocumentException e){
-                popupException(e.toString(), "Error crear document");
-                valid = false;
-            }
-            catch(IOException e) {
-                popupException(e.toString(), "Error crear document");
-                valid = false;
-            } catch (IDInvalid e) {
-                popupException(e.toString(), "Error crear document");
-                valid = false;
-            }
+        catch(IOException e) {
+            popupException(e.toString(), "Error crear document");
+            valid = false;
+        } catch (IDInvalid e) {
+            popupException(e.toString(), "Error crear document");
+            valid = false;
         }
         return valid;
     }
@@ -330,22 +324,16 @@ public class CtrlPresentacio {
      */
     public boolean modificarTitol(String autor, String titol, String newT) {
         boolean valid = true;
-        if(newT.length() > 50 || newT.contains("_")) {
-            valid = false;
-            popupException("El títol no pot contenir \"_\" ni ser més llarg de 50 caràcters.", "Error modificar títol");
+        try {
+            cd.modificarTitol(autor, titol, newT);
         }
-        else {
-            try {
-                cd.modificarTitol(autor, titol, newT);
-            }
-            catch (EDocumentException  e){
-                valid = false;
-                popupException(e.toString(), "Error modificar títol");
-            }
-            catch(IOException e) {
-                valid = false;
-                popupException(e.toString(), "Error modificar títol");
-            }
+        catch (EDocumentException  e){
+            valid = false;
+            popupException(e.toString(), "Error modificar títol");
+        }
+        catch(IOException e) {
+            valid = false;
+            popupException(e.toString(), "Error modificar títol");
         }
         return valid;
     }
@@ -359,22 +347,16 @@ public class CtrlPresentacio {
      */
     public boolean modificarAutor(String autor, String titol, String newA) {
         boolean valid = true;
-        if(newA.length() > 50 || newA.contains("_")) {
-            valid = false;
-            popupException("L'autor no pot contenir \"_\" ni ser més llarg de 50 caràcters.", "Error modificar autor");
+        try {
+            cd.modificarAutor(autor, titol, newA);
         }
-        else {
-            try {
-                cd.modificarAutor(autor, titol, newA);
-            }
-            catch (EDocumentException e){
-                valid = false;
-                popupException(e.toString(), "Error modificar autor");
-            }
-            catch(IOException e) {
-                valid = false;
-                popupException(e.toString(), "Error modificar autor");
-            }
+        catch (EDocumentException e){
+            valid = false;
+            popupException(e.toString(), "Error modificar autor");
+        }
+        catch(IOException e) {
+            valid = false;
+            popupException(e.toString(), "Error modificar autor");
         }
         return valid;
     }

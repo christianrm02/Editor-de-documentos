@@ -37,6 +37,10 @@ public class GestorDocumentsTest {
         GestorDocuments.ExportaDocument(autor, titol, path);
         String[] result = GestorDocuments.ImportaDocument(path);
 
+        System.out.print(expected);
+
+        System.out.print(result);
+
         assertArrayEquals(expected, result);
     }
 

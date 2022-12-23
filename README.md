@@ -1,1 +1,1 @@
-Projecte PROP GestorDocs
+Projecte PROP Documenteitor

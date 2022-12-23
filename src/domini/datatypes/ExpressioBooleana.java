@@ -4,7 +4,7 @@ import excepcions.ExpBoolNoValidaException;
 import java.util.*;
 
 /**
-* ExpressioBooleana: S'implementa la classe Expressio Booleana.
+* S'implementa la classe Expressio Booleana.
 * @author Pol Fradera
 */
 public class ExpressioBooleana {

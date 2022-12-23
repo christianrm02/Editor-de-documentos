@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * GestorIndexs: Classe amb funcions estatiques per gestionar l’emmagatzematge i la carrega d’expressions booleanes al disc.
+ * Classe amb funcions estatiques per gestionar l’emmagatzematge i la carrega d’expressions booleanes al disc.
  * @author Pol Fradera
  */
 public class GestorExpBooleanes {

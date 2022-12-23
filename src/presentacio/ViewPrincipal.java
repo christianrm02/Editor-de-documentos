@@ -393,7 +393,7 @@ public class ViewPrincipal extends JFrame {
                         titol + " i autor: " + autor + " permanentment?", "Esborrar document", JOptionPane.YES_NO_OPTION, JOptionPane.DEFAULT_OPTION);
                 if (opt == 0) {
                     if(cp.esborrarDocument(autor, titol)) {
-                        tableModel.removeRow(documents.getSelectedRow());
+                        tableModel.removeRow(documents.convertRowIndexToModel(documents.getSelectedRow()));
                         contadorDocs.setText(Integer.toString(documents.getRowCount()));
                         JOptionPane.showMessageDialog(null, "S'ha esborrat el document correctament",
                                 "Esborrar document", JOptionPane.DEFAULT_OPTION);
@@ -512,9 +512,9 @@ public class ViewPrincipal extends JFrame {
                     String[] opts = {"Sí", "Cancel·la"};
                     int opt = JOptionPane.showOptionDialog(null, panelExportacio, "Exportació document",
                             JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, opts, opts[0]);
-                    while(opt == 0 && newNom.getText().matches(".*[\\\\/:*?\"<>|].*")) { //hacer el bucle mientras ponga chars invalidos, funcionan todos bien excepto el \, arreglar
+                    while(opt == 0 && newNom.getText().matches(".*[\\\\/:*?\"<>|#%&${}!':´`@+=].*")) { //hacer el bucle mientras ponga chars invalidos, funcionan todos bien excepto el \, arreglar
                         JOptionPane.showMessageDialog(null,
-                                "No es permeten noms d'arxiu amb \\ / : * ? \" < > |.");
+                                "No es permeten noms d'arxiu amb \\ / : * ? \" < > | # % & $ { } ! ' : ` ´ @ + =.");
                         opt = JOptionPane.showOptionDialog(null, panelExportacio, "Exportació document",
                                 JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, opts, opts[0]);
                         System.out.println(newNom.getText());

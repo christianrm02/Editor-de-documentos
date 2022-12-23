@@ -25,7 +25,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.Objects;
 
 /**
- * GestorDocuments: Funcions estatiques per gestionar l'emmagatzematge dels documents a disc
+ * Funcions estatiques per gestionar l'emmagatzematge dels documents a disc
  * @author Eric Ryhr
  */
 public class GestorDocuments {

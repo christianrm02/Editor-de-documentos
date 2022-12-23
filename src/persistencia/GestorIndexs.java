@@ -10,7 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 /**
- * GestorIndexs: Funcions estatiques per desar els indexs del sistema a disc
+ * Funcions estatiques per desar els indexs del sistema a disc
  * @author Eric Ryhr
  */
 public class GestorIndexs {

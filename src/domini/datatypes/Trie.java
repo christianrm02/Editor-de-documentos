@@ -11,7 +11,7 @@ import java.util.Map.Entry;
 import transversal.Pair;
 
 /**
- * Trie: Estructura de dades per emmagatzemar documents
+ * Estructura de dades per emmagatzemar documents
  * Implementacio basica del trie extreta de https://www.baeldung.com/trie-java
  * @author Eric Ryhr
  */

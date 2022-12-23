@@ -52,7 +52,8 @@ public class GestioCell extends DefaultTableCellRenderer {
 
         if (selected) {
             this.setBackground(colorFondo);
-        } else {
+        }
+        else {
             this.setBackground(Color.white);
         }
 

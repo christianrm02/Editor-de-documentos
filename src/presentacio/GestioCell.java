@@ -19,7 +19,7 @@ public class GestioCell extends DefaultTableCellRenderer {
      */
     private Font normal = new Font("Roboto Light", Font.PLAIN, 12);
     /**
-     * Font en negreta de la cel·la
+     * Font en negreta de la cela
      */
     private Font bold = new Font("Roboto Light", Font.BOLD, 12);
 
@@ -30,6 +30,7 @@ public class GestioCell extends DefaultTableCellRenderer {
 
     /**
      * Constructora de la classe passant tipus
+     * @param tipus String del tipus de la cela
      */
     public GestioCell(String tipus) {
         this.tipus = tipus;
@@ -37,12 +38,12 @@ public class GestioCell extends DefaultTableCellRenderer {
 
     /**
      * Métode override que retorna el component amb l'estil desitjat
-     * @param table JTable a la qaul pertany la cel·la
-     * @param value Valor de la cel·la
-     * @param selected Booleà que indica si a cel·la està seleccionada
-     * @param focused Booleà que indica si a cel·la està sent focused
-     * @param row Fila a la qual pertany la cel·la
-     * @param column Columna a la qual pertany la cel·la
+     * @param table JTable a la qual pertany la cela
+     * @param value Valor de la cela
+     * @param selected Booleà que indica si a cela està seleccionada
+     * @param focused Booleà que indica si a cela està sent focused
+     * @param row Fila a la qual pertany la cela
+     * @param column Columna a la qual pertany la cela
      * @return El component modificat
      */
     @Override

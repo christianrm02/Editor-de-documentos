@@ -10,15 +10,27 @@ import java.awt.*;
  */
 public class GestioCell extends DefaultTableCellRenderer {
 
+    /**
+     * String on guardar el tipus de cell, pot ser: text, int, icon
+     */
     private String tipus;
+    /**
+     * Font normal de les cel·les
+     */
     private Font normal = new Font("Roboto Light", Font.PLAIN, 12);
+    /**
+     * Font en negreta de la cel·la
+     */
     private Font bold = new Font("Roboto Light", Font.BOLD, 12);
 
     /**
-     * Constructor bàsic de la classe
+     * Constructora bàsica de la classe
      */
     public GestioCell() {}
 
+    /**
+     * Constructora de la classe passant tipus
+     */
     public GestioCell(String tipus) {
         this.tipus = tipus;
     }

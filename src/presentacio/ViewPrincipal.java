@@ -317,16 +317,15 @@ public class ViewPrincipal extends JFrame {
         modT.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                String titol = (String) documents.getValueAt(documents.getSelectedRow(), 0);
+                String autor = (String) documents.getValueAt(documents.getSelectedRow(), 1);
                 JPanel insertTitol = new JPanel();
-                JTextField newT = new JTextField("",20);
+                JTextField newT = new JTextField(titol, 20);
                 insertTitol.add(new JLabel("Escriu el nou títol: "));
                 insertTitol.add(newT);
                 String[] opts = {"Sí", "Cancel·la"};
                 int opt = JOptionPane.showOptionDialog(null, insertTitol, "Modificar títol",
                         JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, opts, opts[0]);
-
-                String titol = (String) documents.getValueAt(documents.getSelectedRow(), 0);
-                String autor = (String) documents.getValueAt(documents.getSelectedRow(), 1);
 
                 if(opt == 0 && !newT.getText().equals("") && !newT.getText().equals(titol)) {
                     int opt2 = JOptionPane.showConfirmDialog(null, "El document tindrà el títol: " + newT.getText() +
@@ -352,16 +351,16 @@ public class ViewPrincipal extends JFrame {
         modA.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                String titol = (String) documents.getValueAt(documents.getSelectedRow(), 0);
+                String autor = (String) documents.getValueAt(documents.getSelectedRow(), 1);
+
                 JPanel insertAutor = new JPanel();
-                JTextField newA = new JTextField("", 20);
+                JTextField newA = new JTextField(autor, 20);
                 insertAutor.add(new JLabel("Escriu el nou autor: "));
                 insertAutor.add(newA);
                 String[] opts = {"Sí", "Cancel·la"};
                 int opt = JOptionPane.showOptionDialog(null, insertAutor, "Modificar autor",
                         JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, opts, opts[0]);
-
-                String titol = (String) documents.getValueAt(documents.getSelectedRow(), 0);
-                String autor = (String) documents.getValueAt(documents.getSelectedRow(), 1);
 
                 if (opt == 0 && !newA.getText().equals("") && !newA.getText().equals(autor)) {
                     int opt2 = JOptionPane.showConfirmDialog(null, "El document tindrà el títol: " + titol +

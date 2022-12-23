@@ -1,5 +1,6 @@
 package test.indexs;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -150,6 +151,28 @@ public class IndexParaulaTFIDFTest {
         assertTrue("El document existeix", index.DocExists(id2));
         assertTrue("El document existeix", index.DocExists(newid3));
         assertTrue("El document existeix", index.DocExists(newid4));
+    }
+
+    @Test
+    public void testKDocsKekw() {
+        IndexParaulaTFIDF index = new IndexParaulaTFIDF();
+        String[] autors = {"Jose", "Jose", "Paco"};
+        String[] titols = {"Antonio1", "Antonio2", "Paco va a esquiar"};
+        Pair<String, String> at0 = new Pair<>(autors[0], titols[0]);
+        Pair<String, String> at1 = new Pair<>(autors[1], titols[1]);
+        Pair<String, String> at2 = new Pair<>(autors[2], titols[2]);
+        List<String> c0 = Arrays.asList("Jose Antonio");
+        List<String> c1 = Arrays.asList("Jose Antonio");
+        List<String> c2 = Arrays.asList("Paco");
+
+        index.AfegirDoc(at0.x, at0.y, c0);
+        index.AfegirDoc(at1.x, at1.y, c1);
+        index.AfegirDoc(at2.x, at2.y, c2);
+
+        List<Pair<String, String>> expected = Arrays.asList(at0, at1);
+        List<Pair<String, String>> res = index.CercaPerRellevancia("Jose", 2, false);
+
+        assertEquals(expected, res);
     }
 
     @Test

@@ -147,9 +147,8 @@ public class GestorDocuments {
      * @param titol Titol del document
      * @param newAutor Nou autor del document
      * @throws IOException Hi ha hagut algun problema al accedir a disc
-     * @throws IDInvalid El titol o l'autor del document son invalids
      */
-    public static void ActualitzarAutor(String autor, String titol, String newAutor) throws IOException, IDInvalid {
+    public static void ActualitzarAutor(String autor, String titol, String newAutor) throws IOException {
         String dirPath = "./appdata/docs/";
         Files.createDirectories(Paths.get(dirPath));
         //String oldFileName = Integer.toString(Objects.hash(autor, titol));
@@ -169,9 +168,8 @@ public class GestorDocuments {
      * @param titol Titol del document
      * @param newTitol Nou titol del document
      * @throws IOException Hi ha hagut algun problema al accedir a disc
-     * @throws IDInvalid El titol o l'autor del document son invalids
      */
-    public static void ActualitzarTitol(String autor, String titol, String newTitol) throws IOException, IDInvalid {
+    public static void ActualitzarTitol(String autor, String titol, String newTitol) throws IOException {
         String dirPath = "./appdata/docs/";
         Files.createDirectories(Paths.get(dirPath));
         //String oldFileName = Integer.toString(Objects.hash(autor, titol));

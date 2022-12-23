@@ -90,7 +90,8 @@ public class GestorDocuments {
         try {
             String dirPath = "./appdata/docs/";
             Files.createDirectories(Paths.get(dirPath));
-            String fileName = Integer.toString(Objects.hash(autor, titol));
+            //String fileName = Integer.toString(Objects.hash(autor, titol));
+            String fileName = autor.concat("_").concat(titol);
             FileInputStream fileInputStream = new FileInputStream(dirPath.concat(fileName).concat(".prop"));
             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
             String contingut = (String) objectInputStream.readObject();

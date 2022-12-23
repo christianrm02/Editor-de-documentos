@@ -225,12 +225,13 @@ public class CtrlPresentacio {
             valid = false;
         }
         catch(IOException e) {
-            JOptionPane.showMessageDialog(null, "Hi ha hagut un error en la creacio del document.", "Error creacio document", JOptionPane.ERROR_MESSAGE);
+            //JOptionPane.showMessageDialog(null, "Hi ha hagut un error en la creacio del document.", "Error creacio document", JOptionPane.ERROR_MESSAGE);
             popupException(e.toString(), "Error crear document");
             valid = false;
         } catch (IDInvalid e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            //JOptionPane.showMessageDialog(null, "Hi ha hagut un error en la creacio del document.", "Error creacio document", JOptionPane.ERROR_MESSAGE);
+            popupException(e.toString(), "Error crear document");
+            valid = false;
         }
         return valid;
     }
@@ -245,9 +246,6 @@ public class CtrlPresentacio {
         catch (IOException e){
             //JOptionPane.showMessageDialog(null, "Hi ha hagut un error al desar el document.", "Error desar document", JOptionPane.ERROR_MESSAGE);
             popupException(e.toString(), "Error desar document");
-        } catch (IDInvalid e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
         }
     }
 
@@ -277,8 +275,8 @@ public class CtrlPresentacio {
             popupException(e.toString(), "Error importar document");
             docImp = null;
         } catch (IDInvalid e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            popupException(e.toString(), "Error importar document");
+            docImp = null;
         }
         return docImp;
     }
@@ -354,6 +352,10 @@ public class CtrlPresentacio {
             //JOptionPane.showMessageDialog(null, "No s'ha pogut modificar el titol.","Error modificacio titol", JOptionPane.ERROR_MESSAGE);
             valid = false;
             popupException(e.toString(), "Error modificar títol");
+        } catch (IDInvalid e) {
+            //JOptionPane.showMessageDialog(null, "Hi ha hagut un error en la creacio del document.", "Error creacio document", JOptionPane.ERROR_MESSAGE);
+            popupException(e.toString(), "Error modificar títol");
+            valid = false;
         }
         return valid;
     }
@@ -380,6 +382,10 @@ public class CtrlPresentacio {
             //JOptionPane.showMessageDialog(null, "No s'ha pogut modificar l'autor.","Error modificacio autor", JOptionPane.ERROR_MESSAGE);
             valid = false;
             popupException(e.toString(), "Error modificar autor");
+        } catch (IDInvalid e) {
+            //JOptionPane.showMessageDialog(null, "Hi ha hagut un error en la creacio del document.", "Error creacio document", JOptionPane.ERROR_MESSAGE);
+            popupException(e.toString(), "Error modificar autor");
+            valid = false;
         }
         return valid;
     }

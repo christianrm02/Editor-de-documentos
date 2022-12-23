@@ -10,13 +10,13 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 /**
- * GestorIndexs: Funcions estàtiques per desar els índexs del sistema a disc
- * @author Èric Ryhr
+ * GestorIndexs: Funcions estatiques per desar els indexs del sistema a disc
+ * @author Eric Ryhr
  */
 public class GestorIndexs {
     
     /** 
-     * Mètode per importar els indexs de disc
+     * Metode per importar els indexs de disc
      * @return Import en forma d'array de bytes
      * @throws IOException Hi ha hagut algun problema al accedir a disc
      */
@@ -39,7 +39,7 @@ public class GestorIndexs {
 
     
     /** 
-     * Mètode per exportar els indexs a disc
+     * Metode per exportar els indexs a disc
      * @param info Indexs en forma d'array de bytes
      * @throws IOException Hi ha hagut algun problema al accedir a disc
      */

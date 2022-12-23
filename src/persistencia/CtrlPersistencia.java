@@ -61,9 +61,8 @@ public class CtrlPersistencia {
      * @param titol Titol del document.
      * @param contingut Contingut del document.
      * @throws IOException Hi ha hagut algun problema en accedir al disc.
-     * @throws IDInvalid El titol o l'autor del document son invalids
      */
-    public void desaContingut(String autor, String titol, String contingut) throws IOException, IDInvalid {
+    public void desaContingut(String autor, String titol, String contingut) throws IOException {
         GestorDocuments.DesaContingut(autor, titol, contingut);
     }
 
@@ -84,8 +83,9 @@ public class CtrlPersistencia {
      * @param titol Titol del document.
      * @param newAutor Nou autor del document.
      * @throws IOException Hi ha hagut algun problema en accedir al disc.
+     * @throws IDInvalid El titol o l'autor del document son invalids
      */
-    public void actualitzarAutor(String autor, String titol, String newAutor) throws IOException {
+    public void actualitzarAutor(String autor, String titol, String newAutor) throws IOException, IDInvalid {
         GestorDocuments.ActualitzarAutor(autor, titol, newAutor);
     }
 
@@ -95,8 +95,9 @@ public class CtrlPersistencia {
      * @param titol Titol del document.
      * @param newTitol Nou titol del document.
      * @throws IOException Hi ha hagut algun problema en accedir al disc.
+     * @throws IDInvalid El titol o l'autor del document son invalids
      */
-    public void actualitzarTitol(String autor, String titol, String newTitol) throws IOException {
+    public void actualitzarTitol(String autor, String titol, String newTitol) throws IOException, IDInvalid {
         GestorDocuments.ActualitzarTitol(autor, titol, newTitol);
     }
 

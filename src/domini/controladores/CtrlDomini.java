@@ -167,8 +167,9 @@ public class CtrlDomini {
      * @param newT Nou titol que se li vol posar al document.
      * @throws EDocumentException El document (autor+newT) ja existeix al sistema.
      * @throws IOException Hi ha hagut algun problema en accedir a disc.
+     * @throws IDInvalid El titol o l'autor del document son invalids
      */
-    public void modificarTitol(String autor, String titol, String newT) throws EDocumentException, IOException {
+    public void modificarTitol(String autor, String titol, String newT) throws EDocumentException, IOException, IDInvalid {
         if (ci.FindDoc(autor, newT)) throw new EDocumentException();
         ci.ActualitzarTitol(autor, titol, newT);
         cp.actualitzarTitol(autor, titol, newT);
@@ -181,8 +182,9 @@ public class CtrlDomini {
      * @param newA Nou autor que se li vol posar al document.
      * @throws EDocumentException El document (newA+titol) ja existeix al sistema.
      * @throws IOException Hi ha hagut algun problema en accedir a disc.
+     * @throws IDInvalid El titol o l'autor del document son invalids
      */
-    public void modificarAutor(String autor, String titol, String newA) throws EDocumentException, IOException {
+    public void modificarAutor(String autor, String titol, String newA) throws EDocumentException, IOException, IDInvalid {
         if (ci.FindDoc(newA, titol)) throw new EDocumentException();
         ci.ActualitzarAutor(autor, titol, newA);
         cp.actualitzarAutor(autor, titol, newA);
@@ -202,9 +204,8 @@ public class CtrlDomini {
     /**
      * Metode per desar el contingut (contAct) del document obert actualment (autorAct+titolAct) a la capa de persistencia.
      * @throws IOException Hi ha hagut algun problema en accedir a disc.
-     * @throws IDInvalid El titol o l'autor del document son invalids
      */
-    public void desarDocument() throws IOException, IDInvalid {
+    public void desarDocument() throws IOException {
         cp.desaContingut(autorAct, titolAct, contAct);
     }
 

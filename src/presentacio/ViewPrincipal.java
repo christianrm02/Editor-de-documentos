@@ -12,11 +12,14 @@ import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
+import java.text.Collator;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 import static javax.swing.SwingUtilities.isRightMouseButton;
 
@@ -630,7 +633,14 @@ public class ViewPrincipal extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 if(documents.getRowCount() > 0) {
                     List<String> autorsList = cp.getAutors();
+
+                    //PARA ORDENAR POR ORDEN ALFABÉTICO Y NO POR ASCII
+                    Locale catalan = new Locale("ca-ES");
+                    Collator catalanCollator = Collator.getInstance(catalan);
+                    Collections.sort(autorsList, catalanCollator);
+
                     String[] autorsArray = autorsList.toArray(new String[0]);
+
                     JComboBox jca = new JComboBox(autorsArray);
 
                     jca.setEditable(false);

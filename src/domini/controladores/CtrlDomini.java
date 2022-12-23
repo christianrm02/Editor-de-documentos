@@ -12,7 +12,7 @@ import java.util.Set;
 import static domini.datatypes.Utility.converteix_a_frases;
 
 /**
- * Aquesta classe és l’encarregada d’interactuar amb les altres capes. També és l’encarregada d’instanciar la resta de controladors de la capa de domini i el de persistència.
+ * Aquesta classe es l’encarregada d’interactuar amb les altres capes. Tambe es l’encarregada d’instanciar la resta de controladors de la capa de domini i el de persistencia.
  * @author Marc Roman
  */
 public class CtrlDomini {
@@ -29,7 +29,7 @@ public class CtrlDomini {
      */
     private CtrlPersistencia cp;
     /**
-     * Paràmetres del document obert actual. Si no hi ha cap document obert tots són igual a "".
+     * Parametres del document obert actual. Si no hi ha cap document obert tots son igual a "".
      */
     private String titolAct, autorAct, contAct;
 
@@ -43,10 +43,10 @@ public class CtrlDomini {
     }
 
     /**
-     * Mètode per inicialitzar els indexs i expressions booleanes a la capa de domini.
-     * @return Es retorna la llista de tots els documents (autor+titol) existents i les seves dates de darrera modificació.
+     * Metode per inicialitzar els indexs i expressions booleanes a la capa de domini.
+     * @return Es retorna la llista de tots els documents (autor+titol) existents i les seves dates de darrera modificacio.
      * @throws IOException Hi ha hagut algun problema en accedir a disc.
-     * @throws ExpBoolNoValidaException Alguna expressió booleana no és vàlida.
+     * @throws ExpBoolNoValidaException Alguna expressio booleana no es valida.
      */
     public List<Pair<Pair<String, String>, String>> init() throws IOException, ExpBoolNoValidaException {
         ci.ImportarIndexs(cp.importarIndexs());
@@ -56,7 +56,7 @@ public class CtrlDomini {
     }
 
     /**
-     * Mètode per guardar els indexs i expressions booleanes a la capa de persistència.
+     * Metode per guardar els indexs i expressions booleanes a la capa de persistencia.
      */
     public void tancar() throws IOException {
         cp.exportarIndexs(ci.ExportarIndexs());
@@ -64,12 +64,13 @@ public class CtrlDomini {
     }
 
     /**
-     * Mètode per importar el document de la localització loc al sistema.
-     * @param loc Localització del document a importar.
+     * Metode per importar el document de la localitzacio loc al sistema.
+     * @param loc Localitzacio del document a importar.
      * @param data Data de l'instant on s'ha demanat importar.
      * @return Es retorna l'autor i el titol del document importat.
      * @throws EDocumentException El document ja existeix al sistema.
      * @throws IOException Hi ha hagut algun problema en accedir a disc.
+     * @throws FormatInvalid El format no es valid.
      */
     public Pair<String,String> importarDocument(String loc, String data) throws EDocumentException, IOException, FormatInvalid {
             String[] doc = cp.importaDocument(loc);
@@ -79,11 +80,12 @@ public class CtrlDomini {
     }
 
     /**
-     * Mètode per exportar el document (autor+titol) a la localització loc.
+     * Metode per exportar el document (autor+titol) a la localitzacio loc.
      * @param autor Autor del document a exportar.
      * @param titol Titol del document a exportar.
-     * @param loc Localització on es vol guardar el document a exportar.
-     * @throws IOException: Hi ha hagut algun problema en accedir a disc.
+     * @param loc Localitzacio on es vol guardar el document a exportar.
+     * @throws IOException Hi ha hagut algun problema en accedir a disc.
+     * @throws FormatInvalid El format no es valid.
      */
     public void exportarDocument(String autor, String titol, String loc) throws IOException, FormatInvalid {
         cp.exportaDocument(autor, titol, loc);
@@ -99,14 +101,14 @@ public class CtrlDomini {
 
     /**
      * Getter de documents.
-     * @return Es retornen ots els identificadors de documents (autor+titol) existents al sistema i les seves dates de darrera modificació.
+     * @return Es retornen ots els identificadors de documents (autor+titol) existents al sistema i les seves dates de darrera modificacio.
      */
     public List<Pair<Pair<String, String>,String>> getTitolsAutorsData() {
         return new ArrayList<>(ci.GetKeys());
     }
 
     /**
-     * Mètode per obtenir el contingut del document (autor+titol).
+     * Metode per obtenir el contingut del document (autor+titol).
      * @param autor Autor del document.
      * @param titol Titol del document.
      * @return Es retorna el contingut del document (autor+titol).
@@ -117,7 +119,7 @@ public class CtrlDomini {
     }
 
     /**
-     * Mètode per obrir el document (autor+titol). titolAct, autorAct i contAct prenen el valor actual corresponent del document que s'ha obert.
+     * Metode per obrir el document (autor+titol). titolAct, autorAct i contAct prenen el valor actual corresponent del document que s'ha obert.
      * @param autor Autor del document.
      * @param titol Titol del document.
      * @return Es retorna el contingut del document (autor+titol).
@@ -131,7 +133,7 @@ public class CtrlDomini {
     }
 
     /**
-     * Mètode per crear un document amb autor autor, títol titol i contingut en blanc.
+     * Metode per crear un document amb autor autor, titol titol i contingut en blanc.
      * @param autor Autor del document a crear.
      * @param titol Titol del document a crear.
      * @param data Data de l'instant on s'ha demanat crear el document.
@@ -145,7 +147,7 @@ public class CtrlDomini {
     }
 
     /**
-     * Mètode per esborrar el document amb autor autor i títol titol.
+     * Metode per esborrar el document amb autor autor i titol titol.
      * @param autor Autor del document a esborrar.
      * @param titol Titol del document a esborrar.
      * @throws IOException Hi ha hagut algun problema en accedir a disc.
@@ -157,7 +159,7 @@ public class CtrlDomini {
     }
 
     /**
-     * Mètode per modificar el títol del document amb clau (autor+titol).
+     * Metode per modificar el titol del document amb clau (autor+titol).
      * @param autor Autor del document.
      * @param titol Titol del document.
      * @param newT Nou titol que se li vol posar al document.
@@ -171,7 +173,7 @@ public class CtrlDomini {
     }
 
     /**
-     * Mètode per modificar l'autor del document amb clau (autor+titol).
+     * Metode per modificar l'autor del document amb clau (autor+titol).
      * @param autor Autor del document.
      * @param titol Titol del document.
      * @param newA Nou autor que se li vol posar al document.
@@ -185,7 +187,7 @@ public class CtrlDomini {
     }
 
     /**
-     * Mètode per modificar el contingut (contAct) del document obert actualment (autorAct+titolAct) i actualitzar la seva data.
+     * Metode per modificar el contingut (contAct) del document obert actualment (autorAct+titolAct) i actualitzar la seva data.
      * @param cont Nou contingut del document (autorAct+titolAct).
      * @param data Data de l'instant on s'ha desat el contingut.
      */
@@ -196,7 +198,7 @@ public class CtrlDomini {
     }
 
     /**
-     * Mètode per desar el contingut (contAct) del document obert actualment (autorAct+titolAct) a la capa de persistència.
+     * Metode per desar el contingut (contAct) del document obert actualment (autorAct+titolAct) a la capa de persistencia.
      * @throws IOException Hi ha hagut algun problema en accedir a disc.
      */
     public void desarDocument() throws IOException {
@@ -204,7 +206,7 @@ public class CtrlDomini {
     }
 
     /**
-     * Mètode per simular a capa de domini que es tanca el document obert posant autorAct, titolAct i contAct amb valor "".
+     * Metode per simular a capa de domini que es tanca el document obert posant autorAct, titolAct i contAct amb valor "".
      */
     public void tancarDocument() {
         autorAct = "";
@@ -213,16 +215,16 @@ public class CtrlDomini {
     }
 
     /**
-     * Mètode que dona tots els títols de l'autor autor.
-     * @param autor Autor del que es volen tots els seus títols.
-     * @return Es retorna una llista amb tots els títols de l'autor autor.
+     * Metode que dona tots els titols de l'autor autor.
+     * @param autor Autor del que es volen tots els seus titols.
+     * @return Es retorna una llista amb tots els titols de l'autor autor.
      */
     public List<String> llistarTitolsdAutors(String autor) {
         return new ArrayList<>(ci.GetTitolsAutor(autor));
     }
 
     /**
-     * Mètode que dona tots els autors amb prefix prefix.
+     * Metode que dona tots els autors amb prefix prefix.
      * @param prefix Prefix dels autors a cercar.
      * @return Es retorna una llista amb tots els autors que tenen com a prefix prefix.
      */
@@ -231,42 +233,42 @@ public class CtrlDomini {
     }
 
     /**
-     * Mètode que dona les com a molt K claus dels documents més semblants al document (autor+titol) amb l'estratègia estrategia.
+     * Metode que dona les com a molt K claus dels documents mes semblants al document (autor+titol) amb l'estrategia estrategia.
      * @param autor Autor del document.
      * @param titol Titol del document.
      * @param K Nombre de documents a llistar.
      * @param estrategia Estrategia per fer la cerca.
-     * @return Es retorna una llista amb com a molt K claus dels documents més semblants al document (autor+titol) amb l'estratègia estrategia.
+     * @return Es retorna una llista amb com a molt K claus dels documents mes semblants al document (autor+titol) amb l'estrategia estrategia.
      */
     public List<Pair<String, String>> llistarKDocumentsS(String autor, String titol, int K, boolean estrategia) {
         return ci.GetKDocsSimilarS(autor, titol, K, estrategia);
     }
 
     /**
-     * Mètode que dona les claus dels documents que cumpleixen l'expressió booleana exp.
-     * @param exp Expressió booleana per fer la cerca.
-     * @return Es retorna una llista amb les claus dels documents que compleixen l'expressió booleana exp.
-     * @throws ExpBoolNoValidaException: exp no és vàlida.
+     * Metode que dona les claus dels documents que compleixen l'expressio booleana exp.
+     * @param exp Expressio booleana per fer la cerca.
+     * @return Es retorna una llista amb les claus dels documents que compleixen l'expressio booleana exp.
+     * @throws ExpBoolNoValidaException exp no es valida.
      */
     public List<Pair<String, String>> cercarExpressioBooleana(String exp) throws ExpBoolNoValidaException {
         return ce.cercarExpressioBooleana(exp, ci);
     }
 
     /**
-     * Mètode que dona les claus dels documents que cumpleixen l'expressió booleana amb nom nom.
-     * @param nom Nom de l'expressió booleana per fer la cerca.
-     * @return Es retorna una llista amb les claus dels documents que compleixen l'expressió booleana amb nom nom.
+     * Metode que dona les claus dels documents que cumpleixen l'expressio booleana amb nom nom.
+     * @param nom Nom de l'expressio booleana per fer la cerca.
+     * @return Es retorna una llista amb les claus dels documents que compleixen l'expressio booleana amb nom nom.
      */
     public List<Pair<String, String>> cercarExpressioBooleanaNom(String nom) {
         return ce.cercarExpressioBooleanaExistent(nom, ci);
     }
 
     /**
-     * Opcional: Mètode que dona les com a molt K claus dels documents més rellevants segons les paraules paraules amb l'estratègia estrategia.
+     * Opcional: Metode que dona les com a molt K claus dels documents mes rellevants segons les paraules paraules amb l'estrategia estrategia.
      * @param paraules Paraules rellevants a cercar.
      * @param K Nombre de documents a llistar.
      * @param estrategia Estrategia per fer la cerca.
-     * @return Es retorna una llista amb com a molt K claus dels documents més rellevants segons les paraules paraules amb l'estratègia estrategia.
+     * @return Es retorna una llista amb com a molt K claus dels documents mes rellevants segons les paraules paraules amb l'estrategia estrategia.
      */
     public List<Pair<String, String>> cercarPerRellevancia(String paraules, int K, boolean estrategia) {
         return ci.CercaPerRellevancia(paraules, K, estrategia);
@@ -281,11 +283,11 @@ public class CtrlDomini {
     }
 
     /**
-     * Mètode per crear una expressió booleana amb nom nom i expressió exp.
-     * @param nom Nom de l'expressió booleana a crear.
-     * @param exp Expressió de l'expressió booleana a crear.
-     * @throws EExpBoolException L’expressió booleana amb nom nom existeix.
-     * @throws ExpBoolNoValidaException exp no és vàlida.
+     * Metode per crear una expressio booleana amb nom nom i expressio exp.
+     * @param nom Nom de l'expressio booleana a crear.
+     * @param exp Expressio de l'expressio booleana a crear.
+     * @throws EExpBoolException L’expressio booleana amb nom nom existeix.
+     * @throws ExpBoolNoValidaException exp no es valida.
      */
     public void setExpressioBooleana(String nom, String exp) throws EExpBoolException, ExpBoolNoValidaException {
         if (ce.existsExpressioBooleana(nom)) throw new EExpBoolException();
@@ -293,18 +295,18 @@ public class CtrlDomini {
     }
 
     /**
-     * Mètode per modificar l'expressió de l'expressió booleana amb nom nom a nExp.
-     * @param nom Nom de l'expressió booleana a modificar.
-     * @param nExp Nova expressió per a l'expressió booleana.
-     * @throws ExpBoolNoValidaException nExp no és vàlida.
+     * Metode per modificar l'expressio de l'expressio booleana amb nom nom a nExp.
+     * @param nom Nom de l'expressio booleana a modificar.
+     * @param nExp Nova expressio per a l'expressio booleana.
+     * @throws ExpBoolNoValidaException nExp no es valida.
      */
     public void modExpressioBooleana(String nom, String nExp) throws ExpBoolNoValidaException {
         ce.setExpressioBooleana(nom, nExp);
     }
 
     /**
-     * Mètode per esborrar l'expressió booleana amb nom nom.
-     * @param nom Nom de l'expressió booleana a esborrar.
+     * Metode per esborrar l'expressio booleana amb nom nom.
+     * @param nom Nom de l'expressio booleana a esborrar.
      */
     public void deleteExpressioBooleana(String nom) {
         ce.deleteExpressioBooleana(nom);

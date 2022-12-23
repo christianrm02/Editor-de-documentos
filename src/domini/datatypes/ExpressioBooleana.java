@@ -4,49 +4,44 @@ import excepcions.ExpBoolNoValidaException;
 import java.util.*;
 
 /**
-* ExpressioBooleana: S'implementa la classe Expressió Booleana.
+* ExpressioBooleana: S'implementa la classe Expressio Booleana.
 * @author Pol Fradera
 */
 public class ExpressioBooleana {
 
     /**
-     * Nom de l'expressió booleana.
+     * Nom de l'expressio booleana.
      */
     private String nom;
 
     /**
-     * Expressió de l'expressió booleana.
+     * Expressio de l'expressio booleana.
      */
     private String exp;
 
     /**
-     * Expressió en forma d'arbre de l'expressió booleana.
+     * Expressio en forma d'arbre de l'expressio booleana.
      */
     private Tree expA;
 
     /**
-     * Constructora de l'expressió booleana amb només l'expressió.
-     * @param exp Expressió de l'expressió booleana.
-     * @throws ExpBoolNoValidaException exp no és vàlida.
+     * Constructora de l'expressio booleana amb nomes l'expressio.
+     * @param exp Expressio de l'expressio booleana.
+     * @throws ExpBoolNoValidaException exp no es valida.
      */
     public ExpressioBooleana(String exp) throws ExpBoolNoValidaException {
         esCorrecte(exp);
 
         this.exp = exp;
         List<String> llistaExp = crearLlista();
-        /*
-        for (String s:llistaExp) System.out.print(s + ", ");
-        System.out.println();
-        */
-
         this.expA = new Tree(llistaExp);
     }
 
     /**
-     * Constructora de l'expressió booleana amb el nom i l'expressió.
-     * @param nom Nom de l'expressió booleana.
-     * @param exp Expressió de l'expressió booleana.
-     * @throws ExpBoolNoValidaException exp no és vàlida.
+     * Constructora de l'expressio booleana amb el nom i l'expressio.
+     * @param nom Nom de l'expressio booleana.
+     * @param exp Expressio de l'expressio booleana.
+     * @throws ExpBoolNoValidaException exp no es valida.
      */
     public ExpressioBooleana(String nom, String exp) throws ExpBoolNoValidaException {
         esCorrecte(exp);
@@ -58,17 +53,17 @@ public class ExpressioBooleana {
     }
 
     /**
-     * Mètode que llença una excepció si la part de l'expressió on hi ha cometes o claus no és correcte.
-     * @param index Indica a partir de quin caràcter s'ha de comprovar l'expressió.
-     * @param exp Expressió booleana per a comprovar.
-     * @param c_final Caràcter que indica fins a on s'ha de fer la comprovació.
-     * @return Indica l'índex següent del caràcter c_final.
-     * @throws ExpBoolNoValidaException exp no és vàlida.
+     * Metode que llença una excepcio si la part de l'expressio on hi ha cometes o claus no es correcte.
+     * @param index Indica a partir de quin caracter s'ha de comprovar l'expressio.
+     * @param exp Expressio booleana per a comprovar.
+     * @param c_final Caracter que indica fins a on s'ha de fer la comprovacio.
+     * @return Indica l'index següent del caracter c_final.
+     * @throws ExpBoolNoValidaException exp no es valida.
      */
     private int comprovacio_cometes_i_clau(int index, String exp, char c_final) throws ExpBoolNoValidaException {
         ++index;
         boolean espai_disponible = false;
-        boolean paraules = false; //true si hi ha més d'una paraula
+        boolean paraules = false; //true si hi ha mes d'una paraula
         while (index < exp.length() && exp.charAt(index) != c_final) {
             if (es_operador(exp.charAt(index))) throw new ExpBoolNoValidaException();
             else if (exp.charAt(index) == ' ') {
@@ -84,12 +79,12 @@ public class ExpressioBooleana {
     }
 
     /**
-     * Mètode que llença una excepció si l'expressió exp no és correcte.
-     * @param exp Expressió booleana per a comprovar.
-     * @throws ExpBoolNoValidaException exp no és vàlida.
+     * Metode que llença una excepcio si l'expressio exp no es correcte.
+     * @param exp Expressio booleana per a comprovar.
+     * @throws ExpBoolNoValidaException exp no es valida.
      */
     private void esCorrecte(String exp) throws ExpBoolNoValidaException {
-        if (exp.length() == 0) throw new ExpBoolNoValidaException(); //expressió buida
+        if (exp.length() == 0) throw new ExpBoolNoValidaException(); //expressio buida
         int i = 0;
         boolean espai = false;
         boolean espai_necessari = false;
@@ -120,12 +115,13 @@ public class ExpressioBooleana {
         }
         if (parentesis_oberts > 0) throw new ExpBoolNoValidaException(); //mal parentitzat
         if (exp.charAt(i-1) == '!') throw new ExpBoolNoValidaException(); //! incorrecte
+        if (exp.charAt(i-1) == ' ') throw new ExpBoolNoValidaException(); //! incorrecte
     }
 
     /**
-     * Mètode per saber si un char és un operador lògic.
+     * Metode per saber si un char es un operador logic.
      * @param c Char qualsevol.
-     * @return Indica si el char c és un operador lògic, un parèntesi o una clau d'obertura.
+     * @return Indica si el char c es un operador logic, un parentesi o una clau d'obertura.
      */
     private boolean es_operador (char c) {
         if (c == '&' || c == '|' || c == '!' || c == '(' || c == '{' || c == ')') return true;
@@ -133,10 +129,10 @@ public class ExpressioBooleana {
     }
 
     /**
-     * Mètode que converteix en una llista la part de l'expressió que està entre cometes.
+     * Metode que converteix en una llista la part de l'expressio que esta entre cometes.
      * @param llista Llista on s'afegeixen els strings corresponents.
-     * @param index Indica a partir de quin caràcter s'ha de convertir l'expressió a una llista.
-     * @return Indica l'índex següent del caràcter cometes de tancament.
+     * @param index Indica a partir de quin caracter s'ha de convertir l'expressio a una llista.
+     * @return Indica l'index següent del caracter cometes de tancament.
      */
     private int casCometes(List<String> llista, int index) {
         ++index;
@@ -150,10 +146,10 @@ public class ExpressioBooleana {
     }
 
     /**
-     * Mètode que converteix en una llista la part de l'expressió que està entre claus.
+     * Metode que converteix en una llista la part de l'expressio que esta entre claus.
      * @param llista Llista on s'afegeixen els strings corresponents.
-     * @param index Indica a partir de quin caràcter s'ha de convertir l'expressió a una llista.
-     * @return Indica l'índex següent del caràcter clau de tancament.
+     * @param index Indica a partir de quin caracter s'ha de convertir l'expressio a una llista.
+     * @return Indica l'index següent del caracter clau de tancament.
      */
     private int casClau(List<String> llista, int index) {
         llista.add("(");
@@ -174,8 +170,8 @@ public class ExpressioBooleana {
     }
 
     /**
-     * Mètode que converteix l'expressió booleana a una llista de strings.
-     * @return Llista que representa l'expressió booleana.
+     * Metode que converteix l'expressio booleana a una llista de strings.
+     * @return Llista que representa l'expressio booleana.
      */
     private List<String> crearLlista() {
         List<String> llista = new ArrayList<>();
@@ -215,7 +211,7 @@ public class ExpressioBooleana {
                 s1 = "";
                 paraula = false;
             }
-            else if (exp.charAt(i) != ' ') {  //si hi ha un caràcter d'una paraula
+            else if (exp.charAt(i) != ' ') {  //si hi ha un caracter d'una paraula
                 s1 += exp.charAt(i);
                 paraula = true;
             }
@@ -226,38 +222,20 @@ public class ExpressioBooleana {
     }
 
     /**
-     * Getter del nom de l'expressió booleana.
-     * @return Es retorna el nom de l'expressió booleana.
+     * Getter del nom de l'expressio booleana.
+     * @return Es retorna el nom de l'expressio booleana.
      */
     public String getNom() { return nom; }
 
     /**
-     * Getter de l'expressió de l'expressió booleana.
-     * @return Es retorna l'expressió de l'expressió booleana.
+     * Getter de l'expressio de l'expressio booleana.
+     * @return Es retorna l'expressio de l'expressio booleana.
      */
     public String getExp() { return exp; }
 
     /**
-     * Getter de l'arbre de l'expressió booleana.
-     * @return Es retorna l'arbre de l'expressió booleana.
+     * Getter de l'arbre de l'expressio booleana.
+     * @return Es retorna l'arbre de l'expressio booleana.
      */
     public Tree getExpA() { return expA; }
-
-    //Setters
-    //public void setNom(String nom) { this.nom = nom; }
-/*
-    public static void InOrder(TreeNode arrel) {
-        if (arrel == null) return;
-        else {
-            InOrder(arrel.leftNode);
-            System.out.print(arrel.data+", ");
-            InOrder(arrel.rightNode);
-        }
-    }
-    public static void main (String [] args) throws Exception {
-        Scanner leer = new Scanner(System.in);
-        String s = leer.nextLine();
-        ExpressioBooleana exp = new ExpressioBooleana(s);
-        InOrder(exp.getExpA().root);
-    }*/
 }

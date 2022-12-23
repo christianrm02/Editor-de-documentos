@@ -13,17 +13,16 @@ import java.util.List;
 import static javax.swing.SwingUtilities.isRightMouseButton;
 
 /**
- * Vista amb la qual es fan les gestions sobre les expressions booleanes.
+ * Vista amb la qual es fan les gestions sobre les expressions booleanes
  * @author Christian Rivero
  */
 public class ViewGestioExpBool extends JFrame{
     /**
-     * Panell principal de la vista.
+     * Panell principal de la vista
      */
     private JPanel panel1;
     /**
-     * Panell on s’ubica la JTable on es llisten les expressions booleanes hi ha al
-     * sistema (nomExpressió+expressió).
+     * Panell on s’ubica la JTable on es llisten les expressions booleanes hi ha al sistema (nomExpressió+expressió)
      */
     private JPanel tablePanel;
     /**
@@ -31,36 +30,34 @@ public class ViewGestioExpBool extends JFrame{
      */
     private JButton novaExpressioBooleanaButton;
     /**
-     * Botó per mostrar una sèrie de popups amb indicacions de les funcions de cada botó i
-     * acció possible a la vista.
+     * Botó per mostrar una sèrie de popups amb indicacions de les funcions de cada botó i acció possible a la vista
      */
     private JButton ajudaButton;
     /**
-     * Botó per esborrar el conjunt d’expressions seleccionades.
+     * Botó per esborrar el conjunt d’expressions seleccionades
      */
     private JButton esborrarExpressionsSeleccionadesButton;
     /**
-     * Botó per tancar aquesta vista i tornar a la vista principal.
+     * Botó per tancar aquesta vista i tornar a la vista principal
      */
     private JButton enrereButton;
     /**
-     * Label on indiquem el nombre d'expressions booleanes del sistema en tot moment.
+     * Label on indiquem el nombre d'expressions booleanes del sistema en tot moment
      */
     private JLabel contadorExp;
     /**
-     * DefaultTableModel necessaria per crear la JTable de les expressions.
+     * DefaultTableModel necessaria per crear la JTable de les expressions
      */
     private DefaultTableModel tableModel;
     /**
-     * Objecte this, necessari per poder passa-ho com a paràmetre als actionListeners.
+     * Objecte this, necessari per poder passa-ho com a paràmetre als actionListeners
      */
     private ViewGestioExpBool exp = this;
 
     /**
      * Creadora única
-     * @param documents: JTable: taula dels documents, per tal de poder clicar en la row pertinent
-     *                 si es fan les cerques per expressió.
-     * @param cp: CtrlPresentacio: instància del controlador de presentació.
+     * @param documents taula dels documents, per tal de poder clicar en la row pertinent si es fan les cerques per expressió
+     * @param cp instància del controlador de presentació
      */
     public ViewGestioExpBool(JTable documents, CtrlPresentacio cp) {
         setContentPane(panel1);
@@ -400,8 +397,8 @@ public class ViewGestioExpBool extends JFrame{
     }
 
     /**
-     * Mètode que incialitza la JTable expressions amb les expressions booleanes que hi ha guardades al sistema.
-     * @param expList: List<Pair<String, String>>: Llista de pairs (nomExp+expBool) de les expressions guardades.
+     * Mètode que incialitza la JTable expressions amb les expressions booleanes que hi ha guardades al sistema
+     * @param expList Llista de pairs (nomExp+expBool) de les expressions guardades
      */
     public void initExp(List<Pair<String, String>> expList){
         for(int i = 0; i < expList.size(); ++i) {

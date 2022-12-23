@@ -401,7 +401,7 @@ public class CtrlPresentacio {
      * Mètode que dona les com a molt K claus dels documents més semblants al document (autor+titol) amb l'estratègia estrategia
      * @param autor Autor del document
      * @param titol Títol del document
-     * @param K Nombre de documents a llistar, 1 <= K <= nombreDocumentsTotal -1
+     * @param K Nombre de documents a llistar, 1 més petit o igual que K més petit o igual que nombreDocumentsTotal -1
      * @param estrategia Estrategia per fer la cerca
      * @return Llista amb com a molt K claus dels documents més semblants al document (autor+titol) amb l'estratègia estrategia.
      */
@@ -412,7 +412,7 @@ public class CtrlPresentacio {
     /**
      * Opcional de l'enunciat: Mètode que dona les com a molt K claus dels documents més rellevants segons les paraules paraules amb l'estratègia estrategia
      * @param paraules Paraules rellevants a cercar
-     * @param K Nombre de documents a llistar, 1 <= K <= nombreDocumentsTotal
+     * @param K Nombre de documents a llistar, 1 més petit o igual que K més petit o igual que nombreDocumentsTotal
      * @param estrategia Estrategia per fer la cerca
      * @return Llista amb com a molt K claus dels documents més rellevants segons les paraules paraules amb l'estratègia estrategia
      */

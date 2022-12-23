@@ -34,11 +34,6 @@ public class ExpressioBooleana {
 
         this.exp = exp;
         List<String> llistaExp = crearLlista();
-        /*
-        for (String s:llistaExp) System.out.print(s + ", ");
-        System.out.println();
-        */
-
         this.expA = new Tree(llistaExp);
     }
 
@@ -120,6 +115,7 @@ public class ExpressioBooleana {
         }
         if (parentesis_oberts > 0) throw new ExpBoolNoValidaException(); //mal parentitzat
         if (exp.charAt(i-1) == '!') throw new ExpBoolNoValidaException(); //! incorrecte
+        if (exp.charAt(i-1) == ' ') throw new ExpBoolNoValidaException(); //! incorrecte
     }
 
     /**
@@ -242,22 +238,4 @@ public class ExpressioBooleana {
      * @return Es retorna l'arbre de l'expressió booleana.
      */
     public Tree getExpA() { return expA; }
-
-    //Setters
-    //public void setNom(String nom) { this.nom = nom; }
-/*
-    public static void InOrder(TreeNode arrel) {
-        if (arrel == null) return;
-        else {
-            InOrder(arrel.leftNode);
-            System.out.print(arrel.data+", ");
-            InOrder(arrel.rightNode);
-        }
-    }
-    public static void main (String [] args) throws Exception {
-        Scanner leer = new Scanner(System.in);
-        String s = leer.nextLine();
-        ExpressioBooleana exp = new ExpressioBooleana(s);
-        InOrder(exp.getExpA().root);
-    }*/
 }

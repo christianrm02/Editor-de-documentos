@@ -274,7 +274,6 @@ public class ViewPrincipal extends JFrame {
                         Object[] docBorrar = {documents.getValueAt(i, 0), documents.getValueAt(i, 1)};
                         documentsBorrar[index] = docBorrar;
                         ++index;
-                        //System.out.println(selectedRow[i]);
                     }
 
                     DefaultTableModel tm = new DefaultTableModel(documentsBorrar, columnsBorrar) {
@@ -321,7 +320,7 @@ public class ViewPrincipal extends JFrame {
         borrarDocsSeleccionats.addActionListener(esborrarDocsSeleccionatsAction);
         esborrarDocsButton.addActionListener(esborrarDocsSeleccionatsAction);
 
-        /*modificar titulo*/
+        /*modificar titulo doc*/
         modT.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -354,7 +353,7 @@ public class ViewPrincipal extends JFrame {
             }
         });
 
-        /*modificar autor*/
+        /*modificar autor doc*/
         modA.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -412,7 +411,7 @@ public class ViewPrincipal extends JFrame {
             }
         });
 
-        /*crear doc*/
+        /*crear nou doc*/
         creaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -486,7 +485,7 @@ public class ViewPrincipal extends JFrame {
             }
         });
 
-        /* único doc*/
+        /* exportar doc*/
         exportarD.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -642,13 +641,10 @@ public class ViewPrincipal extends JFrame {
                     Collections.sort(autorsList, catalanCollator);
 
                     String[] autorsArray = autorsList.toArray(new String[0]);
-
                     JComboBox jca = new JComboBox(autorsArray);
-
                     jca.setEditable(false);
 
                     Object[] options = new Object[]{"Tria un autor: ", jca};
-
                     int opt = JOptionPane.showOptionDialog(null, options, "Llistar títols d'autor",
                             JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
                     if (opt == 0) {
@@ -939,34 +935,17 @@ public class ViewPrincipal extends JFrame {
             }
         });
 
+        /* Guardar a persistencia abans de tancar*/
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
-                /*sortKeys.add(new RowSorter.SortKey(1, SortOrder.ASCENDING));
-                sortKeys.add(new RowSorter.SortKey(0, SortOrder.ASCENDING));
-                columnRepetida = 1;
-                sorter.setSortKeys(sortKeys);
-                sorter.setSortable(3, false);*/
                 cp.tancarAplicacio();
                 dispose();
-                //cp.mostraViewPrincipal();
             }
         });
 
         setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         validate();
     }
-
-    /*private void borrarDocs(Object[][] documentsBorrar) {
-        List<Pair<String, String>> docsBorrarList = new ArrayList<>();
-        Pair<String,String> p = new Pair();
-        for(int i = 0; i < documentsBorrar.length; ++i) {
-            p.x = (String) documentsBorrar[i][1];
-            p.y = (String) documentsBorrar[i][0];
-            //System.out.println(p.x + p.y);
-            docsBorrarList.add(p);
-        }
-        cp.esborrarDocuments(docsBorrarList);
-    }*/
 
     /**
      * Metode per cambiar el titol d'un document obert
@@ -1180,75 +1159,3 @@ public class ViewPrincipal extends JFrame {
         return panel1;
     }
 }
-
-        /* keyboard listeners */
-        /*mainView.addKeyListener(new KeyAdapter() {
-            public void keyPressed(KeyEvent e) {
-                int keyCode = e.getKeyCode();
-                if (keyCode == KeyEvent.VK_CLEAR) {
-                    System.out.println("Up SUPR is pressed!");
-                } else if (keyCode == KeyEvent.VK_DELETE) {
-                    System.out.println("Up esborrar is pressed!");
-                } else if (keyCode == KeyEvent.VK_A) {
-                    System.out.println("Up A is pressed!");
-                }
-            }
-        });
-
-        if(documents.getRowCount() > 0) {
-                    String paraules;
-                    paraules = JOptionPane.showInputDialog(null, "Escriu les paraules que vols cercar per rellevància, " +
-                            "separades per un espai: ", "Llistar documents rellevants", -1);
-
-                    JPanel message = new JPanel();
-                    SpinnerModel value = new SpinnerNumberModel(1, 1, documents.getRowCount(), 1);
-                    JSpinner num = new JSpinner(value);
-                    JFormattedTextField tf = ((JSpinner.DefaultEditor)num.getEditor()).getTextField();
-                    tf.setEditable(false);
-                    message.setLayout(new BorderLayout());
-                    message.add(new Label("Escriu el nombre de documents que vols llistar: "), BorderLayout.NORTH);
-                    message.add(num);
-
-                    int opt1 = JOptionPane.showOptionDialog(null, message, "Llistar documents semblants",
-                            JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, JOptionPane.NO_OPTION);
-                    if(opt1 == 0) {
-                        String[] tox = {"TF-IDF", "TF"};
-                        int opt2 = JOptionPane.showOptionDialog(null, "Escull l'estratègia amb la que vols cercar: ", "Escollir estratègia", JOptionPane.DEFAULT_OPTION, JOptionPane.DEFAULT_OPTION, null, tox, tox[0]);
-                        if (opt2 == 0 || opt2 == 1) {
-                            boolean estrategia = false;
-                            if (opt2 == 1) estrategia = true;
-                            List<Pair<String, String>> docsCondicio = cp.cercarPerRellevancia(paraules, (int) num.getValue(), estrategia);
-
-
-                            Object[][] docsCondicioObj = new Object[docsCondicio.size()][2];
-                            for (int i = 0; i < docsCondicio.size(); ++i) {
-                                Object[] docCondicioObj = {docsCondicio.get(i).y, docsCondicio.get(i).x};
-                                //System.out.println(docsCondicio.get(i).y + docsCondicio.get(i).x);
-                                docsCondicioObj[i] = docCondicioObj;
-                            }
-                            String[] columns = {"Títols", "Autors"};
-                            DefaultTableModel tm = new DefaultTableModel(docsCondicioObj, columns) {
-                                @Override
-                                public boolean isCellEditable(int row, int column) {
-                                    return false;
-                                }
-                            };
-                            JPanel panelDocs = new showingDocsTable(tm, documents, cp, true, viewPrin);
-                            String estrat = "TF-IDF";
-                            if (estrategia) estrat = "TF";
-                            JLabel label = new JLabel("Aquests són els " + num.getValue() +
-                                    " documents més rellevants segons les paraules escollides" +
-                                    " amb l'estratègia " + estrat + ".");
-                            panelDocs.add(label, BorderLayout.SOUTH);
-                            JOptionPane.showMessageDialog(null, panelDocs, "Documents segons la cerca per rellevància",
-                                    JOptionPane.DEFAULT_OPTION);
-                        }
-                        }
-                    }
-                }
-                else {
-                    JOptionPane.showMessageDialog(null, "No hi ha cap document encara, els pots crear o importar.", "Error cap document.", JOptionPane.DEFAULT_OPTION);
-                }*/
-
-
-

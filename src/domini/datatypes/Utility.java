@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Utility: Funcions estatiques per processar text
+ * Funcions estatiques per processar text
  * @author Eric Ryhr
  */
 public class Utility {

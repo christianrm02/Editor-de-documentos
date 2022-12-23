@@ -4,11 +4,17 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * Pair, classe que unifica 2 objectes
+ * Classe que unifica 2 objectes
  * @author Christian Rivero
  */
 public class Pair<T1, T2> implements Comparable, Serializable{
+    /**
+     * Primer objecte de la clase pair
+     */
     public T1 x;
+    /**
+     * Segon objecte de la clase pair
+     */
     public T2 y;
 
     /**

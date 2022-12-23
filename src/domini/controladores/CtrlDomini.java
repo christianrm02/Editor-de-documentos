@@ -57,6 +57,7 @@ public class CtrlDomini {
 
     /**
      * Metode per guardar els indexs i expressions booleanes a la capa de persistencia.
+     * @throws IOException Hi ha hagut algun problema en accedir a disc.
      */
     public void tancar() throws IOException {
         cp.exportarIndexs(ci.ExportarIndexs());

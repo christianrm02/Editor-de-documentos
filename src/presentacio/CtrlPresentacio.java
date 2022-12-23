@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * CtrlPresentacio, classe que comunica la capa de domini amb les vistes
+ * Classe que comunica la capa de domini amb les vistes
  * @author Christian Rivero
  */
 public class CtrlPresentacio {
@@ -70,6 +70,7 @@ public class CtrlPresentacio {
 
     /**
      * Metode que mostra la vista de gestio d’expressions booleanes
+     * @param documents JTable de la taula de documents de la ViewPrincipal, per tal de poder seleccionar les rows a l'obrir els documents des d'aquesta vista
      */
     public void mostraVistaGestioExpBool(JTable documents){
         viewExps = new ViewGestioExpBool(documents, this);
@@ -80,6 +81,8 @@ public class CtrlPresentacio {
 
     /**
      * Metode que mostra la vista de mostrar el contingut d’un document (autor+titol) que existeix al sistema
+     * @param titol Títol del document a mostrar
+     * @param autor Autor del document a mostrar
      */
     public void mostraViewMostrarCont(String titol, String autor){ //Conseguir el cont con el getContingut, y q este llame a esta y asi la main view como q no conoce las otras views?
         String cont = getContingut(autor, titol);
@@ -89,6 +92,9 @@ public class CtrlPresentacio {
 
     /**
      * Metode que mostra la vista d'editar el contingut d’un document (autor+titol) que existeix al sistema
+     * @param titol Titol del document obert
+     * @param autor Autor del document obert
+     * @param cont Contingut del document obert
      */
     public void mostraViewEditar(String titol, String autor, String cont){
         if(viewEditar != null) viewEditar.dispose();
@@ -157,10 +163,6 @@ public class CtrlPresentacio {
         return cd.getAutors();
     }
 
-    /*public List<Pair<String, String>> getTitolsAutors() { //BORRAR??
-
-    }*/
-
     /**
      * Metode per obtenir el contingut del document (autor+titol)
      * @param autor Autor del document
@@ -209,6 +211,7 @@ public class CtrlPresentacio {
      * Metode per crear un document amb autor autor, titol titol i contingut buit
      * @param autor Autor del document a crear
      * @param titol Titol del document a crear
+     * @param data Darrera modificació, data actual
      * @return Indica si s'ha creat el document introduït
      */
     public boolean crearDocument(String autor, String titol, String data){
@@ -245,6 +248,7 @@ public class CtrlPresentacio {
     /**
      * Metode per importar el document de la localitzacio path al sistema
      * @param path Localitzacio del document a importar
+     * @param date Darrera modificació, data actual
      * @return L'autor i el titol del document importat. Retorna null si no s'ha pogut importar
      */
     public Pair<String, String> importaDocument(String path, String date) { //path = path+nom+.format
@@ -374,6 +378,7 @@ public class CtrlPresentacio {
     /**
      * Metode per modificar el contingut del document obert actualment
      * @param cont Nou contingut del document (autorAct+titolAct)
+     * @param date Nova darrera modificacio
      */
     public void modificarContingut(String cont, String date) { //vieweditar
         cd.modificarContingut(cont, date);
@@ -509,6 +514,7 @@ public class CtrlPresentacio {
 
     /**
      * Metode main de l'aplicacio, comença mostrant la viewPincipal
+     * @param args Arguments del programa
      */
     public static void main(String[] args) {
         CtrlPresentacio cp = new CtrlPresentacio();

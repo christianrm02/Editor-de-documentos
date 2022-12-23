@@ -227,7 +227,8 @@ public class ViewGestioExpBool extends JFrame{
         modificaE.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JTextField newExp = new JTextField("",45);
+                String antigaExp = (String)expressions.getValueAt(expressions.getSelectedRow(), 1);
+                JTextField newExp = new JTextField(antigaExp,45);
                 JPanel insertExp = new JPanel();
                 insertExp.add(new JLabel("Nova expressió booleana: "));
                 insertExp.add(newExp);
@@ -235,7 +236,7 @@ public class ViewGestioExpBool extends JFrame{
                 String[] opts = {"Sí", "Cancel·la"};
                 int opt = JOptionPane.showOptionDialog(null, insertExp, "Modificar expressió booleana",
                         JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, opts, opts[0]);
-                if(opt == 0 && !newExp.getText().equals("") && !newExp.getText().equals((String)expressions.getValueAt(expressions.getSelectedRow(), 1))) {
+                if(opt == 0 && !newExp.getText().equals("") && !newExp.getText().equals(antigaExp)) {
                     int opt2 = JOptionPane.showConfirmDialog(null, "Segur que vols modificar l'expressió booleana amb nom: " +
                             expressions.getValueAt(expressions.getSelectedRow(), 0)  + " a \"" + newExp.getText() + "\" ?",
                             "Modificar expressió booleana", JOptionPane.YES_NO_OPTION, JOptionPane.DEFAULT_OPTION);

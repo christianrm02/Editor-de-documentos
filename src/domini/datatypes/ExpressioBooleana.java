@@ -115,7 +115,7 @@ public class ExpressioBooleana {
         }
         if (parentesis_oberts > 0) throw new ExpBoolNoValidaException(); //mal parentitzat
         if (exp.charAt(i-1) == '!') throw new ExpBoolNoValidaException(); //! incorrecte
-        if (exp.charAt(i-1) == ' ') throw new ExpBoolNoValidaException(); //! incorrecte
+        if (exp.charAt(i-1) == ' ') throw new ExpBoolNoValidaException(); //espai incorrecte
     }
 
     /**

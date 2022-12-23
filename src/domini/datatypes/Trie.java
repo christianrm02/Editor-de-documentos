@@ -12,8 +12,8 @@ import transversal.Pair;
 
 /**
  * Trie: Estructura de dades per emmagatzemar documents
- * Implementació bàsica del trie extreta de https://www.baeldung.com/trie-java
- * @author Èric Ryhr
+ * Implementacio basica del trie extreta de https://www.baeldung.com/trie-java
+ * @author Eric Ryhr
  */
 public class Trie implements Serializable{
     
@@ -38,7 +38,7 @@ public class Trie implements Serializable{
         boolean isEndWord = false;
 
         /**
-         * Mapa amb els títols de l'autor que té el final de paraula en aquest node i les dates de modificacio
+         * Mapa amb els titols de l'autor que te el final de paraula en aquest node i les dates de modificacio
          */
         TreeMap<String, String> titolsDates;
         
@@ -59,9 +59,9 @@ public class Trie implements Serializable{
     }
     
     /** 
-     * Mètode per insertar documents al Trie
+     * Metode per insertar documents al Trie
      * @param autor Autor del document
-     * @param titol Títol del document
+     * @param titol Titol del document
      * @param data Data de modificacio del document
      */
     public void AfegirDoc(String autor, String titol, String data) {
@@ -75,9 +75,9 @@ public class Trie implements Serializable{
     }
 
     /** 
-     * Mètode per buscar documents al Trie
+     * Metode per buscar documents al Trie
      * @param autor Autor del document a buscar
-     * @param titol Títol del document a buscar
+     * @param titol Titol del document a buscar
      * @return True si el document es troba al Trie, False si no
      */
     public boolean FindDoc(String autor, String titol) {
@@ -94,9 +94,9 @@ public class Trie implements Serializable{
     }
 
     /** 
-     * Mètode per escriure la data d'un document
+     * Metode per escriure la data d'un document
      * @param autor Autor del document
-     * @param titol Títol del document
+     * @param titol Titol del document
      * @param data Data del document
      */
     public void SetData(String autor, String titol, String data) {
@@ -113,10 +113,10 @@ public class Trie implements Serializable{
     }
     
     /** 
-     * Mètode per obtenir la data d'un document
+     * Metode per obtenir la data d'un document
      * @param autor Autor del document
-     * @param titol Títol del document
-     * @return Data del document. Null si no hi és al Trie
+     * @param titol Titol del document
+     * @return Data del document. Null si no hi es al Trie
      */
     public String GetData(String autor, String titol) {
         TrieNode current = root;
@@ -132,19 +132,19 @@ public class Trie implements Serializable{
     }
 
     /** 
-     * Mètode per esborrar documents del Trie
+     * Metode per esborrar documents del Trie
      * @param autor Autor del document
-     * @param titol Títol del document
+     * @param titol Titol del document
      */
     public void EsborrarDoc(String autor, String titol) {
         delete(root, autor, titol, 0);
     }
 
     /** 
-     * Mètode per actualitzar el títol d'un document del Trie
+     * Metode per actualitzar el titol d'un document del Trie
      * @param autor Autor del document
-     * @param titol Títol del document
-     * @param newTitol Nou títol del document
+     * @param titol Titol del document
+     * @param newTitol Nou titol del document
      */
     public void ActualitzarTitol(String autor, String titol, String newTitol) {
         TrieNode current = root;
@@ -158,9 +158,9 @@ public class Trie implements Serializable{
     }
     
     /** 
-     * Mètode per actualitzar l'autor d'un document del Trie
+     * Metode per actualitzar l'autor d'un document del Trie
      * @param autor Autor del document
-     * @param titol Títol del document
+     * @param titol Titol del document
      * @param newAutor Nou autor del document
      */
     public void ActualitzarAutor(String autor, String titol, String newAutor) {
@@ -170,8 +170,8 @@ public class Trie implements Serializable{
     }
     
     /** 
-     * Mètode per obtenir tots els documents del Trie
-     * @return Set amb totes les tries (autor, títol, data) del Trie
+     * Metode per obtenir tots els documents del Trie
+     * @return Set amb totes les tries (autor, titol, data) del Trie
      */
     public Set<Pair<Pair<String, String>, String>> GetKeys() {
         Set<Pair<Pair<String, String>, String>> keys = new TreeSet<>();
@@ -181,9 +181,9 @@ public class Trie implements Serializable{
     }
     
     /** 
-     * Mètode per obtenir tots els títols d'un autor
-     * @param autor Autor del que s'obtenen els títols
-     * @return Set amb els títols de l'autor. Buit si no existeix
+     * Metode per obtenir tots els titols d'un autor
+     * @param autor Autor del que s'obtenen els titols
+     * @return Set amb els titols de l'autor. Buit si no existeix
      */
     public Set<String> GetTitolsAutor(String autor) {
         TrieNode current = root;
@@ -199,7 +199,7 @@ public class Trie implements Serializable{
     }
     
     /** 
-     * Mètode per obtenir els autors que comencen per prefix
+     * Metode per obtenir els autors que comencen per prefix
      * @param prefix Prefix pel que han de començar els noms dels autors
      * @return Set amb els autors obtinguts ordenat
      */
@@ -225,10 +225,10 @@ public class Trie implements Serializable{
     }
         
     /** 
-     * Mètode per esborrar nodes del Trie de forma recursiva
+     * Metode per esborrar nodes del Trie de forma recursiva
      * @param current Node actual
      * @param autor Autor del document que estem esborrant del Trie
-     * @param titol Títol del document que estem esborrant del Trie
+     * @param titol Titol del document que estem esborrant del Trie
      * @param index Profunditat actual del node current
      * @return True si s'hauria d'esborrar el node current, False si no
      */
@@ -258,7 +258,7 @@ public class Trie implements Serializable{
     }
     
     /** 
-     * Mètode per obtenir els autors que comencen per prefix fent una cerca en profunditat
+     * Metode per obtenir els autors que comencen per prefix fent una cerca en profunditat
      * @param node Node actual
      * @param level Profunditat actual del node current
      * @param prefix Prefix pel que han de començar els noms dels autors
@@ -281,7 +281,7 @@ public class Trie implements Serializable{
     }
     
     /** 
-     * Mètode per obtenir els documents des del node paràmetre fent una cerca en profunditat
+     * Metode per obtenir els documents des del node parametre fent una cerca en profunditat
      * @param node Node actual
      * @param level Profunditat actual del node current
      * @param autor Identificador d'autor del node actual

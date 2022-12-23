@@ -25,17 +25,17 @@ import java.nio.file.StandardCopyOption;
 import java.util.Objects;
 
 /**
- * GestorDocuments: Funcions estàtiques per gestionar l'emmagatzematge dels documents a disc
- * @author Èric Ryhr
+ * GestorDocuments: Funcions estatiques per gestionar l'emmagatzematge dels documents a disc
+ * @author Eric Ryhr
  */
 public class GestorDocuments {
     
     /** 
-     * Mètode per importar un document de disc i desar-lo a la carpeta del sistema
+     * Metode per importar un document de disc i desar-lo a la carpeta del sistema
      * @param path Ruta del document a importar a disc
-     * @return Array que conté l'autor, el títol i el contingut del document en aquest ordre
+     * @return Array que conte l'autor, el titol i el contingut del document en aquest ordre
      * @throws IOException Hi ha hagut algun problema al accedir a disc
-     * @throws FormatInvalid L'extensió del fitxer importat no era correcta
+     * @throws FormatInvalid L'extensio del fitxer importat no era correcta
      */
     public static String[] ImportaDocument(String path) throws IOException, FormatInvalid {
         String[] doc = new String[3];
@@ -53,12 +53,12 @@ public class GestorDocuments {
 
     
     /** 
-     * Mètode per exportar un document del sistema a disc a la localització del path
+     * Metode per exportar un document del sistema a disc a la localitzacio del path
      * @param autor Autor del document a desar
-     * @param titol Títol del document a desar
-     * @param path Localització on desar el document
+     * @param titol Titol del document a desar
+     * @param path Localitzacio on desar el document
      * @throws IOException Hi ha hagut algun problema al accedir a disc
-     * @throws FormatInvalid L'extensió del fitxer importat no era correcta
+     * @throws FormatInvalid L'extensio del fitxer importat no era correcta
      */
     public static void ExportaDocument(String autor, String titol, String path) throws IOException, FormatInvalid {
         //Obtenim el contingut de disc local
@@ -75,7 +75,7 @@ public class GestorDocuments {
 
     
     /** 
-     * Mètode per obtenir el contingut d'un document desat a la carpeta del sistema
+     * Metode per obtenir el contingut d'un document desat a la carpeta del sistema
      * @param autor Autor del document
      * @param titol Autor del document
      * @return Contingut del document
@@ -100,9 +100,9 @@ public class GestorDocuments {
 
     
     /** 
-     * Mètode per desar el contingut d'un document a la carpeta del sistema
+     * Metode per desar el contingut d'un document a la carpeta del sistema
      * @param autor Autor del document
-     * @param titol Títol del document
+     * @param titol Titol del document
      * @param contingut Contingut del document
      * @throws IOException Hi ha hagut algun problema al accedir a disc
      */
@@ -119,9 +119,9 @@ public class GestorDocuments {
 
     
     /** 
-     * Mètode per esborrar un document de la carpeta del sistema
+     * Metode per esborrar un document de la carpeta del sistema
      * @param autor Autor del document
-     * @param titol Títol del document
+     * @param titol Titol del document
      * @throws IOException Hi ha hagut algun problema al accedir a disc
      * @throws DeleteDocumentException Hi h ahagut algun problema al esborrar el document
      */
@@ -135,9 +135,9 @@ public class GestorDocuments {
 
     
     /** 
-     * Mètode per actualitzar l'autor d'un document de la carpeta del sistema
+     * Metode per actualitzar l'autor d'un document de la carpeta del sistema
      * @param autor Autor del document
-     * @param titol Títol del document
+     * @param titol Titol del document
      * @param newAutor Nou autor del document
      * @throws IOException Hi ha hagut algun problema al accedir a disc
      */
@@ -154,10 +154,10 @@ public class GestorDocuments {
 
     
     /** 
-     * Mètode per actualitzar el títol d'un document de la carpeta del sistema
+     * Metode per actualitzar el titol d'un document de la carpeta del sistema
      * @param autor Autor del document
-     * @param titol Títol del document
-     * @param newTitol Nou títol del document
+     * @param titol Titol del document
+     * @param newTitol Nou titol del document
      * @throws IOException Hi ha hagut algun problema al accedir a disc
      */
     public static void ActualitzarTitol(String autor, String titol, String newTitol) throws IOException {
@@ -173,9 +173,9 @@ public class GestorDocuments {
 
     
     /** 
-     * Mètode per importar un document en format TXT de la localització indicada
+     * Metode per importar un document en format TXT de la localitzacio indicada
      * @param path Ruta del document a importar a disc
-     * @return Array que conté l'autor, el títol i el contingut del document en aquest ordre
+     * @return Array que conte l'autor, el titol i el contingut del document en aquest ordre
      * @throws IOException Hi ha hagut algun problema al accedir a disc
      */
     private static String[] loadTXT(String path) throws IOException {
@@ -200,11 +200,11 @@ public class GestorDocuments {
 
     
     /** 
-     * Mètode per exportar un document en format TXT
+     * Metode per exportar un document en format TXT
      * @param autor Autor del document a desar
-     * @param titol Títol del document a desar
+     * @param titol Titol del document a desar
      * @param contingut Contingut del document
-     * @param path Localització on desar el document
+     * @param path Localitzacio on desar el document
      * @throws IOException Hi ha hagut algun problema al accedir a disc
      */
     private static void writeTXT(String autor, String titol, String contingut, String path) throws IOException {
@@ -221,9 +221,9 @@ public class GestorDocuments {
 
     
     /** 
-     * Mètode per importar un document en format XML de la localització indicada
+     * Metode per importar un document en format XML de la localitzacio indicada
      * @param path Ruta del document a importar a disc
-     * @return Array que conté l'autor, el títol i el contingut del document en aquest ordre
+     * @return Array que conte l'autor, el titol i el contingut del document en aquest ordre
      * @throws IOException Hi ha hagut algun problema al accedir a disc
      */
     private static String[] loadXML(String path) throws IOException {
@@ -246,11 +246,11 @@ public class GestorDocuments {
 
     
     /** 
-     * Mètode per exportar un document en format XML
+     * Metode per exportar un document en format XML
      * @param autor Autor del document a desar
-     * @param titol Títol del document a desar
+     * @param titol Titol del document a desar
      * @param contingut Contingut del document
-     * @param path Localització on desar el document
+     * @param path Localitzacio on desar el document
      * @throws IOException Hi ha hagut algun problema al accedir a disc
      */
     private static void writeXML(String autor, String titol, String contingut, String path) throws IOException {
@@ -288,9 +288,9 @@ public class GestorDocuments {
 
     
     /** 
-     * Mètode per obtenir el format del fitxer al que apunta un path
+     * Metode per obtenir el format del fitxer al que apunta un path
      * @param path Ruta del fitxer
-     * @return Extensió del fitxer
+     * @return Extensio del fitxer
      */
     private static String getFormat(String path) {
         int index = path.lastIndexOf('.');

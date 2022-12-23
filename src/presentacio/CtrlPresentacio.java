@@ -228,6 +228,9 @@ public class CtrlPresentacio {
             JOptionPane.showMessageDialog(null, "Hi ha hagut un error en la creacio del document.", "Error creacio document", JOptionPane.ERROR_MESSAGE);
             popupException(e.toString(), "Error crear document");
             valid = false;
+        } catch (IDInvalid e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
         return valid;
     }
@@ -242,6 +245,9 @@ public class CtrlPresentacio {
         catch (IOException e){
             //JOptionPane.showMessageDialog(null, "Hi ha hagut un error al desar el document.", "Error desar document", JOptionPane.ERROR_MESSAGE);
             popupException(e.toString(), "Error desar document");
+        } catch (IDInvalid e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
     }
 
@@ -270,6 +276,9 @@ public class CtrlPresentacio {
             //JOptionPane.showMessageDialog(null, "S'ha seleccionat un format que no és valid, només txt i xml.", "Error importar document", JOptionPane.ERROR_MESSAGE);
             popupException(e.toString(), "Error importar document");
             docImp = null;
+        } catch (IDInvalid e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
         return docImp;
     }

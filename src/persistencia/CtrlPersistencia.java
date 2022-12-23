@@ -1,6 +1,7 @@
 package persistencia;
 import excepcions.DeleteDocumentException;
 import excepcions.FormatInvalid;
+import excepcions.IDInvalid;
 import transversal.Pair;
 
 import java.io.IOException;
@@ -25,8 +26,9 @@ public class CtrlPersistencia {
      * @return Array que conté l'autor, el titol i el contingut del document en aquest ordre.
      * @throws IOException Hi ha hagut algun problema en accedir al disc.
      * @throws FormatInvalid L'extensio del fitxer importat no era correcta.
+     * @throws IDInvalid El titol o l'autor del document son invalids
      */
-    public String[] importaDocument(String path) throws IOException, FormatInvalid {
+    public String[] importaDocument(String path) throws IOException, FormatInvalid, IDInvalid {
         return GestorDocuments.ImportaDocument(path);
     }
 
@@ -59,8 +61,9 @@ public class CtrlPersistencia {
      * @param titol Titol del document.
      * @param contingut Contingut del document.
      * @throws IOException Hi ha hagut algun problema en accedir al disc.
+     * @throws IDInvalid El titol o l'autor del document son invalids
      */
-    public void desaContingut(String autor, String titol, String contingut) throws IOException {
+    public void desaContingut(String autor, String titol, String contingut) throws IOException, IDInvalid {
         GestorDocuments.DesaContingut(autor, titol, contingut);
     }
 

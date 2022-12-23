@@ -2,6 +2,7 @@ package persistencia;
 
 import excepcions.DeleteDocumentException;
 import excepcions.FormatInvalid;
+import excepcions.IDInvalid;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -36,8 +37,9 @@ public class GestorDocuments {
      * @return Array que conte l'autor, el titol i el contingut del document en aquest ordre
      * @throws IOException Hi ha hagut algun problema al accedir a disc
      * @throws FormatInvalid L'extensio del fitxer importat no era correcta
+     * @throws IDInvalid El titol o l'autor del document son invalids
      */
-    public static String[] ImportaDocument(String path) throws IOException, FormatInvalid {
+    public static String[] ImportaDocument(String path) throws IOException, FormatInvalid, IDInvalid {
         String[] doc = new String[3];
         String format = getFormat(path);
 
@@ -105,8 +107,10 @@ public class GestorDocuments {
      * @param titol Titol del document
      * @param contingut Contingut del document
      * @throws IOException Hi ha hagut algun problema al accedir a disc
+     * @throws IDInvalid El titol o l'autor son invalids
      */
-    public static void DesaContingut(String autor, String titol, String contingut) throws IOException {
+    public static void DesaContingut(String autor, String titol, String contingut) throws IOException, IDInvalid {
+        if(autor.contains("_") || titol.contains("_") || autor.length() > 50 || titol.length() > 50) throw new IDInvalid();
         String dirPath = "./appdata/docs/";
         Files.createDirectories(Paths.get(dirPath));
         //String fileName = Integer.toString(Objects.hash(autor, titol));

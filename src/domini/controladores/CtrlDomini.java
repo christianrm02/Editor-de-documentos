@@ -7,7 +7,6 @@ import excepcions.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import static domini.datatypes.Utility.converteix_a_frases;
 
@@ -72,8 +71,9 @@ public class CtrlDomini {
      * @throws EDocumentException El document ja existeix al sistema.
      * @throws IOException Hi ha hagut algun problema en accedir a disc.
      * @throws FormatInvalid El format no es valid.
+     * @throws IDInvalid El titol o l'autor del document son invalids
      */
-    public Pair<String,String> importarDocument(String loc, String data) throws EDocumentException, IOException, FormatInvalid {
+    public Pair<String,String> importarDocument(String loc, String data) throws EDocumentException, IOException, FormatInvalid, IDInvalid {
             String[] doc = cp.importaDocument(loc);
             if (ci.FindDoc(doc[0], doc[1])) throw new EDocumentException();
             ci.AfegirDoc(doc[0], doc[1], data, converteix_a_frases(doc[2]));
@@ -140,8 +140,9 @@ public class CtrlDomini {
      * @param data Data de l'instant on s'ha demanat crear el document.
      * @throws EDocumentException El document ja existeix al sistema.
      * @throws IOException Hi ha hagut algun problema en accedir a disc.
+     * @throws IDInvalid El titol o l'autor del document son invalids
      */
-    public void crearDocument(String autor, String titol, String data) throws EDocumentException, IOException {
+    public void crearDocument(String autor, String titol, String data) throws EDocumentException, IOException, IDInvalid {
         if (ci.FindDoc(autor, titol)) throw new EDocumentException();
         ci.AfegirDoc(autor, titol, data, new ArrayList<String>());
         cp.desaContingut(autor, titol, "");
@@ -201,8 +202,9 @@ public class CtrlDomini {
     /**
      * Metode per desar el contingut (contAct) del document obert actualment (autorAct+titolAct) a la capa de persistencia.
      * @throws IOException Hi ha hagut algun problema en accedir a disc.
+     * @throws IDInvalid El titol o l'autor del document son invalids
      */
-    public void desarDocument() throws IOException {
+    public void desarDocument() throws IOException, IDInvalid {
         cp.desaContingut(autorAct, titolAct, contAct);
     }
 

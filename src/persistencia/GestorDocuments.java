@@ -48,6 +48,9 @@ public class GestorDocuments {
         } else if(format.equals("xml") || format.equals("XML")) {
             doc = loadXML(path);
         } else throw new FormatInvalid();
+
+        if(doc[0].contains("_") || doc[1].contains("_") || doc[0].length() > 50 || doc[1].length() > 50) throw new IDInvalid();
+
         //Desem el contingut a disc local
         DesaContingut(doc[0], doc[1], doc[2]);
         return doc;
@@ -107,10 +110,8 @@ public class GestorDocuments {
      * @param titol Titol del document
      * @param contingut Contingut del document
      * @throws IOException Hi ha hagut algun problema al accedir a disc
-     * @throws IDInvalid El titol o l'autor son invalids
      */
-    public static void DesaContingut(String autor, String titol, String contingut) throws IOException, IDInvalid {
-        if(autor.contains("_") || titol.contains("_") || autor.length() > 50 || titol.length() > 50) throw new IDInvalid();
+    public static void DesaContingut(String autor, String titol, String contingut) throws IOException {
         String dirPath = "./appdata/docs/";
         Files.createDirectories(Paths.get(dirPath));
         //String fileName = Integer.toString(Objects.hash(autor, titol));
@@ -146,8 +147,9 @@ public class GestorDocuments {
      * @param titol Titol del document
      * @param newAutor Nou autor del document
      * @throws IOException Hi ha hagut algun problema al accedir a disc
+     * @throws IDInvalid El titol o l'autor del document son invalids
      */
-    public static void ActualitzarAutor(String autor, String titol, String newAutor) throws IOException {
+    public static void ActualitzarAutor(String autor, String titol, String newAutor) throws IOException, IDInvalid {
         String dirPath = "./appdata/docs/";
         Files.createDirectories(Paths.get(dirPath));
         String oldFileName = Integer.toString(Objects.hash(autor, titol));
@@ -165,8 +167,9 @@ public class GestorDocuments {
      * @param titol Titol del document
      * @param newTitol Nou titol del document
      * @throws IOException Hi ha hagut algun problema al accedir a disc
+     * @throws IDInvalid El titol o l'autor del document son invalids
      */
-    public static void ActualitzarTitol(String autor, String titol, String newTitol) throws IOException {
+    public static void ActualitzarTitol(String autor, String titol, String newTitol) throws IOException, IDInvalid {
         String dirPath = "./appdata/docs/";
         Files.createDirectories(Paths.get(dirPath));
         String oldFileName = Integer.toString(Objects.hash(autor, titol));

@@ -226,7 +226,8 @@ public class ViewEditar extends JFrame {
                         cp.modificarContingut(cont, data);
                         cp.desarDocument();
                         if (cp.exportaDocument(au, ti, loc)) {
-                            cp.exportaDocument(au, ti, loc);
+                                JOptionPane.showMessageDialog(null, "S'ha exportat el document correctament.",
+                                        "Exportació", JOptionPane.DEFAULT_OPTION);
                         }
                     } else if (opt == 0 && (newNom.getText().equals("") || ((String) tipus.getSelectedItem()).equals(""))) {
                         JOptionPane.showMessageDialog(null, "Indica un nom i un format vàlids, no deixis camps buits.",

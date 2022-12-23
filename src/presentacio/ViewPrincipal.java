@@ -595,7 +595,8 @@ public class ViewPrincipal extends JFrame {
                         String autor = (String) documents.getValueAt(documents.getSelectedRow(), 1);
                         String titol = (String) documents.getValueAt(documents.getSelectedRow(), 0);
                         boolean estrategia = false;
-                        if (jCBestrategia.getSelectedItem().equals("TF")) estrategia = true;
+                        String selected = (String) jCBestrategia.getSelectedItem();
+                        if (selected.equals("TF")) estrategia = true;
                         List<Pair<String, String>> docsSemblants = cp.llistarKDocumentsS(autor, titol, (int) valueK.getValue(), estrategia);
 
                         Object[][] docsSemblantsObj = new Object[docsSemblants.size()][2];

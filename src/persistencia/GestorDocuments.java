@@ -109,7 +109,8 @@ public class GestorDocuments {
     public static void DesaContingut(String autor, String titol, String contingut) throws IOException {
         String dirPath = "./appdata/docs/";
         Files.createDirectories(Paths.get(dirPath));
-        String fileName = Integer.toString(Objects.hash(autor, titol));
+        //String fileName = Integer.toString(Objects.hash(autor, titol));
+        String fileName = autor.concat("_").concat(titol);
         FileOutputStream fileOutputStream = new FileOutputStream(dirPath.concat(fileName).concat(".prop"));
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
         objectOutputStream.writeObject(contingut);
@@ -128,7 +129,8 @@ public class GestorDocuments {
     public static void EsborrarDoc(String autor, String titol) throws IOException, DeleteDocumentException {
         String dirPath = "./appdata/docs/";
         Files.createDirectories(Paths.get(dirPath));
-        String fileName = Integer.toString(Objects.hash(autor, titol));
+        //String fileName = Integer.toString(Objects.hash(autor, titol));
+        String fileName = autor.concat("_").concat(titol);
         File fileToDelete = new File(dirPath.concat(fileName).concat(".prop"));
         if(!fileToDelete.delete()) throw new DeleteDocumentException();
     }

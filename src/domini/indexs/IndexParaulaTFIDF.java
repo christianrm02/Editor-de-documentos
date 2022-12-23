@@ -170,6 +170,8 @@ public class IndexParaulaTFIDF implements Serializable{
             TreeMap<String, Pair<Double, Double>> docTFIDF = indexTFIDF.get(doc);
             double metric = cosinusMetric(qTFIDF, docTFIDF, estrategia);
 
+            System.out.println(doc.x + " " + doc.y + " " + metric);
+
             docsSemblants.add(new Pair<Double, Pair<String, String>>(metric, doc));
         }
         

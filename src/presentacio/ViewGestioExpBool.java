@@ -22,23 +22,23 @@ public class ViewGestioExpBool extends JFrame{
      */
     private JPanel panel1;
     /**
-     * Panell on s’ubica la JTable on es llisten les expressions booleanes hi ha al sistema (nomExpressió+expressió)
+     * Panell on s’ubica la JTable on es llisten les expressions booleanes hi ha al sistema (nomExpressio+expressio)
      */
     private JPanel tablePanel;
     /**
-     * Botó per afegir una nova expressió booleana al sistema.
+     * Boto per afegir una nova expressio booleana al sistema.
      */
     private JButton novaExpressioBooleanaButton;
     /**
-     * Botó per mostrar una sèrie de popups amb indicacions de les funcions de cada botó i acció possible a la vista
+     * Boto per mostrar una serie de popups amb indicacions de les funcions de cada boto i accio possible a la vista
      */
     private JButton ajudaButton;
     /**
-     * Botó per esborrar el conjunt d’expressions seleccionades
+     * Boto per esborrar el conjunt d’expressions seleccionades
      */
     private JButton esborrarExpressionsSeleccionadesButton;
     /**
-     * Botó per tancar aquesta vista i tornar a la vista principal
+     * Boto per tancar aquesta vista i tornar a la vista principal
      */
     private JButton enrereButton;
     /**
@@ -50,14 +50,14 @@ public class ViewGestioExpBool extends JFrame{
      */
     private DefaultTableModel tableModel;
     /**
-     * Objecte this, necessari per poder passa-ho com a paràmetre als actionListeners
+     * Objecte this, necessari per poder passa-ho com a parametre als actionListeners
      */
     private ViewGestioExpBool exp = this;
 
     /**
-     * Creadora única
-     * @param documents taula dels documents, per tal de poder clicar en la row pertinent si es fan les cerques per expressió
-     * @param cp instància del controlador de presentació
+     * Creadora unica
+     * @param documents taula dels documents, per tal de poder clicar en la row pertinent si es fan les cerques per expressio
+     * @param cp instancia del controlador de presentacio
      */
     public ViewGestioExpBool(JTable documents, CtrlPresentacio cp) {
         setContentPane(panel1);
@@ -66,7 +66,7 @@ public class ViewGestioExpBool extends JFrame{
         setTitle("Gestió expressions booleanes");
 
         /*Creacion tabla*/
-        String[] colums = {"Nom", "Expressió Booleana", "Opcions"};
+        String[] colums = {"Nom", "Expressio Booleana", "Opcions"};
         Object[][] titols = {};
 
         tableModel = new DefaultTableModel(titols, colums){
@@ -142,7 +142,7 @@ public class ViewGestioExpBool extends JFrame{
             }
         });
 
-        /* Se puede borrar desde el boton o con boton derecho sobre selección */
+        /* Se puede borrar desde el boton o con boton derecho sobre seleccion */
         ActionListener esborrarExpSeleccionatsAction = new ActionListener() {
             @Override
             public void actionPerformed (ActionEvent e){
@@ -223,11 +223,12 @@ public class ViewGestioExpBool extends JFrame{
         eliminaExpsSelected.addActionListener(esborrarExpSeleccionatsAction);
         esborrarExpressionsSeleccionadesButton.addActionListener(esborrarExpSeleccionatsAction);
 
-        /*Opción de modificar*/
+        /*Opcion de modificar*/
         modificaE.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JTextField newExp = new JTextField("",45);
+                String antigaExp = (String)expressions.getValueAt(expressions.getSelectedRow(), 1);
+                JTextField newExp = new JTextField(antigaExp,45);
                 JPanel insertExp = new JPanel();
                 insertExp.add(new JLabel("Nova expressió booleana: "));
                 insertExp.add(newExp);
@@ -235,7 +236,7 @@ public class ViewGestioExpBool extends JFrame{
                 String[] opts = {"Sí", "Cancel·la"};
                 int opt = JOptionPane.showOptionDialog(null, insertExp, "Modificar expressió booleana",
                         JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, opts, opts[0]);
-                if(opt == 0 && !newExp.getText().equals("") && !newExp.getText().equals((String)expressions.getValueAt(expressions.getSelectedRow(), 1))) {
+                if(opt == 0 && !newExp.getText().equals("") && !newExp.getText().equals(antigaExp)) {
                     int opt2 = JOptionPane.showConfirmDialog(null, "Segur que vols modificar l'expressió booleana amb nom: " +
                             expressions.getValueAt(expressions.getSelectedRow(), 0)  + " a \"" + newExp.getText() + "\" ?",
                             "Modificar expressió booleana", JOptionPane.YES_NO_OPTION, JOptionPane.DEFAULT_OPTION);
@@ -321,7 +322,7 @@ public class ViewGestioExpBool extends JFrame{
                 panelCreacio.add(insertExp, BorderLayout.SOUTH);
 
                 String[] opts = {"Sí", "Cancel·la"};
-                int opt = JOptionPane.showOptionDialog(null, panelCreacio, "Creació expressió booleana",
+                int opt = JOptionPane.showOptionDialog(null, panelCreacio, "Creacio expressió booleana",
                         JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, opts, opts[0]);
 
                 if(opt == 0 && !newNom.getText().equals("") && !newNom.getText().equals("")) {
@@ -367,7 +368,7 @@ public class ViewGestioExpBool extends JFrame{
                 while(count < 6 && opt != -1) {
                     if(count == 0) message = "Amb el botó \"Nova expressió booleana\" es crea una nova expressió.";
                     else if(count == 1) message =
-                            "Amb el botó \"Esborrar selecció\" s'esborren les expressions que estiguin seleccionades" +
+                            "Amb el botó \"Esborrar seleccio\" s'esborren les expressions que estiguin seleccionades" +
                                     "\n         a la taula. Es pot seleccionar arrastrant amb el ratolí o clicant amb Ctrl+Clic.";
                     else if(count == 2) message = "Amb el botó \"Enrere\" es torna a la pantalla principal.";
                     else if(count == 3) message = "Amb els 3 punts verticals de cada expressió s'obre un panell d'opcions per l'expressió.";
@@ -375,7 +376,7 @@ public class ViewGestioExpBool extends JFrame{
                             "            També hi ha les funcionalitats de poder fer clic dret sobre una expressió per mostrar les seves opcions " +
                             "\n(equival als 3 punts verticals). I la funcionalitat de fer clic dret sobre una de les expressions seleccionades i es mostrarà " +
                             "\n                                                un botó per borrar totes les expressions seleccionades.";
-                    else if(count == 5) message = "Es pot tancar el programa en qualsevol moment clicant al botó amb la X de la cantonada superior dreta.";
+                    else if(count == 5) message = "Es pot tancar el programa en qualsevol moment clicant al boto amb la X de la cantonada superior dreta.";
                     if(count == 0) opt = JOptionPane.showOptionDialog(null,message, "Panell d'ajuda",
                             JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, new Object[] {"Següent"}, "Següent");
                     else if(count < 5) opt = JOptionPane.showOptionDialog(null,message, "Panell d'ajuda",
@@ -397,7 +398,7 @@ public class ViewGestioExpBool extends JFrame{
     }
 
     /**
-     * Mètode que incialitza la JTable expressions amb les expressions booleanes que hi ha guardades al sistema
+     * Metode que incialitza la JTable expressions amb les expressions booleanes que hi ha guardades al sistema
      * @param expList Llista de pairs (nomExp+expBool) de les expressions guardades
      */
     public void initExp(List<Pair<String, String>> expList){

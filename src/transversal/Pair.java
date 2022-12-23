@@ -4,15 +4,21 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * Pair, classe que unifica 2 objectes
+ * Classe que unifica 2 objectes
  * @author Christian Rivero
  */
 public class Pair<T1, T2> implements Comparable, Serializable{
+    /**
+     * Primer objecte de la clase pair
+     */
     public T1 x;
+    /**
+     * Segon objecte de la clase pair
+     */
     public T2 y;
 
     /**
-     * Creadora que inicialitza els paràmetres
+     * Creadora que inicialitza els parametres
      * @param x Objecte 1
      * @param y Objecte 2
      */
@@ -27,9 +33,9 @@ public class Pair<T1, T2> implements Comparable, Serializable{
     public Pair() {}
 
     /**
-     * Mètode override de la funció equals per defecte. Retorna true si dos objectes pairs són iguals, i fals si no ho són
-     * @param obj Objecte explícit a comparar
-     * @return Indica si l'objecte implícit és igual que l'objecte explícit
+     * Metode override de la funcio equals per defecte. Retorna true si dos objectes pairs son iguals, i fals si no ho son
+     * @param obj Objecte explicit a comparar
+     * @return Indica si l'objecte implicit es igual que l'objecte explicit
      */
     @Override
     public boolean equals(Object obj) {
@@ -44,9 +50,9 @@ public class Pair<T1, T2> implements Comparable, Serializable{
     }
 
     /**
-     * Mètode override de la funció compareTo per defecte
-     * @param o Objecte explícit a comparar
-     * @return És 1 si el paràmetre implícit és més petit que el paràmetre explícit, 0 si són iguals i -1 si és més gran. És més petit si té un ‘x’ més petit, i si són iguals, si té un ‘y’ més petit.
+     * Metode override de la funcio compareTo per defecte
+     * @param o Objecte explicit a comparar
+     * @return Es 1 si el paràmetre implicit es mes petit que el parametre explicit, 0 si son iguals i -1 si es mes gran. Es mes petit si te un ‘x’ mes petit, i si son iguals, si te un ‘y’ mes petit
      */
     @Override
     public int compareTo(Object o) {
@@ -56,7 +62,7 @@ public class Pair<T1, T2> implements Comparable, Serializable{
     }
 
     /**
-     * Mètode override de la funció hashCode per defecte.
+     * Metode override de la funcio hashCode per defecte.
      * @return El hashCode dels objectes ‘x’ i ‘y’.
      */
     @Override

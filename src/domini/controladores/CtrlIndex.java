@@ -13,8 +13,8 @@ import domini.datatypes.Trie;
 import domini.indexs.*;
 
 /**
- * CtrlIndex: Controlador de domini pels índexs
- * @author Èric Ryhr
+ * CtrlIndex: Controlador de domini pels indexs
+ * @author Eric Ryhr
  */
 public class CtrlIndex {
 
@@ -24,7 +24,7 @@ public class CtrlIndex {
     private Trie indexDocuments;
 
     /**
-     * Index per assistir les queries per expressió booleana
+     * Index per assistir les queries per expressio booleana
      */
     private IndexExpBooleana indexExpBooleana;
 
@@ -34,7 +34,7 @@ public class CtrlIndex {
     private IndexParaulaTFIDF indexParaulaTFIDF;
     
     /**
-     * Constructora de la classe CtrlIndex. Inicialitza els índexs
+     * Constructora de la classe CtrlIndex. Inicialitza els indexs
      */
     public CtrlIndex() {
         indexDocuments = new Trie();
@@ -44,9 +44,9 @@ public class CtrlIndex {
 
     
     /** 
-     * Mètode per insertar documents als índexs
+     * Metode per insertar documents als indexs
      * @param autor Autor del document
-     * @param titol Títol del document
+     * @param titol Titol del document
      * @param data Data de modificacio del document
      * @param contingut Contingut del document
      */
@@ -58,9 +58,9 @@ public class CtrlIndex {
 
     
     /** 
-     * Mètode per esborrar documents dels índexs
+     * Metode per esborrar documents dels indexs
      * @param autor Autor del document
-     * @param titol Títol del document
+     * @param titol Titol del document
      */
     public void EsborrarDoc(String autor, String titol) {
         indexDocuments.EsborrarDoc(autor, titol);
@@ -70,19 +70,19 @@ public class CtrlIndex {
 
     
     /** 
-     * Mètode per comprovar si existeixen documents als índexs
+     * Metode per comprovar si existeixen documents als indexs
      * @param autor Autor del document a buscar
-     * @param titol Títol del document a buscar
-     * @return True si el document es troba als índexs, False si no
+     * @param titol Titol del document a buscar
+     * @return True si el document es troba als indexs, False si no
      */
     public boolean FindDoc(String autor, String titol) {
         return indexDocuments.FindDoc(autor, titol);
     }
 
     /** 
-     * Mètode per escriure la data d'un document
+     * Metode per escriure la data d'un document
      * @param autor Autor del document
-     * @param titol Títol del document
+     * @param titol Titol del document
      * @param data Data del document
      */
     public void SetData(String autor, String titol, String data) {
@@ -91,10 +91,10 @@ public class CtrlIndex {
 
     
     /** 
-     * Mètode per actualitzar el títol d'un document dels índexs
+     * Metode per actualitzar el titol d'un document dels indexs
      * @param autor Autor del document
-     * @param titol Títol del document
-     * @param newTitol Nou títol del document
+     * @param titol Titol del document
+     * @param newTitol Nou titol del document
      */
     public void ActualitzarTitol(String autor, String titol, String newTitol) {
         indexDocuments.ActualitzarTitol(autor, titol, newTitol);
@@ -104,9 +104,9 @@ public class CtrlIndex {
 
     
     /** 
-     * Mètode per actualitzar l'autor d'un document dels índexs
+     * Metode per actualitzar l'autor d'un document dels indexs
      * @param autor Autor del document
-     * @param titol Títol del document
+     * @param titol Titol del document
      * @param newAutor Nou autor del document
      */
     public void ActualitzarAutor(String autor, String titol, String newAutor) {
@@ -117,9 +117,9 @@ public class CtrlIndex {
 
     
     /** 
-     * Mètode per actualitzar el contingut d'un document dels índexs
+     * Metode per actualitzar el contingut d'un document dels indexs
      * @param autor Autor del document
-     * @param titol Títol del document
+     * @param titol Titol del document
      * @param contingut Contingut del document
      */
     //PRE: EXISTEIX
@@ -130,8 +130,8 @@ public class CtrlIndex {
 
     
     /** 
-     * Mètode per obtenir totes les claus dels documents dels índexs
-     * @return Set amb totes les tries ((autor, títol), data) del Trie
+     * Metode per obtenir totes les claus dels documents dels indexs
+     * @return Set amb totes les tries ((autor, titol), data) del Trie
      */
     public Set<Pair<Pair<String, String>, String>> GetKeys() {
         return indexDocuments.GetKeys();
@@ -139,9 +139,9 @@ public class CtrlIndex {
 
     
     /** 
-     * Mètode per obtenir tots els títols d'un autor
-     * @param autor Autor del que s'obtenen els títols
-     * @return Set amb els títols de l'autor. Buit si no existeix
+     * Metode per obtenir tots els titols d'un autor
+     * @param autor Autor del que s'obtenen els titols
+     * @return Set amb els titols de l'autor. Buit si no existeix
      */
     public Set<String> GetTitolsAutor(String autor) {
         return indexDocuments.GetTitolsAutor(autor);
@@ -149,7 +149,7 @@ public class CtrlIndex {
 
     
     /** 
-     * Mètode per obtenir els autors que comencen per prefix
+     * Metode per obtenir els autors que comencen per prefix
      * @param prefix Prefix pel que han de començar els noms dels autors
      * @return Set amb els autors obtinguts
      */
@@ -159,12 +159,12 @@ public class CtrlIndex {
 
     
     /** 
-     * Mètode per obtenir els documents més semblants al passat per paràmetre
+     * Metode per obtenir els documents mes semblants al passat per parametre
      * @param autor Autor del document a comparar
-     * @param titol Títol del document a comparar
+     * @param titol Titol del document a comparar
      * @param K Nombre de respostes a retornar
-     * @param estrategia True si la comparació es fa amb TF, False si amb TF-IDF
-     * @return Llista dels documents més semblants ordenats amb el més semblant primer
+     * @param estrategia True si la comparacio es fa amb TF, False si amb TF-IDF
+     * @return Llista dels documents mes semblants ordenats amb el mes semblant primer
      */
     public List<Pair<String, String>> GetKDocsSimilarS (String autor, String titol, int K, boolean estrategia) {
         return indexParaulaTFIDF.GetKDocsSimilarS(new Pair<String, String>(autor, titol), K, estrategia);
@@ -172,11 +172,11 @@ public class CtrlIndex {
 
     
     /** 
-     * Mètode per obtenir els documents més semblants a l'entrada passada per paràmetre
+     * Metode per obtenir els documents mes semblants a l'entrada passada per parametre
      * @param entrada Entrada a comparar
      * @param K Nombre de respostes a retornar
-     * @param estrategia True si la comparació es fa amb TF, False si amb TF-IDF
-     * @return Llista dels documents més semblants ordenats amb el més semblant primer
+     * @param estrategia True si la comparacio es fa amb TF, False si amb TF-IDF
+     * @return Llista dels documents mes semblants ordenats amb el mes semblant primer
      */
     public List<Pair<String, String>> CercaPerRellevancia(String entrada, int K, boolean estrategia) {
         return indexParaulaTFIDF.CercaPerRellevancia(entrada, K, estrategia);
@@ -184,7 +184,7 @@ public class CtrlIndex {
 
     
     /** 
-     * Mètode per obtenir els índexs de les frases on apareix una paraula
+     * Metode per obtenir els indexs de les frases on apareix una paraula
      * @param paraula Paraula a buscar
      * @return Index de les frases on apareix paraula
      */
@@ -195,7 +195,7 @@ public class CtrlIndex {
 
     
     /** 
-     * Mètode per obtenir el nombre de frases emmagatzemades
+     * Metode per obtenir el nombre de frases emmagatzemades
      * @return Nombre de frases emmagatzemades
      */
     public int GetNumFrases() {
@@ -204,10 +204,10 @@ public class CtrlIndex {
 
     
     /** 
-     * Mètode per obtenir els índexs de les frases on apareix una seqüència de paraules
-     * @param sequencia Seqüència a buscar
-     * @param candidats Index de les frases que contenen totes les paraules de la seqüència (potser no en ordre)
-     * @return Index de les frases on apareix seqüència
+     * Metode per obtenir els indexs de les frases on apareix una seqüencia de paraules
+     * @param sequencia Seqüencia a buscar
+     * @param candidats Index de les frases que contenen totes les paraules de la seqüencia (potser no en ordre)
+     * @return Index de les frases on apareix seqüencia
      */
     public Set<Integer> GetSequencia(String sequencia, Set<Integer> candidats) {
         return indexExpBooleana.GetSequencia(sequencia, candidats);
@@ -215,8 +215,8 @@ public class CtrlIndex {
 
     
     /** 
-     * Mètode per, donat un conjunt d'índexs, retornar els documents on apareixen
-     * @param indexs Conjunt d'índexs a buscar
+     * Metode per, donat un conjunt d'indexs, retornar els documents on apareixen
+     * @param indexs Conjunt d'indexs a buscar
      * @return Claus dels documents obtinguts
      */
     public List<Pair<String, String>> GetDocuments(Set<Integer> indexs) {
@@ -225,7 +225,7 @@ public class CtrlIndex {
 
     
     /** 
-     * Mètode per importar els indexs de disc i sobreescriure els actuals
+     * Metode per importar els indexs de disc i sobreescriure els actuals
      * @param info Indexs en forma d'array de bytes
      * @throws IOException Hi ha hagut algun problema amb els streams
      */
@@ -248,8 +248,8 @@ public class CtrlIndex {
 
     
     /** 
-     * Mètode per exportar els indexs a capa persistència
-     * @return Els 3 índexs serialitzats en forma de byte array
+     * Metode per exportar els indexs a capa persistencia
+     * @return Els 3 indexs serialitzats en forma de byte array
      * @throws IOException Hi ha hagut algun problema amb els streams
      */
     public byte[] ExportarIndexs() throws IOException {
